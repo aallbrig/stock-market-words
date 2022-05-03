@@ -24,6 +24,7 @@ I amuse myself imagining this list providing some sort of trading edge for any t
     - [ ] Website has AMEX exchange section
     - [ ] Website provides telemetry on user activitiy
 - [ ] Website (First Draft)
+    - [x] Website describes itself
     - [ ] Website has NASDAQ exchange section
     - [ ] Website has NYSE exchange section
     - [ ] Website has AMEX exchange section
