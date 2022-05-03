@@ -1,0 +1,29 @@
+name: Website QA Deploy
+on:
+  push:
+    paths:
+      - 'static/**'
+  pull_request:
+    paths:
+      - 'static/**'
+  workflow_dispatch:
+    paths:
+      - 'static/**'
+
+jobs:
+  deploy:
+    name: Deploys static web assets to github pages
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: github-pages
+          folder: static
+          target-folder: docs
+          clean: false
+

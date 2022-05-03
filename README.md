@@ -4,6 +4,17 @@ Why? Why not. I remembered reading about how linux has a file with a dictionary 
 I amuse myself imagining this list providing some sort of trading edge for any type of investor.
 
 ## Developer Section
+
+### Getting Started
+```bash
+# Start up a local static HTTP server (requires python3)
+./scripts/website-up.sh
+./scripts/website-down.sh
+
+# Single liner
+./scripts/website-down.sh && ./scripts/website-up.sh
+```
+
 ### TODO
 - [ ] Bash script to pull stock tickers
 - [ ] Python script to pull info about stock ticker from Yahoo Finance
