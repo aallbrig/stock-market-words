@@ -2,13 +2,13 @@ name: Website QA Deploy
 on:
   push:
     paths:
-      - 'src/**'
+      - 'static/**'
   pull_request:
     paths:
-      - 'src/**'
+      - 'static/**'
   workflow_dispatch:
     paths:
-      - 'src/**'
+      - 'static/**'
 
 jobs:
   deploy:
@@ -23,6 +23,6 @@ jobs:
       - uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: github-pages
-          folder: src
+          folder: static
           target-folder: docs
           clean: false
