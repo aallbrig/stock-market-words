@@ -2,13 +2,13 @@ name: Website QA Deploy
 on:
   push:
     paths:
-      - 'static/**'
+      - 'src/**'
   pull_request:
     paths:
-      - 'static/**'
+      - 'src/**'
   workflow_dispatch:
     paths:
-      - 'static/**'
+      - 'src/**'
 
 jobs:
   deploy:
@@ -16,11 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v3
-      - uses: JamesIves/github-pages-deploy-action@v4.3.3
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: github-pages
-          folder: static
+          folder: src
           target-folder: docs
           clean: false
-
