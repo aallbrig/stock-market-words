@@ -59,3 +59,7 @@ I amuse myself imagining this list providing some sort of trading edge for any t
     - [ ] Route 53 DNS configuration (link domain to S3 bucket)
 - [ ] Website is deployed to AWS S3 using Github Actions
 - [ ] Amazon associates product links? (Maybe book links? Investor books? Linux books? An investor related toy?)
+
+### Resources
+- https://github.com/rreichel3/US-Stock-Symbols
+- /usr/share/dict/words (location of dictionary file on my mac)
