@@ -25,8 +25,16 @@ Bash scripts
 
 Python scripts
 ```bash
+# Virtual environment
 python3 -m virtualenv venv
 source venv/bin/activate
+source venv/bin/deactivate
+
+# Test python files
+python3 -m unittest -v
+
+# Run python script
+python3 src/app.py
 ```
 
 ### TODO
