@@ -32,7 +32,13 @@ I amuse myself imagining this list providing some sort of trading edge for any t
         - [ ] Website provides telemetry on user activity
     - [ ] exchange-data-pages.spec.js
         - [ ] HTML page
-        - [ ] display data
+            - [ ] display page title
+            - [ ] display data
+            - [ ] link to JSON format
+            - [ ] (stretch) link to TXT format
+            - [ ] (stretch) link to CSV format
+            - [ ] (stretch) link to XML format
+        - [ ] One HTML data display page for all exchanges
 - [ ] Website (First Draft)
     - [x] Website describes itself
     - [x] QR code to QA environment
