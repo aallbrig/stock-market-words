@@ -3,6 +3,10 @@ Why? Why not. I remembered reading about how linux has a file with a dictionary 
 
 I amuse myself imagining this list providing some sort of trading edge for any type of investor.
 
+## Links
+
+### [QA Environment](https://aallbrig.github.io/english-dictionary-stocks/)
+![QR code for QA environment](media/qa-env-qr-code.png)
 ## Developer Section
 
 ### Getting Started
@@ -19,16 +23,18 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 - [ ] Bash script to pull stock tickers
 - [ ] Python script to pull info about stock ticker from Yahoo Finance
 - [ ] Website acceptance tests
+    - [ ] Website has all exchanges section
     - [ ] Website has NASDAQ exchange section
     - [ ] Website has NYSE exchange section
     - [ ] Website has AMEX exchange section
-    - [ ] Website provides telemetry on user activitiy
+    - [ ] Website provides telemetry on user activity
 - [ ] Website (First Draft)
     - [x] Website describes itself
+    - [x] QR code to QA environment
     - [ ] Website has NASDAQ exchange section
     - [ ] Website has NYSE exchange section
     - [ ] Website has AMEX exchange section
-    - [ ] Website provides telemetry on user activitiy
+    - [ ] Website provides telemetry on user activity
 - [ ] Website is available from Github Pages
     - [ ] Website JS loads QR code for Github Pages, when it detects it is running there
 - [ ] Website is deployed to Github Pages using Github Actions
