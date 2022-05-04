@@ -34,4 +34,14 @@ describe("The landing page for English Dictionary Stocks website", () => {
     // If no HTML element is found, page.$ returns null
     assert.notEqual(projectSummarySection, null);
   });
+
+  it("Have link to 'all' exchanges data", async () => {
+    const page = await browser.newPage();
+    await page.goto(LANDING_PAGE);
+
+    const link = await page.$('#all-exchanges-data');
+
+    // If no HTML element is found, page.$ returns null
+    assert.notEqual(link, null);
+  });
 });

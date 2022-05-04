@@ -23,17 +23,27 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 - [ ] Bash script to pull stock tickers
 - [ ] Python script to pull info about stock ticker from Yahoo Finance
 - [ ] Website acceptance tests
-    - [ ] Website has all exchanges section
-    - [ ] Website has NASDAQ exchange section
-    - [ ] Website has NYSE exchange section
-    - [ ] Website has AMEX exchange section
-    - [ ] Website provides telemetry on user activity
+    - [ ] index.spec.js
+        - [x] Website describes itself
+        - [x] Website has all exchanges link
+        - [ ] Website has NASDAQ exchange link
+        - [ ] Website has NYSE exchange link
+        - [ ] Website has AMEX exchange link
+        - [ ] Website provides telemetry on user activity
+    - [ ] exchange-data-pages.spec.js
+        - [ ] HTML page
+        - [ ] display data
 - [ ] Website (First Draft)
     - [x] Website describes itself
     - [x] QR code to QA environment
-    - [ ] Website has NASDAQ exchange section
-    - [ ] Website has NYSE exchange section
-    - [ ] Website has AMEX exchange section
+    - [x] Website has all exchanges link
+    - [ ] Website has NASDAQ exchange link
+    - [ ] Website has NYSE exchange link
+    - [ ] Website has AMEX exchange link
+    - [ ] Website has all exchanges page
+    - [ ] Website has NASDAQ exchange page
+    - [ ] Website has NYSE exchange page
+    - [ ] Website has AMEX exchange page
     - [ ] Website provides telemetry on user activity
 - [ ] Website is available from Github Pages
     - [ ] Website JS loads QR code for Github Pages, when it detects it is running there
