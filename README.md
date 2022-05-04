@@ -42,6 +42,7 @@ I amuse myself imagining this list providing some sort of trading edge for any t
             - [ ] (stretch) link to CSV format
             - [ ] (stretch) link to XML format
         - [ ] One HTML data display page for all exchanges
+        - [ ] (maybe) A-Z links are available. Once clicked, browser will scroll to that section. Makes it easier to navigate the results
 - [ ] Website (First Draft)
     - [x] Website describes itself
     - [x] QR code to QA environment
@@ -63,6 +64,7 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 - [ ] Public API to extract raw data
     - [ ] Website contains API documentation
         - [ ] Website contains link to API documentation
+    - [ ] meta tag exists with references to (1) Yahoo Finance (2)rreichel3's repo, because credit
     - [ ] /api/stocks
     - [ ] /api/stocks?filter=NASDAQ
     - [ ] /api/stocks?filter=NYSE
