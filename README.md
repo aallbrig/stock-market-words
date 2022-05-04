@@ -10,6 +10,7 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 ## Developer Section
 
 ### Getting Started
+Bash scripts
 ```bash
 # Start up a local static HTTP server (requires python3)
 ./scripts/website-up.sh
@@ -22,12 +23,19 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 ./scripts/extract-exchanges-txt-data.sh
 ```
 
+Python scripts
+```bash
+python3 -m virtualenv venv
+source venv/bin/activate
+```
+
 ### TODO
 - [ ] Bash script to pull stock tickers
 - [ ] Python script to pull info about stock ticker from Yahoo Finance
 - [ ] Website acceptance tests
     - [ ] index.spec.js
         - [x] Website describes itself
+        - [ ] "Data Updated Date"
         - [x] Website has all exchanges link
         - [ ] Website has NASDAQ exchange link
         - [ ] Website has NYSE exchange link
@@ -35,6 +43,7 @@ I amuse myself imagining this list providing some sort of trading edge for any t
         - [ ] Website provides telemetry on user activity
     - [ ] exchange-data-pages.spec.js
         - [ ] HTML page
+            - [ ] "Data Updated Date"
             - [ ] display page title
             - [ ] display data
             - [ ] link to JSON format
