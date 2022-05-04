@@ -17,6 +17,9 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 
 # Single liner
 ./scripts/website-down.sh && ./scripts/website-up.sh
+
+# Extract stock exchange(s) data
+./scripts/extract-exchanges-txt-data.sh
 ```
 
 ### TODO
