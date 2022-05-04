@@ -5,7 +5,7 @@
   "main": "mocha",
   "scripts": {
     "test": "mocha ./tests",
-    "test-dev": "HEADLESS_MODE=true LANDING_PAGE='https://localhost:8668' mocha ./tests",
+    "test-dev": "HEADLESS_MODE=true mocha ./tests",
     "test-stage": "HEADLESS_MODE=true LANDING_PAGE='https://aallbrig.github.io/english-dictionary-stocks' mocha ./tests",
     "test-production": "HEADLESS_MODE=true LANDING_PAGE='https://trashpickuphobby.com' GAME_URL='https://trashpickuphobby.com/WebGL/index.html' mocha ./tests"
   },
