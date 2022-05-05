@@ -84,7 +84,8 @@ python3 src/app.py
     - [ ] AWS DNS configuration
     - [ ] AWS CloudFront
     - [ ] AWS Certificate Manager
-    - [ ] AWS S3 bucket, for static website assets
+    - [x] AWS S3 bucket, for static website assets
+          - [x] Configure bucket for serving static web assets
     - [ ] AWS S3 bucket, for CloudFront logging
 
 ### Stretch Goals

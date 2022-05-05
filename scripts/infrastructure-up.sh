@@ -3,20 +3,27 @@
 
 VPC_ID="${VPC_ID:-${1}}"
 REGION_ID="${REGION_ID:-us-east-2}"
+WEBSITE_BUCKET="${WEBSITE_BUCKET:-english-dictionary-stocks-website}"
 
 # Check if AWS S3 bucket (static website assets) exists for project
-get_website_bucket_cmd=$(aws s3api list-buckets --query "Buckets[].Name" | grep "english-dictionary-stocks-website")
-exit_code=$?
-if [ $exit_code != 0 ]; then
+if $(aws s3api list-buckets --query "Buckets[].Name" | grep "english-dictionary-stocks-website"); then
   # If not, create it
   echo "🔨 Creating S3 bucket for the website static assets in REGION ${REGION_ID}"
   aws s3api create-bucket \
-    --bucket english-dictionary-stocks-website \
+    --bucket "${WEBSITE_BUCKET}" \
     --region "${REGION_ID}" \
     --create-bucket-configuration LocationConstraint="${REGION_ID}"
 else
   echo "✅ S3 bucket exists for the website"
 fi
+
+echo "🔨 Configuring S3 bucket for serving static assets"
+aws s3 website s3://"${WEBSITE_BUCKET}"/ \
+  --index-document index.html \
+  --error-document error.html
+# if $(); then
+# else ""
+# fi
 
 # Check if AWS Certificate Manager cert exists for project
   # If not, create it
