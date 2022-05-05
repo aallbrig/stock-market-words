@@ -114,3 +114,4 @@ python3 src/app.py
 ### Resources
 - https://github.com/rreichel3/US-Stock-Symbols
 - /usr/share/dict/words (location of dictionary file on my mac)
+- https://gist.github.com/mgeeky/cebe7a05557569008c892e2130ec1ec9
