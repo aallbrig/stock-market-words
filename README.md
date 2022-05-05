@@ -21,6 +21,9 @@ Bash scripts
 
 # Extract stock exchange(s) data
 ./scripts/extract-exchanges-txt-data.sh
+
+# Create resources on AWS (idempotent shell script)
+./scripts/infrastructure-up.sh
 ```
 
 Python scripts
