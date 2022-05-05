@@ -17,13 +17,10 @@ else
   echo "✅ S3 bucket exists for the website"
 fi
 
-echo "🔨 Configuring S3 bucket for serving static assets"
+echo "🔨 Ensuring S3 bucket is configured for serving static assets"
 aws s3 website s3://"${WEBSITE_BUCKET}"/ \
   --index-document index.html \
   --error-document error.html
-# if $(); then
-# else ""
-# fi
 
 # Check if AWS Certificate Manager cert exists for project
   # If not, create it
