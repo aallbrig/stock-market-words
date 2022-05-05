@@ -50,7 +50,7 @@ python3 src/app.py
         - [ ] Website has AMEX exchange link
         - [ ] Website provides telemetry on user activity
     - [ ] exchange-data-pages.spec.js
-        - [ ] HTML page
+        - [x] HTML page (One HTML data display page for all exchanges)
             - [ ] "Data Updated Date"
             - [ ] display page title
             - [ ] display data
@@ -58,7 +58,7 @@ python3 src/app.py
             - [ ] (stretch) link to TXT format
             - [ ] (stretch) link to CSV format
             - [ ] (stretch) link to XML format
-        - [ ] One HTML data display page for all exchanges
+        
         - [ ] (maybe) A-Z links are available. Once clicked, browser will scroll to that section. Makes it easier to navigate the results
 - [ ] Website (First Draft)
     - [x] Website describes itself
@@ -76,9 +76,16 @@ python3 src/app.py
     - [ ] Website JS loads QR code for Github Pages, when it detects it is running there
 - [ ] Website is deployed to Github Pages using Github Actions
 - [ ] Website data is updated by CRON Github Actions
+- [ ] Bash script exists that captures AWS CLI commands
+    - [ ] Buy domain in AWS
+    - [ ] AWS DNS configuration
+    - [ ] AWS CloudFront
+    - [ ] AWS Certificate Manager
+    - [ ] AWS S3 bucket, for static website assets
+    - [ ] AWS S3 bucket, for CloudFront logging
 
-### Stretch
-- [ ] Public API to extract raw data
+### Stretch Goals
+- [ ] Public API to allow users to easily extract data
     - [ ] Website contains API documentation
         - [ ] Website contains link to API documentation
     - [ ] meta tag exists with references to (1) Yahoo Finance (2)rreichel3's repo, because credit
@@ -87,12 +94,12 @@ python3 src/app.py
     - [ ] /api/stocks?filter=NYSE
     - [ ] /api/stocks?filter=AMEX
     - [ ] /api/stocks?filter[]=NASDAQ&filter[]=NYSE&filter[]=AMEX
-    - [ ] /api/stocks.json
-    - [ ] /api/stocks.csv
-    - [ ] /api/stocks.xml
-    - [ ] /api/stocks.txt
-    - [ ] /api/stocks.html
-- [ ] Terraform (at least a bash script) exists to generate AWS resources
+    - [ ] /api/stocks.json or /api/stocks?format=json
+    - [ ] /api/stocks.csv or /api/stocks?format=csv
+    - [ ] /api/stocks.xml or /api/stocks?format=xml
+    - [ ] /api/stocks.txt or /api/stocks?format=txt
+    - [ ] /api/stocks.html or /api/stocks?format=html
+- [ ] Terraform exists to generate AWS resources
     - [ ] S3 bucket (for public website assets
     - [ ] Route 53 DNS configuration (link domain to S3 bucket)
 - [ ] Website is deployed to AWS S3 using Github Actions
