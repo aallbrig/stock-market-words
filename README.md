@@ -86,6 +86,8 @@ python3 src/app.py
     - [ ] AWS Certificate Manager
     - [x] AWS S3 bucket, for static website assets
           - [x] Configure bucket for serving static web assets
+          - [ ] Enable public access for bucket
+          - [x] Bucket for website access logs
     - [ ] AWS S3 bucket, for CloudFront logging
 
 ### Stretch Goals
