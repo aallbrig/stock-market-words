@@ -37,7 +37,7 @@ source venv/bin/deactivate
 python3 -m unittest -v
 
 # Run python script
-python3 src/app.py
+python3 -m src.app
 ```
 
 ### TODO

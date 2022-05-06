@@ -6,4 +6,4 @@ class StockSymbol:
         self._symbol = symbol
 
     def __str__(self):
-        return self._symbol
+        return f'{self._symbol}'
