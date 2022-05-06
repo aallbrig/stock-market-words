@@ -10,4 +10,4 @@ class StockEnricher:
         self._strategy = strategy
 
     def enrich_stock_symbols(self, stock_symbols: list[StockSymbol]) -> list[EnrichedStock]:
-        return [self._strategy.enrich(stock_symbol) for stock_symbol in stock_symbols]
+        return self._strategy.enrich(stock_symbols)

@@ -33,6 +33,9 @@ python3 -m virtualenv venv
 source venv/bin/activate
 source venv/bin/deactivate
 
+# Install requirements
+pip3 install -r src/requirements.txt
+
 # Test python files
 python3 -m unittest -v
 
