@@ -1,12 +1,28 @@
 #!/usr/bin/env python3
+import logging
 import os
+import time
+from logging import debug, info
 
+from src.model.StockSymbolEnrichStrategy import StockSymbolEnrichStrategy
 from src.pkg.StockEnricher import StockEnricher
-from src.pkg.enrich_strategy.YahooFinanceStrategy import YahooFinanceStrategy
+from src.pkg.enrich_strategy.YahooFinanceSequentialStrategy import YahooFinanceSequentialStrategy
+from src.pkg.enrich_strategy.YahooFinanceParallelStrategy import YahooFinanceParallelStrategy
 from src.pkg.stock_symbol_repository.FileStockSymbolRepository import FileStockSymbolRepository
 
+
+def YahooStrategyFactory(use_parallel: bool = True) -> StockSymbolEnrichStrategy:
+    if use_parallel:
+        return YahooFinanceParallelStrategy(pool_size=35)
+    else:
+        return YahooFinanceSequentialStrategy()
+
+
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+    start_time = time.time()
     all_exchanges_symbol_repository = FileStockSymbolRepository(os.path.join("static", "api", "all-exchanges.txt"))
-    app = StockEnricher(YahooFinanceStrategy(pool_size=10))
+    app = StockEnricher(YahooStrategyFactory(True))
     enriched = app.enrich_stock_symbols(all_exchanges_symbol_repository.get_all())
-    [print(e) for e in enriched]
+    [info(e) for e in enriched]
+    debug("--- program execution time %s seconds ---" % (time.time() - start_time))

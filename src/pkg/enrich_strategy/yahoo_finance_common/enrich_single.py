@@ -1,10 +1,8 @@
+from logging import debug
+
 from src.model.EnrichedStock import EnrichedStock
 from src.model.StockSymbol import StockSymbol
-from src.model.StockSymbolEnrichStrategy import StockSymbolEnrichStrategy
 import yfinance as yf
-from multiprocessing import Pool
-
-_DEFAULT_POOL_SIZE: int = 10
 
 
 def enrich_single(stock_symbol: StockSymbol, yf_ticker: yf.Ticker) -> EnrichedStock:
@@ -12,6 +10,7 @@ def enrich_single(stock_symbol: StockSymbol, yf_ticker: yf.Ticker) -> EnrichedSt
     enriched.stock_symbol = stock_symbol
 
     info = yf_ticker.info
+
     if 'sector' in info.keys():
         enriched.sector = info['sector']
     if 'industry' in info.keys():
@@ -31,21 +30,6 @@ def enrich_single(stock_symbol: StockSymbol, yf_ticker: yf.Ticker) -> EnrichedSt
     if 'fiftyTwoWeekHigh' in info.keys():
         enriched.fifty_two_week_high = info['fiftyTwoWeekHigh']
 
+    debug(f'{enriched}')
     return enriched
 
-
-class YahooFinanceStrategy(StockSymbolEnrichStrategy):
-    _pool_size: int
-
-    def __init__(self, pool_size=_DEFAULT_POOL_SIZE):
-        self._pool_size = pool_size
-
-    def enrich(self, stock_symbols: list[StockSymbol]) -> list[EnrichedStock]:
-        symbols_str = " ".join(str(stock_symbol) for stock_symbol in stock_symbols)
-        tickers = yf.Tickers(symbols_str)
-        with Pool(self._pool_size) as p:
-            enriched = p.starmap(
-                enrich_single,
-                [(stock_symbol, tickers.tickers[f'{stock_symbol}']) for stock_symbol in stock_symbols]
-            )
-        return enriched
