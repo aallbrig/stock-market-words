@@ -1,4 +1,3 @@
-import time
 from logging import debug
 
 from src.model.EnrichedStock import EnrichedStock
@@ -14,8 +13,6 @@ _DEFAULT_POOL_SIZE: int = 10
 
 class YahooFinanceParallelStrategy(StockSymbolEnrichStrategy):
     _pool_size: int
-    _enrich_start_time: float
-    _enrich_complete_time: float
 
     def __init__(self, pool_size=_DEFAULT_POOL_SIZE):
         self._pool_size = pool_size
@@ -26,12 +23,9 @@ class YahooFinanceParallelStrategy(StockSymbolEnrichStrategy):
         tickers = yf.Tickers(symbols_str)
         debug(f'yahoo finance tickers obtained')
         debug(f'starting enrichment pool processing (size: {self._pool_size})')
-        self._enrich_start_time = time.time()
         with Pool(self._pool_size) as p:
             enriched = p.starmap(
                 enrich_single,
                 [(stock_symbol, tickers.tickers[f'{stock_symbol}']) for stock_symbol in stock_symbols]
             )
-        self._enrich_complete_time = time.time()
-        debug(f'complete enrichment pool processing (time: {self._enrich_start_time - self._enrich_complete_time})')
         return enriched
