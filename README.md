@@ -16,6 +16,9 @@ Bash scripts
 ./scripts/website-up.sh
 ./scripts/website-down.sh
 
+# Test local static HTTP server (requires node)
+./scripts/test-website.sh
+
 # Single liner
 ./scripts/website-down.sh && ./scripts/website-up.sh
 
