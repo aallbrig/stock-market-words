@@ -15,9 +15,8 @@ Bash scripts
 # Start up a local static HTTP server (requires python3)
 ./scripts/website-up.sh
 ./scripts/website-down.sh
-
 # Test local static HTTP server (requires node)
-./scripts/test-website.sh
+./scripts/website-test.sh
 
 # Single liner
 ./scripts/website-down.sh && ./scripts/website-up.sh
