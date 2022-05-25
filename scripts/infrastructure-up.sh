@@ -6,28 +6,47 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && 
 # source configuration
 . "${SCRIPT_DIR}"/infrastructure-config.sh
 
-# VPC ID is passed in as an argument
-VPC_ID="${VPC_ID:-${1}}"
+function main() {
+  # VPC ID is provided by user
+  # VPC_ID="${VPC_ID:-${1}}"
 
-# Create all S3 buckets
-for bucket in "${WEBSITE_BUCKET}" "${WEBSITE_BUCKET_ACCESS_LOGS}" "${WEBSITE_WWW_BUCKET}" "${WEBSITE_WWW_BUCKET_ACCESS_LOGS}"; do
-  echo "bucket: ${bucket}"
-  # Check if AWS S3 bucket (static website assets) exists for project
-  if aws s3api list-buckets --query "Buckets[].Name" | grep "${bucket}\"" > /dev/null ; then
-    echo "✅ ${bucket} S3 bucket exists"
-  else
-    # If not, create it
-    echo "🔨 Creating ${bucket} S3 bucket"
-    aws s3api create-bucket \
-      --bucket "${bucket}" \
-      --region "${REGION_ID}" \
-      --create-bucket-configuration LocationConstraint="${REGION_ID}"
-  fi
-done
+  cat <<EOF
+Infrastructure Up (aka create resources script) Script Run Date: $(date)
+Environment
+  REGION_ID=${REGION_ID}
+  WEBSITE_BUCKET=${WEBSITE_BUCKET}
+  WEBSITE_BUCKET_ACCESS_LOGS=${WEBSITE_BUCKET_ACCESS_LOGS}
+  WEBSITE_WWW_BUCKET=${WEBSITE_WWW_BUCKET}
+  WEBSITE_WWW_BUCKET_ACCESS_LOGS=${WEBSITE_WWW_BUCKET}
+  WEBSITE_SRC_DIR=${WEBSITE_SRC_DIR}
+EOF
 
-for bucket in "${WEBSITE_BUCKET}" "${WEBSITE_WWW_BUCKET}"; do
-  echo "✅ 👷 Applying static website bucket policy to website S3 bucket"
-  cat <<EOT > /tmp/.s3_bucket_policy.json
+  # Create all S3 buckets
+  for bucket in "${WEBSITE_BUCKET}" "${WEBSITE_BUCKET_ACCESS_LOGS}" "${WEBSITE_WWW_BUCKET}" "${WEBSITE_WWW_BUCKET_ACCESS_LOGS}"; do
+    echo "ℹ️ (info) bucket: ${bucket}"
+    # Check if AWS S3 bucket (static website assets) exists for project
+    if aws s3api list-buckets --query "Buckets[].Name" | grep "${bucket}\"" > /dev/null ; then
+      echo "✅ ${bucket} S3 bucket has already been created"
+    else
+      # If not, create it
+      echo "🔨 Creating ${bucket} S3 bucket"
+      set -v
+      aws s3api create-bucket \
+        --bucket "${bucket}" \
+        --region "${REGION_ID}" \
+        --create-bucket-configuration LocationConstraint="${REGION_ID}" > /dev/null
+      set +v
+
+      echo "✅ ${bucket} S3 bucket is now created"
+    fi
+  done
+
+  # Apply a S3 policy to allow for static website access for the buckets intended to be simple static web hosts
+  for bucket in "${WEBSITE_BUCKET}" "${WEBSITE_WWW_BUCKET}"; do
+    # TODO: correct the "get policy" statement so this doesn't have to happen every time
+    echo "🔨 👷 Writing S3 bucket policy to temp directory"
+    set -v
+    cat <<EOT | tee /tmp/.s3_bucket_policy.json
 {
   "Version":"2012-10-17",
   "Statement":[
@@ -42,81 +61,104 @@ for bucket in "${WEBSITE_BUCKET}" "${WEBSITE_WWW_BUCKET}"; do
 }
 EOT
 
-  aws s3api put-bucket-policy \
-    --bucket "${bucket}" \
-    --policy file:///tmp/.s3_bucket_policy.json
+    echo "🔨 👷 Updating policy for bucket ${bucket} with S3 bucket policy from temp file"
+    set -v
+    aws s3api put-bucket-policy \
+      --bucket "${bucket}" \
+      --policy file:///tmp/.s3_bucket_policy.json | tee /dev/null
+    set +v
 
-  if aws s3api get-public-access-block --bucket "${bucket}" > /dev/null ; then
-    echo "✅ ${bucket} S3 bucket public access block has been configured for website access"
-  else
+    echo "✅ bucket ${bucket} web access configured"
+
+    # TODO: correct the "get public access block" statement so this doesn't have to happen every time
+    # if aws s3api get-public-access-block --bucket "${bucket}" | tee /dev/null ; then
+      # echo "✅ ${bucket} S3 public access block has already been applied"
+    # else
+    # fi
+    echo "🔨 👷 Configuring public access to the S3 bucket"
+    set -v
     aws s3api put-public-access-block \
       --bucket "${bucket}" \
       --public-access-block-configuration \
-        "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
-  fi
+        "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false" \
+      | tee /dev/null
+    set +v
 
-  echo "✅ 👷 Syncing website static assets to bucket"
-  aws s3 sync "${WEBSITE_SRC_DIR}" s3://"${bucket}"/
-  aws s3 website s3://"${bucket}"/ \
-    --index-document index.html \
-    --error-document error.html
+    echo "✅ ${bucket} S3 public access block has been applied"
 
-  echo "✅ 👷 Ensuring website S3 bucket is configured for serving static assets"
-  aws s3 website s3://"${bucket}"/ \
-    --index-document index.html \
-    --error-document error.html
+    # TODO write a get statement to detect if this is already done
+    echo "🔨 👷 Syncing website static assets to bucket"
+    set -v
+    aws s3 sync "${WEBSITE_SRC_DIR}" s3://"${bucket}"/
+    set +v
 
-done
+    # TODO write a get statement to detect if this is already done
+    echo "🔨 👷 Setting index.html and error.html pages for the S3 bucket"
+    set -v
+    aws s3 website s3://"${bucket}"/ \
+      --index-document index.html \
+      --error-document error.html
+    set +v
 
+    echo "✅ S3 Bucket ${bucket} setup has been completed"
+  done
 
-# Website S3 Access logs
-for bucket in "${WEBSITE_BUCKET}" "${WEBSITE_WWW_BUCKET}" ; do
-  echo "✅ 👷 Syncing website static assets to ${bucket}"
-  aws s3 sync "${WEBSITE_SRC_DIR}" s3://"${bucket}"/
-  aws s3 website s3://"${bucket}"/ \
-    --index-document index.html \
-    --error-document error.html
-done
+  # Website S3 Access logs
+  for bucket in "${WEBSITE_BUCKET_ACCESS_LOGS}" "${WEBSITE_WWW_BUCKET_ACCESS_LOGS}" ; do
+    echo "ℹ️ TODO configure S3 website access log bucket ${bucket}"
+    # What do I need to do to configure the access log buckets?
 
-# If the get-bucket-logging returns an empty response
-# TODO: check if it matches a specific value
-# cat <<EOT > /tmp/.s3_access_logs_policy.json
-# {
-#     "Version": "2012-10-17",
-#     "Statement": [
-#         {
-#             "Sid": "S3ServerAccessLogsPolicy",
-#             "Effect": "Allow",
-#             "Principal": {
-#                 "Service": "logging.s3.amazonaws.com"
-#             },
-#             "Action": [
-#                 "s3:PutObject"
-#             ],
-#             "Resource": "arn:aws:s3:::awsexamplebucket1-logs/*",
-#             "Condition": {
-#                 "ArnLike": {
-#                     "aws:SourceArn": "arn:aws:s3:::SOURCE-BUCKET-NAME"
-#                 },
-#                 "StringEquals": {
-#                     "aws:SourceAccount": "SOURCE-ACCOUNT-ID"
-#                 }
-#             }
-#         }
-#     ]
-# }
-# EOT
-# if [ -z "$(aws s3api get-bucket-logging --bucket english-dictionary-stocks-website)" ] ; then
-#   echo "🔨 Configuring website access logs s3 bucket"
-#   aws s3api put-bucket-policy \
-#     "${WEBSITE_BUCKET}-access-logs" \
-#     --policy file:///tmp/.s3_access_logs_policy.json
-# else
-#   echo "✅ aws logging bucket configured"
-# fi
+    # echo "🔨 👷 Syncing website static assets to ${bucket}"
+    # aws s3 sync "${WEBSITE_SRC_DIR}" s3://"${bucket}"/
+    # echo "🔨 👷 Setting index.html and error.html for S3 bucket ${bucket}"
+    # aws s3 website s3://"${bucket}"/ \
+      # --index-document index.html \
+      # --error-document error.html
+    # echo "✅ ${bucket} access log S3 bucket has been configured for web access logging"
+  done
 
-# Check if AWS Certificate Manager cert exists for project
-  # If not, create it
+  # If the get-bucket-logging returns an empty response
+  # TODO: check if it matches a specific value
+  # cat <<EOT > /tmp/.s3_access_logs_policy.json
+  # {
+  #     "Version": "2012-10-17",
+  #     "Statement": [
+  #         {
+  #             "Sid": "S3ServerAccessLogsPolicy",
+  #             "Effect": "Allow",
+  #             "Principal": {
+  #                 "Service": "logging.s3.amazonaws.com"
+  #             },
+  #             "Action": [
+  #                 "s3:PutObject"
+  #             ],
+  #             "Resource": "arn:aws:s3:::awsexamplebucket1-logs/*",
+  #             "Condition": {
+  #                 "ArnLike": {
+  #                     "aws:SourceArn": "arn:aws:s3:::SOURCE-BUCKET-NAME"
+  #                 },
+  #                 "StringEquals": {
+  #                     "aws:SourceAccount": "SOURCE-ACCOUNT-ID"
+  #                 }
+  #             }
+  #         }
+  #     ]
+  # }
+  # EOT
+  # if [ -z "$(aws s3api get-bucket-logging --bucket english-dictionary-stocks-website)" ] ; then
+  #   echo "🔨 Configuring website access logs s3 bucket"
+  #   aws s3api put-bucket-policy \
+  #     "${WEBSITE_BUCKET}-access-logs" \
+  #     --policy file:///tmp/.s3_access_logs_policy.json
+  # else
+  #   echo "✅ aws logging bucket configured"
+  # fi
 
-# Check if AWS cloudfront exists for project
-  # If not, create it
+  # Check if AWS Certificate Manager cert exists for project
+    # If not, create it
+
+  # Check if AWS cloudfront exists for project
+    # If not, create it
+}
+
+main

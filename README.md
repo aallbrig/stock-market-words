@@ -44,6 +44,12 @@ python3 -m unittest -v
 # Run python script
 python3 -m src.app
 ```
+### Developer quick commands
+```bash
+# Preferred Development Bash Command
+./scripts/infrastructure-down.sh && ./scripts/infrastructure-down.sh && ./scripts/infrastructure-up.sh && ./scripts/infrastructure-up.sh
+# Note: the double call is to ensure the script is idempotent in a user friendly way
+```
 
 ### TODO
 - [ ] Bash script to pull stock tickers
