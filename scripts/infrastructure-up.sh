@@ -104,17 +104,52 @@ EOT
   done
 
   # Website S3 Access logs
-  for bucket in "${WEBSITE_BUCKET_ACCESS_LOGS}" "${WEBSITE_WWW_BUCKET_ACCESS_LOGS}" ; do
-    echo "ℹ️ TODO configure S3 website access log bucket ${bucket}"
+   bucket_accesslog_pairs=("${WEBSITE_BUCKET}:${WEBSITE_BUCKET_ACCESS_LOGS}" "${WEBSITE_WWW_BUCKET}:${WEBSITE_WWW_BUCKET_ACCESS_LOGS}")
+  for bucket_accesslog_pair in ${bucket_accesslog_pairs[@]}; do
+    IFS=':'
+    read -a pair <<< "${bucket_accesslog_pair}"
+    website_bucket="${pair[0]}"
+    access_log_bucket="${pair[1]}"
+    echo "ℹ️ website bucket ${website_bucket}"
+    echo "ℹ️ access log bucket ${access_log_bucket}"
+
+    echo "🔨 👷 Writing access log bucket policy to json file"
+    cat <<EOT | tee /tmp/.s3_access_log_bucket_policy.json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "S3ServerAccessLogsPolicy",
+            "Effect": "Allow",
+            "Principal": {"Service": "logging.s3.amazonaws.com"},
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::${access_log_bucket}/Logs/*",
+            "Condition": {
+                "ArnLike": {"aws:SourceARN": "arn:aws:s3:::${access_log_bucket}"},
+                "StringEquals": {"aws:SourceAccount": "${BUCKET_OWNER_ID}"}
+            }
+        }
+    ]
+}
+EOT
+    echo "🔨 👷 Applying policy to access log bucket"
+    if aws s3api put-bucket-policy --bucket "${access_log_bucket}" --policy file:///tmp/.s3_access_log_bucket_policy.json ; then
+      echo "✅ bucket ${access_log_bucket} configured with access log bucket policy"
+    else
+      echo "❌ bucket ${access_log_bucket} not configured with access log bucket policy"
+    fi
+  done
+  for website_bucket in "${WEBSITE_BUCKET_ACCESS_LOGS}" "${WEBSITE_WWW_BUCKET_ACCESS_LOGS}" ; do
+    echo "ℹ️ TODO configure S3 website access log website_bucket ${website_bucket}"
     # What do I need to do to configure the access log buckets?
 
-    # echo "🔨 👷 Syncing website static assets to ${bucket}"
-    # aws s3 sync "${WEBSITE_SRC_DIR}" s3://"${bucket}"/
-    # echo "🔨 👷 Setting index.html and error.html for S3 bucket ${bucket}"
-    # aws s3 website s3://"${bucket}"/ \
+    # echo "🔨 👷 Syncing website static assets to ${website_bucket}"
+    # aws s3 sync "${WEBSITE_SRC_DIR}" s3://"${website_bucket}"/
+    # echo "🔨 👷 Setting index.html and error.html for S3 website_bucket ${website_bucket}"
+    # aws s3 website s3://"${website_bucket}"/ \
       # --index-document index.html \
       # --error-document error.html
-    # echo "✅ ${bucket} access log S3 bucket has been configured for web access logging"
+    # echo "✅ ${website_bucket} access log S3 website_bucket has been configured for web access logging"
   done
 
   # If the get-bucket-logging returns an empty response
