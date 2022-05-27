@@ -32,6 +32,22 @@ for bucket_accesslog_pair in ${bucket_accesslog_pairs[@]} ; do
   else
     echo "❌ $((++count)) TEST FAIL: S3 bucket access log policy for ${access_log_bucket} DOES NOT EXIST"
   fi
+
+  # --output text results in an empty string if this isn't set up
+  # This alternative setup detects an empty string (versus a failing command)
+  get_bucket_acl_query_result=$(aws s3api get-bucket-acl --bucket "${access_log_bucket}" --query 'Grants[?Grantee.URI==`http://acs.amazonaws.com/groups/s3/LogDelivery`]' --output text)
+  if [ -n "${get_bucket_acl_query_result}" ] ; then
+    echo "✅ $((++count)) Test Passed: S3 access log bucket has bucket acl policy for ${access_log_bucket}"
+  else
+    echo "❌ $((++count)) TEST FAIL: S3 access log bucket has bucket acl policy for ${access_log_bucket}"
+  fi
+
+  if aws s3api get-bucket-logging --bucket "${website_bucket}" | \
+    python3 -c "import sys, json; print(json.load(sys.stdin)['LoggingEnabled'])" 2&>/dev/null ; then
+    echo "✅ $((++count)) Test Passed: website S3 bucket ${website_bucket} is configured for logging"
+  else
+    echo "❌ $((++count)) TEST FAIL: website S3 bucket ${website_bucket} NOT CONFIGURED FOR LOGGING"
+  fi
 done
 
 
