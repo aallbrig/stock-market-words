@@ -103,6 +103,16 @@ EOT
     echo "ℹ️ website bucket ${website_bucket}"
     echo "ℹ️ access log bucket ${access_log_bucket}"
 
+    echo "🔨👷 Updating bucket ACL for access log bucket ${access_log_bucket}"
+    if aws s3api put-bucket-acl \
+      --bucket "${access_log_bucket}" \
+      --grant-write URI=http://acs.amazonaws.com/groups/s3/LogDelivery \
+      --grant-read-acp URI=http://acs.amazonaws.com/groups/s3/LogDelivery ; then
+      echo "✅ bucket ${access_log_bucket} configured to be able to use log delivery"
+    else
+      echo "❌ bucket ${access_log_bucket} NOT configured to be able to use log delivery"
+    fi
+
     echo "🔨👷 Writing access log bucket policy to temp json file"
     cat <<EOT | tee /tmp/.s3_access_log_bucket_policy.json
 {
@@ -111,32 +121,20 @@ EOT
         {
             "Sid": "S3ServerAccessLogsPolicy",
             "Effect": "Allow",
-            "Principal": {"Service": "logging.s3.amazonaws.com"},
+            "Principal": {
+                "Service": "logging.s3.amazonaws.com"
+            },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${access_log_bucket}/Logs/*",
-            "Condition": {
-                "ArnLike": {"aws:SourceARN": "arn:aws:s3:::${access_log_bucket}"},
-                "StringEquals": {"aws:SourceAccount": "${BUCKET_OWNER_ID}"}
-            }
+            "Resource": "arn:aws:s3:::${access_log_bucket}/*"
         }
     ]
 }
 EOT
     echo "🔨 👷 Applying policy to access log bucket ${access_log_bucket}"
     if aws s3api put-bucket-policy --bucket "${access_log_bucket}" --policy file:///tmp/.s3_access_log_bucket_policy.json ; then
-      echo "✅ bucket ${access_log_bucket} configured with access log bucket policy"
+      echo "✅ bucket ${access_log_bucket} is allowed to work with the AWS logging service"
     else
-      echo "❌ bucket ${access_log_bucket} not configured with access log bucket policy"
-    fi
-
-    echo "🔨👷 Updating bucket ACL for access log bucket ${access_log_bucket}"
-    if aws s3api put-bucket-acl \
-      --bucket "${access_log_bucket}" \
-      --grant-write URI=http://acs.amazonaws.com/groups/s3/LogDelivery \
-      --grant-read-acp URI=http://acs.amazonaws.com/groups/s3/LogDelivery ; then
-      echo "✅ bucket ${access_log_bucket} configured with updated bucket ACL for logging"
-    else
-      echo "❌ bucket ${access_log_bucket} NOT configured with expected ACL log delivery policy"
+      echo "❌ bucket ${access_log_bucket} is not configured to work with the AWS logging service"
     fi
 
 
@@ -145,23 +143,23 @@ EOT
 {
     "LoggingEnabled": {
         "TargetBucket": "${access_log_bucket}",
-        "TargetPrefix": "/"
+        "TargetPrefix": "${website_bucket}/"
     }
-}
+  }
 EOT
-    echo "🔨 👷 Enabling logging on ${website_bucket} to ${access_log_bucket}"
-    if aws s3api put-bucket-logging --bucket "${wesbite_bucket}" --bucket-logging-status file:///tmp/.s3_website_logging.json --debug ; then
-      echo "✅ Logging enabled for ${website_bucket}"
-    else
-      echo "❌ Logging NOT enabled for ${website_bucket}"
-    fi
-  done
+      echo "🔨 👷 Enabling logging on ${website_bucket} to ${access_log_bucket}"
+      if aws s3api put-bucket-logging --bucket "${website_bucket}" --bucket-logging-status file:///tmp/.s3_website_logging.json ; then
+        echo "✅ Logging enabled for ${website_bucket} to ${access_log_bucket}"
+      else
+        echo "❌ Logging NOT enabled for ${website_bucket} to ${access_log_bucket}"
+      fi
+    done
 
-  # Check if AWS Certificate Manager cert exists for project
-    # If not, create it
+    # Check if AWS Certificate Manager cert exists for project
+      # If not, create it
 
-  # Check if AWS cloudfront exists for project
-    # If not, create it
+    # Check if AWS cloudfront exists for project
+      # If not, create it
 }
 
 main
