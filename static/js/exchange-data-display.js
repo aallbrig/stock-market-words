@@ -1,12 +1,10 @@
-function main() {
-  const dataReq = fetch('./api/all-exchanges.txt')
-    .then(res => res.text())
-    .then(data => {
-      const body = document.querySelector('body');
-      body.innerHTML = data.replaceAll("\n", "<br/>")
-    });
+async function main() {
+  const body = document.querySelector('body');
+  const request = await fetch('./api/all-exchanges.txt');
+  const data = await request.text();
+  body.innerHTML = data.replaceAll("\n", "<br />")
 }
 
 document.addEventListener('DOMContentLoaded', (_) => {
-  main();
+  _ = main();
 });
