@@ -2,10 +2,14 @@
 # Note: This script's contract is meant to be idempotent (like Ansible)
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
-
-# source configuration
 . "${SCRIPT_DIR}"/infrastructure-config.sh
-
+DEPENDENCIES=(aws grep)
+for required_executable in ${DEPENDENCIES[@]} ; do
+  if ! which "${required_executable}" > /dev/null ; then
+    echo "❌ required executable \"${required_executable}\" is not defined"
+    exit 1
+  fi
+done
 
 function main() {
   # VPC ID is provided by user
@@ -27,9 +31,7 @@ EOF
     # Check if AWS S3 bucket (static website assets) exists for project
     if aws s3api list-buckets --query "Buckets[].Name" | grep "${bucket}\"" > /dev/null ; then
       echo "ℹ️ ${bucket} S3 bucket detected. Deleting bucket"
-      set -v
       aws s3 rb s3://"${bucket}" --force
-      set +v
       echo "✅ ${bucket} S3 bucket has been deleted"
     else
       echo "✅ ${bucket} S3 bucket is already deleted"

@@ -2,8 +2,6 @@
 # Note: This script's contract is meant to be idempotent (like Ansible)
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
-
-# source configuration
 . "${SCRIPT_DIR}"/infrastructure-config.sh
 
 function create_bucket() {
