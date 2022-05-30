@@ -163,6 +163,24 @@ EOT
   fi
 }
 
+function setup_cloudfront_CDN() {
+  website_bucket=${1}
+
+  for required_field in "${website_bucket}" ; do
+    echo "ℹ️ (info) required field K:V ${!required_field@}:${required_field}"
+    if [ -z "${required_field}" ] ; then
+      echo "❌ required field ${!required_field@} not defined"
+      exit 1
+    fi
+  done
+
+  cat <<EOT | tee /tmp/.cloudfront-distribution-configuration.json
+{
+  "CallerReference": "${website_bucket}-cloudfront-distribution"
+}
+EOT
+}
+
 function main() {
   # VPC ID is provided by user
   # VPC_ID="${VPC_ID:-${1}}"
@@ -188,6 +206,7 @@ EOF
     create_bucket "${access_log_bucket}" "${REGION_ID}"
     configure_bucket_as_static_site "${website_bucket}"
     configure_static_site_access_logs "${access_log_bucket}" "${website_bucket}"
+    setup_cloudfront_CDN "${website_bucket}"
   done
 
   # Check if AWS Certificate Manager cert exists for project

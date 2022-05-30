@@ -57,4 +57,6 @@ for bucket_accesslog_pair in ${bucket_accesslog_pairs[@]} ; do
   fi
 done
 
-
+# Question: Can I create a cloudfront distribution for this website?
+# Check that cloudfront distribution is created for the website
+# Check that cloudfront distribution is linked to the website S3 bucket
