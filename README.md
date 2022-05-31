@@ -5,8 +5,9 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 
 ## Links
 
-### [QA Environment](https://aallbrig.github.io/english-dictionary-stocks/)
-![QR code for QA environment](media/qa-env-qr-code.png)
+### [QA Environment](https://aallbrig.github.io/stock-market-words/)
+![QR code for QA environment](./static/media/qa-env-qr-code.png)
+
 ## Developer Section
 
 ### Getting Started
