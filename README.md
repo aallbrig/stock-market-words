@@ -1,4 +1,4 @@
-# English Dictionary Stock Tickers: A Website
+# Stock Market Words: A Website
 Why? Why not. I remembered reading about how linux has a file with a dictionary in it.
 
 I amuse myself imagining this list providing some sort of trading edge for any type of investor.
