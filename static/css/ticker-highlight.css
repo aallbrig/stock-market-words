@@ -1,0 +1,8 @@
+.ticker-highlight {
+    color: #28a745;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #e6ffe6;
+    padding: 2px 4px;
+    border-radius: 3px;
+}

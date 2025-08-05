@@ -9,7 +9,7 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 ![QR code for QA environment](./static/media/qa-env-qr-code.png)
 
 ## Developer Section
-
+``
 ### Getting Started
 Bash scripts
 ```bash
