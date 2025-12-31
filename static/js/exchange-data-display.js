@@ -1,8 +1,8 @@
 async function main() {
-  const body = document.querySelector('body');
+  const main = document.querySelector('main');
   const request = await fetch('./api/all-exchanges.txt');
   const data = await request.text();
-  body.innerHTML = data.replaceAll("\n", "<br />")
+  main.innerHTML = data.replaceAll("\n", "<br />")
 }
 
 document.addEventListener('DOMContentLoaded', (_) => {
