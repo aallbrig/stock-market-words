@@ -1,18 +1,18 @@
 {
-  "name": "trash-pickup-hobby-acceptance-tests",
+  "name": "stock-market-words-acceptance-tests",
   "version": "0.0.1",
-  "description": "Acceptance tests for the trash pickup hobby website",
+  "description": "Acceptance tests for Stock Market Words website",
   "main": "mocha",
   "scripts": {
     "test": "mocha ./tests",
     "test-dev": "HEADLESS_MODE=true mocha ./tests",
-    "test-stage": "HEADLESS_MODE=true LANDING_PAGE='https://aallbrig.github.io/english-dictionary-stocks' mocha ./tests",
-    "test-production": "HEADLESS_MODE=true LANDING_PAGE='https://trashpickuphobby.com' GAME_URL='https://trashpickuphobby.com/WebGL/index.html' mocha ./tests"
+    "test-stage": "HEADLESS_MODE=true LANDING_PAGE='https://aallbrig.github.io/stock-market-words/docs/' ABOUT_PAGE='https://aallbrig.github.io/stock-market-words/docs/about/' EXCHANGE_DATA_PAGE_BASE='https://aallbrig.github.io/stock-market-words/docs/exchange-data-display/' mocha ./tests",
+    "test-production": "HEADLESS_MODE=true LANDING_PAGE='https://stockmarketwords.com' ABOUT_PAGE='https://stockmarketwords.com/about/' EXCHANGE_DATA_PAGE_BASE='https://stockmarketwords.com/exchange-data-display/' mocha ./tests"
   },
   "keywords": [
-    "Trash",
-    "pickup",
-    "hobby",
+    "Stock",
+    "Market",
+    "Words",
     "website",
     "acceptance",
     "tests"

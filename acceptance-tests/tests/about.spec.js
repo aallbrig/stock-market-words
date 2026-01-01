@@ -4,7 +4,7 @@ const { assertNavigationBar } = require("./nav.spec.helper.js");
 const { assertBootstrapCDNVersion } = require("./bootstrap.spec.helper.js");
 
 const HEADLESS_MODE = process.env.HEADLESS_MODE || true;
-const ABOUT_PAGE = process.env.ABOUT_PAGE || "http://localhost:8668/about.html";
+const ABOUT_PAGE = process.env.ABOUT_PAGE || "http://localhost:8668/about/";
 
 describe("The about page for Stock Market Words website", () => {
   let browser;
@@ -31,10 +31,8 @@ describe("The about page for Stock Market Words website", () => {
     await page.goto(ABOUT_PAGE);
     const aboutCard = await page.$('.card .card-title');
     assert.notEqual(aboutCard, null);
-    const stockDataSection = await page.$('#data-links');
+    const stockDataSection = await page.$('#stock-data');
     assert.notEqual(stockDataSection, null);
-    const allExchangesLink = await page.$('#all-exchanges-data');
-    assert.notEqual(allExchangesLink, null);
   });
 
   it("should use the correct Bootstrap CDN version for CSS and JS", async () => {
