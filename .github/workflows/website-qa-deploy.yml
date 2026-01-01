@@ -2,27 +2,37 @@ name: Website QA Deploy
 on:
   push:
     paths:
-      - 'static/**'
+      - 'hugo/**'
   pull_request:
     paths:
-      - 'static/**'
+      - 'hugo/**'
   workflow_dispatch:
-    paths:
-      - 'static/**'
 
 jobs:
   deploy:
-    name: Deploys static web assets to github pages
+    name: Build Hugo site and deploy to GitHub Pages
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           lfs: true
 
-      - uses: JamesIves/github-pages-deploy-action@4.1.5
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Build Hugo site
+        run: |
+          cd hugo/site
+          hugo --minify --baseURL "https://aallbrig.github.io/stock-market-words/docs/"
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: github-pages
-          folder: static
+          folder: hugo/site/public
           target-folder: docs
-          clean: false
+          clean: true

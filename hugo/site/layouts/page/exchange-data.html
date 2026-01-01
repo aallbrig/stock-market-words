@@ -1,0 +1,9 @@
+{{ define "main" }}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <p>{{ .Params.loading_message | default "Loading..." }}</p>
+    </div>
+  </div>
+</div>
+{{ end }}

@@ -1,0 +1,39 @@
+{{ if not (.Page.Scratch.Get "ticker-portfolio-extraction-tool-loaded") }}
+  {{ .Page.Scratch.Set "ticker-portfolio-extraction-tool-loaded" true }}
+  <link href="/css/ticker-highlight.css" rel="stylesheet">
+{{ end }}
+
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Find Stock Tickers in Your Text</h5>
+        <p class="card-text">Enter a sentence or paragraph below. We'll show you which stock tickers match your input. Try mentioning company names, tickers, or financial terms!</p>
+        <form id="ticker-form">
+          <div class="mb-3">
+            <label for="user-input"></label>
+            <textarea class="form-control" id="user-input" rows="4" placeholder="Type your sentence here..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">Find Stock Tickers</button>
+        </form>
+      </div>
+    </div>
+    <div class="card mt-4" id="result-card" style="display:none;">
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="user-output" class="form-label">Your Input:</label>
+          <div id="user-output" class="bg-light border rounded p-3"></div>
+        </div>
+        <div class="alert alert-info" id="portfolio-link-section" style="display:none;">
+          <span id="portfolio-link-message"></span>
+          <a id="portfolio-link" href="#" target="_blank" rel="noopener" class="btn btn-primary ms-2">Open Portfolio Visualizer</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ if not (.Page.Scratch.Get "ticker-portfolio-extraction-tool-js-loaded") }}
+  {{ .Page.Scratch.Set "ticker-portfolio-extraction-tool-js-loaded" true }}
+  <script src="/js/ticker-portfolio-extraction-tool.js"></script>
+{{ end }}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+{{ partial "head.html" . }}
+<body class="d-flex flex-column h-100">
+  {{ partial "navigation.html" . }}
+  <main class="flex-shrink-0">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+  {{ if .Params.custom_js }}
+    {{ if reflect.IsSlice .Params.custom_js }}
+      {{ range .Params.custom_js }}
+        <script src="{{ . }}"></script>
+      {{ end }}
+    {{ else }}
+      <script src="{{ .Params.custom_js }}"></script>
+    {{ end }}
+  {{ end }}
+</body>
+</html>

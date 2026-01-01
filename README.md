@@ -5,18 +5,65 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 
 ## Links
 
-### [QA Environment](https://aallbrig.github.io/stock-market-words/)
-![QR code for QA environment](./static/media/qa-env-qr-code.png)
+### [QA Environment](https://aallbrig.github.io/stock-market-words/docs/)
+![QR code for QA environment](./hugo/site/static/media/qa-env-qr-code.png)
 
 ## Developer Section
-``
+
+### Hugo Site Development
+
+The website is built using [Hugo](https://gohugo.io/), a fast static site generator.
+
+**Running the development server:**
+
+```bash
+# Option 1: Change directory and run
+cd hugo/site
+hugo server
+
+# Option 2: Run from repo root with flags
+hugo server --source hugo/site
+
+# Option 3: Run with additional flags (bind to all interfaces, custom port)
+cd hugo/site
+hugo server --bind 0.0.0.0 --port 1313
+```
+
+The site will be available at `http://localhost:1313` with live reload enabled.
+
+**Building for production:**
+
+```bash
+# Option 1: From hugo/site directory
+cd hugo/site
+hugo
+
+# Option 2: From repo root
+hugo --source hugo/site
+
+# Built files will be in hugo/site/public/
+```
+
+### Hugo Project Structure
+
+```
+hugo/site/
+├── content/              # Markdown content files
+├── layouts/              # HTML templates
+│   ├── shortcodes/      # Reusable content widgets
+│   ├── partials/        # Shared template components
+│   └── _default/        # Default layouts
+├── static/              # Static assets (CSS, JS, images, API data)
+└── hugo.toml            # Site configuration
+```
+
 ### Getting Started
 Bash scripts
 ```bash
-# Start up a local static HTTP server (requires python3)
+# Start up Hugo development server (requires Hugo)
 ./scripts/website-up.sh
 ./scripts/website-down.sh
-# Test local static HTTP server (requires node)
+# Test website with acceptance tests (requires node)
 ./scripts/website-test.sh
 
 # Single liner

@@ -2,9 +2,9 @@ const assert = require("assert");
 const puppeteer = require("puppeteer");
 
 const HEADLESS_MODE = process.env.HEADLESS_MODE || true;
-const EXCHANGE_DATA_PAGE = process.env.EXCHANGE_DATA_PAGE_BASE || "http://localhost:8668/exchange-data-display.html";
+const EXCHANGE_DATA_PAGE = process.env.EXCHANGE_DATA_PAGE_BASE || "http://localhost:8668/exchange-data-display/";
 
-describe("The exchange data display page for English Dictionary Stocks website", () => {
+describe("The exchange data display page for Stock Market Words website", () => {
   let browser;
 
   before(async () => {
@@ -22,6 +22,6 @@ describe("The exchange data display page for English Dictionary Stocks website",
     const page = await browser.newPage();
     await page.goto(EXCHANGE_DATA_PAGE);
     let title = await page.title();
-    assert.equal(title, "Exchange Data Display");
+    assert.equal(title, "Exchange Data Display - Stock Market Words");
   });
 });
