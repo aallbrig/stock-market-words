@@ -27,12 +27,11 @@ jobs:
       - name: Build Hugo site
         run: |
           cd hugo/site
-          hugo --minify --baseURL "https://aallbrig.github.io/stock-market-words/docs/"
+          hugo --minify --baseURL "https://aallbrig.github.io/stock-market-words/"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: github-pages
           folder: hugo/site/public
-          target-folder: docs
           clean: true
