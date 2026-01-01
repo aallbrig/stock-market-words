@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha ./tests",
     "test-dev": "HEADLESS_MODE=true mocha ./tests",
-    "test-stage": "HEADLESS_MODE=true LANDING_PAGE='https://aallbrig.github.io/stock-market-words/docs/' ABOUT_PAGE='https://aallbrig.github.io/stock-market-words/docs/about/' EXCHANGE_DATA_PAGE_BASE='https://aallbrig.github.io/stock-market-words/docs/exchange-data-display/' mocha ./tests",
+    "test-stage": "HEADLESS_MODE=true LANDING_PAGE='https://aallbrig.github.io/stock-market-words/' ABOUT_PAGE='https://aallbrig.github.io/stock-market-words/about/' EXCHANGE_DATA_PAGE_BASE='https://aallbrig.github.io/stock-market-words/exchange-data-display/' mocha ./tests",
     "test-production": "HEADLESS_MODE=true LANDING_PAGE='https://stockmarketwords.com' ABOUT_PAGE='https://stockmarketwords.com/about/' EXCHANGE_DATA_PAGE_BASE='https://stockmarketwords.com/exchange-data-display/' mocha ./tests"
   },
   "keywords": [
