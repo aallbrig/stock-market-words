@@ -2,7 +2,7 @@ const assert = require("assert");
 const puppeteer = require("puppeteer");
 
 const HEADLESS_MODE = process.env.HEADLESS_MODE || true;
-const API_BASE = process.env.EXCHANGE_DATA_PAGE_BASE || "http://localhost:8668/api";
+const API_BASE = process.env.EXCHANGE_DATA_PAGE_BASE || "http://localhost:1313/api";
 
 describe("The exchange data display page for English Dictionary Stocks website", () => {
   let browser;

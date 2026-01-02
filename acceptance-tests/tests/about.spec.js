@@ -4,7 +4,7 @@ const { assertNavigationBar } = require("./nav.spec.helper.js");
 const { assertBootstrapCDNVersion } = require("./bootstrap.spec.helper.js");
 
 const HEADLESS_MODE = process.env.HEADLESS_MODE || true;
-const ABOUT_PAGE = process.env.ABOUT_PAGE || "http://localhost:8668/about/";
+const ABOUT_PAGE = process.env.ABOUT_PAGE || "http://localhost:1313/about/";
 
 describe("The about page for Stock Market Words website", () => {
   let browser;

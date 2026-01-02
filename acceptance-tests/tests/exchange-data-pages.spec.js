@@ -2,7 +2,7 @@ const assert = require("assert");
 const puppeteer = require("puppeteer");
 
 const HEADLESS_MODE = process.env.HEADLESS_MODE || true;
-const EXCHANGE_DATA_PAGE = process.env.EXCHANGE_DATA_PAGE_BASE || "http://localhost:8668/exchange-data-display/";
+const EXCHANGE_DATA_PAGE = process.env.EXCHANGE_DATA_PAGE_BASE || "http://localhost:1313/exchange-data-display/";
 
 describe("The exchange data display page for Stock Market Words website", () => {
   let browser;
