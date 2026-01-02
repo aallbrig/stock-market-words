@@ -4,7 +4,7 @@ const { assertNavigationBar } = require("./nav.spec.helper.js");
 const { assertBootstrapCDNVersion } = require("./bootstrap.spec.helper.js");
 
 const HEADLESS_MODE = process.env.HEADLESS_MODE || true;
-const LANDING_PAGE = process.env.LANDING_PAGE || "http://localhost:8668";
+const LANDING_PAGE = process.env.LANDING_PAGE || "http://localhost:1313";
 
 describe("The landing page for Stock Market Words website", () => {
   let browser;
