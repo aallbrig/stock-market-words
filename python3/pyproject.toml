@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stock-ticker-cli"
+version = "0.1.0"
+description = "Stock Market Ticker Discovery CLI - Extract, filter, and process stock market data"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0",
+    "yfinance>=0.2.0",
+    "pandas>=1.3.0",
+    "numpy>=1.20.0",
+]
+
+[project.scripts]
+ticker-cli = "stock_ticker.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=3.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+stock_ticker = ["py.typed"]
