@@ -292,15 +292,15 @@ class TickerCLI:
         
         # External services
         if self._check_ftp_server():
-            logger.info("   ✓ NASDAQ FTP: Reachable")
+            logger.info("   ✓ NASDAQ FTP: Reachable (ftp.nasdaqtrader.com)")
         else:
-            logger.warning("   ⚠ NASDAQ FTP: Unreachable")
+            logger.warning("   ⚠ NASDAQ FTP: Unreachable (ftp.nasdaqtrader.com)")
             all_deps_ok = False
         
         if self._check_yahoo_finance():
-            logger.info("   ✓ Yahoo Finance API: Reachable")
+            logger.info("   ✓ Yahoo Finance API: Reachable (query1.finance.yahoo.com)")
         else:
-            logger.warning("   ⚠ Yahoo Finance API: Unreachable")
+            logger.warning("   ⚠ Yahoo Finance API: Unreachable (query1.finance.yahoo.com)")
             all_deps_ok = False
         
         logger.info("")
