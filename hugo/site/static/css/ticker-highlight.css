@@ -6,3 +6,49 @@
     padding: 2px 4px;
     border-radius: 3px;
 }
+
+.token-ticker {
+    color: #28a745;
+    font-weight: bold;
+    background-color: #d4edda;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.token-in-between {
+    background-color: #fff3cd;
+    padding: 2px 4px;
+}
+
+.token-outside-ticker {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 2px 4px;
+}
+
+.token-normal {
+    /* Default styling */
+}
+
+.portfolio-option {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f8f9fa;
+}
+
+.portfolio-option.selected {
+    border-color: #28a745;
+    background-color: #e6ffe6;
+}
+
+.portfolio-score {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.strategy-selector {
+    margin-bottom: 20px;
+}
+

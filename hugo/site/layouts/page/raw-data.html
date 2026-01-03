@@ -1,0 +1,140 @@
+{{ define "main" }}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <h1>{{ .Title }}</h1>
+      {{ .Content }}
+      
+      {{ $nasdaq := .Site.Data.raw_nasdaq }}
+      {{ $otherlisted := .Site.Data.raw_otherlisted }}
+      
+      {{ if or $nasdaq $otherlisted }}
+      
+      <!-- Summary Cards -->
+      <div class="row mb-4">
+        {{ if $nasdaq }}
+        <div class="col-md-6">
+          <div class="card border-primary">
+            <div class="card-body">
+              <h5 class="card-title">📊 NASDAQ Data</h5>
+              <p class="card-text">
+                <strong>Total Rows:</strong> {{ $nasdaq.total_rows }}<br>
+                <strong>File:</strong> {{ $nasdaq.file }}<br>
+                <strong>Downloaded:</strong> {{ dateFormat "2006-01-02 15:04:05" $nasdaq.downloaded_at }}
+              </p>
+            </div>
+          </div>
+        </div>
+        {{ end }}
+        
+        {{ if $otherlisted }}
+        <div class="col-md-6">
+          <div class="card border-success">
+            <div class="card-body">
+              <h5 class="card-title">📊 Other Exchanges Data</h5>
+              <p class="card-text">
+                <strong>Total Rows:</strong> {{ $otherlisted.total_rows }}<br>
+                <strong>File:</strong> {{ $otherlisted.file }}<br>
+                <strong>Downloaded:</strong> {{ dateFormat "2006-01-02 15:04:05" $otherlisted.downloaded_at }}
+              </p>
+            </div>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+      
+      <!-- NASDAQ Table -->
+      {{ if $nasdaq }}
+      <div class="mb-5">
+        <h2>NASDAQ Listed Securities</h2>
+        <p class="text-muted">Raw data directly from NASDAQ FTP server ({{ $nasdaq.file }}). Includes test tickers, ETFs, warrants, units, and all other securities.</p>
+        
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-sm" id="nasdaqTable">
+            <thead class="table-dark">
+              <tr>
+                {{ range $nasdaq.columns }}
+                <th>{{ . }}</th>
+                {{ end }}
+              </tr>
+            </thead>
+            <tbody>
+              {{ range first 100 $nasdaq.data }}
+              <tr>
+                {{ range $nasdaq.columns }}
+                <td>{{ index $ . }}</td>
+                {{ end }}
+              </tr>
+              {{ end }}
+            </tbody>
+          </table>
+        </div>
+        <p class="text-muted"><em>Showing first 100 of {{ $nasdaq.total_rows }} rows</em></p>
+      </div>
+      {{ end }}
+      
+      <!-- Other Exchanges Table -->
+      {{ if $otherlisted }}
+      <div class="mb-5">
+        <h2>Other Exchange Securities</h2>
+        <p class="text-muted">Raw data from NASDAQ FTP server ({{ $otherlisted.file }}). Includes NYSE, NYSE MKT, NYSE ARCA, and other exchanges.</p>
+        
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-sm" id="otherlistedTable">
+            <thead class="table-dark">
+              <tr>
+                {{ range $otherlisted.columns }}
+                <th>{{ . }}</th>
+                {{ end }}
+              </tr>
+            </thead>
+            <tbody>
+              {{ range first 100 $otherlisted.data }}
+              <tr>
+                {{ range $otherlisted.columns }}
+                <td>{{ index $ . }}</td>
+                {{ end }}
+              </tr>
+              {{ end }}
+            </tbody>
+          </table>
+        </div>
+        <p class="text-muted"><em>Showing first 100 of {{ $otherlisted.total_rows }} rows</em></p>
+      </div>
+      {{ end }}
+      
+      {{ else }}
+      
+      <!-- No Data Alert -->
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">No Data Available</h4>
+        <p>Raw FTP data has not been generated yet. Run the following command to generate it:</p>
+        <pre><code>ticker-cli hugo raw-ftp</code></pre>
+      </div>
+      
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+<!-- DataTables for sorting and filtering -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+<script>
+$(document).ready(function() {
+  if ($('#nasdaqTable').length) {
+    $('#nasdaqTable').DataTable({
+      pageLength: 25,
+      order: [[0, 'asc']]
+    });
+  }
+  if ($('#otherlistedTable').length) {
+    $('#otherlistedTable').DataTable({
+      pageLength: 25,
+      order: [[0, 'asc']]
+    });
+  }
+});
+</script>
+{{ end }}

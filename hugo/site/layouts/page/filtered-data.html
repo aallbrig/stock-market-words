@@ -1,0 +1,173 @@
+{{ define "main" }}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <h1>{{ .Title }}</h1>
+      {{ .Content }}
+      
+      {{ $filtered := .Site.Data.filtered_tickers }}
+      {{ $pass1 := .Site.Data.pass1_results }}
+      
+      {{ if $filtered }}
+      
+      <!-- Summary Cards -->
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="card border-success">
+            <div class="card-body text-center">
+              <h5 class="card-title">✅ Total Tickers</h5>
+              <h2 class="display-4 text-success">{{ $filtered.total_tickers }}</h2>
+              <p class="text-muted">Filtered common stocks only</p>
+            </div>
+          </div>
+        </div>
+        
+        {{ if $filtered.statistics }}
+        <div class="col-md-4">
+          <div class="card border-info">
+            <div class="card-body text-center">
+              <h5 class="card-title">💹 With Price Data</h5>
+              <h2 class="display-4 text-info">{{ $filtered.statistics.with_price_data }}</h2>
+              <p class="text-muted">Successfully fetched from Yahoo Finance</p>
+            </div>
+          </div>
+        </div>
+        {{ end }}
+        
+        {{ if $pass1 }}
+        {{ if $pass1.pass1_extraction }}
+        <div class="col-md-4">
+          <div class="card border-primary">
+            <div class="card-body text-center">
+              <h5 class="card-title">📊 Success Rate</h5>
+              <h2 class="display-4 text-primary">{{ $pass1.pass1_extraction.success_rate }}</h2>
+              <p class="text-muted">Pass 1 extraction</p>
+            </div>
+          </div>
+        </div>
+        {{ end }}
+        {{ end }}
+      </div>
+      
+      <!-- Exchange Breakdown -->
+      {{ if $filtered.exchanges }}
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">📈 Tickers by Exchange</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            {{ range $exchange, $count := $filtered.exchanges }}
+            <div class="col-md-3 col-sm-6 mb-3">
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                  <strong>{{ $exchange }}</strong>
+                </div>
+                <div>
+                  <span class="badge bg-primary rounded-pill">{{ $count }}</span>
+                </div>
+              </div>
+            </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+      {{ end }}
+      
+      <!-- Ticker Table -->
+      <div class="mb-5">
+        <h2>Filtered Ticker List</h2>
+        <p class="text-muted">All tickers that passed filtering rules. No test tickers, ETFs, warrants, units, rights, or preferred stock.</p>
+        
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-sm" id="tickerTable">
+            <thead class="table-dark">
+              <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Exchange</th>
+                <th>ETF</th>
+                <th>Price</th>
+                <th>Volume</th>
+                <th>Market Cap</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ range $filtered.tickers }}
+              <tr>
+                <td><strong>{{ .symbol }}</strong></td>
+                <td>{{ .name }}</td>
+                <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
+                <td>{{ if .is_etf }}Yes{{ else }}No{{ end }}</td>
+                <td>
+                  {{ if .price_data }}
+                    {{ if .price_data.price }}
+                      ${{ printf "%.2f" .price_data.price }}
+                    {{ else }}
+                      <span class="text-muted">N/A</span>
+                    {{ end }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td>
+                  {{ if .price_data }}
+                    {{ if .price_data.volume }}
+                      {{ .price_data.volume | lang.FormatNumber 0 }}
+                    {{ else }}
+                      <span class="text-muted">N/A</span>
+                    {{ end }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td>
+                  {{ if .price_data }}
+                    {{ if .price_data.market_cap }}
+                      ${{ .price_data.market_cap | lang.FormatNumber 0 }}
+                    {{ else }}
+                      <span class="text-muted">N/A</span>
+                    {{ end }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+              </tr>
+              {{ end }}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      {{ else }}
+      
+      <!-- No Data Alert -->
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">No Data Available</h4>
+        <p>Filtered ticker data has not been generated yet. Run the following command to generate it:</p>
+        <pre><code>ticker-cli hugo filtered</code></pre>
+      </div>
+      
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+<!-- DataTables for sorting and filtering -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+<script>
+$(document).ready(function() {
+  if ($('#tickerTable').length) {
+    $('#tickerTable').DataTable({
+      pageLength: 50,
+      order: [[0, 'asc']],
+      columnDefs: [
+        { targets: [4, 5, 6], type: 'num' }
+      ]
+    });
+  }
+});
+</script>
+{{ end }}

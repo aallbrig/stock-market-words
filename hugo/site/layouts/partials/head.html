@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cerulean/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/theme.css" rel="stylesheet">
+    <link href="{{ .Site.BaseURL }}css/theme.css" rel="stylesheet">
     {{ if .Params.custom_css }}
       {{ range .Params.custom_css }}
         <link href="{{ . }}" rel="stylesheet">
