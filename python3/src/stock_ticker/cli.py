@@ -15,6 +15,12 @@ from .database import (
 from .ftp_sync import sync_ftp
 from .extractors import extract_prices, extract_metadata
 from .builders import build_assets
+from .hugo_generators import (
+    generate_raw_ftp_data, 
+    generate_filtered_data, 
+    generate_hugo_pages,
+    generate_all_hugo_content
+)
 from .utils import get_today, check_ftp_server, check_yahoo_finance
 
 logger = setup_logging()
@@ -481,6 +487,40 @@ def reset(ctx, force):
     
     logger.info("✓ Data reset complete.")
     logger.info(f"   You can now run 'ticker-cli run-all' to start fresh.")
+
+
+@cli.group()
+def hugo():
+    """Generate content for Hugo static site."""
+    pass
+
+
+@hugo.command('raw-ftp')
+@click.pass_context
+def hugo_raw_ftp(ctx):
+    """Generate raw FTP data (before filtering) for Hugo site."""
+    generate_raw_ftp_data(dry_run=ctx.obj.dry_run)
+
+
+@hugo.command('filtered')
+@click.pass_context
+def hugo_filtered(ctx):
+    """Generate filtered ticker data (after Pass 1) for Hugo site."""
+    generate_filtered_data(dry_run=ctx.obj.dry_run)
+
+
+@hugo.command('pages')
+@click.pass_context
+def hugo_pages(ctx):
+    """Generate Hugo markdown pages."""
+    generate_hugo_pages(dry_run=ctx.obj.dry_run)
+
+
+@hugo.command('all')
+@click.pass_context
+def hugo_all(ctx):
+    """Generate all Hugo site content."""
+    generate_all_hugo_content(dry_run=ctx.obj.dry_run)
 
 
 def main():

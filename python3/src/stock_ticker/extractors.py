@@ -55,7 +55,13 @@ def extract_prices(dry_run=False):
     total = len(pending_symbols)
     
     if total == 0:
+        # Show summary of already-completed work
+        cursor.execute("SELECT COUNT(*) FROM daily_metrics WHERE date = ? AND price IS NOT NULL", (today,))
+        completed_count = cursor.fetchone()[0]
+        
         logger.info("✓ All tickers already have price data for today.")
+        logger.info(f"  • Tickers processed: {completed_count:,}")
+        
         conn.close()
         return
     
@@ -158,7 +164,17 @@ def extract_metadata(dry_run=False):
     total = len(pending_symbols)
     
     if total == 0:
+        # Show summary of already-completed work
+        cursor.execute("""
+            SELECT COUNT(*) FROM daily_metrics 
+            WHERE date = ? 
+            AND market_cap IS NOT NULL
+        """, (today,))
+        completed_count = cursor.fetchone()[0]
+        
         logger.info("✓ All filtered tickers already have metadata for today.")
+        logger.info(f"  • Tickers with complete metadata: {completed_count:,}")
+        
         conn.close()
         return
     

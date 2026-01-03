@@ -209,3 +209,41 @@ def recommend_next_step():
     
     # Everything is done
     return None, "✓ All steps completed for today!"
+
+
+def get_step_summary(step_name, run_date=None):
+    """
+    Get a summary of a completed pipeline step.
+    
+    Args:
+        step_name: Name of the step (e.g., 'sync-ftp', 'extract-prices')
+        run_date: Date to query (defaults to today)
+    
+    Returns:
+        dict with step details or None if not found
+    """
+    if run_date is None:
+        run_date = get_today()
+    
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        SELECT step_name, run_date, completed_at, tickers_processed, status
+        FROM pipeline_steps
+        WHERE step_name = ? AND run_date = ?
+    """, (step_name, run_date))
+    
+    row = cursor.fetchone()
+    conn.close()
+    
+    if row:
+        return {
+            'step_name': row[0],
+            'run_date': row[1],
+            'completed_at': row[2],
+            'tickers_processed': row[3],
+            'status': row[4]
+        }
+    
+    return None
