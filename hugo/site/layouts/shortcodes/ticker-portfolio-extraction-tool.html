@@ -1,6 +1,6 @@
 {{ if not (.Page.Scratch.Get "ticker-portfolio-extraction-tool-loaded") }}
   {{ .Page.Scratch.Set "ticker-portfolio-extraction-tool-loaded" true }}
-  <link href="/css/ticker-highlight.css" rel="stylesheet">
+  <link href="{{ .Page.Site.BaseURL }}css/ticker-highlight.css" rel="stylesheet">
 {{ end }}
 
 <div class="row justify-content-center">
@@ -10,8 +10,18 @@
         <h5 class="card-title">Find Stock Tickers in Your Text</h5>
         <p class="card-text">Enter a sentence or paragraph below. We'll show you which stock tickers match your input. Try mentioning company names, tickers, or financial terms!</p>
         <form id="ticker-form">
+          <div class="mb-3 strategy-selector">
+            <label for="strategy-select" class="form-label">Investment Strategy:</label>
+            <select class="form-select" id="strategy-select">
+              <option value="DIVIDEND_DADDY">Dividend Daddy (High Yield)</option>
+              <option value="THE_MOON_SHOT">The Moon Shot (High Beta)</option>
+              <option value="FALLING_KNIFE">Falling Knife (Negative Momentum)</option>
+              <option value="OVER_HYPED">Over-Hyped (High RSI)</option>
+              <option value="INSTITUTIONAL_WHALE">Institutional Whale (Market Cap)</option>
+            </select>
+          </div>
           <div class="mb-3">
-            <label for="user-input"></label>
+            <label for="user-input" class="form-label">Your Text:</label>
             <textarea class="form-control" id="user-input" rows="4" placeholder="Type your sentence here..."></textarea>
           </div>
           <button type="submit" class="btn btn-success">Find Stock Tickers</button>
@@ -20,11 +30,22 @@
     </div>
     <div class="card mt-4" id="result-card" style="display:none;">
       <div class="card-body">
-        <div class="mb-3">
-          <label for="user-output" class="form-label">Your Input:</label>
+        <h6 class="card-subtitle mb-3">Portfolio Options (Top 5):</h6>
+        <div id="portfolio-options"></div>
+        
+        <div class="mt-4">
+          <h6 class="card-subtitle mb-2">Your Input (with highlighting):</h6>
           <div id="user-output" class="bg-light border rounded p-3"></div>
+          <div class="mt-2">
+            <small class="text-muted">
+              <span class="token-ticker">Green</span> = Ticker characters, 
+              <span class="token-in-between">Yellow</span> = In-between, 
+              <span class="token-outside-ticker">Red</span> = Outside-ticker
+            </small>
+          </div>
         </div>
-        <div class="alert alert-info" id="portfolio-link-section" style="display:none;">
+        
+        <div class="alert alert-info mt-4" id="portfolio-link-section" style="display:none;">
           <span id="portfolio-link-message"></span>
           <a id="portfolio-link" href="#" target="_blank" rel="noopener" class="btn btn-primary ms-2">Open Portfolio Visualizer</a>
         </div>
@@ -35,5 +56,6 @@
 
 {{ if not (.Page.Scratch.Get "ticker-portfolio-extraction-tool-js-loaded") }}
   {{ .Page.Scratch.Set "ticker-portfolio-extraction-tool-js-loaded" true }}
-  <script src="/js/ticker-portfolio-extraction-tool.js"></script>
+  <script src="{{ .Page.Site.BaseURL }}js/TickerEngine.js"></script>
+  <script src="{{ .Page.Site.BaseURL }}js/ticker-portfolio-extraction-tool.js"></script>
 {{ end }}
