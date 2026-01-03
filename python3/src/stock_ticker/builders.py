@@ -54,7 +54,25 @@ def build_assets(dry_run=False):
     df = pd.read_sql_query(query, conn, params=(today,))
     
     if df.empty:
-        logger.warning("No tickers found with complete data for today.")
+        # Check if assets already exist
+        trie_path = API_DIR / "trie.json"
+        metadata_path = API_DIR / "metadata.json"
+        
+        if trie_path.exists() and metadata_path.exists():
+            logger.info("✓ JSON assets already built for today.")
+            
+            # Get count from metadata.json
+            try:
+                with open(metadata_path, 'r') as f:
+                    metadata = json.load(f)
+                    ticker_count = len(metadata)
+                    logger.info(f"  • trie.json: {trie_path}")
+                    logger.info(f"  • metadata.json: {metadata_path} ({ticker_count:,} tickers)")
+            except:
+                logger.info(f"  • Assets exist at {API_DIR}")
+        else:
+            logger.warning("No tickers found with complete data for today.")
+        
         conn.close()
         return
     

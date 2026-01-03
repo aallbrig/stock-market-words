@@ -63,9 +63,18 @@ def sync_ftp(dry_run=False):
     today = get_today()
     
     # Check if already synced today
-    cursor.execute("SELECT sync_date FROM sync_history WHERE sync_date = ?", (today,))
-    if cursor.fetchone():
+    cursor.execute("SELECT sync_date, tickers_synced FROM sync_history WHERE sync_date = ?", (today,))
+    existing_sync = cursor.fetchone()
+    if existing_sync:
+        # Show summary of existing sync
+        tickers_count = existing_sync[1]
+        cursor.execute("SELECT COUNT(*) FROM tickers")
+        total_tickers = cursor.fetchone()[0]
+        
         logger.info(f"✓ FTP already synced today ({today}). Skipping.")
+        logger.info(f"  • Tickers in database: {total_tickers:,}")
+        logger.info(f"  • New tickers added during sync: {tickers_count}")
+        
         conn.close()
         return
     
