@@ -53,20 +53,18 @@
       {{ if $filtered.exchanges }}
       <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-          <h5 class="mb-0">📈 Tickers by Exchange</h5>
+          <h5 class="mb-0">📈 Tickers by Exchange (Click to Filter)</h5>
         </div>
         <div class="card-body">
           <div class="row">
+            <div class="col-12 mb-3">
+              <button class="btn btn-sm btn-outline-secondary exchange-filter-btn" onclick="filterByExchange('ALL')">All Exchanges</button>
+            </div>
             {{ range $exchange, $count := $filtered.exchanges }}
             <div class="col-md-3 col-sm-6 mb-3">
-              <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                  <strong>{{ $exchange }}</strong>
-                </div>
-                <div>
-                  <span class="badge bg-primary rounded-pill">{{ $count }}</span>
-                </div>
-              </div>
+              <button class="btn btn-outline-primary exchange-filter-btn" onclick="filterByExchange('{{ $exchange }}')">
+                <strong>{{ $exchange }}</strong> <span class="badge bg-primary rounded-pill">{{ $count }}</span>
+              </button>
             </div>
             {{ end }}
           </div>
@@ -158,9 +156,11 @@
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
 <script>
+let tickerTable;
+
 $(document).ready(function() {
   if ($('#tickerTable').length) {
-    $('#tickerTable').DataTable({
+    tickerTable = $('#tickerTable').DataTable({
       pageLength: 50,
       order: [[0, 'asc']],
       columnDefs: [
@@ -169,5 +169,15 @@ $(document).ready(function() {
     });
   }
 });
+
+function filterByExchange(exchange) {
+  if (!tickerTable) return;
+  
+  if (exchange === 'ALL') {
+    tickerTable.column(2).search('').draw();
+  } else {
+    tickerTable.column(2).search('^' + exchange + '$', true, false).draw();
+  }
+}
 </script>
 {{ end }}
