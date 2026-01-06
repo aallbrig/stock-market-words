@@ -1,8 +1,8 @@
 {
   "source": "NASDAQ FTP",
   "file": "otherlisted.txt",
-  "downloaded_at": "2026-01-02T21:51:18.709490",
-  "total_rows": 6914,
+  "downloaded_at": "2026-01-02T22:11:01.817991",
+  "total_rows": 6913,
   "columns": [
     "ACT Symbol",
     "Security Name",
@@ -69143,16 +69143,6 @@
       "Round Lot Size": 100.0,
       "Test Issue": "Y",
       "NASDAQ Symbol": "ZXIET"
-    },
-    {
-      "ACT Symbol": "File Creation Time: 0102202618:01",
-      "Security Name": NaN,
-      "Exchange": NaN,
-      "CQS Symbol": NaN,
-      "ETF": NaN,
-      "Round Lot Size": NaN,
-      "Test Issue": NaN,
-      "NASDAQ Symbol": NaN
     }
   ]
 }

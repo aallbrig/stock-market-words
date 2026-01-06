@@ -1,0 +1,245 @@
+// Portfolio Extractor - uses proper word-consuming backtracking algorithm
+let tickerData = null;
+let tickerTrie = null;
+
+// Strategy definitions
+const STRATEGIES = {
+    DIVIDEND_DADDY: {
+        name: '💰 Dividend Daddy',
+        description: 'High yield + low volatility',
+        scorer: (ticker) => {
+            const yieldScore = (ticker.dividendYield || 0) * 100;
+            const betaScore = ticker.beta ? (100 - Math.abs(ticker.beta) * 20) : 50;
+            return yieldScore + betaScore;
+        }
+    },
+    MOON_SHOT: {
+        name: '🚀 Moon Shot',
+        description: 'High growth potential (high beta + oversold)',
+        scorer: (ticker) => {
+            const betaScore = (ticker.beta || 0) * 50;
+            const rsiScore = ticker.rsi ? (100 - ticker.rsi) : 0;
+            return betaScore + rsiScore;
+        }
+    },
+    FALLING_KNIFE: {
+        name: '🔪 Falling Knife',
+        description: 'Oversold + below 200-day MA',
+        scorer: (ticker) => {
+            const rsiScore = ticker.rsi ? (100 - ticker.rsi) : 0;
+            const maScore = (ticker.ma200 && ticker.price) ? 
+                Math.max(0, ((ticker.ma200 - ticker.price) / ticker.price) * 100) : 0;
+            return rsiScore + maScore;
+        }
+    },
+    OVER_HYPED: {
+        name: '🎈 Over-Hyped',
+        description: 'Overbought (high RSI)',
+        scorer: (ticker) => ticker.rsi || 0
+    },
+    INSTITUTIONAL_WHALE: {
+        name: '🐋 Institutional Whale',
+        description: 'Large market cap',
+        scorer: (ticker) => ticker.marketCap ? Math.log10(ticker.marketCap) : 0
+    }
+};
+
+async function loadTickerData() {
+    try {
+        const response = await fetch('/data/filtered_tickers.json');
+        const data = await response.json();
+        
+        // Build lookup map: symbol -> ticker data
+        tickerData = {};
+        data.tickers.forEach(t => {
+            if (t.price_data && t.price_data.price) {
+                tickerData[t.symbol] = {
+                    symbol: t.symbol,
+                    name: t.name,
+                    exchange: t.exchange,
+                    price: t.price_data.price,
+                    volume: t.price_data.volume,
+                    marketCap: t.price_data.market_cap,
+                    dividendYield: t.price_data.dividend_yield,
+                    beta: t.price_data.beta,
+                    rsi: t.price_data.rsi_14,
+                    ma200: t.price_data.ma_200
+                };
+            }
+        });
+        
+        console.log(`Loaded ${Object.keys(tickerData).length} tickers with data`);
+        return true;
+    } catch (error) {
+        console.error('Failed to load ticker data:', error);
+        return false;
+    }
+}
+
+// Extract all possible tickers from text
+function extractAllTickers(text) {
+    const words = text.toUpperCase().match(/[A-Z]+/g) || [];
+    const foundTickers = new Set();
+    
+    // For each word, check all possible substrings
+    words.forEach(word => {
+        // Check if word itself is a ticker
+        if (tickerData[word]) {
+            foundTickers.add(word);
+        }
+        
+        // Check all substrings (e.g., "NVIDIA" -> check "NVDA", "NVI", "VDA", etc.)
+        for (let len = 2; len <= word.length; len++) {
+            for (let start = 0; start <= word.length - len; start++) {
+                const substring = word.substring(start, start + len);
+                if (tickerData[substring]) {
+                    foundTickers.add(substring);
+                }
+            }
+        }
+    });
+    
+    return Array.from(foundTickers);
+}
+
+// Build portfolio for a specific strategy
+function buildPortfolioForStrategy(allTickers, strategyKey, topN = 5) {
+    const strategy = STRATEGIES[strategyKey];
+    
+    // Score all tickers
+    const scored = allTickers.map(symbol => {
+        const ticker = tickerData[symbol];
+        return {
+            symbol,
+            ticker,
+            score: strategy.scorer(ticker)
+        };
+    }).filter(item => item.score > 0); // Remove zero scores
+    
+    // Sort by score descending
+    scored.sort((a, b) => b.score - a.score);
+    
+    // Take top N
+    const topTickers = scored.slice(0, topN);
+    
+    return {
+        strategy: strategy.name,
+        description: strategy.description,
+        tickers: topTickers
+    };
+}
+
+// Render portfolio results
+function renderPortfolios(portfolios, allTickers) {
+    const container = document.getElementById('portfolio-strategies');
+    
+    if (allTickers.length === 0) {
+        container.innerHTML = '<div class="alert alert-warning">No tickers found in your text. Try mentioning company names or ticker symbols.</div>';
+        return;
+    }
+    
+    let html = `<div class="alert alert-info mb-4">
+        <strong>Found ${allTickers.length} tickers:</strong> ${allTickers.join(', ')}
+    </div>`;
+    
+    portfolios.forEach(portfolio => {
+        html += `
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">${portfolio.strategy}</h6>
+                    <small>${portfolio.description}</small>
+                </div>
+                <div class="card-body">
+        `;
+        
+        if (portfolio.tickers.length === 0) {
+            html += '<p class="text-muted">No tickers scored well for this strategy.</p>';
+        } else {
+            html += '<div class="table-responsive"><table class="table table-sm mb-0">';
+            html += '<thead><tr><th>Rank</th><th>Symbol</th><th>Name</th><th>Price</th><th>Score</th></tr></thead><tbody>';
+            
+            portfolio.tickers.forEach((item, idx) => {
+                const t = item.ticker;
+                html += `
+                    <tr>
+                        <td><strong>${idx + 1}</strong></td>
+                        <td><span class="badge bg-secondary">${t.symbol}</span></td>
+                        <td>${t.name || 'N/A'}</td>
+                        <td>$${t.price.toFixed(2)}</td>
+                        <td>${item.score.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table></div>';
+            
+            // Add Portfolio Visualizer link for this strategy
+            const symbols = portfolio.tickers.map(t => t.symbol).join(',');
+            html += `
+                <div class="mt-3">
+                    <button class="btn btn-sm btn-primary" onclick="openPortfolioVisualizer('${symbols}')">
+                        📊 View in Portfolio Visualizer
+                    </button>
+                </div>
+            `;
+        }
+        
+        html += '</div></div>';
+    });
+    
+    container.innerHTML = html;
+}
+
+// Open Portfolio Visualizer with equal allocation
+function openPortfolioVisualizer(symbolsStr) {
+    const symbols = symbolsStr.split(',');
+    const allocation = (100 / symbols.length).toFixed(2);
+    let url = 'https://www.portfoliovisualizer.com/backtest-portfolio?s=y&benchmark=-1&benchmarkSymbol=SPY&portfolioNames=true&portfolioName1=Portfolio';
+    
+    symbols.forEach((symbol, i) => {
+        url += `&symbol${i+1}=${symbol}&allocation${i+1}_1=${allocation}`;
+    });
+    
+    window.open(url, '_blank');
+}
+
+// Form submission handler
+async function handleFormSubmit(e) {
+    e.preventDefault();
+    
+    if (!tickerData) {
+        alert('Loading ticker data... please wait.');
+        const loaded = await loadTickerData();
+        if (!loaded) {
+            alert('Failed to load ticker data. Please try again.');
+            return;
+        }
+    }
+    
+    const userInput = document.getElementById('user-input').value;
+    if (!userInput.trim()) {
+        alert('Please enter some text.');
+        return;
+    }
+    
+    // Extract all possible tickers
+    const allTickers = extractAllTickers(userInput);
+    
+    // Build 5 different portfolios, one for each strategy
+    const portfolios = Object.keys(STRATEGIES).map(key => 
+        buildPortfolioForStrategy(allTickers, key, 5)
+    );
+    
+    // Show results
+    document.getElementById('result-card').style.display = 'block';
+    renderPortfolios(portfolios, allTickers);
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('ticker-form');
+    form.addEventListener('submit', handleFormSubmit);
+    
+    // Pre-load ticker data
+    loadTickerData();
+});

@@ -1,8 +1,8 @@
 {
   "source": "NASDAQ FTP",
   "file": "nasdaqlisted.txt",
-  "downloaded_at": "2026-01-02T21:51:18.626038",
-  "total_rows": 5247,
+  "downloaded_at": "2026-01-02T22:11:01.679572",
+  "total_rows": 5246,
   "columns": [
     "Symbol",
     "Security Name",
@@ -5629,7 +5629,7 @@
       "Security Name": "Beneficient - Class A Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -5639,7 +5639,7 @@
       "Security Name": "Beneficient - Warrant",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -6589,7 +6589,7 @@
       "Security Name": "Brand Engagement Network Inc. - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -7439,7 +7439,7 @@
       "Security Name": "Bolt Projects Holdings, Inc. - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -7449,7 +7449,7 @@
       "Security Name": "Bolt Projects Holdings, Inc. - Warrant",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -37309,7 +37309,7 @@
       "Security Name": "ProPhase Labs, Inc. - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -37749,7 +37749,7 @@
       "Security Name": "Protagenic Therapeutics, Inc. - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -37759,7 +37759,7 @@
       "Security Name": "Protagenic Therapeutics, Inc. - Warrant",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -51099,7 +51099,7 @@
       "Security Name": "WF International Limited - Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -52473,16 +52473,6 @@
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
-    },
-    {
-      "Symbol": "File Creation Time: 0102202618:01",
-      "Security Name": NaN,
-      "Market Category": NaN,
-      "Test Issue": NaN,
-      "Financial Status": NaN,
-      "Round Lot Size": NaN,
-      "ETF": NaN,
-      "NextShares": NaN
     }
   ]
 }

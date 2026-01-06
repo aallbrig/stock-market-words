@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Stock Market Words</title><link>https://aallbrig.github.io/stock-market-words/</link><description>Recent content on Stock Market Words</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 02 Jan 2026 21:51:18 +0000</lastBuildDate><atom:link href="https://aallbrig.github.io/stock-market-words/index.xml" rel="self" type="application/rss+xml"/><item><title>Filtered Ticker Data</title><link>https://aallbrig.github.io/stock-market-words/filtered-data/</link><pubDate>Fri, 02 Jan 2026 21:51:18 +0000</pubDate><guid>https://aallbrig.github.io/stock-market-words/filtered-data/</guid><description>&lt;p&gt;This page shows the ticker data &lt;strong&gt;after&lt;/strong&gt; filtering has been applied.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Stock Market Words</title><link>https://aallbrig.github.io/stock-market-words/</link><description>Recent content on Stock Market Words</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 02 Jan 2026 22:11:02 +0000</lastBuildDate><atom:link href="https://aallbrig.github.io/stock-market-words/index.xml" rel="self" type="application/rss+xml"/><item><title>Filtered Ticker Data</title><link>https://aallbrig.github.io/stock-market-words/filtered-data/</link><pubDate>Fri, 02 Jan 2026 22:11:02 +0000</pubDate><guid>https://aallbrig.github.io/stock-market-words/filtered-data/</guid><description>&lt;p&gt;This page shows the ticker data &lt;strong&gt;after&lt;/strong&gt; filtering has been applied.&lt;/p&gt;
 &lt;h2 id="filtering-pipeline"&gt;Filtering Pipeline&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Test Issue Filter&lt;/strong&gt;: Removes test tickers (ZZZZ, TEST, etc.)&lt;/li&gt;
@@ -8,16 +8,25 @@
 &lt;li&gt;&lt;strong&gt;Symbol Validation&lt;/strong&gt;: Removes invalid symbols and suffixes&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id="pass-1-price-extraction"&gt;Pass 1: Price Extraction&lt;/h2&gt;
-&lt;p&gt;After filtering, price/volume data is extracted from Yahoo Finance for all remaining tickers.&lt;/p&gt;</description></item><item><title>Raw FTP Data</title><link>https://aallbrig.github.io/stock-market-words/raw-ftp-data/</link><pubDate>Fri, 02 Jan 2026 21:51:18 +0000</pubDate><guid>https://aallbrig.github.io/stock-market-words/raw-ftp-data/</guid><description>&lt;p&gt;This page shows the raw ticker data downloaded from NASDAQ FTP servers &lt;strong&gt;before&lt;/strong&gt; any filtering is applied.&lt;/p&gt;
+&lt;p&gt;After filtering, price/volume data is extracted from Yahoo Finance for all remaining tickers.&lt;/p&gt;</description></item><item><title>Raw FTP Data</title><link>https://aallbrig.github.io/stock-market-words/raw-ftp-data/</link><pubDate>Fri, 02 Jan 2026 22:11:02 +0000</pubDate><guid>https://aallbrig.github.io/stock-market-words/raw-ftp-data/</guid><description>&lt;p&gt;This page shows the raw ticker data downloaded from NASDAQ FTP servers &lt;strong&gt;before&lt;/strong&gt; any filtering is applied.&lt;/p&gt;
 &lt;h2 id="data-sources"&gt;Data Sources&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;nasdaqlisted.txt&lt;/strong&gt;: All NASDAQ-listed securities&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;otherlisted.txt&lt;/strong&gt;: Securities listed on other exchanges (NYSE, AMEX, etc.)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The data includes test tickers, ETFs, warrants, units, preferred stock, and all other security types.&lt;/p&gt;</description></item><item><title>About</title><link>https://aallbrig.github.io/stock-market-words/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://aallbrig.github.io/stock-market-words/about/</guid><description>&lt;p&gt;This website displays a list of stock tickers that can be found in the English language dictionary.&lt;/p&gt;
-&lt;p&gt;Why? Why not.&lt;/p&gt;
-&lt;p&gt;I amuse myself thinking that this provides some sort of trading edge.&lt;/p&gt;
-&lt;h2 id="stock-data"&gt;Stock Data&lt;/h2&gt;
+&lt;p&gt;The data includes test tickers, ETFs, warrants, units, preferred stock, and all other security types.&lt;/p&gt;</description></item><item><title>About</title><link>https://aallbrig.github.io/stock-market-words/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://aallbrig.github.io/stock-market-words/about/</guid><description>&lt;h1 id="stock-market-words-a-ticker-discovery-tool"&gt;Stock Market Words: A Ticker Discovery Tool&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;Stock Market Words&lt;/strong&gt; is a playful experiment that finds valid stock ticker symbols hidden in everyday English words and text.&lt;/p&gt;
+&lt;h2 id="what-does-it-do"&gt;What Does It Do?&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Ticker Extraction Tool&lt;/strong&gt; (Homepage): Paste any text and our algorithm will extract stock tickers using a word-consuming backtracking search. It shows you 5 different portfolio strategies, each optimized for different investment goals:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://aallbrig.github.io/stock-market-words/exchange-data-display/"&gt;All Exchanges&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description></item></channel></rss>
+&lt;li&gt;💰 &lt;strong&gt;Dividend Daddy&lt;/strong&gt;: High dividend yield + low volatility stocks&lt;/li&gt;
+&lt;li&gt;🚀 &lt;strong&gt;Moon Shot&lt;/strong&gt;: High growth potential (high beta + oversold)&lt;/li&gt;
+&lt;li&gt;🔪 &lt;strong&gt;Falling Knife&lt;/strong&gt;: Contrarian plays (oversold + below moving average)&lt;/li&gt;
+&lt;li&gt;🎈 &lt;strong&gt;Over-Hyped&lt;/strong&gt;: Overbought stocks (potential short candidates)&lt;/li&gt;
+&lt;li&gt;🐋 &lt;strong&gt;Institutional Whale&lt;/strong&gt;: Large-cap stocks with institutional backing&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Filtered Data View&lt;/strong&gt;: Browse all ~5,400+ filtered common stocks with price data, sortable and filterable by exchange.&lt;/p&gt;</description></item></channel></rss>
