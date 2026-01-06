@@ -60,9 +60,10 @@
             </thead>
             <tbody>
               {{ range first 100 $nasdaq.data }}
+              {{ $row := . }}
               <tr>
                 {{ range $nasdaq.columns }}
-                <td>{{ index $ . }}</td>
+                <td>{{ index $row . }}</td>
                 {{ end }}
               </tr>
               {{ end }}
@@ -90,9 +91,10 @@
             </thead>
             <tbody>
               {{ range first 100 $otherlisted.data }}
+              {{ $row := . }}
               <tr>
                 {{ range $otherlisted.columns }}
-                <td>{{ index $ . }}</td>
+                <td>{{ index $row . }}</td>
                 {{ end }}
               </tr>
               {{ end }}
