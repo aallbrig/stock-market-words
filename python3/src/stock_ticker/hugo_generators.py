@@ -4,6 +4,7 @@ Generate data files and markdown pages for the Hugo site based on SQLite databas
 """
 import json
 import csv
+import pandas as pd
 from pathlib import Path
 from datetime import datetime
 from .config import DB_PATH, BASE_DIR, TMP_DIR
@@ -15,13 +16,15 @@ logger = setup_logging()
 
 # Hugo site paths
 HUGO_SITE_DIR = BASE_DIR / "hugo" / "site"
-HUGO_DATA_DIR = HUGO_SITE_DIR / "static" / "data"  # Use static/data to avoid Hugo parsing
+HUGO_DATA_DIR = HUGO_SITE_DIR / "data"  # Hugo's data directory for templates
+HUGO_STATIC_DATA_DIR = HUGO_SITE_DIR / "static" / "data"  # For JavaScript access
 HUGO_CONTENT_DIR = HUGO_SITE_DIR / "content"
 
 
 def ensure_hugo_dirs():
     """Ensure Hugo directories exist."""
     HUGO_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    HUGO_STATIC_DATA_DIR.mkdir(parents=True, exist_ok=True)
     HUGO_CONTENT_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -41,8 +44,6 @@ def generate_raw_ftp_data(dry_run=False):
     logger.info("=== Generating Raw FTP Data ===")
     ensure_hugo_dirs()
     
-    import pandas as pd
-    
     nasdaq_file = TMP_DIR / "nasdaqlisted.txt"
     other_file = TMP_DIR / "otherlisted.txt"
     
@@ -54,21 +55,37 @@ def generate_raw_ftp_data(dry_run=False):
     logger.info("Processing nasdaqlisted.txt...")
     try:
         df_nasdaq = pd.read_csv(nasdaq_file, sep='|')
-        df_nasdaq = df_nasdaq[df_nasdaq['Symbol'].notna()]
+        # Remove footer row (contains "File Creation Time")
+        df_nasdaq = df_nasdaq[~df_nasdaq['Symbol'].str.contains('File Creation Time', na=False)]
+        # Remove any rows with NaN in critical columns
+        df_nasdaq = df_nasdaq.dropna(subset=['Symbol', 'Security Name'])
         
-        # Convert to records (includes all columns)
+        # Convert to records, replacing NaN with None for valid JSON
+        records = df_nasdaq.to_dict('records')
+        # Clean NaN values
+        for record in records:
+            for key, value in record.items():
+                if pd.isna(value):
+                    record[key] = None
+        
         nasdaq_data = {
             'source': 'NASDAQ FTP',
             'file': 'nasdaqlisted.txt',
             'downloaded_at': datetime.now().isoformat(),
             'total_rows': len(df_nasdaq),
             'columns': list(df_nasdaq.columns),
-            'data': df_nasdaq.to_dict('records')
+            'data': records
         }
         
+        # Write to Hugo data directory (for templates)
         output_path = HUGO_DATA_DIR / "raw_nasdaq.json"
         with open(output_path, 'w') as f:
-            json.dump(nasdaq_data, f, indent=2, default=str)
+            json.dump(nasdaq_data, f, indent=2)
+        
+        # Also write to static directory (for JavaScript)
+        static_path = HUGO_STATIC_DATA_DIR / "raw_nasdaq.json"
+        with open(static_path, 'w') as f:
+            json.dump(nasdaq_data, f, indent=2)
         
         logger.info(f"✓ Written: {output_path} ({len(df_nasdaq)} rows)")
         
@@ -79,7 +96,18 @@ def generate_raw_ftp_data(dry_run=False):
     logger.info("Processing otherlisted.txt...")
     try:
         df_other = pd.read_csv(other_file, sep='|')
-        df_other = df_other[df_other['ACT Symbol'].notna()]
+        # Remove footer row (contains "File Creation Time")
+        df_other = df_other[~df_other['ACT Symbol'].str.contains('File Creation Time', na=False)]
+        # Remove any rows with NaN in critical columns
+        df_other = df_other.dropna(subset=['ACT Symbol', 'Security Name'])
+        
+        # Convert to records, replacing NaN with None for valid JSON
+        records = df_other.to_dict('records')
+        # Clean NaN values
+        for record in records:
+            for key, value in record.items():
+                if pd.isna(value):
+                    record[key] = None
         
         other_data = {
             'source': 'NASDAQ FTP',
@@ -87,12 +115,18 @@ def generate_raw_ftp_data(dry_run=False):
             'downloaded_at': datetime.now().isoformat(),
             'total_rows': len(df_other),
             'columns': list(df_other.columns),
-            'data': df_other.to_dict('records')
+            'data': records
         }
         
+        # Write to Hugo data directory (for templates)
         output_path = HUGO_DATA_DIR / "raw_otherlisted.json"
         with open(output_path, 'w') as f:
-            json.dump(other_data, f, indent=2, default=str)
+            json.dump(other_data, f, indent=2)
+        
+        # Also write to static directory (for JavaScript)
+        static_path = HUGO_STATIC_DATA_DIR / "raw_otherlisted.json"
+        with open(static_path, 'w') as f:
+            json.dump(other_data, f, indent=2)
         
         logger.info(f"✓ Written: {output_path} ({len(df_other)} rows)")
         
@@ -205,9 +239,13 @@ def generate_filtered_data(dry_run=False):
     
     conn.close()
     
-    # Write filtered tickers
+    # Write filtered tickers to both locations
     output_path = HUGO_DATA_DIR / "filtered_tickers.json"
     with open(output_path, 'w') as f:
+        json.dump(filtered_data, f, indent=2, default=str)
+    
+    static_path = HUGO_STATIC_DATA_DIR / "filtered_tickers.json"
+    with open(static_path, 'w') as f:
         json.dump(filtered_data, f, indent=2, default=str)
     
     logger.info(f"✓ Written: {output_path} ({len(rows)} tickers)")
@@ -231,6 +269,10 @@ def generate_filtered_data(dry_run=False):
     
     output_path = HUGO_DATA_DIR / "pass1_results.json"
     with open(output_path, 'w') as f:
+        json.dump(pass1_data, f, indent=2)
+    
+    static_path = HUGO_STATIC_DATA_DIR / "pass1_results.json"
+    with open(static_path, 'w') as f:
         json.dump(pass1_data, f, indent=2)
     
     logger.info(f"✓ Written: {output_path}")
