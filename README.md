@@ -25,14 +25,28 @@ npm run test:perf
 
 # Run E2E performance tests (requires Hugo server running)
 # First start the server: ./scripts/website-up.sh
-npm run test:e2e
+npm run test:e2e:ticker
+
+# Run page load tests (ensures all pages work without errors)
+npm run test:e2e:pages
 
 # Profile with Node.js built-in profiler
 node --prof node_modules/.bin/jest tests/perf/
 node --prof-process isolate-*.log > profile.txt
 ```
 
-**Current Status:** Unit tests pass quickly (~20ms), but E2E tests timeout after 60s on MEDIUM/LONG samples with real ticker data. This indicates the algorithm needs optimization for production use!
+**Test Status:**
+- ✅ Unit tests: All passing (~20ms with mock data)
+- ❌ E2E ticker tests: MEDIUM/LONG samples timeout after 60s (needs optimization!)
+- ✅ E2E page tests: **All 23 tests passing!** (jQuery errors fixed)
+
+**Test Reports:**
+- HTML reports generated automatically in `test-reports/index.html`
+- Open in browser after running tests to see detailed results
+- GitHub Actions uploads reports as artifacts
+- See [docs/test-reports-guide.md](./docs/test-reports-guide.md) for details
+
+See [tests/README.md](./tests/README.md) for complete test suite documentation.
 
 ### Hugo Site Development
 
