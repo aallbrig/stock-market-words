@@ -1,0 +1,102 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: '0.123.7'
+        extended: true
+        
+    - name: Start Hugo server
+      run: |
+        cd hugo/site
+        hugo server --bind 0.0.0.0 --port 8668 --disableLiveReload &
+        echo $! > hugo.pid
+        cd ../..
+        
+    - name: Wait for server to be ready
+      run: |
+        timeout 30 bash -c 'until curl -f http://localhost:8668 > /dev/null 2>&1; do sleep 1; done'
+        
+    - name: Run page load tests
+      run: npm run test:e2e:pages
+      
+    # TODO: Uncomment when TickerEngine performance is optimized
+    # - name: Run ticker performance tests
+    #   run: npm run test:e2e:ticker
+    #   timeout-minutes: 10
+      
+    - name: Upload test reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-reports
+        path: test-reports/
+        retention-days: 30
+        
+    - name: Upload HTML report as Pages artifact
+      if: always()
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: test-reports/
+        
+    - name: Stop Hugo server
+      if: always()
+      run: |
+        if [ -f hugo/site/hugo.pid ]; then
+          kill $(cat hugo/site/hugo.pid) || true
+          rm hugo/site/hugo.pid
+        fi
+        
+    - name: Test Summary
+      if: always()
+      run: |
+        if [ -f test-reports/junit.xml ]; then
+          echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Test reports have been uploaded as artifacts." >> $GITHUB_STEP_SUMMARY
+          echo "View the detailed HTML report in the artifacts section." >> $GITHUB_STEP_SUMMARY
+        fi
+
+  # Deploy test reports to GitHub Pages (optional)
+  deploy-reports:
+    needs: e2e-tests
+    if: github.ref == 'refs/heads/main' && always()
+    
+    permissions:
+      pages: write
+      id-token: write
+      
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
