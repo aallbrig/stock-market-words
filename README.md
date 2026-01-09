@@ -10,6 +10,30 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 
 ## Developer Section
 
+### Performance Testing & Profiling
+
+The TickerEngine algorithm can be performance tested and profiled. See the [Performance Profiling Guide](./docs/profiling-guide.md) for detailed instructions on:
+- Running performance tests with sample texts
+- Profiling with Node.js and Chrome DevTools
+- Using WebStorm's built-in profiler (recommended for WebStorm users)
+- Identifying and fixing bottlenecks
+
+Quick start:
+```bash
+# Run unit performance tests (fast - tests algorithm directly)
+npm run test:perf
+
+# Run E2E performance tests (requires Hugo server running)
+# First start the server: ./scripts/website-up.sh
+npm run test:e2e
+
+# Profile with Node.js built-in profiler
+node --prof node_modules/.bin/jest tests/perf/
+node --prof-process isolate-*.log > profile.txt
+```
+
+**Current Status:** Unit tests pass quickly (~20ms), but E2E tests timeout after 60s on MEDIUM/LONG samples with real ticker data. This indicates the algorithm needs optimization for production use!
+
 ### Hugo Site Development
 
 The website is built using [Hugo](https://gohugo.io/), a fast static site generator.
