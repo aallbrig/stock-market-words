@@ -25,7 +25,8 @@ npm run test:perf
 
 # Run E2E performance tests (requires Hugo server running)
 # First start the server: ./scripts/website-up.sh
-npm run test:e2e:ticker
+npm run test:e2e:ticker       # 60s timeout (local dev)
+npm run test:e2e:ci           # 10s timeout (CI-optimized)
 
 # Run page load tests (ensures all pages work without errors)
 npm run test:e2e:pages
@@ -39,6 +40,11 @@ node --prof-process isolate-*.log > profile.txt
 - ✅ Unit tests: All passing (~20ms with mock data)
 - ❌ E2E ticker tests: MEDIUM/LONG samples timeout after 60s (needs optimization!)
 - ✅ E2E page tests: **All 23 tests passing!** (jQuery errors fixed)
+
+**CI/CD Configuration:**
+- GitHub Actions uses **10-second timeout** to conserve minutes
+- Local development uses 60-second timeout
+- Configurable via `TIMEOUT_SECONDS` environment variable
 
 **Test Reports:**
 - HTML reports generated automatically in `test-reports/index.html`
