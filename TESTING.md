@@ -9,14 +9,19 @@ npm test
 # Performance tests only
 npm run test:perf
 
-# All E2E tests
+# All E2E tests (60s timeout)
 npm run test:e2e
 
 # Page load tests only
 npm run test:e2e:pages
 
-# Ticker performance tests only
-npm run test:e2e:ticker
+# Ticker performance tests
+npm run test:e2e:ticker        # 60s timeout (local)
+npm run test:e2e:ci            # 10s timeout (CI-optimized)
+
+# Custom timeout for ticker tests
+TIMEOUT_SECONDS=10 npm run test:e2e:ticker   # 10s
+TIMEOUT_SECONDS=120 npm run test:e2e:ticker  # 120s
 ```
 
 ## View Test Reports

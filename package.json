@@ -8,11 +8,10 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:perf": "jest tests/perf/",
-    "test:perf:verbose": "jest tests/perf/ --verbose",
     "test:e2e": "jest tests/puppeteer/",
-    "test:e2e:verbose": "jest tests/puppeteer/ --verbose",
     "test:e2e:pages": "jest tests/puppeteer/website-pages.e2e.test.js",
     "test:e2e:ticker": "jest tests/puppeteer/ticker-ui.e2e.test.js",
+    "test:e2e:ci": "TIMEOUT_SECONDS=10 jest tests/puppeteer/website-pages.e2e.test.js",
     "profile": "node --prof node_modules/.bin/jest tests/perf/ && echo '\nProfile generated! Process with: node --prof-process isolate-*.log > profile.txt'"
   },
   "jest": {

@@ -24,12 +24,15 @@ npm test
 # Run specific test suites
 npm run test:perf              # Unit performance tests (fast)
 npm run test:e2e               # All E2E tests (requires Hugo server)
-npm run test:e2e:pages         # Just page load tests
-npm run test:e2e:ticker        # Just ticker performance tests
+npm run test:e2e:pages         # Just page load tests (60s timeout)
+npm run test:e2e:ticker        # Just ticker performance tests (60s timeout)
 
-# Verbose output
-npm run test:perf:verbose
-npm run test:e2e:verbose
+# CI-optimized (10-second timeout to save GitHub Actions minutes)
+npm run test:e2e:ci            # Page load tests with 10s timeout
+
+# Custom timeout
+TIMEOUT_SECONDS=10 npm run test:e2e:ticker  # 10s timeout
+TIMEOUT_SECONDS=120 npm run test:e2e:ticker # 120s timeout
 ```
 
 ### E2E Test Requirements
@@ -70,7 +73,7 @@ npm run test:e2e
 - Clicking sample text buttons
 - Form submission
 - Processing time with real ticker database
-- 60-second timeout enforcement
+- **Timeout enforcement** (60s local, 10s CI - configurable via `TIMEOUT_SECONDS` env var)
 - Result rendering
 
 **Status:** ⚠️ PARTIALLY FAILING

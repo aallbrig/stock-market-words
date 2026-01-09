@@ -41,13 +41,15 @@ jobs:
       run: |
         timeout 30 bash -c 'until curl -f http://localhost:8668 > /dev/null 2>&1; do sleep 1; done'
         
-    - name: Run page load tests
-      run: npm run test:e2e:pages
+    - name: Run page load tests (10s timeout for CI efficiency)
+      run: npm run test:e2e:ci
       
-    # TODO: Uncomment when TickerEngine performance is optimized
+    # TODO: Uncomment when TickerEngine performance is optimized to complete under 10 seconds
+    # Currently takes 60+ seconds on MEDIUM/LONG samples - too slow for CI
+    # 
     # - name: Run ticker performance tests
-    #   run: npm run test:e2e:ticker
-    #   timeout-minutes: 10
+    #   run: TIMEOUT_SECONDS=10 npm run test:e2e:ticker
+    #   timeout-minutes: 5
       
     - name: Upload test reports
       if: always()

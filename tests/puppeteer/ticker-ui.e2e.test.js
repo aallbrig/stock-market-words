@@ -1,13 +1,25 @@
 /**
  * End-to-end performance test for TickerEngine UI
  * Tests the extraction tool on the main page with all three sample texts
- * Enforces a 60-second timeout for form submission to completion
+ * 
+ * TIMEOUT CONFIGURATION:
+ * - Local development: 60 seconds (default)
+ * - CI/CD: 10 seconds (set via TIMEOUT_SECONDS=10)
+ * 
+ * Usage:
+ *   npm run test:e2e:ticker          # Local: 60s timeout
+ *   TIMEOUT_SECONDS=10 npm run ...   # CI: 10s timeout
  */
 
 const puppeteer = require('puppeteer');
 
 const BASE_URL = process.env.TEST_URL || 'http://localhost:8668';
-const MAX_PROCESSING_TIME_MS = 60000; // 60 seconds
+// CI uses 10 seconds, local dev uses 60 seconds
+const MAX_PROCESSING_TIME_MS = process.env.TIMEOUT_SECONDS 
+  ? parseInt(process.env.TIMEOUT_SECONDS) * 1000 
+  : 60000;
+
+console.log(`TickerEngine E2E Tests - Max processing time: ${MAX_PROCESSING_TIME_MS / 1000}s`);
 
 describe('TickerEngine E2E Performance Tests', () => {
   let browser;
