@@ -1,42 +1,45 @@
 // Portfolio Extractor with Web Worker for non-blocking computation
+let strategyDataCache = {}; // Cache for all strategy data
 let tickerData = null;
 let tickerTrie = null;
 let worker = null;
+let currentStrategy = 'DIVIDEND_DADDY';
 
 const STRATEGIES = {
     DIVIDEND_DADDY: {
         name: '💰 Dividend Daddy',
         description: 'High yield + low volatility',
         help: 'Finds stocks with high dividend yields and low volatility (beta). Best for income-focused, conservative investors seeking steady returns.',
-        scorer: (t) => ((t.dividendYield || 0) * 100) + (t.beta ? (100 - Math.abs(t.beta) * 20) : 50)
+        dataFile: '/data/strategy_dividend_daddy.json',
+        scoreKey: 'dividendDaddy'
     },
     MOON_SHOT: {
         name: '🚀 Moon Shot',
         description: 'High beta + oversold',
         help: 'Identifies high-growth potential stocks with high beta (volatility) and oversold conditions (low RSI). For aggressive growth seekers willing to take risks.',
-        scorer: (t) => ((t.beta || 0) * 50) + (t.rsi ? (100 - t.rsi) : 0)
+        dataFile: '/data/strategy_moon_shot.json',
+        scoreKey: 'moonShot'
     },
     FALLING_KNIFE: {
         name: '🔪 Falling Knife',
         description: 'Oversold + below MA',
         help: 'Contrarian strategy finding oversold stocks trading below their 200-day moving average. "Catching a falling knife" - high risk but potential for bounce-back gains.',
-        scorer: (t) => {
-            const rsi = t.rsi ? (100 - t.rsi) : 0;
-            const ma = (t.ma200 && t.price) ? Math.max(0, ((t.ma200 - t.price) / t.price) * 100) : 0;
-            return rsi + ma;
-        }
+        dataFile: '/data/strategy_falling_knife.json',
+        scoreKey: 'fallingKnife'
     },
     OVER_HYPED: {
         name: '🎈 Over-Hyped',
         description: 'Overbought',
         help: 'Finds overbought stocks with high RSI values, suggesting momentum exhaustion. Good for short sellers or mean-reversion traders expecting pullbacks.',
-        scorer: (t) => t.rsi || 0
+        dataFile: '/data/strategy_over_hyped.json',
+        scoreKey: 'overHyped'
     },
     INSTITUTIONAL_WHALE: {
         name: '🐋 Institutional Whale',
         description: 'Large cap',
         help: 'Targets large-cap stocks likely held by institutional investors. "Follow the smart money" - more stable, liquid, and widely covered by analysts.',
-        scorer: (t) => t.marketCap ? Math.log10(t.marketCap) : 0
+        dataFile: '/data/strategy_institutional_whale.json',
+        scoreKey: 'instWhale'
     }
 };
 
@@ -69,7 +72,82 @@ function initWorker() {
     }
 }
 
-async function loadTickerData() {
+async function loadTickerData(strategy = 'DIVIDEND_DADDY') {
+    try {
+        // Return cached data if already loaded
+        if (strategyDataCache[strategy]) {
+            console.log(`Using cached data for ${strategy}`);
+            return strategyDataCache[strategy];
+        }
+        
+        currentStrategy = strategy;
+        const strategyConfig = STRATEGIES[strategy];
+        
+        // Load strategy-specific pre-filtered data
+        const response = await fetch(strategyConfig.dataFile);
+        const data = await response.json();
+        
+        const tickerData = {};
+        const symbols = [];
+        
+        // Use pre-filtered tickers from strategy JSON
+        data.tickers.forEach(t => {
+            tickerData[t.symbol] = {
+                symbol: t.symbol,
+                name: t.name,
+                exchange: t.exchange,
+                price: t.price,
+                volume: t.volume,
+                marketCap: t.marketCap,
+                dividendYield: t.dividendYield,
+                beta: t.beta,
+                rsi: t.rsi,
+                ma200: t.ma200,
+                // Use pre-calculated strategy score
+                strategyScore: t.scores ? t.scores[strategyConfig.scoreKey] : 0
+            };
+            symbols.push(t.symbol);
+        });
+        
+        const tickerTrie = buildTrie(symbols);
+        console.log(`Loaded ${symbols.length} pre-filtered tickers for ${strategy}`);
+        
+        // Cache for future use
+        strategyDataCache[strategy] = { tickerData, tickerTrie };
+        
+        return { tickerData, tickerTrie };
+    } catch (error) {
+        console.error('Failed to load strategy data:', error);
+        // Fallback to old method if strategy files don't exist
+        return await loadLegacyTickerData();
+    }
+}
+
+// Load all strategies in parallel for faster overall performance
+async function loadAllStrategyData() {
+    const strategies = Object.keys(STRATEGIES);
+    const loadPromises = strategies.map(strategy => loadTickerData(strategy));
+    
+    try {
+        const results = await Promise.all(loadPromises);
+        // Verify all results are valid
+        const allValid = results.every(result => result && result.tickerData && result.tickerTrie);
+        if (!allValid) {
+            console.error('Some strategies failed to load properly');
+            return false;
+        }
+        console.log('All strategy data loaded');
+        return true;
+    } catch (error) {
+        console.error('Failed to load all strategy data:', error);
+        // At least load one strategy
+        await loadTickerData('DIVIDEND_DADDY');
+        return false;
+    }
+}
+
+// Fallback to old method if strategy files don't exist
+async function loadLegacyTickerData() {
     try {
         const response = await fetch('/data/filtered_tickers.json');
         const data = await response.json();
@@ -81,15 +159,15 @@ async function loadTickerData() {
                     symbol: t.symbol, name: t.name, exchange: t.exchange,
                     price: t.price_data.price, volume: t.price_data.volume,
                     marketCap: t.price_data.market_cap, dividendYield: t.price_data.dividend_yield,
-                    beta: t.price_data.beta, rsi: t.price_data.rsi_14, ma200: t.price_data.ma_200
+                    beta: t.price_data.beta, rsi: t.price_data.rsi_14, ma200: t.price_data.ma_200,
+                    strategyScore: 0
                 };
                 symbols.push(t.symbol);
             }
         });
         tickerTrie = buildTrie(symbols);
-        console.log(`Loaded ${symbols.length} tickers`);
+        console.log(`Loaded ${symbols.length} tickers (legacy mode)`);
         
-        // Initialize and send data to worker
         initWorker();
         if (worker) {
             worker.postMessage({
@@ -138,16 +216,30 @@ function parseWords(text) {
     return words;
 }
 
-function findBestPortfolio(text, words, strategy) {
+function findBestPortfolio(text, words, strategy, strategyTickerData, strategyTickerTrie) {
     // Backtracking to find highest scoring set of non-overlapping tickers
-    const scorer = STRATEGIES[strategy].scorer;
+    // Fallback scoring when strategyScore is null - use strategy-specific metrics
+    const scorer = (ticker) => {
+        if (ticker.strategyScore && ticker.strategyScore > 0) {
+            return ticker.strategyScore;
+        }
+        // Fallback: use strategy-specific metrics
+        switch(strategy) {
+            case 'DIVIDEND_DADDY': return ticker.dividendYield || 0;
+            case 'MOON_SHOT': return (ticker.beta || 0) * (100 - (ticker.rsi || 50));
+            case 'FALLING_KNIFE': return (100 - (ticker.rsi || 50)) * (ticker.price < ticker.ma200 ? 2 : 1);
+            case 'OVER_HYPED': return ticker.rsi || 0;
+            case 'INSTITUTIONAL_WHALE': return ticker.marketCap || 0;
+            default: return 1; // At least give it a positive score so it's better than nothing
+        }
+    };
     
     // Memoization for performance
     const memo = new Map();
     
     function search(wordIdx, currentTickers, usedWords) {
         if (wordIdx >= words.length) {
-            return { tickers: currentTickers, score: currentTickers.reduce((s, t) => s + scorer(tickerData[t.symbol]), 0) };
+            return { tickers: currentTickers, score: currentTickers.reduce((s, t) => s + scorer(strategyTickerData[t.symbol]), 0) };
         }
         
         // Check memo
@@ -159,10 +251,10 @@ function findBestPortfolio(text, words, strategy) {
         // Option 1: Skip this word
         const skipResult = search(wordIdx + 1, currentTickers, usedWords);
         
-        // Option 2: Try to find a ticker starting at this word (limit search depth)
+        // Option 2: Try to find a ticker starting at this word
         let bestResult = skipResult;
         
-        if (!usedWords.has(wordIdx) && wordIdx < words.length - 2) { // Optimization: limit lookahead
+        if (!usedWords.has(wordIdx)) {
             // Try 1, 2, 3 consecutive words
             for (let span = 1; span <= Math.min(3, words.length - wordIdx); span++) {
                 const endWordIdx = wordIdx + span - 1;
@@ -178,7 +270,7 @@ function findBestPortfolio(text, words, strategy) {
                 if (spanUsed) continue;
                 
                 // Try to find ticker in this span
-                const ticker = findTickerInSpan(text, words, wordIdx, endWordIdx);
+                const ticker = findTickerInSpan(text, words, wordIdx, endWordIdx, strategyTickerTrie);
                 if (ticker) {
                     const newUsed = new Set(usedWords);
                     for (let i = wordIdx; i <= endWordIdx; i++) newUsed.add(i);
@@ -198,7 +290,7 @@ function findBestPortfolio(text, words, strategy) {
     return search(0, [], new Set());
 }
 
-function findTickerInSpan(text, words, startWordIdx, endWordIdx) {
+function findTickerInSpan(text, words, startWordIdx, endWordIdx, trie) {
     // Collect all characters from these words
     const chars = [];
     for (let i = startWordIdx; i <= endWordIdx; i++) {
@@ -225,7 +317,7 @@ function findTickerInSpan(text, words, startWordIdx, endWordIdx) {
         return best;
     }
     
-    return search(0, tickerTrie, []);
+    return search(0, trie, []);
 }
 
 function renderHighlighted(text, words, tickers) {
@@ -342,13 +434,30 @@ function renderPortfolios(text, words, portfolios) {
     const container = document.getElementById('portfolio-strategies');
     
     if (Object.values(portfolios).every(p => p.tickers.length === 0)) {
-        container.innerHTML = '<div class="alert alert-warning">No tickers found. Try: "I love NVIDIA and Tesla stock."</div>';
+        container.innerHTML = `
+            <div class="alert alert-warning">
+                <h5 class="alert-heading">No Tickers Found in Any Strategy</h5>
+                <p>We didn't find any stock tickers in your text that match any of our 5 investment strategies.</p>
+                <hr>
+                <div class="mb-3">
+                    <h6>Your Input Text:</h6>
+                    <div class="bg-light p-3 border rounded text-muted" style="font-family: monospace; white-space: pre-wrap;">${escapeHtml(text)}</div>
+                </div>
+                <p class="mb-0"><strong>Why?</strong> Each strategy only includes tickers that match specific criteria (e.g., high dividends, high beta, etc.). 
+                Common tickers like NVDA or TSLA might not appear in dividend-focused strategies. 
+                Try browsing the <a href="/strategy-dividend-daddy/">strategy pages</a> to see which tickers are included.</p>
+            </div>`;
         return;
     }
     
     let html = '';
     Object.entries(portfolios).forEach(([strategyKey, portfolio]) => {
         const strategy = STRATEGIES[strategyKey];
+        const strategyData = strategyDataCache[strategyKey];
+        if (!strategyData) return;
+        
+        const { tickerData } = strategyData;
+        
         html += `
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
@@ -362,7 +471,24 @@ function renderPortfolios(text, words, portfolios) {
         `;
         
         if (portfolio.tickers.length === 0) {
-            html += '<p class="text-muted">No tickers scored for this strategy.</p>';
+            // Show the input text in muted color with helpful message
+            const strategyUrl = `/strategy-${strategyKey.toLowerCase().replace(/_/g, '-')}/`;
+            html += '<div class="alert alert-info">';
+            html += '<h6 class="alert-heading">No Tickers Found</h6>';
+            html += '<p>We didn\'t find any stock tickers in your text that match this strategy\'s criteria.</p>';
+            html += '</div>';
+            
+            html += '<div class="mb-3">';
+            html += '<h6>Your Input Text:</h6>';
+            html += '<div class="bg-light p-3 border rounded text-muted" style="font-family: monospace; white-space: pre-wrap;">';
+            html += escapeHtml(text);
+            html += '</div>';
+            html += '</div>';
+            
+            html += '<p class="mb-0"><small>';
+            html += `<strong>Why?</strong> This strategy only includes tickers that match specific criteria. `;
+            html += `<a href="${strategyUrl}" target="_blank">View all ${Object.keys(strategyData.tickerData).length} tickers in this strategy →</a>`;
+            html += '</small></p>';
         } else {
             // 1. Show highlighted text FIRST
             html += '<div class="mb-4">';
@@ -487,22 +613,13 @@ function openPortfolioVisualizer(symbolsStr) {
 async function handleFormSubmit(e) {
     e.preventDefault();
     
-    if (!tickerData) {
-        alert('Loading ticker data...');
-        const loaded = await loadTickerData();
-        if (!loaded) {
-            alert('Failed to load data. Please try again.');
-            return;
-        }
-    }
-    
     const text = document.getElementById('user-input').value;
     if (!text.trim()) {
         alert('Please enter some text.');
         return;
     }
     
-    // Show loading indicator
+    // Show loading indicator immediately
     const loadingIndicator = document.getElementById('loading-indicator');
     const resultCard = document.getElementById('result-card');
     const submitButton = e.target.querySelector('button[type="submit"]');
@@ -512,43 +629,71 @@ async function handleFormSubmit(e) {
     resultCard.style.display = 'none';
     submitButton.disabled = true;
     
-    // Start timer
+    // Ensure all strategy data is loaded
+    if (Object.keys(strategyDataCache).length === 0) {
+        console.log('Loading strategy data for first time...');
+        try {
+            const loaded = await loadAllStrategyData();
+            console.log('loadAllStrategyData returned:', loaded, 'type:', typeof loaded);
+            if (!loaded) {
+                loadingIndicator.style.display = 'none';
+                submitButton.disabled = false;
+                console.error('Failed to load strategy data');
+                // Show error in the result card instead of alert
+                resultCard.style.display = 'block';
+                document.getElementById('portfolio-strategies').innerHTML = 
+                    '<div class="alert alert-danger">Failed to load ticker data. Please refresh the page and try again.</div>';
+                return;
+            }
+            console.log('Data loaded successfully, continuing...');
+        } catch (error) {
+            console.error('Error loading data:', error);
+            loadingIndicator.style.display = 'none';
+            submitButton.disabled = false;
+            // Show error in the result card instead of alert
+            resultCard.style.display = 'block';
+            document.getElementById('portfolio-strategies').innerHTML = 
+                `<div class="alert alert-danger">Error loading data: ${error.message}<br>Please check console for details.</div>`;
+            return;
+        }
+    }
+    
+    // Start timer AFTER data is loaded
     let startTime = Date.now();
-    let timerInterval = setInterval(() => {
+    window.computeTimerInterval = setInterval(() => {
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        timerDisplay.textContent = elapsed;
+        if (timerDisplay) {
+            timerDisplay.textContent = elapsed;
+        }
     }, 100); // Update every 100ms for smooth counting
     
     const words = parseWords(text);
     
-    // Try to use Web Worker if available
-    if (worker) {
-        worker.postMessage({
-            type: 'COMPUTE',
-            data: { text, words }
-        });
-        
-        // Store timer interval globally so worker result handler can clear it
-        window.computeTimerInterval = timerInterval;
-    } else {
-        // Fallback to main thread with setTimeout
-        setTimeout(() => {
-            try {
-                const portfolios = {};
-                for (const key of Object.keys(STRATEGIES)) {
-                    portfolios[key] = findBestPortfolio(text, words, key);
+    // Run all strategies with their specific cached data
+    setTimeout(() => {
+        try {
+            const portfolios = {};
+            for (const key of Object.keys(STRATEGIES)) {
+                const cached = strategyDataCache[key];
+                const { tickerData: strategyTickerData, tickerTrie: strategyTickerTrie } = cached || {};
+                if (strategyTickerData && strategyTickerTrie) {
+                    portfolios[key] = findBestPortfolio(text, words, key, strategyTickerData, strategyTickerTrie);
                 }
-                clearInterval(timerInterval);
-                handleWorkerResult({ portfolios, text, words });
-            } catch (error) {
-                console.error('Error processing text:', error);
-                alert('An error occurred while processing your text. Please try again.');
-                clearInterval(timerInterval);
-                loadingIndicator.style.display = 'none';
-                submitButton.disabled = false;
             }
-        }, 100);
-    }
+            clearInterval(window.computeTimerInterval);
+            handleWorkerResult({ portfolios, text, words });
+        } catch (error) {
+            console.error('Error processing text:', error);
+            console.error('Error stack:', error.stack);
+            clearInterval(window.computeTimerInterval);
+            loadingIndicator.style.display = 'none';
+            submitButton.disabled = false;
+            // Show error in result card instead of alert
+            resultCard.style.display = 'block';
+            document.getElementById('portfolio-strategies').innerHTML = 
+                `<div class="alert alert-danger"><strong>Error processing text:</strong> ${error.message}</div>`;
+        }
+    }, 10); // Small delay to allow UI to update
 }
 
 function handleWorkerResult(data) {
@@ -576,5 +721,6 @@ function handleWorkerResult(data) {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ticker-form').addEventListener('submit', handleFormSubmit);
-    loadTickerData();
+    // Don't load data immediately - let it load on first submit for faster page load
+    console.log('Ticker extraction tool ready. Data will load on first submit.');
 });
