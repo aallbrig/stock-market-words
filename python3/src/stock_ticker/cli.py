@@ -18,6 +18,7 @@ from .builders import build_assets
 from .hugo_generators import (
     generate_raw_ftp_data, 
     generate_filtered_data, 
+    generate_strategy_filters,
     generate_hugo_pages,
     generate_all_hugo_content
 )
@@ -507,6 +508,13 @@ def hugo_raw_ftp(ctx):
 def hugo_filtered(ctx):
     """Generate filtered ticker data (after Pass 1) for Hugo site."""
     generate_filtered_data(dry_run=ctx.obj.dry_run)
+
+
+@hugo.command('strategies')
+@click.pass_context
+def hugo_strategies(ctx):
+    """Generate strategy filter data for Hugo site."""
+    generate_strategy_filters(dry_run=ctx.obj.dry_run)
 
 
 @hugo.command('pages')

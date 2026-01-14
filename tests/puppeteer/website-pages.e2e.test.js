@@ -12,7 +12,12 @@ const PAGES = [
   { path: '/', name: 'Home' },
   { path: '/about/', name: 'About' },
   { path: '/raw-ftp-data/', name: 'Raw FTP Data' },
-  { path: '/filtered-data/', name: 'Filtered Data' }
+  { path: '/filtered-data/', name: 'Filtered Data' },
+  { path: '/strategy-dividend-daddy/', name: 'Strategy: Dividend Daddy' },
+  { path: '/strategy-moon-shot/', name: 'Strategy: Moon Shot' },
+  { path: '/strategy-falling-knife/', name: 'Strategy: Falling Knife' },
+  { path: '/strategy-over-hyped/', name: 'Strategy: Over Hyped' },
+  { path: '/strategy-institutional-whale/', name: 'Strategy: Institutional Whale' }
 ];
 
 describe('Website Page Load Tests', () => {
@@ -93,7 +98,7 @@ describe('Website Page Load Tests', () => {
         // Filter out expected/benign errors
         const filteredConsoleErrors = consoleErrors.filter(err => {
           // DataTable errors are expected on data pages when there's no data to display
-          if ((name === 'Raw FTP Data' || name === 'Filtered Data') && 
+          if ((name === 'Raw FTP Data' || name === 'Filtered Data' || name.startsWith('Strategy:')) && 
               err.includes('DataTable')) {
             return false;
           }
@@ -106,7 +111,7 @@ describe('Website Page Load Tests', () => {
         
         const filteredPageErrors = pageErrors.filter(err => {
           // DataTable errors are expected on data pages when there's no data to display
-          if ((name === 'Raw FTP Data' || name === 'Filtered Data') && 
+          if ((name === 'Raw FTP Data' || name === 'Filtered Data' || name.startsWith('Strategy:')) && 
               err.includes('DataTable')) {
             return false;
           }

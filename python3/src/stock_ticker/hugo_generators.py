@@ -286,6 +286,7 @@ def generate_hugo_pages(dry_run=False):
     Creates:
     - raw-ftp-data.md: Page to display raw FTP data
     - filtered-data.md: Page to display filtered ticker data
+    - strategy-*.md: Pages for each investment strategy
     """
     if dry_run:
         logger.info("DRY RUN: Would generate Hugo markdown pages")
@@ -350,7 +351,232 @@ After filtering, price/volume data is extracted from Yahoo Finance for all remai
         f.write(filtered_page)
     logger.info(f"✓ Written: {output_path}")
     
+    # Strategy Pages
+    strategies = {
+        'dividend_daddy': {
+            'title': '💰 Dividend Daddy Strategy',
+            'description': 'Stocks that pay dividends',
+            'filter': 'Dividend Yield > 0%'
+        },
+        'moon_shot': {
+            'title': '🚀 Moon Shot Strategy',
+            'description': 'High volatility growth stocks',
+            'filter': 'Beta > 1.5 AND RSI < 70'
+        },
+        'falling_knife': {
+            'title': '🔪 Falling Knife Strategy',
+            'description': 'Oversold stocks below moving average',
+            'filter': 'RSI < 30 AND Price < 200-day MA'
+        },
+        'over_hyped': {
+            'title': '📈 Over Hyped Strategy',
+            'description': 'Overbought stocks',
+            'filter': 'RSI > 70'
+        },
+        'institutional_whale': {
+            'title': '🐋 Institutional Whale Strategy',
+            'description': 'Large cap stocks',
+            'filter': 'Market Cap > $10 Billion'
+        }
+    }
+    
+    for strategy_key, strategy_info in strategies.items():
+        # Convert underscores to hyphens for URL-friendly slugs
+        url_slug = strategy_key.replace('_', '-')
+        
+        strategy_page = f"""---
+title: "{strategy_info['title']}"
+description: "{strategy_info['description']}"
+date: {datetime.now().isoformat()}
+type: "page"
+layout: "strategy-filter"
+strategy_key: "{strategy_key}"
+---
+
+## What is this strategy?
+
+{strategy_info['description']}
+
+## Filter Criteria
+
+**{strategy_info['filter']}**
+
+This page shows all stocks that currently match this strategy's criteria. The data is updated daily based on the latest market data from Yahoo Finance.
+
+## How to use this data
+
+1. Browse the table below to see matching stocks
+2. Sort by any column to find top candidates
+3. Check the strategy score (higher is better for this strategy)
+4. Review the metrics to understand why each stock qualifies
+
+"""
+        
+        output_path = HUGO_CONTENT_DIR / f"strategy-{url_slug}.md"
+        with open(output_path, 'w') as f:
+            f.write(strategy_page)
+        logger.info(f"✓ Written: {output_path}")
+    
     logger.info("✓ Hugo page generation complete")
+
+
+def generate_strategy_filters(dry_run=False):
+    """
+    Generate JSON files for each strategy showing which tickers match the filter criteria.
+    
+    Strategy filters:
+    - Dividend Daddy: Must have dividend_yield > 0 (pays dividends)
+    - Moon Shot: High beta (beta > 1.5) and not overbought (rsi < 70)
+    - Falling Knife: Oversold (rsi < 30) and below 200-day MA
+    - Over Hyped: Overbought (rsi > 70)
+    - Institutional Whale: Large cap (market_cap > 10 billion)
+    """
+    if dry_run:
+        logger.info("DRY RUN: Would generate strategy filter data")
+        logger.info(f"DRY RUN: Output to {HUGO_DATA_DIR}")
+        return
+    
+    logger.info("=== Generating Strategy Filter Data ===")
+    ensure_hugo_dirs()
+    
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # Get the most recent date with data
+    cursor.execute("SELECT MAX(date) FROM daily_metrics WHERE market_cap IS NOT NULL")
+    result = cursor.fetchone()
+    if not result or not result[0]:
+        logger.warning("No data found in daily_metrics. Run 'ticker-cli run-all' first.")
+        conn.close()
+        return
+    
+    latest_date = result[0]
+    logger.info(f"Using latest data from: {latest_date}")
+    
+    # Define strategy filters with SQL conditions
+    strategies = {
+        'dividend_daddy': {
+            'name': 'Dividend Daddy',
+            'description': 'Stocks that pay dividends (dividend yield > 0%)',
+            'icon': '💰',
+            'sql_filter': 'dividend_yield > 0',
+            'order_by': 'dividend_yield DESC'
+        },
+        'moon_shot': {
+            'name': 'Moon Shot',
+            'description': 'High volatility growth stocks (beta > 1.5, RSI < 70)',
+            'icon': '🚀',
+            'sql_filter': 'beta > 1.5 AND rsi_14 < 70',
+            'order_by': 'beta DESC'
+        },
+        'falling_knife': {
+            'name': 'Falling Knife',
+            'description': 'Oversold stocks below 200-day moving average (RSI < 30, price < MA200)',
+            'icon': '🔪',
+            'sql_filter': 'rsi_14 < 30 AND ma_200 IS NOT NULL AND price < ma_200',
+            'order_by': 'rsi_14 ASC'
+        },
+        'over_hyped': {
+            'name': 'Over Hyped',
+            'description': 'Overbought stocks (RSI > 70)',
+            'icon': '📈',
+            'sql_filter': 'rsi_14 > 70',
+            'order_by': 'rsi_14 DESC'
+        },
+        'institutional_whale': {
+            'name': 'Institutional Whale',
+            'description': 'Large cap stocks (market cap > $10 billion)',
+            'icon': '🐋',
+            'sql_filter': 'market_cap > 10000000000',
+            'order_by': 'market_cap DESC'
+        }
+    }
+    
+    # Generate data for each strategy
+    for strategy_key, strategy_info in strategies.items():
+        logger.info(f"Processing {strategy_info['name']}...")
+        
+        query = f"""
+            SELECT 
+                t.symbol,
+                t.name,
+                t.exchange,
+                dm.price,
+                dm.volume,
+                dm.market_cap,
+                dm.dividend_yield,
+                dm.beta,
+                dm.rsi_14,
+                dm.ma_200,
+                ss.dividend_daddy_score,
+                ss.moon_shot_score,
+                ss.falling_knife_score,
+                ss.over_hyped_score,
+                ss.inst_whale_score
+            FROM tickers t
+            JOIN daily_metrics dm ON t.symbol = dm.symbol
+            LEFT JOIN strategy_scores ss ON t.symbol = ss.symbol AND ss.date = dm.date
+            WHERE dm.date = ?
+            AND dm.price >= 5.0
+            AND dm.volume >= 100000
+            AND {strategy_info['sql_filter']}
+            ORDER BY {strategy_info['order_by']}
+        """
+        
+        cursor.execute(query, (latest_date,))
+        rows = cursor.fetchall()
+        
+        # Build ticker list
+        tickers = []
+        for row in rows:
+            ticker_data = {
+                'symbol': row[0],
+                'name': row[1],
+                'exchange': row[2],
+                'price': round(float(row[3]), 2),
+                'volume': int(row[4]),
+                'marketCap': int(row[5]) if row[5] else None,
+                'dividendYield': round(float(row[6] * 100), 2) if row[6] else None,
+                'beta': round(float(row[7]), 2) if row[7] else None,
+                'rsi': round(float(row[8]), 1) if row[8] else None,
+                'ma200': round(float(row[9]), 2) if row[9] else None,
+                'scores': {
+                    'dividendDaddy': int(row[10]) if row[10] else None,
+                    'moonShot': int(row[11]) if row[11] else None,
+                    'fallingKnife': int(row[12]) if row[12] else None,
+                    'overHyped': int(row[13]) if row[13] else None,
+                    'instWhale': int(row[14]) if row[14] else None
+                }
+            }
+            tickers.append(ticker_data)
+        
+        # Build output data structure
+        strategy_data = {
+            'strategy': strategy_info['name'],
+            'strategy_key': strategy_key,
+            'description': strategy_info['description'],
+            'icon': strategy_info['icon'],
+            'generated_at': datetime.now().isoformat(),
+            'date': latest_date,
+            'total_matches': len(tickers),
+            'filter_criteria': strategy_info['sql_filter'],
+            'tickers': tickers
+        }
+        
+        # Write to Hugo data directory (for templates)
+        output_path = HUGO_DATA_DIR / f"strategy_{strategy_key}.json"
+        with open(output_path, 'w') as f:
+            json.dump(strategy_data, f, indent=2)
+        
+        # Also write to static directory (for JavaScript)
+        static_path = HUGO_STATIC_DATA_DIR / f"strategy_{strategy_key}.json"
+        with open(static_path, 'w') as f:
+            json.dump(strategy_data, f, indent=2)
+        
+        logger.info(f"✓ {strategy_info['name']}: {len(tickers)} tickers match")
+    
+    conn.close()
+    logger.info("✓ Strategy filter data generation complete")
 
 
 def generate_all_hugo_content(dry_run=False):
@@ -359,6 +585,7 @@ def generate_all_hugo_content(dry_run=False):
         logger.info("DRY RUN: Would generate all Hugo content")
         logger.info("DRY RUN: - Raw FTP data")
         logger.info("DRY RUN: - Filtered ticker data")
+        logger.info("DRY RUN: - Strategy filter data")
         logger.info("DRY RUN: - Hugo markdown pages")
         return
     
@@ -377,8 +604,13 @@ def generate_all_hugo_content(dry_run=False):
     generate_filtered_data(dry_run=False)
     logger.info("")
     
+    # Generate strategy filters
+    logger.info("Step 3: Generating strategy filter data...")
+    generate_strategy_filters(dry_run=False)
+    logger.info("")
+    
     # Generate Hugo pages
-    logger.info("Step 3: Generating Hugo markdown pages...")
+    logger.info("Step 4: Generating Hugo markdown pages...")
     generate_hugo_pages(dry_run=False)
     logger.info("")
     

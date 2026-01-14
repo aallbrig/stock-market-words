@@ -29,6 +29,26 @@ jobs:
       with:
         hugo-version: '0.123.7'
         extended: true
+    
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+        cache-dependency-path: python3/requirements.txt
+    
+    - name: Install Python dependencies
+      run: |
+        cd python3
+        pip install -r requirements.txt
+    
+    - name: Generate Hugo data files
+      run: |
+        cd python3
+        # Generate strategy filter data and pages
+        python -m stock_ticker.cli hugo strategies || echo "No existing data, skipping strategy generation"
+        python -m stock_ticker.cli hugo pages || echo "Page generation failed, using existing pages"
+        cd ..
         
     - name: Start Hugo server
       run: |
