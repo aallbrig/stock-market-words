@@ -1,7 +1,7 @@
 ---
 title: "Raw FTP Data"
 description: "Raw ticker data from NASDAQ FTP before any filtering"
-date: 2026-01-02T22:11:02.148530
+date: 2026-01-13T20:36:06.449423
 type: "page"
 layout: "raw-data"
 ---

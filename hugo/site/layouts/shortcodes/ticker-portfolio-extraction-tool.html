@@ -3,6 +3,11 @@
   <link href="{{ .Page.Site.BaseURL }}css/ticker-highlight.css" rel="stylesheet">
 {{ end }}
 
+{{ if not (.Page.Scratch.Get "ticker-portfolio-extraction-tool-js-loaded") }}
+  {{ .Page.Scratch.Set "ticker-portfolio-extraction-tool-js-loaded" true }}
+  <script src="{{ .Page.Site.BaseURL }}js/portfolio-extractor.js"></script>
+{{ end }}
+
 <div class="row justify-content-center">
   <div class="col-md-8">
     <div class="card">
@@ -55,8 +60,3 @@
     </div>
   </div>
 </div>
-
-{{ if not (.Page.Scratch.Get "ticker-portfolio-extraction-tool-js-loaded") }}
-  {{ .Page.Scratch.Set "ticker-portfolio-extraction-tool-js-loaded" true }}
-  <script src="{{ .Page.Site.BaseURL }}js/portfolio-extractor.js"></script>
-{{ end }}

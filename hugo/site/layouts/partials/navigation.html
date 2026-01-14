@@ -14,8 +14,24 @@
             Data
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDataDropdown">
+            <li><a class="dropdown-item" href="{{ "/data/" | relURL }}">📊 Data Overview</a></li>
+            <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ "/raw-ftp-data/" | relURL }}">📥 Raw FTP Data</a></li>
             <li><a class="dropdown-item" href="{{ "/filtered-data/" | relURL }}">✅ Filtered Tickers</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarStrategyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Strategies
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarStrategyDropdown">
+            <li><a class="dropdown-item" href="{{ "/strategies/" | relURL }}">📈 Strategy Overview</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ "/strategy-dividend-daddy/" | relURL }}">💰 Dividend Daddy</a></li>
+            <li><a class="dropdown-item" href="{{ "/strategy-moon-shot/" | relURL }}">🚀 Moon Shot</a></li>
+            <li><a class="dropdown-item" href="{{ "/strategy-falling-knife/" | relURL }}">🔪 Falling Knife</a></li>
+            <li><a class="dropdown-item" href="{{ "/strategy-over-hyped/" | relURL }}">📈 Over Hyped</a></li>
+            <li><a class="dropdown-item" href="{{ "/strategy-institutional-whale/" | relURL }}">🐋 Institutional Whale</a></li>
           </ul>
         </li>
         <li class="nav-item">

@@ -1,0 +1,239 @@
+{{ define "main" }}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <h1>{{ .Title }}</h1>
+      {{ .Content }}
+      
+      {{ $strategyKey := .Params.strategy_key }}
+      {{ $strategyData := index .Site.Data (printf "strategy_%s" $strategyKey) }}
+      
+      {{ if $strategyData }}
+      
+      <!-- Strategy Summary Card -->
+      <div class="card mb-4 border-primary">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">{{ $strategyData.icon }} {{ $strategyData.strategy }} Summary</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Description</h5>
+              <p class="lead">{{ $strategyData.description }}</p>
+            </div>
+            <div class="col-md-6">
+              <h5>Filter Criteria</h5>
+              <code>{{ $strategyData.filter_criteria }}</code>
+              <hr>
+              <h3 class="text-center mt-3">
+                <span class="badge bg-success">{{ $strategyData.total_matches }} Matching Stocks</span>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-muted">
+          <small>Data generated: {{ $strategyData.generated_at }}</small>
+        </div>
+      </div>
+      
+      <!-- Matching Stocks Table -->
+      <div class="mb-5">
+        <h2>Matching Stocks</h2>
+        <p class="text-muted">Stocks that meet the {{ $strategyData.strategy }} criteria. Click column headers to sort.</p>
+        
+        {{ if gt $strategyData.total_matches 0 }}
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-sm" id="strategyTable">
+            <thead class="table-dark">
+              <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Exchange</th>
+                <th>Price</th>
+                <th>Volume</th>
+                <th>Market Cap</th>
+                <th>Div Yield %</th>
+                <th>Beta</th>
+                <th>RSI</th>
+                <th>MA200</th>
+                <th>Strategy Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ range $strategyData.tickers }}
+              <tr>
+                <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank">{{ .symbol }}</a></strong></td>
+                <td>{{ .name }}</td>
+                <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
+                <td>${{ printf "%.2f" .price }}</td>
+                <td>{{ .volume | lang.FormatNumber 0 }}</td>
+                <td>
+                  {{ if .marketCap }}
+                    ${{ .marketCap | lang.FormatNumber 0 }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td>
+                  {{ if .dividendYield }}
+                    {{ printf "%.2f%%" .dividendYield }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td>
+                  {{ if .beta }}
+                    {{ printf "%.2f" .beta }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td>
+                  {{ if .rsi }}
+                    {{ $rsi := .rsi }}
+                    {{ if lt $rsi 30.0 }}
+                      <span class="badge bg-success">{{ printf "%.1f" $rsi }}</span>
+                    {{ else if gt $rsi 70.0 }}
+                      <span class="badge bg-danger">{{ printf "%.1f" $rsi }}</span>
+                    {{ else }}
+                      <span class="badge bg-secondary">{{ printf "%.1f" $rsi }}</span>
+                    {{ end }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td>
+                  {{ if .ma200 }}
+                    ${{ printf "%.2f" .ma200 }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td>
+                  {{ if .scores }}
+                    {{ $score := 0 }}
+                    {{ if eq $strategyKey "dividend_daddy" }}
+                      {{ $score = .scores.dividendDaddy }}
+                    {{ else if eq $strategyKey "moon_shot" }}
+                      {{ $score = .scores.moonShot }}
+                    {{ else if eq $strategyKey "falling_knife" }}
+                      {{ $score = .scores.fallingKnife }}
+                    {{ else if eq $strategyKey "over_hyped" }}
+                      {{ $score = .scores.overHyped }}
+                    {{ else if eq $strategyKey "institutional_whale" }}
+                      {{ $score = .scores.instWhale }}
+                    {{ end }}
+                    
+                    {{ if $score }}
+                      {{ if ge $score 80 }}
+                        <span class="badge bg-success fs-6">{{ $score }}</span>
+                      {{ else if ge $score 60 }}
+                        <span class="badge bg-info fs-6">{{ $score }}</span>
+                      {{ else if ge $score 40 }}
+                        <span class="badge bg-warning fs-6">{{ $score }}</span>
+                      {{ else }}
+                        <span class="badge bg-secondary fs-6">{{ $score }}</span>
+                      {{ end }}
+                    {{ else }}
+                      <span class="text-muted">N/A</span>
+                    {{ end }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+              </tr>
+              {{ end }}
+            </tbody>
+          </table>
+        </div>
+        {{ else }}
+        <div class="alert alert-info" role="alert">
+          <h4 class="alert-heading">No Matching Stocks</h4>
+          <p>No stocks currently match the {{ $strategyData.strategy }} criteria. This could mean:</p>
+          <ul>
+            <li>Market conditions don't favor this strategy right now</li>
+            <li>The filtering criteria are very strict</li>
+            <li>Data hasn't been collected yet (run <code>ticker-cli run-all</code>)</li>
+          </ul>
+        </div>
+        {{ end }}
+      </div>
+      
+      <!-- Strategy Navigation -->
+      <div class="card mb-5">
+        <div class="card-header">
+          <h5 class="mb-0">Explore Other Strategies</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <a href="/strategy-dividend-daddy/" class="btn btn-outline-primary w-100">
+                💰 Dividend Daddy
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/strategy-moon-shot/" class="btn btn-outline-primary w-100">
+                🚀 Moon Shot
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/strategy-falling-knife/" class="btn btn-outline-primary w-100">
+                🔪 Falling Knife
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/strategy-over-hyped/" class="btn btn-outline-primary w-100">
+                📈 Over Hyped
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/strategy-institutional-whale/" class="btn btn-outline-primary w-100">
+                🐋 Institutional Whale
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/filtered-data/" class="btn btn-outline-secondary w-100">
+                📊 All Filtered Data
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {{ else }}
+      
+      <!-- No Data Alert -->
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">No Data Available</h4>
+        <p>Strategy filter data has not been generated yet. Run the following commands:</p>
+        <pre><code>ticker-cli run-all
+ticker-cli hugo strategies
+ticker-cli hugo pages</code></pre>
+      </div>
+      
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+<!-- DataTables for sorting and filtering -->
+{{ if gt $strategyData.total_matches 0 }}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script>
+$(document).ready(function() {
+  if ($('#strategyTable').length) {
+    $('#strategyTable').DataTable({
+      pageLength: 25,
+      order: [[10, 'desc']], // Sort by strategy score descending
+      columnDefs: [
+        { targets: [3, 4, 5, 6, 7, 8, 9, 10], type: 'num' }
+      ]
+    });
+  }
+});
+</script>
+{{ end }}
+{{ end }}
