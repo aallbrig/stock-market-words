@@ -79,12 +79,6 @@ jobs:
         path: test-reports/
         retention-days: 30
         
-    - name: Upload HTML report as Pages artifact
-      if: always()
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: test-reports/
-        
     - name: Stop Hugo server
       if: always()
       run: |
@@ -102,23 +96,3 @@ jobs:
           echo "Test reports have been uploaded as artifacts." >> $GITHUB_STEP_SUMMARY
           echo "View the detailed HTML report in the artifacts section." >> $GITHUB_STEP_SUMMARY
         fi
-
-  # Deploy test reports to GitHub Pages (optional)
-  deploy-reports:
-    needs: e2e-tests
-    if: github.ref == 'refs/heads/main' && always()
-    
-    permissions:
-      pages: write
-      id-token: write
-      
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-      
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
