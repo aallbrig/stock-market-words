@@ -5,40 +5,43 @@ let tickerTrie = null;
 let worker = null;
 let currentStrategy = 'DIVIDEND_DADDY';
 
+// Get base URL from global variable or default to root
+const BASE_URL = (window.SITE_BASE_URL || '/').replace(/\/$/, '');
+
 const STRATEGIES = {
     DIVIDEND_DADDY: {
         name: '💰 Dividend Daddy',
         description: 'High yield + low volatility',
         help: 'Finds stocks with high dividend yields and low volatility (beta). Best for income-focused, conservative investors seeking steady returns.',
-        dataFile: '/data/strategy_dividend_daddy.json',
+        dataFile: 'data/strategy_dividend_daddy.json',
         scoreKey: 'dividendDaddy'
     },
     MOON_SHOT: {
         name: '🚀 Moon Shot',
         description: 'High beta + oversold',
         help: 'Identifies high-growth potential stocks with high beta (volatility) and oversold conditions (low RSI). For aggressive growth seekers willing to take risks.',
-        dataFile: '/data/strategy_moon_shot.json',
+        dataFile: 'data/strategy_moon_shot.json',
         scoreKey: 'moonShot'
     },
     FALLING_KNIFE: {
         name: '🔪 Falling Knife',
         description: 'Oversold + below MA',
         help: 'Contrarian strategy finding oversold stocks trading below their 200-day moving average. "Catching a falling knife" - high risk but potential for bounce-back gains.',
-        dataFile: '/data/strategy_falling_knife.json',
+        dataFile: 'data/strategy_falling_knife.json',
         scoreKey: 'fallingKnife'
     },
     OVER_HYPED: {
         name: '🎈 Over-Hyped',
         description: 'Overbought',
         help: 'Finds overbought stocks with high RSI values, suggesting momentum exhaustion. Good for short sellers or mean-reversion traders expecting pullbacks.',
-        dataFile: '/data/strategy_over_hyped.json',
+        dataFile: 'data/strategy_over_hyped.json',
         scoreKey: 'overHyped'
     },
     INSTITUTIONAL_WHALE: {
         name: '🐋 Institutional Whale',
         description: 'Large cap',
         help: 'Targets large-cap stocks likely held by institutional investors. "Follow the smart money" - more stable, liquid, and widely covered by analysts.',
-        dataFile: '/data/strategy_institutional_whale.json',
+        dataFile: 'data/strategy_institutional_whale.json',
         scoreKey: 'instWhale'
     }
 };
@@ -46,7 +49,7 @@ const STRATEGIES = {
 // Initialize Web Worker
 function initWorker() {
     if (!worker && typeof Worker !== 'undefined') {
-        worker = new Worker('/js/portfolio-worker.js');
+        worker = new Worker(`${BASE_URL}/js/portfolio-worker.js`.replace(/([^:])\/\//g, '$1/'));
 
         worker.onmessage = function(e) {
             const { type, data, error } = e.data;
@@ -84,7 +87,7 @@ async function loadTickerData(strategy = 'DIVIDEND_DADDY') {
         const strategyConfig = STRATEGIES[strategy];
 
         // Load strategy-specific pre-filtered data
-        const response = await fetch(strategyConfig.dataFile);
+        const response = await fetch(`${BASE_URL}/${strategyConfig.dataFile}`.replace(/([^:])\/\//g, '$1/'));
         const data = await response.json();
 
         const tickerData = {};
@@ -149,7 +152,7 @@ async function loadAllStrategyData() {
 // Fallback to old method if strategy files don't exist
 async function loadLegacyTickerData() {
     try {
-        const response = await fetch('/data/filtered_tickers.json');
+        const response = await fetch(`${BASE_URL}/data/filtered_tickers.json`.replace(/([^:])\/\//g, '$1/'));
         const data = await response.json();
         tickerData = {};
         const symbols = [];
