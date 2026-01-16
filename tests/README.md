@@ -6,6 +6,7 @@ This directory contains all automated tests for the Stock Market Words project.
 
 ```
 tests/
+├── test-server.js                 # Test server management utility
 ├── perf/                          # Unit performance tests
 │   └── TickerEngine.perf.test.js  # Algorithm performance tests
 └── puppeteer/                     # E2E browser tests
@@ -23,28 +24,80 @@ npm test
 
 # Run specific test suites
 npm run test:perf              # Unit performance tests (fast)
-npm run test:e2e               # All E2E tests (requires Hugo server)
-npm run test:e2e:pages         # Just page load tests (60s timeout)
-npm run test:e2e:ticker        # Just ticker performance tests (60s timeout)
+npm run test:e2e               # All E2E tests (auto-manages server)
+npm run test:e2e:pages         # Just page load tests
+npm run test:e2e:ticker        # Just ticker performance tests
 
-# CI-optimized (10-second timeout to save GitHub Actions minutes)
+# CI-optimized (10-second timeout)
 npm run test:e2e:ci            # Page load tests with 10s timeout
+
+# Test against deployed QA site
+npm run test:e2e:qa            # Tests against GitHub Pages
 
 # Custom timeout
 TIMEOUT_SECONDS=10 npm run test:e2e:ticker  # 10s timeout
 TIMEOUT_SECONDS=120 npm run test:e2e:ticker # 120s timeout
+
+# Test against custom URL
+TEST_URL=https://example.com START_SERVER=false npm run test:e2e
 ```
 
-### E2E Test Requirements
+## Test Server Management
 
-E2E tests require the Hugo development server to be running:
+The test suite now includes automatic server management via `test-server.js`.
 
+### Environment Variables
+
+- **TEST_URL**: Override base URL (e.g., `https://aallbrig.github.io/stock-market-words/`)
+  - When set, tests use this URL instead of starting a local server
+- **START_SERVER**: Set to `'false'` to skip server startup (default: `'true'`)
+- **SERVER_PORT**: Port for local server (default: `8668`)
+- **SERVER_HOST**: Host for local server (default: `127.0.0.1`)
+- **TIMEOUT_SECONDS**: Max processing time in seconds (default: `60`)
+
+### How It Works
+
+1. **Local Testing (default)**: Tests automatically start/stop Hugo server
+2. **Remote Testing**: Set `TEST_URL` to test against deployed site
+3. **Manual Server**: Set `START_SERVER=false` if you're running Hugo manually
+
+### Examples
+
+```bash
+# Auto-managed local server (default)
+npm run test:e2e
+
+# Test against QA deployment
+TEST_URL=https://aallbrig.github.io/stock-market-words/ START_SERVER=false npm run test:e2e
+
+# Test with manual server (you start Hugo yourself)
+START_SERVER=false npm run test:e2e
+
+# Custom port
+SERVER_PORT=8080 npm run test:e2e
+```
+
+## E2E Test Requirements
+
+### Option 1: Auto-Managed Server (Recommended)
+Just run tests - server starts/stops automatically:
+```bash
+npm run test:e2e
+```
+
+### Option 2: Manual Server
 ```bash
 # Terminal 1: Start Hugo server
 ./scripts/website-up.sh
 
-# Terminal 2: Run E2E tests
-npm run test:e2e
+# Terminal 2: Run tests
+START_SERVER=false npm run test:e2e
+```
+
+### Option 3: Test Remote Site
+```bash
+# Test against deployed site
+npm run test:e2e:qa
 ```
 
 ## Test Suites Explained
@@ -148,39 +201,37 @@ npm run test:e2e
 
 ### During Development
 
-1. Make changes to TickerEngine.js
-2. Run unit tests for quick feedback: `npm run test:perf`
-3. If passing, run E2E tests: `npm run test:e2e:ticker`
-4. Iterate until E2E tests pass
+1. Make changes to code
+2. Run tests: `npm run test:e2e` (server auto-managed)
+3. Iterate until tests pass
 
 ### Before Committing
 
 ```bash
-# Start Hugo server
-./scripts/website-up.sh
-
-# Run all tests
+# Run all tests (server auto-managed)
 npm run test:perf && npm run test:e2e
 ```
 
 ### CI/CD Integration
 
-These tests can be integrated into GitHub Actions or other CI/CD pipelines:
+Tests now automatically manage the Hugo server. No manual server setup needed!
 
-```yaml
-# Example GitHub Actions workflow
-- name: Install dependencies
-  run: npm install
-  
-- name: Start Hugo server
-  run: ./scripts/website-up.sh &
-  
-- name: Wait for server
-  run: sleep 5
-  
-- name: Run tests
-  run: npm test
-```
+#### GitHub Actions Workflows
+
+1. **E2E Tests** (`.github/workflows/e2e-tests.yml`)
+   - Runs on push/PR to main/develop
+   - Tests local build with auto-managed server
+   - Fast CI-optimized timeouts
+
+2. **QA Tests** (`.github/workflows/qa-tests.yml`)
+   - Runs after deployment to GitHub Pages
+   - Tests live QA site: `https://aallbrig.github.io/stock-market-words/`
+   - Auto-extracts URL from repository info
+   - Waits for deployment to be available
+
+3. **Website QA Deploy** (`.github/workflows/website-qa-deploy.yml`)
+   - Builds and deploys to GitHub Pages
+   - Triggers QA Tests workflow on success
 
 ## Performance Profiling
 

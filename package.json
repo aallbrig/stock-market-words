@@ -12,6 +12,7 @@
     "test:e2e:pages": "jest tests/puppeteer/website-pages.e2e.test.js",
     "test:e2e:ticker": "jest tests/puppeteer/ticker-ui.e2e.test.js",
     "test:e2e:ci": "TIMEOUT_SECONDS=10 jest tests/puppeteer/website-pages.e2e.test.js",
+    "test:e2e:qa": "TEST_URL=https://aallbrig.github.io/stock-market-words/ START_SERVER=false npm run test:e2e",
     "profile": "node --prof node_modules/.bin/jest tests/perf/ && echo '\nProfile generated! Process with: node --prof-process isolate-*.log > profile.txt'"
   },
   "jest": {

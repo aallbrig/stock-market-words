@@ -6,14 +6,22 @@
  * - Local development: 60 seconds (default)
  * - CI/CD: 10 seconds (set via TIMEOUT_SECONDS=10)
  * 
+ * Environment variables:
+ * - TEST_URL: Override base URL (e.g., https://aallbrig.github.io/stock-market-words/)
+ * - START_SERVER: Set to 'false' to skip server startup (default: true)
+ * - SERVER_PORT: Port for local server (default: 8668)
+ * - TIMEOUT_SECONDS: Max processing time in seconds (default: 60)
+ * 
  * Usage:
  *   npm run test:e2e:ticker          # Local: 60s timeout
  *   TIMEOUT_SECONDS=10 npm run ...   # CI: 10s timeout
+ *   TEST_URL=https://... npm run ... # Test against remote
  */
 
 const puppeteer = require('puppeteer');
+const { setupTestServer, teardownTestServer } = require('../test-server');
 
-const BASE_URL = process.env.TEST_URL || 'http://localhost:8668';
+let BASE_URL;
 // CI uses 10 seconds, local dev uses 60 seconds
 const MAX_PROCESSING_TIME_MS = process.env.TIMEOUT_SECONDS 
   ? parseInt(process.env.TIMEOUT_SECONDS) * 1000 
@@ -26,6 +34,10 @@ describe('TickerEngine E2E Performance Tests', () => {
   let page;
 
   beforeAll(async () => {
+    // Start test server (or verify external server)
+    BASE_URL = await setupTestServer();
+    console.log(`Running tests against: ${BASE_URL}`);
+    
     browser = await puppeteer.launch({
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -36,6 +48,9 @@ describe('TickerEngine E2E Performance Tests', () => {
     if (browser) {
       await browser.close();
     }
+    
+    // Stop test server
+    await teardownTestServer();
   });
 
   beforeEach(async () => {
