@@ -46,7 +46,11 @@ Created a comprehensive test server management utility that:
 
 Added new npm script in `package.json`:
 ```json
-"test:e2e:qa": "TEST_URL=https://aallbrig.github.io/stock-market-words/ START_SERVER=false npm run test:e2e"
+"test:e2e:qa": "TEST_URL=https://stockmarketwords.com/ START_SERVER=false npm run test:e2e"
+```
+Note: This now points to production. For GitHub Pages QA testing, use:
+```bash
+TEST_URL=https://aallbrig.github.io/stock-market-words/ START_SERVER=false npm run test:e2e
 ```
 
 ### 5. Documentation Updates (`tests/README.md`)
@@ -107,7 +111,7 @@ env:
 
 ### ✅ Verified Working
 1. **Local auto-managed server**: Tests start Hugo, run tests, cleanup ✓
-2. **Remote QA site**: Tests successfully run against https://aallbrig.github.io/stock-market-words/ ✓
+2. **Remote sites**: Tests successfully run against both production (https://stockmarketwords.com/) and QA (https://aallbrig.github.io/stock-market-words/) ✓
 3. **HTTP/HTTPS support**: Both protocols work correctly ✓
 4. **Server availability check**: Properly validates before running tests ✓
 5. **Graceful cleanup**: Server properly terminated after tests ✓

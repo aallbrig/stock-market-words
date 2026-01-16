@@ -48,7 +48,7 @@ The test suite now includes automatic server management via `test-server.js`.
 
 ### Environment Variables
 
-- **TEST_URL**: Override base URL (e.g., `https://aallbrig.github.io/stock-market-words/`)
+- **TEST_URL**: Override base URL (e.g., `https://stockmarketwords.com/` or `https://aallbrig.github.io/stock-market-words/`)
   - When set, tests use this URL instead of starting a local server
 - **START_SERVER**: Set to `'false'` to skip server startup (default: `'true'`)
 - **SERVER_PORT**: Port for local server (default: `8668`)
@@ -66,6 +66,9 @@ The test suite now includes automatic server management via `test-server.js`.
 ```bash
 # Auto-managed local server (default)
 npm run test:e2e
+
+# Test against production site
+TEST_URL=https://stockmarketwords.com/ START_SERVER=false npm run test:e2e
 
 # Test against QA deployment
 TEST_URL=https://aallbrig.github.io/stock-market-words/ START_SERVER=false npm run test:e2e
@@ -229,9 +232,14 @@ Tests now automatically manage the Hugo server. No manual server setup needed!
    - Auto-extracts URL from repository info
    - Waits for deployment to be available
 
-3. **Website QA Deploy** (`.github/workflows/website-qa-deploy.yml`)
+3. **Website Acceptance Tests** (`.github/workflows/website-acceptance-tests.yml`)
+   - Runs after QA deployment completes
+   - Tests both stage (GitHub Pages) and production (stockmarketwords.com)
+   - Uses acceptance-tests directory with Mocha/Puppeteer
+
+4. **Website QA Deploy** (`.github/workflows/website-qa-deploy.yml`)
    - Builds and deploys to GitHub Pages
-   - Triggers QA Tests workflow on success
+   - Triggers QA Tests and Acceptance Tests workflows on success
 
 ## Performance Profiling
 
