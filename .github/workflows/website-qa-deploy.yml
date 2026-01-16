@@ -28,6 +28,7 @@ jobs:
         run: |
           cd hugo/site
           hugo --minify --baseURL "https://aallbrig.github.io/stock-market-words/"
+          touch public/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
