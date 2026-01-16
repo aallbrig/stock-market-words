@@ -1,0 +1,4610 @@
+{
+  "strategy": "Moon Shot",
+  "strategy_key": "moon_shot",
+  "description": "High volatility growth stocks (beta > 1.5, RSI < 70)",
+  "icon": "\ud83d\ude80",
+  "generated_at": "2026-01-13T20:31:24.113855",
+  "date": "2026-01-02",
+  "total_matches": 242,
+  "filter_criteria": "beta > 1.5 AND rsi_14 < 70",
+  "tickers": [
+    {
+      "symbol": "APLD",
+      "name": "Applied Digital Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 28.11,
+      "volume": 35941400,
+      "marketCap": 7850097664,
+      "dividendYield": null,
+      "beta": 7.1,
+      "rsi": 45.0,
+      "ma200": 16.69,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HUT",
+      "name": "Hut 8 Corp. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 51.27,
+      "volume": 6540400,
+      "marketCap": 5539038208,
+      "dividendYield": null,
+      "beta": 6.21,
+      "rsi": 55.1,
+      "ma200": 27.7,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BKKT",
+      "name": "Bakkt Holdings, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 11.25,
+      "volume": 1123900,
+      "marketCap": 270432384,
+      "dividendYield": null,
+      "beta": 5.73,
+      "rsi": 39.6,
+      "ma200": 15.44,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DJT",
+      "name": "Trump Media & Technology Group Corp. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 13.77,
+      "volume": 13992200,
+      "marketCap": 3855567616,
+      "dividendYield": null,
+      "beta": 4.63,
+      "rsi": 62.3,
+      "ma200": 17.78,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IREN",
+      "name": "IREN Limited - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 42.7,
+      "volume": 30404800,
+      "marketCap": 14020190208,
+      "dividendYield": null,
+      "beta": 4.24,
+      "rsi": 47.9,
+      "ma200": 27.32,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GLXY",
+      "name": "Galaxy Digital Inc. - Class A common stock",
+      "exchange": "NASDAQ",
+      "price": 24.75,
+      "volume": 7073500,
+      "marketCap": 9996055552,
+      "dividendYield": null,
+      "beta": 3.99,
+      "rsi": 31.9,
+      "ma200": null,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DAVE",
+      "name": "Dave Inc.  - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 219.48,
+      "volume": 369900,
+      "marketCap": 2963875840,
+      "dividendYield": null,
+      "beta": 3.91,
+      "rsi": 61.5,
+      "ma200": 191.93,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CLSK",
+      "name": "CleanSpark, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 11.55,
+      "volume": 22011500,
+      "marketCap": 3087728384,
+      "dividendYield": null,
+      "beta": 3.8,
+      "rsi": 29.4,
+      "ma200": 11.58,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "COIN",
+      "name": "Coinbase Global, Inc. - 3Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 236.53,
+      "volume": 8743700,
+      "marketCap": 63782113280,
+      "dividendYield": null,
+      "beta": 3.69,
+      "rsi": 28.4,
+      "ma200": 286.04,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BHVN",
+      "name": "Biohaven Ltd. Common Shares",
+      "exchange": "NYSE",
+      "price": 10.84,
+      "volume": 2108200,
+      "marketCap": 1438343168,
+      "dividendYield": null,
+      "beta": 3.59,
+      "rsi": 42.3,
+      "ma200": 15.48,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AFRM",
+      "name": "Affirm Holdings, Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 74.03,
+      "volume": 4098500,
+      "marketCap": 24435351552,
+      "dividendYield": null,
+      "beta": 3.58,
+      "rsi": 59.9,
+      "ma200": 66.01,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CVNA",
+      "name": "Carvana Co. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 400.25,
+      "volume": 4694800,
+      "marketCap": 86775578624,
+      "dividendYield": null,
+      "beta": 3.52,
+      "rsi": 24.5,
+      "ma200": 329.44,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ASPI",
+      "name": "ASP Isotopes Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 5.63,
+      "volume": 4629400,
+      "marketCap": 622531648,
+      "dividendYield": null,
+      "beta": 3.43,
+      "rsi": 31.2,
+      "ma200": 7.8,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FBRX",
+      "name": "Forte Biosciences, Inc.  - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 23.61,
+      "volume": 179000,
+      "marketCap": 295760928,
+      "dividendYield": null,
+      "beta": 3.25,
+      "rsi": 52.3,
+      "ma200": 12.43,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AAOI",
+      "name": "Applied Optoelectronics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 39.6,
+      "volume": 4850200,
+      "marketCap": 2703883520,
+      "dividendYield": null,
+      "beta": 3.25,
+      "rsi": 54.8,
+      "ma200": 23.83,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BBAI",
+      "name": "BigBear.ai, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 5.84,
+      "volume": 55861500,
+      "marketCap": 2549459200,
+      "dividendYield": null,
+      "beta": 3.2,
+      "rsi": 37.8,
+      "ma200": 5.43,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FULC",
+      "name": "Fulcrum Therapeutics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 10.92,
+      "volume": 796100,
+      "marketCap": 720395584,
+      "dividendYield": null,
+      "beta": 3.17,
+      "rsi": 31.0,
+      "ma200": 7.42,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DPRO",
+      "name": "Draganfly Inc. - Common Shares",
+      "exchange": "NASDAQ",
+      "price": 7.35,
+      "volume": 1340700,
+      "marketCap": 188026240,
+      "dividendYield": null,
+      "beta": 3.16,
+      "rsi": 48.8,
+      "ma200": 5.18,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ACHR",
+      "name": "Archer Aviation Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 8.13,
+      "volume": 45047900,
+      "marketCap": 5968307712,
+      "dividendYield": null,
+      "beta": 3.1,
+      "rsi": 43.9,
+      "ma200": 9.49,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BE",
+      "name": "Bloom Energy Corporation Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 98.69,
+      "volume": 11539700,
+      "marketCap": 23341246464,
+      "dividendYield": null,
+      "beta": 3.0,
+      "rsi": 42.1,
+      "ma200": 56.0,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AMSC",
+      "name": "American Superconductor Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 31.58,
+      "volume": 1040400,
+      "marketCap": 1503332224,
+      "dividendYield": null,
+      "beta": 2.98,
+      "rsi": 47.4,
+      "ma200": 38.51,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AMPX",
+      "name": "Amprius Technologies, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 8.74,
+      "volume": 5801000,
+      "marketCap": 1140428672,
+      "dividendYield": null,
+      "beta": 2.96,
+      "rsi": 27.9,
+      "ma200": 7.22,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FDMT",
+      "name": "4D Molecular Therapeutics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 7.32,
+      "volume": 1030600,
+      "marketCap": 418228768,
+      "dividendYield": null,
+      "beta": 2.95,
+      "rsi": 16.8,
+      "ma200": 6.45,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CIFR",
+      "name": "Cipher Mining Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 16.2,
+      "volume": 24103300,
+      "marketCap": 6400491520,
+      "dividendYield": null,
+      "beta": 2.92,
+      "rsi": 37.7,
+      "ma200": 9.27,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GLSI",
+      "name": "Greenwich LifeSciences, Inc. - Common stock",
+      "exchange": "NASDAQ",
+      "price": 19.47,
+      "volume": 407200,
+      "marketCap": 269747872,
+      "dividendYield": null,
+      "beta": 2.92,
+      "rsi": 69.8,
+      "ma200": 10.51,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FLNC",
+      "name": "Fluence Energy, Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 23.01,
+      "volume": 6087000,
+      "marketCap": 4207807488,
+      "dividendYield": null,
+      "beta": 2.88,
+      "rsi": 40.1,
+      "ma200": 10.53,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "KRRO",
+      "name": "Korro Bio, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 8.05,
+      "volume": 150000,
+      "marketCap": 75809224,
+      "dividendYield": null,
+      "beta": 2.87,
+      "rsi": 53.0,
+      "ma200": 20.01,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ASM",
+      "name": "Avino Silver & Gold Mines Ltd. Common Shares (Canada)",
+      "exchange": "NYSE MKT",
+      "price": 5.92,
+      "volume": 5900500,
+      "marketCap": 928768000,
+      "dividendYield": null,
+      "beta": 2.82,
+      "rsi": 44.9,
+      "ma200": 3.96,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "JANX",
+      "name": "Janux Therapeutics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 13.65,
+      "volume": 1534300,
+      "marketCap": 821017536,
+      "dividendYield": null,
+      "beta": 2.81,
+      "rsi": 18.9,
+      "ma200": 24.91,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ASTS",
+      "name": "AST SpaceMobile, Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 83.47,
+      "volume": 19033200,
+      "marketCap": 30666987520,
+      "dividendYield": null,
+      "beta": 2.76,
+      "rsi": 49.2,
+      "ma200": 48.82,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CRBP",
+      "name": "Corbus Pharmaceuticals Holdings, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 7.87,
+      "volume": 222200,
+      "marketCap": 138142384,
+      "dividendYield": null,
+      "beta": 2.72,
+      "rsi": 20.5,
+      "ma200": 9.55,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "KOD",
+      "name": "Kodiak Sciences Inc - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 26.02,
+      "volume": 933300,
+      "marketCap": 1588480128,
+      "dividendYield": null,
+      "beta": 2.69,
+      "rsi": 55.1,
+      "ma200": 10.68,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CRDO",
+      "name": "Credo Technology Group Holding Ltd - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 143.22,
+      "volume": 5792600,
+      "marketCap": 25870073856,
+      "dividendYield": null,
+      "beta": 2.63,
+      "rsi": 38.4,
+      "ma200": 109.21,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IONQ",
+      "name": "IonQ, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 46.77,
+      "volume": 17065600,
+      "marketCap": 16569656320,
+      "dividendYield": null,
+      "beta": 2.62,
+      "rsi": 41.2,
+      "ma200": 44.66,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DOGZ",
+      "name": "Dogness (International) Corporation - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 10.8,
+      "volume": 428500,
+      "marketCap": 156715104,
+      "dividendYield": null,
+      "beta": 2.56,
+      "rsi": 48.4,
+      "ma200": 15.71,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CRNC",
+      "name": "Cerence Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 11.56,
+      "volume": 895200,
+      "marketCap": 519492032,
+      "dividendYield": null,
+      "beta": 2.56,
+      "rsi": 43.6,
+      "ma200": 9.99,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BROS",
+      "name": "Dutch Bros Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 62.16,
+      "volume": 2576500,
+      "marketCap": 10230891520,
+      "dividendYield": null,
+      "beta": 2.56,
+      "rsi": 54.4,
+      "ma200": 61.92,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CDNA",
+      "name": "CareDx, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 19.14,
+      "volume": 517400,
+      "marketCap": 1018763776,
+      "dividendYield": null,
+      "beta": 2.54,
+      "rsi": 43.0,
+      "ma200": 16.37,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "COMP",
+      "name": "Compass, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 10.5,
+      "volume": 9924500,
+      "marketCap": 5903476736,
+      "dividendYield": null,
+      "beta": 2.54,
+      "rsi": 44.5,
+      "ma200": 8.1,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "JOBY",
+      "name": "Joby Aviation, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 14.36,
+      "volume": 21822900,
+      "marketCap": 13093206016,
+      "dividendYield": null,
+      "beta": 2.54,
+      "rsi": 41.0,
+      "ma200": 12.38,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CCL",
+      "name": "Carnival Corporation Common Stock",
+      "exchange": "NYSE",
+      "price": 30.92,
+      "volume": 15889900,
+      "marketCap": 40567042048,
+      "dividendYield": 49.0,
+      "beta": 2.54,
+      "rsi": 68.7,
+      "ma200": 26.31,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARHS",
+      "name": "Arhaus, Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 11.36,
+      "volume": 1039700,
+      "marketCap": 1602481536,
+      "dividendYield": null,
+      "beta": 2.52,
+      "rsi": 61.1,
+      "ma200": 9.75,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "APP",
+      "name": "Applovin Corporation - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 618.32,
+      "volume": 5603400,
+      "marketCap": 209146691584,
+      "dividendYield": null,
+      "beta": 2.51,
+      "rsi": 31.4,
+      "ma200": 466.45,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IRON",
+      "name": "Disc Medicine, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 79.09,
+      "volume": 329300,
+      "marketCap": 2985659904,
+      "dividendYield": null,
+      "beta": 2.51,
+      "rsi": 23.6,
+      "ma200": 63.39,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AMRC",
+      "name": "Ameresco, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 30.67,
+      "volume": 314700,
+      "marketCap": 1619297920,
+      "dividendYield": null,
+      "beta": 2.51,
+      "rsi": 40.6,
+      "ma200": 23.33,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ILPT",
+      "name": "Industrial Logistics Properties Trust - Common Shares of Beneficial Interest",
+      "exchange": "NASDAQ",
+      "price": 5.53,
+      "volume": 405300,
+      "marketCap": 368625600,
+      "dividendYield": 362.0,
+      "beta": 2.5,
+      "rsi": 48.1,
+      "ma200": 4.78,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARVN",
+      "name": "Arvinas, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 11.47,
+      "volume": 922300,
+      "marketCap": 842099776,
+      "dividendYield": null,
+      "beta": 2.45,
+      "rsi": 34.1,
+      "ma200": 8.63,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HOOD",
+      "name": "Robinhood Markets, Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 115.21,
+      "volume": 25734300,
+      "marketCap": 103595548672,
+      "dividendYield": null,
+      "beta": 2.43,
+      "rsi": 38.1,
+      "ma200": 97.43,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BKSY",
+      "name": "BlackSky Technology Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 20.82,
+      "volume": 1118900,
+      "marketCap": 749365824,
+      "dividendYield": null,
+      "beta": 2.41,
+      "rsi": 54.3,
+      "ma200": 16.59,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AEHR",
+      "name": "Aehr Test Systems - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 22.16,
+      "volume": 645100,
+      "marketCap": 664946048,
+      "dividendYield": null,
+      "beta": 2.41,
+      "rsi": 30.2,
+      "ma200": 18.12,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HIMS",
+      "name": "Hims & Hers Health, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 33.41,
+      "volume": 13297400,
+      "marketCap": 7605736960,
+      "dividendYield": null,
+      "beta": 2.41,
+      "rsi": 25.9,
+      "ma200": 45.78,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "COMM",
+      "name": "CommScope Holding Company, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 18.26,
+      "volume": 3172000,
+      "marketCap": 4045479424,
+      "dividendYield": null,
+      "beta": 2.39,
+      "rsi": 23.7,
+      "ma200": 11.64,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "INOD",
+      "name": "Innodata Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 52.99,
+      "volume": 890900,
+      "marketCap": 1688311936,
+      "dividendYield": null,
+      "beta": 2.39,
+      "rsi": 47.0,
+      "ma200": 51.4,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARQQ",
+      "name": "Arqit Quantum Inc. - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 24.54,
+      "volume": 390400,
+      "marketCap": 384096640,
+      "dividendYield": null,
+      "beta": 2.38,
+      "rsi": 36.9,
+      "ma200": 29.69,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LOVE",
+      "name": "The Lovesac Company - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 14.44,
+      "volume": 424700,
+      "marketCap": 211071008,
+      "dividendYield": null,
+      "beta": 2.36,
+      "rsi": 66.4,
+      "ma200": 17.24,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LASR",
+      "name": "nLIGHT, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 38.37,
+      "volume": 536100,
+      "marketCap": 1948659072,
+      "dividendYield": null,
+      "beta": 2.34,
+      "rsi": 50.6,
+      "ma200": 23.05,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EBS",
+      "name": "Emergent BioSolutions Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 12.51,
+      "volume": 606900,
+      "marketCap": 667422272,
+      "dividendYield": null,
+      "beta": 2.32,
+      "rsi": 62.5,
+      "ma200": 7.99,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BTDR",
+      "name": "Bitdeer Technologies Group - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 11.55,
+      "volume": 4221000,
+      "marketCap": 2561148928,
+      "dividendYield": null,
+      "beta": 2.31,
+      "rsi": 48.6,
+      "ma200": 13.74,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "KYMR",
+      "name": "Kymera Therapeutics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 72.76,
+      "volume": 854000,
+      "marketCap": 5820729344,
+      "dividendYield": null,
+      "beta": 2.29,
+      "rsi": 23.3,
+      "ma200": 48.49,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CAR",
+      "name": "Avis Budget Group, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 128.22,
+      "volume": 287300,
+      "marketCap": 4512958464,
+      "dividendYield": null,
+      "beta": 2.28,
+      "rsi": 38.3,
+      "ma200": 135.54,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GCT",
+      "name": "GigaCloud Technology Inc - Class A Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 38.76,
+      "volume": 541600,
+      "marketCap": 1459936640,
+      "dividendYield": null,
+      "beta": 2.28,
+      "rsi": 53.5,
+      "ma200": 24.77,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BYRN",
+      "name": "Byrna Technologies, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 16.72,
+      "volume": 284200,
+      "marketCap": 379970624,
+      "dividendYield": null,
+      "beta": 2.27,
+      "rsi": 28.3,
+      "ma200": 21.8,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GAP",
+      "name": "Gap, Inc. (The) Common Stock",
+      "exchange": "NYSE",
+      "price": 25.19,
+      "volume": 7984900,
+      "marketCap": 9368708096,
+      "dividendYield": 258.0,
+      "beta": 2.26,
+      "rsi": 35.3,
+      "ma200": 22.47,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BEAM",
+      "name": "Beam Therapeutics Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 27.14,
+      "volume": 1347400,
+      "marketCap": 2754029824,
+      "dividendYield": null,
+      "beta": 2.22,
+      "rsi": 46.8,
+      "ma200": 21.08,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LE",
+      "name": "Lands' End, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 14.59,
+      "volume": 189800,
+      "marketCap": 445740096,
+      "dividendYield": null,
+      "beta": 2.21,
+      "rsi": 39.1,
+      "ma200": 12.56,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ADPT",
+      "name": "Adaptive Biotechnologies Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 15.91,
+      "volume": 1060300,
+      "marketCap": 2428903168,
+      "dividendYield": null,
+      "beta": 2.2,
+      "rsi": 56.9,
+      "ma200": 12.38,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LSPD",
+      "name": "Lightspeed Commerce Inc. Subordinate Voting Shares",
+      "exchange": "NYSE",
+      "price": 11.74,
+      "volume": 688600,
+      "marketCap": 1596447616,
+      "dividendYield": null,
+      "beta": 2.19,
+      "rsi": 37.1,
+      "ma200": 11.4,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FRGE",
+      "name": "Forge Global Holdings, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 44.45,
+      "volume": 501600,
+      "marketCap": 615392768,
+      "dividendYield": null,
+      "beta": 2.18,
+      "rsi": 50.0,
+      "ma200": 21.66,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IMNM",
+      "name": "Immunome, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 20.82,
+      "volume": 2108800,
+      "marketCap": 2297180416,
+      "dividendYield": null,
+      "beta": 2.18,
+      "rsi": 55.1,
+      "ma200": 11.79,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EXK",
+      "name": "Endeavour Silver Corporation Ordinary Shares (Canada)",
+      "exchange": "NYSE",
+      "price": 9.02,
+      "volume": 16813900,
+      "marketCap": 2653481216,
+      "dividendYield": null,
+      "beta": 2.17,
+      "rsi": 44.6,
+      "ma200": 6.07,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BZH",
+      "name": "Beazer Homes USA, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 20.25,
+      "volume": 551700,
+      "marketCap": 602638976,
+      "dividendYield": null,
+      "beta": 2.17,
+      "rsi": 15.2,
+      "ma200": 22.48,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CTRN",
+      "name": "Citi Trends, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 41.53,
+      "volume": 413100,
+      "marketCap": 346578624,
+      "dividendYield": null,
+      "beta": 2.16,
+      "rsi": 39.0,
+      "ma200": 32.06,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AEVA",
+      "name": "Aeva Technologies, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 12.75,
+      "volume": 1862500,
+      "marketCap": 766018816,
+      "dividendYield": null,
+      "beta": 2.16,
+      "rsi": 25.5,
+      "ma200": 15.63,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EOSE",
+      "name": "Eos Energy Enterprises, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 12.97,
+      "volume": 15197200,
+      "marketCap": 4203553536,
+      "dividendYield": null,
+      "beta": 2.15,
+      "rsi": 29.4,
+      "ma200": 8.56,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "INMD",
+      "name": "InMode Ltd.  - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 14.8,
+      "volume": 655700,
+      "marketCap": 1004458048,
+      "dividendYield": null,
+      "beta": 2.15,
+      "rsi": 59.4,
+      "ma200": 14.83,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LC",
+      "name": "LendingClub Corporation Common Stock",
+      "exchange": "NYSE",
+      "price": 19.12,
+      "volume": 1147600,
+      "marketCap": 2204563712,
+      "dividendYield": null,
+      "beta": 2.15,
+      "rsi": 37.0,
+      "ma200": 14.32,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HTZ",
+      "name": "Hertz Global Holdings, Inc - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 5.22,
+      "volume": 5786200,
+      "marketCap": 1626514816,
+      "dividendYield": null,
+      "beta": 2.13,
+      "rsi": 50.9,
+      "ma200": 5.93,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LMND",
+      "name": "Lemonade, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 75.96,
+      "volume": 2323100,
+      "marketCap": 5676568576,
+      "dividendYield": null,
+      "beta": 2.13,
+      "rsi": 42.1,
+      "ma200": 49.36,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AEC",
+      "name": "Anfield Energy Inc. - Common Shares",
+      "exchange": "NASDAQ",
+      "price": 5.9,
+      "volume": 129500,
+      "marketCap": 93882288,
+      "dividendYield": null,
+      "beta": 2.12,
+      "rsi": 48.0,
+      "ma200": 5.84,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ENVX",
+      "name": "Enovix Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 7.89,
+      "volume": 5237100,
+      "marketCap": 1717356800,
+      "dividendYield": null,
+      "beta": 2.12,
+      "rsi": 38.1,
+      "ma200": 9.45,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LAW",
+      "name": "CS Disco, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 7.3,
+      "volume": 195000,
+      "marketCap": 456188640,
+      "dividendYield": null,
+      "beta": 2.11,
+      "rsi": 10.0,
+      "ma200": 5.3,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BAND",
+      "name": "Bandwidth Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 14.22,
+      "volume": 294100,
+      "marketCap": 434016864,
+      "dividendYield": null,
+      "beta": 2.11,
+      "rsi": 37.3,
+      "ma200": 14.73,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARCT",
+      "name": "Arcturus Therapeutics Holdings Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 6.25,
+      "volume": 424400,
+      "marketCap": 177578352,
+      "dividendYield": null,
+      "beta": 2.1,
+      "rsi": 18.7,
+      "ma200": 12.85,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HBM",
+      "name": "Hudbay Minerals Inc. Ordinary Shares (Canada)",
+      "exchange": "NYSE",
+      "price": 20.1,
+      "volume": 3581800,
+      "marketCap": 7962587648,
+      "dividendYield": 7.0,
+      "beta": 2.07,
+      "rsi": 68.7,
+      "ma200": 12.12,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EQX",
+      "name": "Equinox Gold Corp. Common Shares",
+      "exchange": "NYSE MKT",
+      "price": 13.7,
+      "volume": 7798800,
+      "marketCap": 10751436800,
+      "dividendYield": null,
+      "beta": 2.06,
+      "rsi": 38.2,
+      "ma200": 8.98,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LOB",
+      "name": "Live Oak Bancshares, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 34.71,
+      "volume": 378100,
+      "marketCap": 1591717760,
+      "dividendYield": 35.0,
+      "beta": 2.06,
+      "rsi": 43.5,
+      "ma200": 31.46,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CG",
+      "name": "The Carlyle Group Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 60.86,
+      "volume": 1565700,
+      "marketCap": 22013360128,
+      "dividendYield": 230.0,
+      "beta": 2.06,
+      "rsi": 53.1,
+      "ma200": 53.35,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CZR",
+      "name": "Caesars Entertainment, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 23.56,
+      "volume": 2469500,
+      "marketCap": 4900280320,
+      "dividendYield": null,
+      "beta": 2.05,
+      "rsi": 44.6,
+      "ma200": 25.63,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AVAH",
+      "name": "Aveanna Healthcare Holdings Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 8.08,
+      "volume": 2527000,
+      "marketCap": 1688003840,
+      "dividendYield": null,
+      "beta": 2.04,
+      "rsi": 18.1,
+      "ma200": 6.77,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EFXT",
+      "name": "Enerflex Ltd Common Shares",
+      "exchange": "NYSE",
+      "price": 15.94,
+      "volume": 254100,
+      "marketCap": 1953744256,
+      "dividendYield": 79.0,
+      "beta": 2.03,
+      "rsi": 51.1,
+      "ma200": 9.86,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CDZI",
+      "name": "Cadiz, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 5.8,
+      "volume": 445800,
+      "marketCap": 486968480,
+      "dividendYield": null,
+      "beta": 2.02,
+      "rsi": 48.5,
+      "ma200": 3.9,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BN",
+      "name": "Brookfield Corporation Class A Limited Voting Shares",
+      "exchange": "NYSE",
+      "price": 46.63,
+      "volume": 4198300,
+      "marketCap": 104789377024,
+      "dividendYield": 52.0,
+      "beta": 2.01,
+      "rsi": 51.0,
+      "ma200": 42.01,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GRBK",
+      "name": "Green Brick Partners, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 63.21,
+      "volume": 183700,
+      "marketCap": 2753750016,
+      "dividendYield": null,
+      "beta": 2.0,
+      "rsi": 20.7,
+      "ma200": 64.3,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "KKR",
+      "name": "KKR & Co. Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 128.9,
+      "volume": 2545400,
+      "marketCap": 119351336960,
+      "dividendYield": 58.0,
+      "beta": 2.0,
+      "rsi": 12.2,
+      "ma200": 127.19,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AMKR",
+      "name": "Amkor Technology, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 42.92,
+      "volume": 4206000,
+      "marketCap": 10609542144,
+      "dividendYield": 85.0,
+      "beta": 2.0,
+      "rsi": 36.8,
+      "ma200": 25.78,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CLF",
+      "name": "Cleveland-Cliffs Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 13.6,
+      "volume": 9929400,
+      "marketCap": 7748021760,
+      "dividendYield": null,
+      "beta": 1.98,
+      "rsi": 53.2,
+      "ma200": 10.19,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EXPI",
+      "name": "eXp World Holdings, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 9.1,
+      "volume": 1230500,
+      "marketCap": 1445414272,
+      "dividendYield": 220.0,
+      "beta": 1.98,
+      "rsi": 4.3,
+      "ma200": 9.9,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BETR",
+      "name": "Better Home & Finance Holding Company - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 34.74,
+      "volume": 331600,
+      "marketCap": 545301248,
+      "dividendYield": null,
+      "beta": 1.98,
+      "rsi": 25.4,
+      "ma200": 29.16,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CWH",
+      "name": "Camping World Holdings, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 9.71,
+      "volume": 2021600,
+      "marketCap": 609977920,
+      "dividendYield": 514.0,
+      "beta": 1.98,
+      "rsi": 31.5,
+      "ma200": 14.82,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AMBA",
+      "name": "Ambarella, Inc. - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 75.16,
+      "volume": 938000,
+      "marketCap": 3235674880,
+      "dividendYield": null,
+      "beta": 1.98,
+      "rsi": 40.3,
+      "ma200": 68.32,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GBIO",
+      "name": "Generation Bio Co. - Common stock",
+      "exchange": "NASDAQ",
+      "price": 5.45,
+      "volume": 133800,
+      "marketCap": 36691380,
+      "dividendYield": null,
+      "beta": 1.96,
+      "rsi": 53.0,
+      "ma200": 4.9,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AI",
+      "name": "C3.ai, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 13.75,
+      "volume": 7631100,
+      "marketCap": 1935357568,
+      "dividendYield": null,
+      "beta": 1.96,
+      "rsi": 25.6,
+      "ma200": 19.96,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CPS",
+      "name": "Cooper-Standard Holdings Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 32.59,
+      "volume": 182100,
+      "marketCap": 574790080,
+      "dividendYield": null,
+      "beta": 1.95,
+      "rsi": 54.3,
+      "ma200": 27.05,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CMPS",
+      "name": "COMPASS Pathways Plc - American Depository Shares",
+      "exchange": "NASDAQ",
+      "price": 6.55,
+      "volume": 1352000,
+      "marketCap": 628911616,
+      "dividendYield": null,
+      "beta": 1.94,
+      "rsi": 41.3,
+      "ma200": 4.72,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CCSI",
+      "name": "Consensus Cloud Solutions, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 21.72,
+      "volume": 245800,
+      "marketCap": 412805440,
+      "dividendYield": null,
+      "beta": 1.94,
+      "rsi": 24.5,
+      "ma200": 23.67,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GENI",
+      "name": "Genius Sports Limited Ordinary Shares",
+      "exchange": "NYSE",
+      "price": 10.78,
+      "volume": 2475900,
+      "marketCap": 2573381120,
+      "dividendYield": null,
+      "beta": 1.94,
+      "rsi": 42.2,
+      "ma200": 10.94,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LAR",
+      "name": "Lithium Argentina AG Common Shares",
+      "exchange": "NYSE",
+      "price": 5.98,
+      "volume": 4154700,
+      "marketCap": 970924736,
+      "dividendYield": null,
+      "beta": 1.94,
+      "rsi": 61.0,
+      "ma200": 3.24,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AOSL",
+      "name": "Alpha and Omega Semiconductor Limited - Common Shares",
+      "exchange": "NASDAQ",
+      "price": 20.66,
+      "volume": 252800,
+      "marketCap": 621069568,
+      "dividendYield": null,
+      "beta": 1.94,
+      "rsi": 35.7,
+      "ma200": 24.48,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "KD",
+      "name": "Kyndryl Holdings, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 25.49,
+      "volume": 2329600,
+      "marketCap": 5891859456,
+      "dividendYield": null,
+      "beta": 1.94,
+      "rsi": 24.4,
+      "ma200": 32.52,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BLFS",
+      "name": "BioLife Solutions, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 23.89,
+      "volume": 335000,
+      "marketCap": 1150256896,
+      "dividendYield": null,
+      "beta": 1.93,
+      "rsi": 38.2,
+      "ma200": 24.21,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AMD",
+      "name": "Advanced Micro Devices, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 223.47,
+      "volume": 36402400,
+      "marketCap": 363818450944,
+      "dividendYield": null,
+      "beta": 1.93,
+      "rsi": 51.9,
+      "ma200": 163.23,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IBP",
+      "name": "Installed Building Products, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 267.45,
+      "volume": 152500,
+      "marketCap": 7214559232,
+      "dividendYield": 119.0,
+      "beta": 1.91,
+      "rsi": 34.4,
+      "ma200": 218.95,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GOOS",
+      "name": "Canada Goose Holdings Inc. Subordinate Voting Shares",
+      "exchange": "NYSE",
+      "price": 13.52,
+      "volume": 614300,
+      "marketCap": 1317516672,
+      "dividendYield": null,
+      "beta": 1.9,
+      "rsi": 60.4,
+      "ma200": 11.86,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IAG",
+      "name": "Iamgold Corporation Ordinary Shares",
+      "exchange": "NYSE",
+      "price": 16.22,
+      "volume": 9486900,
+      "marketCap": 9618881536,
+      "dividendYield": null,
+      "beta": 1.9,
+      "rsi": 53.1,
+      "ma200": 9.84,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CIM",
+      "name": "Chimera Investment Corporation Common Stock",
+      "exchange": "NYSE",
+      "price": 12.74,
+      "volume": 770600,
+      "marketCap": 1059348928,
+      "dividendYield": 1191.0,
+      "beta": 1.89,
+      "rsi": 55.5,
+      "ma200": 12.4,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LTBR",
+      "name": "Lightbridge Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 14.11,
+      "volume": 968800,
+      "marketCap": 456759584,
+      "dividendYield": null,
+      "beta": 1.88,
+      "rsi": 34.3,
+      "ma200": 14.85,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HOUS",
+      "name": "Anywhere Real Estate Inc. Common Stock,",
+      "exchange": "NYSE",
+      "price": 13.96,
+      "volume": 1791400,
+      "marketCap": 1565344512,
+      "dividendYield": null,
+      "beta": 1.88,
+      "rsi": 38.4,
+      "ma200": 7.12,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "KRNT",
+      "name": "Kornit Digital Ltd. - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 14.34,
+      "volume": 190700,
+      "marketCap": 659248704,
+      "dividendYield": null,
+      "beta": 1.87,
+      "rsi": 51.6,
+      "ma200": 17.01,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "COHR",
+      "name": "Coherent Corp. Common Stock",
+      "exchange": "NYSE",
+      "price": 194.33,
+      "volume": 3514400,
+      "marketCap": 30539663360,
+      "dividendYield": null,
+      "beta": 1.86,
+      "rsi": 46.9,
+      "ma200": 106.2,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ALGN",
+      "name": "Align Technology, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 156.03,
+      "volume": 809600,
+      "marketCap": 11310048256,
+      "dividendYield": null,
+      "beta": 1.86,
+      "rsi": 30.4,
+      "ma200": 158.99,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LGIH",
+      "name": "LGI Homes, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 41.71,
+      "volume": 450200,
+      "marketCap": 962629248,
+      "dividendYield": null,
+      "beta": 1.85,
+      "rsi": 9.8,
+      "ma200": 53.99,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EVLV",
+      "name": "Evolv Technologies Holdings, Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 6.7,
+      "volume": 2653100,
+      "marketCap": 1169937792,
+      "dividendYield": null,
+      "beta": 1.85,
+      "rsi": 47.4,
+      "ma200": 6.22,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DFH",
+      "name": "Dream Finders Homes, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 17.14,
+      "volume": 447900,
+      "marketCap": 1591991936,
+      "dividendYield": null,
+      "beta": 1.85,
+      "rsi": 15.9,
+      "ma200": 23.46,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "INGN",
+      "name": "Inogen, Inc - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 6.63,
+      "volume": 171800,
+      "marketCap": 179994432,
+      "dividendYield": null,
+      "beta": 1.82,
+      "rsi": 27.6,
+      "ma200": 7.24,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GNRC",
+      "name": "Generac Holdlings Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 141.1,
+      "volume": 678800,
+      "marketCap": 8280321536,
+      "dividendYield": null,
+      "beta": 1.82,
+      "rsi": 19.8,
+      "ma200": 152.18,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ICHR",
+      "name": "Ichor Holdings - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 20.41,
+      "volume": 757500,
+      "marketCap": 701782144,
+      "dividendYield": null,
+      "beta": 1.82,
+      "rsi": 62.6,
+      "ma200": 18.95,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HRI",
+      "name": "Herc Holdings Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 152.35,
+      "volume": 216200,
+      "marketCap": 5068641280,
+      "dividendYield": 189.0,
+      "beta": 1.82,
+      "rsi": 49.6,
+      "ma200": 128.65,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LPX",
+      "name": "Louisiana-Pacific Corporation Common Stock",
+      "exchange": "NYSE",
+      "price": 81.73,
+      "volume": 834600,
+      "marketCap": 5691960320,
+      "dividendYield": 139.0,
+      "beta": 1.8,
+      "rsi": 30.8,
+      "ma200": 88.28,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LRCX",
+      "name": "Lam Research Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 185.06,
+      "volume": 11953400,
+      "marketCap": 233366634496,
+      "dividendYield": 61.0,
+      "beta": 1.78,
+      "rsi": 62.5,
+      "ma200": 112.25,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DOMO",
+      "name": "Domo, Inc. - Class B Common Stock",
+      "exchange": "NASDAQ",
+      "price": 8.3,
+      "volume": 747100,
+      "marketCap": 346927488,
+      "dividendYield": null,
+      "beta": 1.77,
+      "rsi": 33.2,
+      "ma200": 12.25,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DBRG",
+      "name": "DigitalBridge Group, Inc.",
+      "exchange": "NYSE",
+      "price": 15.38,
+      "volume": 17239500,
+      "marketCap": 2998565376,
+      "dividendYield": 26.0,
+      "beta": 1.77,
+      "rsi": 51.6,
+      "ma200": 10.85,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AHCO",
+      "name": "AdaptHealth Corp.  - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 9.67,
+      "volume": 1062800,
+      "marketCap": 1309553280,
+      "dividendYield": null,
+      "beta": 1.77,
+      "rsi": 36.9,
+      "ma200": 9.27,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DOCN",
+      "name": "DigitalOcean Holdings, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 48.97,
+      "volume": 1099000,
+      "marketCap": 4480370176,
+      "dividendYield": null,
+      "beta": 1.77,
+      "rsi": 49.3,
+      "ma200": 35.16,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "APAM",
+      "name": "Artisan Partners Asset Management Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 41.41,
+      "volume": 623100,
+      "marketCap": 2918196480,
+      "dividendYield": 768.0,
+      "beta": 1.77,
+      "rsi": 49.0,
+      "ma200": 41.65,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ETSY",
+      "name": "Etsy, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 57.28,
+      "volume": 3527000,
+      "marketCap": 5676938752,
+      "dividendYield": null,
+      "beta": 1.76,
+      "rsi": 66.8,
+      "ma200": 56.42,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GTLS",
+      "name": "Chart Industries, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 206.23,
+      "volume": 695600,
+      "marketCap": 9270646784,
+      "dividendYield": null,
+      "beta": 1.76,
+      "rsi": 65.4,
+      "ma200": 179.18,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BX",
+      "name": "Blackstone Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 158.8,
+      "volume": 2921800,
+      "marketCap": 194856943616,
+      "dividendYield": 304.0,
+      "beta": 1.76,
+      "rsi": 61.3,
+      "ma200": 151.83,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FND",
+      "name": "Floor & Decor Holdings, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 62.97,
+      "volume": 2116700,
+      "marketCap": 6785403392,
+      "dividendYield": null,
+      "beta": 1.76,
+      "rsi": 50.2,
+      "ma200": 74.04,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EPAM",
+      "name": "EPAM Systems, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 200.46,
+      "volume": 691900,
+      "marketCap": 11165003776,
+      "dividendYield": null,
+      "beta": 1.75,
+      "rsi": 35.8,
+      "ma200": 170.28,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IESC",
+      "name": "IES Holdings, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 406.91,
+      "volume": 108700,
+      "marketCap": 8079028736,
+      "dividendYield": null,
+      "beta": 1.75,
+      "rsi": 24.5,
+      "ma200": 321.92,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FTRE",
+      "name": "Fortrea Holdings Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 16.81,
+      "volume": 1178100,
+      "marketCap": 1553243904,
+      "dividendYield": null,
+      "beta": 1.74,
+      "rsi": 65.9,
+      "ma200": 8.54,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ANGI",
+      "name": "Angi Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 12.65,
+      "volume": 791700,
+      "marketCap": 560928384,
+      "dividendYield": null,
+      "beta": 1.74,
+      "rsi": 36.7,
+      "ma200": 14.87,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ELF",
+      "name": "e.l.f. Beauty, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 77.81,
+      "volume": 1509800,
+      "marketCap": 4640336896,
+      "dividendYield": null,
+      "beta": 1.74,
+      "rsi": 49.5,
+      "ma200": 100.69,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ASIX",
+      "name": "AdvanSix Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 17.22,
+      "volume": 294400,
+      "marketCap": 462598688,
+      "dividendYield": 370.0,
+      "beta": 1.74,
+      "rsi": 58.3,
+      "ma200": 20.14,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARLO",
+      "name": "Arlo Technologies, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 13.23,
+      "volume": 1955700,
+      "marketCap": 1402277760,
+      "dividendYield": null,
+      "beta": 1.73,
+      "rsi": 32.7,
+      "ma200": 14.98,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CRSP",
+      "name": "CRISPR Therapeutics AG - Common Shares",
+      "exchange": "NASDAQ",
+      "price": 53.77,
+      "volume": 1371200,
+      "marketCap": 5124293632,
+      "dividendYield": null,
+      "beta": 1.73,
+      "rsi": 34.4,
+      "ma200": 51.58,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LSCC",
+      "name": "Lattice Semiconductor Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 78.65,
+      "volume": 1927200,
+      "marketCap": 10766836736,
+      "dividendYield": null,
+      "beta": 1.73,
+      "rsi": 48.3,
+      "ma200": 60.17,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ACLS",
+      "name": "Axcelis Technologies, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 86.12,
+      "volume": 436600,
+      "marketCap": 2705792256,
+      "dividendYield": null,
+      "beta": 1.72,
+      "rsi": 43.6,
+      "ma200": 73.15,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "APG",
+      "name": "APi Group Corporation Common Stock",
+      "exchange": "NYSE",
+      "price": 38.97,
+      "volume": 2139100,
+      "marketCap": 16207854592,
+      "dividendYield": null,
+      "beta": 1.72,
+      "rsi": 37.5,
+      "ma200": 33.19,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FRPT",
+      "name": "Freshpet, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 60.15,
+      "volume": 762200,
+      "marketCap": 2935821568,
+      "dividendYield": null,
+      "beta": 1.72,
+      "rsi": 40.2,
+      "ma200": 66.35,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GXO",
+      "name": "GXO Logistics, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 54.3,
+      "volume": 813300,
+      "marketCap": 6216986112,
+      "dividendYield": null,
+      "beta": 1.72,
+      "rsi": 53.7,
+      "ma200": 47.7,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DAKT",
+      "name": "Daktronics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 19.84,
+      "volume": 559300,
+      "marketCap": 967156672,
+      "dividendYield": null,
+      "beta": 1.72,
+      "rsi": 42.7,
+      "ma200": 16.79,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "KRUS",
+      "name": "Kura Sushi USA, Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 54.23,
+      "volume": 303700,
+      "marketCap": 656805440,
+      "dividendYield": null,
+      "beta": 1.72,
+      "rsi": 54.1,
+      "ma200": 66.04,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DASH",
+      "name": "DoorDash, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 219.79,
+      "volume": 3791400,
+      "marketCap": 94729166848,
+      "dividendYield": null,
+      "beta": 1.72,
+      "rsi": 44.6,
+      "ma200": 227.23,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CMPR",
+      "name": "Cimpress plc - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 65.66,
+      "volume": 124800,
+      "marketCap": 1619949440,
+      "dividendYield": null,
+      "beta": 1.72,
+      "rsi": 22.2,
+      "ma200": 55.5,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "APEI",
+      "name": "American Public Education, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 36.15,
+      "volume": 341200,
+      "marketCap": 653773888,
+      "dividendYield": null,
+      "beta": 1.71,
+      "rsi": 41.3,
+      "ma200": 31.01,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "INFU",
+      "name": "InfuSystems Holdings, Inc. Common Stock",
+      "exchange": "NYSE MKT",
+      "price": 8.39,
+      "volume": 285000,
+      "marketCap": 171373840,
+      "dividendYield": null,
+      "beta": 1.71,
+      "rsi": 25.9,
+      "ma200": 7.73,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARQT",
+      "name": "Arcutis Biotherapeutics, Inc. - Common stock",
+      "exchange": "NASDAQ",
+      "price": 29.0,
+      "volume": 1652800,
+      "marketCap": 3552273664,
+      "dividendYield": null,
+      "beta": 1.7,
+      "rsi": 46.6,
+      "ma200": 18.47,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EYPT",
+      "name": "EyePoint, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 17.48,
+      "volume": 776000,
+      "marketCap": 1447120512,
+      "dividendYield": null,
+      "beta": 1.69,
+      "rsi": 62.1,
+      "ma200": 10.72,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ISRG",
+      "name": "Intuitive Surgical, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 561.98,
+      "volume": 1297500,
+      "marketCap": 201456615424,
+      "dividendYield": null,
+      "beta": 1.69,
+      "rsi": 60.2,
+      "ma200": 511.36,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARRY",
+      "name": "Array Technologies, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 9.68,
+      "volume": 5961500,
+      "marketCap": 1478598400,
+      "dividendYield": null,
+      "beta": 1.68,
+      "rsi": 56.0,
+      "ma200": 7.34,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FOUR",
+      "name": "Shift4 Payments, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 62.68,
+      "volume": 2303600,
+      "marketCap": 5554653696,
+      "dividendYield": null,
+      "beta": 1.68,
+      "rsi": 17.5,
+      "ma200": 83.58,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BLD",
+      "name": "TopBuild Corp. Common Stock",
+      "exchange": "NYSE",
+      "price": 431.45,
+      "volume": 162100,
+      "marketCap": 12140498944,
+      "dividendYield": null,
+      "beta": 1.68,
+      "rsi": 42.1,
+      "ma200": 372.91,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EXTR",
+      "name": "Extreme Networks, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 16.54,
+      "volume": 1173100,
+      "marketCap": 2211703808,
+      "dividendYield": null,
+      "beta": 1.68,
+      "rsi": 27.9,
+      "ma200": 17.54,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GBX",
+      "name": "Greenbrier Companies, Inc. (The) Common Stock",
+      "exchange": "NYSE",
+      "price": 47.28,
+      "volume": 299000,
+      "marketCap": 1474704768,
+      "dividendYield": 270.0,
+      "beta": 1.67,
+      "rsi": 49.2,
+      "ma200": 45.67,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LTH",
+      "name": "Life Time Group Holdings, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 26.69,
+      "volume": 1368900,
+      "marketCap": 5885471744,
+      "dividendYield": null,
+      "beta": 1.67,
+      "rsi": 67.1,
+      "ma200": 28.2,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DMRC",
+      "name": "Digimarc Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 6.32,
+      "volume": 241500,
+      "marketCap": 137504160,
+      "dividendYield": null,
+      "beta": 1.67,
+      "rsi": 14.3,
+      "ma200": 10.8,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IDXX",
+      "name": "IDEXX Laboratories, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 669.99,
+      "volume": 442900,
+      "marketCap": 53602344960,
+      "dividendYield": null,
+      "beta": 1.67,
+      "rsi": 22.3,
+      "ma200": 582.65,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARMN",
+      "name": "Aris Mining Corporation Common Shares",
+      "exchange": "NYSE MKT",
+      "price": 15.81,
+      "volume": 2105400,
+      "marketCap": 3221545216,
+      "dividendYield": null,
+      "beta": 1.67,
+      "rsi": 56.1,
+      "ma200": 8.61,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AMAT",
+      "name": "Applied Materials, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 268.87,
+      "volume": 7551200,
+      "marketCap": 214193242112,
+      "dividendYield": 72.0,
+      "beta": 1.67,
+      "rsi": 48.9,
+      "ma200": 191.38,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ALGT",
+      "name": "Allegiant Travel Company - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 88.01,
+      "volume": 287700,
+      "marketCap": 1614999680,
+      "dividendYield": null,
+      "beta": 1.66,
+      "rsi": 61.2,
+      "ma200": 60.11,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FSM",
+      "name": "Fortuna Mining Corp. Common Shares",
+      "exchange": "NYSE",
+      "price": 9.54,
+      "volume": 7771100,
+      "marketCap": 2932917760,
+      "dividendYield": null,
+      "beta": 1.66,
+      "rsi": 44.9,
+      "ma200": 7.46,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HZO",
+      "name": "MarineMax, Inc.  (FL) Common Stock",
+      "exchange": "NYSE",
+      "price": 24.08,
+      "volume": 233000,
+      "marketCap": 526617984,
+      "dividendYield": null,
+      "beta": 1.66,
+      "rsi": 20.4,
+      "ma200": 24.08,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DIOD",
+      "name": "Diodes Incorporated - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 51.43,
+      "volume": 265500,
+      "marketCap": 2388549888,
+      "dividendYield": null,
+      "beta": 1.65,
+      "rsi": 45.9,
+      "ma200": 49.29,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ENOV",
+      "name": "Enovis Corporation Common Stock",
+      "exchange": "NYSE",
+      "price": 26.51,
+      "volume": 783600,
+      "marketCap": 1516090496,
+      "dividendYield": null,
+      "beta": 1.65,
+      "rsi": 42.0,
+      "ma200": 31.3,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HLMN",
+      "name": "Hillman Solutions Corp. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 8.71,
+      "volume": 922300,
+      "marketCap": 1721437696,
+      "dividendYield": null,
+      "beta": 1.64,
+      "rsi": 33.3,
+      "ma200": 8.54,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FIX",
+      "name": "Comfort Systems USA, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 1003.64,
+      "volume": 395900,
+      "marketCap": 35409879040,
+      "dividendYield": 19.0,
+      "beta": 1.64,
+      "rsi": 46.8,
+      "ma200": 667.54,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DSGN",
+      "name": "Design Therapeutics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 9.1,
+      "volume": 220100,
+      "marketCap": 518370208,
+      "dividendYield": null,
+      "beta": 1.64,
+      "rsi": 48.4,
+      "ma200": 5.51,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IVZ",
+      "name": "Invesco Ltd Common Stock",
+      "exchange": "NYSE",
+      "price": 26.94,
+      "volume": 3294800,
+      "marketCap": 12014264320,
+      "dividendYield": 320.0,
+      "beta": 1.64,
+      "rsi": 49.3,
+      "ma200": 19.49,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "KLIC",
+      "name": "Kulicke and Soffa Industries, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 48.35,
+      "volume": 671100,
+      "marketCap": 2531750912,
+      "dividendYield": 180.0,
+      "beta": 1.64,
+      "rsi": 46.9,
+      "ma200": 36.96,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ADNT",
+      "name": "Adient plc Ordinary Shares",
+      "exchange": "NYSE",
+      "price": 19.04,
+      "volume": 1036600,
+      "marketCap": 1546922496,
+      "dividendYield": null,
+      "beta": 1.64,
+      "rsi": 51.1,
+      "ma200": 19.51,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CRL",
+      "name": "Charles River Laboratories International, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 202.42,
+      "volume": 483500,
+      "marketCap": 9962195968,
+      "dividendYield": null,
+      "beta": 1.64,
+      "rsi": 63.5,
+      "ma200": 158.51,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ACVA",
+      "name": "ACV Auctions Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 8.29,
+      "volume": 3937400,
+      "marketCap": 1504393344,
+      "dividendYield": null,
+      "beta": 1.63,
+      "rsi": 54.3,
+      "ma200": 12.23,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FOA",
+      "name": "Finance of America Companies Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 22.45,
+      "volume": 159700,
+      "marketCap": 248729616,
+      "dividendYield": null,
+      "beta": 1.63,
+      "rsi": 40.1,
+      "ma200": 22.89,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CUBI",
+      "name": "Customers Bancorp, Inc Common Stock",
+      "exchange": "NYSE",
+      "price": 74.5,
+      "volume": 264900,
+      "marketCap": 2545521664,
+      "dividendYield": null,
+      "beta": 1.62,
+      "rsi": 55.1,
+      "ma200": 61.39,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ALGM",
+      "name": "Allegro MicroSystems, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 26.91,
+      "volume": 2150600,
+      "marketCap": 4981553152,
+      "dividendYield": null,
+      "beta": 1.62,
+      "rsi": 39.1,
+      "ma200": 28.2,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FTAI",
+      "name": "FTAI Aviation Ltd. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 210.35,
+      "volume": 1920300,
+      "marketCap": 21576216576,
+      "dividendYield": 64.0,
+      "beta": 1.62,
+      "rsi": 69.8,
+      "ma200": 140.38,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CGNT",
+      "name": "Cognyte Software Ltd. - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 8.9,
+      "volume": 262600,
+      "marketCap": 650038976,
+      "dividendYield": null,
+      "beta": 1.62,
+      "rsi": 23.2,
+      "ma200": 9.06,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IOT",
+      "name": "Samsara Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 33.92,
+      "volume": 4514700,
+      "marketCap": 19571976192,
+      "dividendYield": null,
+      "beta": 1.61,
+      "rsi": 2.1,
+      "ma200": 39.07,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "F",
+      "name": "Ford Motor Company Common Stock",
+      "exchange": "NYSE",
+      "price": 13.34,
+      "volume": 46329000,
+      "marketCap": 53153214464,
+      "dividendYield": 457.0,
+      "beta": 1.61,
+      "rsi": 40.3,
+      "ma200": 11.29,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EVR",
+      "name": "Evercore Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 351.27,
+      "volume": 175100,
+      "marketCap": 13586461696,
+      "dividendYield": 99.0,
+      "beta": 1.61,
+      "rsi": 55.7,
+      "ma200": 281.21,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "APO",
+      "name": "Apollo Global Management, Inc. (New) Common Stock",
+      "exchange": "NYSE",
+      "price": 146.61,
+      "volume": 2047300,
+      "marketCap": 85095759872,
+      "dividendYield": 139.0,
+      "beta": 1.6,
+      "rsi": 36.9,
+      "ma200": 135.29,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GLUE",
+      "name": "Monte Rosa Therapeutics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 15.31,
+      "volume": 424300,
+      "marketCap": 996952960,
+      "dividendYield": null,
+      "beta": 1.6,
+      "rsi": 43.8,
+      "ma200": 7.72,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DKNG",
+      "name": "DraftKings Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 35.66,
+      "volume": 10156300,
+      "marketCap": 17750566912,
+      "dividendYield": null,
+      "beta": 1.6,
+      "rsi": 56.4,
+      "ma200": 37.7,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AORT",
+      "name": "Artivion, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 44.46,
+      "volume": 252200,
+      "marketCap": 2106289792,
+      "dividendYield": null,
+      "beta": 1.6,
+      "rsi": 42.1,
+      "ma200": 36.03,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CALX",
+      "name": "Calix, Inc Common Stock",
+      "exchange": "NYSE",
+      "price": 53.59,
+      "volume": 448800,
+      "marketCap": 3551756032,
+      "dividendYield": null,
+      "beta": 1.59,
+      "rsi": 37.5,
+      "ma200": 52.21,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BOOT",
+      "name": "Boot Barn Holdings, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 186.63,
+      "volume": 705200,
+      "marketCap": 5702596096,
+      "dividendYield": null,
+      "beta": 1.59,
+      "rsi": 29.0,
+      "ma200": 161.75,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FSLR",
+      "name": "First Solar, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 274.34,
+      "volume": 1476600,
+      "marketCap": 29438916608,
+      "dividendYield": null,
+      "beta": 1.59,
+      "rsi": 50.8,
+      "ma200": 195.05,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CAMT",
+      "name": "Camtek Ltd. - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 115.5,
+      "volume": 307500,
+      "marketCap": 5286002688,
+      "dividendYield": null,
+      "beta": 1.59,
+      "rsi": 46.7,
+      "ma200": 88.99,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CC",
+      "name": "Chemours Company (The) Common Stock",
+      "exchange": "NYSE",
+      "price": 12.25,
+      "volume": 2718100,
+      "marketCap": 1836176384,
+      "dividendYield": 297.0,
+      "beta": 1.59,
+      "rsi": 36.8,
+      "ma200": 12.81,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CHWY",
+      "name": "Chewy, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 33.49,
+      "volume": 5488400,
+      "marketCap": 13898302464,
+      "dividendYield": null,
+      "beta": 1.59,
+      "rsi": 44.5,
+      "ma200": 37.45,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ATMU",
+      "name": "Atmus Filtration Technologies Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 52.41,
+      "volume": 601800,
+      "marketCap": 4305585664,
+      "dividendYield": 42.0,
+      "beta": 1.59,
+      "rsi": 41.5,
+      "ma200": 41.87,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GH",
+      "name": "Guardant Health, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 101.74,
+      "volume": 1093300,
+      "marketCap": 13213423616,
+      "dividendYield": null,
+      "beta": 1.59,
+      "rsi": 51.0,
+      "ma200": 62.42,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "EFX",
+      "name": "Equifax, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 214.03,
+      "volume": 1664500,
+      "marketCap": 26367934464,
+      "dividendYield": 92.0,
+      "beta": 1.59,
+      "rsi": 33.1,
+      "ma200": 240.46,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AQST",
+      "name": "Aquestive Therapeutics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 6.45,
+      "volume": 3321000,
+      "marketCap": 786920064,
+      "dividendYield": null,
+      "beta": 1.58,
+      "rsi": 53.4,
+      "ma200": 4.44,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AXL",
+      "name": "American Axle & Manufacturing Holdings, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 6.49,
+      "volume": 1729300,
+      "marketCap": 770339776,
+      "dividendYield": null,
+      "beta": 1.58,
+      "rsi": 52.5,
+      "ma200": 5.18,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HIPO",
+      "name": "Hippo Holdings Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 29.98,
+      "volume": 211800,
+      "marketCap": 759548672,
+      "dividendYield": null,
+      "beta": 1.57,
+      "rsi": 43.5,
+      "ma200": 29.62,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARI",
+      "name": "Apollo Commercial Real Estate Finance, Inc",
+      "exchange": "NYSE",
+      "price": 9.86,
+      "volume": 867000,
+      "marketCap": 1369986048,
+      "dividendYield": 1014.0,
+      "beta": 1.57,
+      "rsi": 50.2,
+      "ma200": 9.38,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CMP",
+      "name": "Compass Minerals Intl Inc Common Stock",
+      "exchange": "NYSE",
+      "price": 19.86,
+      "volume": 255000,
+      "marketCap": 830535232,
+      "dividendYield": null,
+      "beta": 1.57,
+      "rsi": 68.1,
+      "ma200": 17.83,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ATKR",
+      "name": "Atkore Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 64.43,
+      "volume": 443600,
+      "marketCap": 2174553856,
+      "dividendYield": 209.0,
+      "beta": 1.57,
+      "rsi": 35.8,
+      "ma200": 64.44,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BLDR",
+      "name": "Builders FirstSource, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 104.63,
+      "volume": 912200,
+      "marketCap": 11570045952,
+      "dividendYield": null,
+      "beta": 1.56,
+      "rsi": 33.9,
+      "ma200": 120.47,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CAT",
+      "name": "Caterpillar, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 598.41,
+      "volume": 2761600,
+      "marketCap": 280342462464,
+      "dividendYield": 105.0,
+      "beta": 1.56,
+      "rsi": 38.9,
+      "ma200": 434.44,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DBD",
+      "name": "Diebold Nixdorf Incorporated Common stock",
+      "exchange": "NYSE",
+      "price": 63.96,
+      "volume": 339600,
+      "marketCap": 2343081472,
+      "dividendYield": null,
+      "beta": 1.56,
+      "rsi": 31.9,
+      "ma200": 55.77,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ALTG",
+      "name": "Alta Equipment Group Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 5.01,
+      "volume": 301500,
+      "marketCap": 161498784,
+      "dividendYield": 455.0,
+      "beta": 1.55,
+      "rsi": 34.2,
+      "ma200": 6.05,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DNA",
+      "name": "Ginkgo Bioworks Holdings, Inc. Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 8.7,
+      "volume": 916600,
+      "marketCap": 527134912,
+      "dividendYield": null,
+      "beta": 1.55,
+      "rsi": 34.8,
+      "ma200": 10.03,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CSTM",
+      "name": "Constellium SE Ordinary Shares (France)",
+      "exchange": "NYSE",
+      "price": 19.77,
+      "volume": 911400,
+      "marketCap": 2758686464,
+      "dividendYield": null,
+      "beta": 1.55,
+      "rsi": 68.5,
+      "ma200": 13.97,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARES",
+      "name": "Ares Management Corporation Class A Common Stock",
+      "exchange": "NYSE",
+      "price": 166.33,
+      "volume": 1310000,
+      "marketCap": 54493802496,
+      "dividendYield": 277.0,
+      "beta": 1.54,
+      "rsi": 34.9,
+      "ma200": 162.2,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ADBE",
+      "name": "Adobe Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 333.3,
+      "volume": 5637500,
+      "marketCap": 141385859072,
+      "dividendYield": null,
+      "beta": 1.54,
+      "rsi": 33.3,
+      "ma200": 362.37,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ALLT",
+      "name": "Allot Ltd. - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "price": 9.66,
+      "volume": 784400,
+      "marketCap": 467791456,
+      "dividendYield": null,
+      "beta": 1.54,
+      "rsi": 41.1,
+      "ma200": 8.34,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CROX",
+      "name": "Crocs, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 86.95,
+      "volume": 760400,
+      "marketCap": 4748979200,
+      "dividendYield": null,
+      "beta": 1.54,
+      "rsi": 42.9,
+      "ma200": 92.88,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IDCC",
+      "name": "InterDigital, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 326.26,
+      "volume": 200900,
+      "marketCap": 8418278400,
+      "dividendYield": 88.0,
+      "beta": 1.54,
+      "rsi": 29.1,
+      "ma200": 276.56,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LITE",
+      "name": "Lumentum Holdings Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 386.11,
+      "volume": 2817500,
+      "marketCap": 27380060160,
+      "dividendYield": null,
+      "beta": 1.53,
+      "rsi": 53.4,
+      "ma200": 149.03,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "FOXF",
+      "name": "Fox Factory Holding Corp. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 17.42,
+      "volume": 555800,
+      "marketCap": 728179648,
+      "dividendYield": null,
+      "beta": 1.53,
+      "rsi": 60.3,
+      "ma200": 23.6,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GDEN",
+      "name": "Golden Entertainment, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 27.3,
+      "volume": 101000,
+      "marketCap": 714549760,
+      "dividendYield": 368.0,
+      "beta": 1.53,
+      "rsi": 34.9,
+      "ma200": 26.13,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BAM",
+      "name": "Brookfield Asset Management Inc Class A Limited Voting Shares",
+      "exchange": "NYSE",
+      "price": 53.45,
+      "volume": 1236000,
+      "marketCap": 86289514496,
+      "dividendYield": 334.0,
+      "beta": 1.53,
+      "rsi": 42.2,
+      "ma200": 54.65,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CCS",
+      "name": "Century Communities, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 58.94,
+      "volume": 216900,
+      "marketCap": 1749326336,
+      "dividendYield": 195.0,
+      "beta": 1.53,
+      "rsi": 22.5,
+      "ma200": 59.98,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CGNX",
+      "name": "Cognex Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 36.93,
+      "volume": 1201500,
+      "marketCap": 6189395968,
+      "dividendYield": 94.0,
+      "beta": 1.52,
+      "rsi": 50.3,
+      "ma200": 36.25,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ITRI",
+      "name": "Itron, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 94.47,
+      "volume": 379600,
+      "marketCap": 4326855680,
+      "dividendYield": null,
+      "beta": 1.52,
+      "rsi": 34.6,
+      "ma200": 115.89,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "LTRX",
+      "name": "Lantronix, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 6.15,
+      "volume": 389900,
+      "marketCap": 242055440,
+      "dividendYield": null,
+      "beta": 1.52,
+      "rsi": 40.1,
+      "ma200": 3.7,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CBL",
+      "name": "CBL & Associates Properties, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 36.93,
+      "volume": 110200,
+      "marketCap": 1142362240,
+      "dividendYield": 459.0,
+      "beta": 1.52,
+      "rsi": 50.9,
+      "ma200": 28.13,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ARCB",
+      "name": "ArcBest Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 77.17,
+      "volume": 254200,
+      "marketCap": 1753833344,
+      "dividendYield": 65.0,
+      "beta": 1.52,
+      "rsi": 52.4,
+      "ma200": 70.47,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "IIPR",
+      "name": "Innovative Industrial Properties, Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 49.47,
+      "volume": 524400,
+      "marketCap": 1386296704,
+      "dividendYield": 1605.0,
+      "beta": 1.52,
+      "rsi": 48.4,
+      "ma200": 50.1,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "GSHD",
+      "name": "Goosehead Insurance, Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 70.16,
+      "volume": 278800,
+      "marketCap": 2635074304,
+      "dividendYield": null,
+      "beta": 1.52,
+      "rsi": 27.0,
+      "ma200": 89.5,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CYRX",
+      "name": "CryoPort, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 9.56,
+      "volume": 289300,
+      "marketCap": 478658752,
+      "dividendYield": null,
+      "beta": 1.52,
+      "rsi": 47.1,
+      "ma200": 7.96,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "APTV",
+      "name": "Aptiv PLC Ordinary Shares",
+      "exchange": "NYSE",
+      "price": 78.44,
+      "volume": 1877800,
+      "marketCap": 17081079808,
+      "dividendYield": null,
+      "beta": 1.52,
+      "rsi": 43.2,
+      "ma200": 72.24,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "DXCM",
+      "name": "DexCom, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 66.54,
+      "volume": 2892600,
+      "marketCap": 26094012416,
+      "dividendYield": null,
+      "beta": 1.51,
+      "rsi": 36.4,
+      "ma200": 73.89,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "BOOM",
+      "name": "DMC Global Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 6.85,
+      "volume": 110100,
+      "marketCap": 141044800,
+      "dividendYield": null,
+      "beta": 1.51,
+      "rsi": 52.2,
+      "ma200": 7.22,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "AMPL",
+      "name": "Amplitude, Inc. - Class A Common Stock",
+      "exchange": "NASDAQ",
+      "price": 10.93,
+      "volume": 1034400,
+      "marketCap": 1461189888,
+      "dividendYield": null,
+      "beta": 1.51,
+      "rsi": 45.6,
+      "ma200": 11.08,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "HGV",
+      "name": "Hilton Grand Vacations Inc. Common Stock",
+      "exchange": "NYSE",
+      "price": 45.49,
+      "volume": 731700,
+      "marketCap": 4008402688,
+      "dividendYield": null,
+      "beta": 1.51,
+      "rsi": 62.7,
+      "ma200": 41.96,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "KN",
+      "name": "Knowles Corporation Common Stock",
+      "exchange": "NYSE",
+      "price": 21.95,
+      "volume": 726100,
+      "marketCap": 1885233024,
+      "dividendYield": null,
+      "beta": 1.51,
+      "rsi": 22.3,
+      "ma200": 19.68,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "CRSR",
+      "name": "Corsair Gaming, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 6.02,
+      "volume": 880700,
+      "marketCap": 641582720,
+      "dividendYield": null,
+      "beta": 1.51,
+      "rsi": 28.1,
+      "ma200": 8.08,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    },
+    {
+      "symbol": "ADUR",
+      "name": "Aduro Clean Technologies Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "price": 10.57,
+      "volume": 398600,
+      "marketCap": 350425376,
+      "dividendYield": null,
+      "beta": 1.5,
+      "rsi": 14.9,
+      "ma200": 10.34,
+      "scores": {
+        "dividendDaddy": null,
+        "moonShot": null,
+        "fallingKnife": null,
+        "overHyped": null,
+        "instWhale": null
+      }
+    }
+  ]
+}

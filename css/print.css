@@ -1,0 +1,88 @@
+/* Print styles for Stock Market Words */
+
+@media print {
+    /* Hide navigation and non-essential elements */
+    nav, .navbar, footer {
+        display: none !important;
+    }
+    
+    /* Hide Portfolio Viewer button */
+    .btn-success[onclick*="Portfolio Viewer"] {
+        display: none !important;
+    }
+    
+    /* Expand all tables - show all rows */
+    .table-pagination {
+        display: none !important;
+    }
+    
+    /* Show all table rows */
+    tr[style*="display: none"] {
+        display: table-row !important;
+    }
+    
+    /* Better table printing */
+    table {
+        page-break-inside: auto;
+    }
+    
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+    
+    thead {
+        display: table-header-group;
+    }
+    
+    /* Card styles for print */
+    .card {
+        page-break-inside: avoid;
+        border: 1px solid #000 !important;
+        margin-bottom: 1rem;
+    }
+    
+    .card-header {
+        background-color: #f8f9fa !important;
+        border-bottom: 1px solid #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    /* Preserve ticker highlighting colors */
+    .token-ticker {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        border: 1px solid #000;
+    }
+    
+    /* Ensure text is readable */
+    body {
+        font-size: 12pt;
+        color: #000;
+    }
+    
+    /* Hide loading indicators */
+    #loading-indicator {
+        display: none !important;
+    }
+    
+    /* Compact spacing for print */
+    .mb-4 {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .mb-3 {
+        margin-bottom: 0.25rem !important;
+    }
+    
+    /* Page breaks between strategies */
+    .card.mb-4 {
+        page-break-after: auto;
+    }
+    
+    /* First strategy starts fresh */
+    .card.mb-4:first-of-type {
+        page-break-before: avoid;
+    }
+}
