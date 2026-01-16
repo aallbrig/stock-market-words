@@ -5,6 +5,9 @@ I amuse myself imagining this list providing some sort of trading edge for any t
 
 ## Links
 
+### [Stock Market Words](https://stockmarketwords.com)
+Production site: https://stockmarketwords.com
+
 ### [QA Environment](https://aallbrig.github.io/stock-market-words/)
 ![QR code for QA environment](./hugo/site/static/media/qa-env-qr-code.png)
 
