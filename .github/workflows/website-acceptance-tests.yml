@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           lfs: true
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '20'
       - run: npm --prefix ./acceptance-tests install
       - run: npm --prefix ./acceptance-tests run test-stage
       - run: npm --prefix ./acceptance-tests run test-production
