@@ -50,26 +50,12 @@ jobs:
         python -m stock_ticker.cli hugo pages || echo "Page generation failed, using existing pages"
         cd ..
         
-    - name: Start Hugo server
-      run: |
-        cd hugo/site
-        hugo server --bind 0.0.0.0 --port 8668 --disableLiveReload &
-        echo $! > hugo.pid
-        cd ../..
-        
-    - name: Wait for server to be ready
-      run: |
-        timeout 30 bash -c 'until curl -f http://localhost:8668 > /dev/null 2>&1; do sleep 1; done'
-        
-    - name: Run page load tests (10s timeout for CI efficiency)
+    - name: Run E2E tests with managed server
       run: npm run test:e2e:ci
-      
-    # TODO: Uncomment when TickerEngine performance is optimized to complete under 10 seconds
-    # Currently takes 60+ seconds on MEDIUM/LONG samples - too slow for CI
-    # 
-    # - name: Run ticker performance tests
-    #   run: TIMEOUT_SECONDS=10 npm run test:e2e:ticker
-    #   timeout-minutes: 5
+      env:
+        START_SERVER: 'true'
+        SERVER_PORT: '8668'
+        SERVER_HOST: '127.0.0.1'
       
     - name: Upload test reports
       if: always()
@@ -78,14 +64,6 @@ jobs:
         name: test-reports
         path: test-reports/
         retention-days: 30
-        
-    - name: Stop Hugo server
-      if: always()
-      run: |
-        if [ -f hugo/site/hugo.pid ]; then
-          kill $(cat hugo/site/hugo.pid) || true
-          rm hugo/site/hugo.pid
-        fi
         
     - name: Test Summary
       if: always()

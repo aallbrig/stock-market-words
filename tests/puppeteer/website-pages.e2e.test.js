@@ -1,11 +1,17 @@
 /**
  * Basic page load tests for all website pages
  * Ensures all pages load successfully with no console errors
+ * 
+ * Environment variables:
+ * - TEST_URL: Override base URL (e.g., https://aallbrig.github.io/stock-market-words/)
+ * - START_SERVER: Set to 'false' to skip server startup (default: true)
+ * - SERVER_PORT: Port for local server (default: 8668)
  */
 
 const puppeteer = require('puppeteer');
+const { setupTestServer, teardownTestServer } = require('../test-server');
 
-const BASE_URL = process.env.TEST_URL || 'http://localhost:8668';
+let BASE_URL;
 
 // All pages on the website
 const PAGES = [
@@ -27,6 +33,10 @@ describe('Website Page Load Tests', () => {
   let pageErrors = [];
 
   beforeAll(async () => {
+    // Start test server (or verify external server)
+    BASE_URL = await setupTestServer();
+    console.log(`Running tests against: ${BASE_URL}`);
+    
     browser = await puppeteer.launch({
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -37,6 +47,9 @@ describe('Website Page Load Tests', () => {
     if (browser) {
       await browser.close();
     }
+    
+    // Stop test server
+    await teardownTestServer();
   });
 
   beforeEach(async () => {
