@@ -5,6 +5,9 @@
 
 {{ if not (.Page.Scratch.Get "ticker-portfolio-extraction-tool-js-loaded") }}
   {{ .Page.Scratch.Set "ticker-portfolio-extraction-tool-js-loaded" true }}
+  <script>
+    window.SITE_BASE_URL = '{{ .Page.Site.BaseURL }}';
+  </script>
   <script src="{{ .Page.Site.BaseURL }}js/portfolio-extractor.js"></script>
 {{ end }}
 
