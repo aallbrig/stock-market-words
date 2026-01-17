@@ -7,7 +7,7 @@
  * - CI/CD: 10 seconds (set via TIMEOUT_SECONDS=10)
  * 
  * Environment variables:
- * - TEST_URL: Override base URL (e.g., https://aallbrig.github.io/stock-market-words/)
+ * - TEST_URL: Override base URL (e.g., https://stockmarketwords.com/)
  * - START_SERVER: Set to 'false' to skip server startup (default: true)
  * - SERVER_PORT: Port for local server (default: 8668)
  * - TIMEOUT_SECONDS: Max processing time in seconds (default: 60)

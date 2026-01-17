@@ -503,7 +503,13 @@ function renderPortfolios(text, words, portfolios) {
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
                     <h6 class="mb-0">
-                        ${strategy.name}
+                        <a href="/strategy-${strategyKey.toLowerCase().replace(/_/g, '-')}/" class="text-white text-decoration-none" target="_blank">
+                            ${strategy.name}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16" style="vertical-align: baseline;">
+                                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+                                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+                            </svg>
+                        </a>
                         <span class="strategy-help" title="${strategy.help}">ℹ️</span>
                     </h6>
                     <small>${strategy.description}</small>
@@ -554,8 +560,10 @@ function renderPortfolios(text, words, portfolios) {
             html += `<table class="table table-sm table-striped mb-3" id="${tableId}"><thead><tr><th>Symbol</th><th>Name</th><th>Price</th></tr></thead><tbody>`;
             portfolio.tickers.forEach((t, idx) => {
                 const data = tickerData[t.symbol];
-                const rowClass = needsPagination && idx >= tickersPerPage ? 'ticker-row-hidden' : '';
-                html += `<tr class="${rowClass}" data-page="${Math.floor(idx / tickersPerPage)}"><td><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
+                const page = Math.floor(idx / tickersPerPage);
+                const shouldHide = needsPagination && page > 0;
+                const rowStyle = shouldHide ? ' style="display: none;"' : '';
+                html += `<tr data-page="${page}"${rowStyle}><td><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
             });
             html += '</tbody></table>';
 

@@ -27,8 +27,9 @@ jobs:
       - name: Build Hugo site
         run: |
           cd hugo/site
-          hugo --minify --baseURL "https://aallbrig.github.io/stock-market-words/"
-          touch public/.nojekyll
+          hugo --minify
+        env:
+          HUGO_PARAMS_GOOGLEANALYTICSID: G-RQCDXSWTLG
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

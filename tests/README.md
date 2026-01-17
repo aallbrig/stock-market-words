@@ -48,7 +48,7 @@ The test suite now includes automatic server management via `test-server.js`.
 
 ### Environment Variables
 
-- **TEST_URL**: Override base URL (e.g., `https://stockmarketwords.com/` or `https://aallbrig.github.io/stock-market-words/`)
+- **TEST_URL**: Override base URL (e.g., `https://stockmarketwords.com/`)
   - When set, tests use this URL instead of starting a local server
 - **START_SERVER**: Set to `'false'` to skip server startup (default: `'true'`)
 - **SERVER_PORT**: Port for local server (default: `8668`)

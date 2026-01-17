@@ -1,8 +1,8 @@
 {
   "source": "NASDAQ FTP",
   "file": "otherlisted.txt",
-  "downloaded_at": "2026-01-02T22:11:01.817991",
-  "total_rows": 6913,
+  "downloaded_at": "2026-01-17T14:44:24.762905",
+  "total_rows": 6935,
   "columns": [
     "ACT Symbol",
     "Security Name",
@@ -1826,7 +1826,7 @@
     },
     {
       "ACT Symbol": "AJAN",
-      "Security Name": "Innovator Equity Defined Protection ETF - 2 Yr to January 2026",
+      "Security Name": "Innovator Equity Defined Protection ETF - 2 Yr to January 2028",
       "Exchange": "Z",
       "CQS Symbol": "AJAN",
       "ETF": "Y",
@@ -2135,6 +2135,16 @@
       "NASDAQ Symbol": "ALTL"
     },
     {
+      "ACT Symbol": "ALUB",
+      "Security Name": "Alussa Energy Acquisition Corp. II Class A Ordinary Shares",
+      "Exchange": "N",
+      "CQS Symbol": "ALUB",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ALUB"
+    },
+    {
       "ACT Symbol": "ALUB.U",
       "Security Name": "Alussa Energy Acquisition Corp. II Units, each consisting of one Class A ordinary share and one-third of one redeemable warrant",
       "Exchange": "N",
@@ -2143,6 +2153,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "ALUB="
+    },
+    {
+      "ACT Symbol": "ALUB.W",
+      "Security Name": "Alussa Energy Acquisition Corp. II Redeemable Warrants, each whole warrant exercisable for one Class A ordinary share at an exercise price of $11.50 per share",
+      "Exchange": "N",
+      "CQS Symbol": "ALUB.WS",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ALUB+"
     },
     {
       "ACT Symbol": "ALUR",
@@ -5825,6 +5845,16 @@
       "NASDAQ Symbol": "BCOR"
     },
     {
+      "ACT Symbol": "BCPL",
+      "Security Name": "BNY Mellon Core Plus ETF",
+      "Exchange": "P",
+      "CQS Symbol": "BCPL",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "BCPL"
+    },
+    {
       "ACT Symbol": "BCS",
       "Security Name": "Barclays PLC Common Stock",
       "Exchange": "N",
@@ -6335,6 +6365,16 @@
       "NASDAQ Symbol": "BFIX"
     },
     {
+      "ACT Symbol": "BFJA",
+      "Security Name": "FT Vest Bitcoin Strategy Floor15 ETF - January",
+      "Exchange": "P",
+      "CQS Symbol": "BFJA",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "BFJA"
+    },
+    {
       "ACT Symbol": "BFJL",
       "Security Name": "FT Vest Bitcoin Strategy Floor15 ETF July",
       "Exchange": "P",
@@ -6373,16 +6413,6 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "BFLY"
-    },
-    {
-      "ACT Symbol": "BFLY.W",
-      "Security Name": "Butterfly Network, Inc. Warrants",
-      "Exchange": "N",
-      "CQS Symbol": "BFLY.WS",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "BFLY+"
     },
     {
       "ACT Symbol": "BFOC",
@@ -6773,6 +6803,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "BIGY"
+    },
+    {
+      "ACT Symbol": "BIII.U",
+      "Security Name": "Black Spade Acquisition III Co Units, each consisting of one Class A ordinary share and one-third of one redeemable warrant",
+      "Exchange": "N",
+      "CQS Symbol": "BIII.U",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "BIII="
     },
     {
       "ACT Symbol": "BIL",
@@ -7233,6 +7273,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "BKF"
+    },
+    {
+      "ACT Symbol": "BKFI",
+      "Security Name": "BNY Mellon Active Core Bond ETF",
+      "Exchange": "P",
+      "CQS Symbol": "BKFI",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "BKFI"
     },
     {
       "ACT Symbol": "BKGI",
@@ -8865,6 +8915,16 @@
       "NASDAQ Symbol": "BUD"
     },
     {
+      "ACT Symbol": "BUDA",
+      "Security Name": "Buda Juice, Inc. Common Stock",
+      "Exchange": "A",
+      "CQS Symbol": "BUDA",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "BUDA"
+    },
+    {
       "ACT Symbol": "BUFB",
       "Security Name": "Innovator Laddered Allocation Buffer ETF",
       "Exchange": "Z",
@@ -9475,6 +9535,16 @@
       "NASDAQ Symbol": "CABO"
     },
     {
+      "ACT Symbol": "CABZ",
+      "Security Name": "Roundhill Robotaxi, Autonomous Vehicles & Technology ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "CABZ",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "CABZ"
+    },
+    {
       "ACT Symbol": "CACI",
       "Security Name": "CACI International, Inc. Class A Common Stock",
       "Exchange": "N",
@@ -9595,6 +9665,16 @@
       "NASDAQ Symbol": "CALX"
     },
     {
+      "ACT Symbol": "CALY",
+      "Security Name": "Callaway Golf Company Common Stock",
+      "Exchange": "N",
+      "CQS Symbol": "CALY",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "CALY"
+    },
+    {
       "ACT Symbol": "CAM",
       "Security Name": "AB California Intermediate Municipal ETF",
       "Exchange": "P",
@@ -9636,7 +9716,7 @@
     },
     {
       "ACT Symbol": "CANF",
-      "Security Name": "Can-Fite Biopharma Ltd Sponsored ADR (Israel)",
+      "Security Name": "Can-Fite Biopharma Ltd American Depositary Shares, each representing two (2) Ordinary Shares",
       "Exchange": "A",
       "CQS Symbol": "CANF",
       "ETF": "N",
@@ -11225,26 +11305,6 @@
       "NASDAQ Symbol": "CINT"
     },
     {
-      "ACT Symbol": "CIO",
-      "Security Name": "City Office REIT, Inc. Common Stock",
-      "Exchange": "N",
-      "CQS Symbol": "CIO",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "CIO"
-    },
-    {
-      "ACT Symbol": "CIO$A",
-      "Security Name": "City Office REIT, Inc. 6.625% Series A Cumulative Redeemable Preferred Stock",
-      "Exchange": "N",
-      "CQS Symbol": "CIOpA",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "CIO-A"
-    },
-    {
       "ACT Symbol": "CION",
       "Security Name": "CION Investment Corporation Common Stock",
       "Exchange": "N",
@@ -11323,16 +11383,6 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "CLCG"
-    },
-    {
-      "ACT Symbol": "CLCO",
-      "Security Name": "Cool Company Ltd. Common Shares",
-      "Exchange": "N",
-      "CQS Symbol": "CLCO",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "CLCO"
     },
     {
       "ACT Symbol": "CLCV",
@@ -11423,6 +11473,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "CLM"
+    },
+    {
+      "ACT Symbol": "CLNK",
+      "Security Name": "Common Shares of Beneficial Interest of Bitwise Chainlink ETF",
+      "Exchange": "P",
+      "CQS Symbol": "CLNK",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "CLNK"
     },
     {
       "ACT Symbol": "CLOB",
@@ -13135,6 +13195,16 @@
       "NASDAQ Symbol": "CRM"
     },
     {
+      "ACT Symbol": "CRMX",
+      "Security Name": "Tradr 2X Long CRML Daily ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "CRMX",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "CRMX"
+    },
+    {
       "ACT Symbol": "CRPT",
       "Security Name": "First Trust SkyBridge Crypto Industry and Digital Economy ETF",
       "Exchange": "P",
@@ -13785,16 +13855,6 @@
       "NASDAQ Symbol": "CVE"
     },
     {
-      "ACT Symbol": "CVE.W",
-      "Security Name": "Cenovus Energy Inc Warrants (each warrant entitles the holder to purchase one common share at an exercise price of C$6.54 per share)",
-      "Exchange": "N",
-      "CQS Symbol": "CVE.WS",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "CVE+"
-    },
-    {
       "ACT Symbol": "CVEO",
       "Security Name": "Civeo Corporation (Canada) Common Shares",
       "Exchange": "N",
@@ -14163,16 +14223,6 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "CXW"
-    },
-    {
-      "ACT Symbol": "CYBN",
-      "Security Name": "Cybin Inc. Common Shares",
-      "Exchange": "A",
-      "CQS Symbol": "CYBN",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "CYBN"
     },
     {
       "ACT Symbol": "CYD",
@@ -19285,6 +19335,16 @@
       "NASDAQ Symbol": "EOS"
     },
     {
+      "ACT Symbol": "EOSU",
+      "Security Name": "T-REX 2X Long EOSE Daily Target ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "EOSU",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "EOSU"
+    },
+    {
       "ACT Symbol": "EOT",
       "Security Name": "Eaton Vance Municipal Income Trust EATON VANCE NATIONAL MUNICIPAL OPPORTUNITIES TRUST",
       "Exchange": "N",
@@ -20066,7 +20126,7 @@
     },
     {
       "ACT Symbol": "ETH",
-      "Security Name": "Grayscale Ethereum Mini Trust (ETH)",
+      "Security Name": "Grayscale Ethereum Staking Mini ETF Shares",
       "Exchange": "P",
       "CQS Symbol": "ETH",
       "ETF": "Y",
@@ -20086,7 +20146,7 @@
     },
     {
       "ACT Symbol": "ETHE",
-      "Security Name": "Grayscale Ethereum Trust (ETH)",
+      "Security Name": "Grayscale Ethereum Staking ETF Shares",
       "Exchange": "P",
       "CQS Symbol": "ETHE",
       "ETF": "Y",
@@ -25155,6 +25215,16 @@
       "NASDAQ Symbol": "GCC"
     },
     {
+      "ACT Symbol": "GCDT",
+      "Security Name": "Green Circle Decarbonize Technology Limited Ordinary Shares",
+      "Exchange": "A",
+      "CQS Symbol": "GCDT",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "GCDT"
+    },
+    {
       "ACT Symbol": "GCO",
       "Security Name": "Genesco Inc. Common Stock",
       "Exchange": "N",
@@ -27546,7 +27616,7 @@
     },
     {
       "ACT Symbol": "GSOL",
-      "Security Name": "Grayscale Solana Trust ETF",
+      "Security Name": "Grayscale Solana Staking ETF",
       "Exchange": "P",
       "CQS Symbol": "GSOL",
       "ETF": "Y",
@@ -29195,16 +29265,6 @@
       "NASDAQ Symbol": "HOOZ"
     },
     {
-      "ACT Symbol": "HOUS",
-      "Security Name": "Anywhere Real Estate Inc. Common Stock,",
-      "Exchange": "N",
-      "CQS Symbol": "HOUS",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "HOUS"
-    },
-    {
       "ACT Symbol": "HOV",
       "Security Name": "Hovnanian Enterprises, Inc. Class A Common Stock",
       "Exchange": "N",
@@ -29955,14 +30015,14 @@
       "NASDAQ Symbol": "HYT"
     },
     {
-      "ACT Symbol": "HYT.V",
-      "Security Name": "Blackrock Corporate High Yield Fund, Inc. Rights (expiring January 26, 2026) Rights when issued",
+      "ACT Symbol": "HYT.R",
+      "Security Name": "Blackrock Corporate High Yield Fund, Inc. Rights (expiring January 26, 2026) Rights",
       "Exchange": "N",
-      "CQS Symbol": "HYTrw",
+      "CQS Symbol": "HYTr",
       "ETF": "N",
       "Round Lot Size": 100.0,
       "Test Issue": "N",
-      "NASDAQ Symbol": "HYT^#"
+      "NASDAQ Symbol": "HYT^"
     },
     {
       "ACT Symbol": "HYTI",
@@ -33206,7 +33266,7 @@
     },
     {
       "ACT Symbol": "IWMY",
-      "Security Name": "Defiance R2000 Enhanced Options & 0DTE Income ETF",
+      "Security Name": "Defiance R2000 Weekly Distribution ETF",
       "Exchange": "P",
       "CQS Symbol": "IWMY",
       "ETF": "Y",
@@ -36755,6 +36815,16 @@
       "NASDAQ Symbol": "LCLG"
     },
     {
+      "ACT Symbol": "LCO",
+      "Security Name": "LOGIQ Contrarian Opportunities ETF",
+      "Exchange": "P",
+      "CQS Symbol": "LCO",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "LCO"
+    },
+    {
       "ACT Symbol": "LCOW",
       "Security Name": "Pacer S&P 500 Quality FCF Aristocrats ETF",
       "Exchange": "Z",
@@ -37925,6 +37995,16 @@
       "NASDAQ Symbol": "LSVD"
     },
     {
+      "ACT Symbol": "LTAX",
+      "Security Name": "Nomura Tax-Free USA ETF",
+      "Exchange": "P",
+      "CQS Symbol": "LTAX",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "LTAX"
+    },
+    {
       "ACT Symbol": "LTC",
       "Security Name": "LTC Properties, Inc. Common Stock",
       "Exchange": "N",
@@ -38023,6 +38103,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "LUMN"
+    },
+    {
+      "ACT Symbol": "LUNL",
+      "Security Name": "Defiance Daily Target 2X Long LUNR ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "LUNL",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "LUNL"
     },
     {
       "ACT Symbol": "LUV",
@@ -40085,16 +40175,6 @@
       "NASDAQ Symbol": "MMAX"
     },
     {
-      "ACT Symbol": "MMC",
-      "Security Name": "Marsh & McLennan Companies, Inc. Common Stock",
-      "Exchange": "N",
-      "CQS Symbol": "MMC",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "MMC"
-    },
-    {
       "ACT Symbol": "MMCA",
       "Security Name": "NYLI MacKay California Muni Intermediate ETF",
       "Exchange": "P",
@@ -40343,16 +40423,6 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "MOD"
-    },
-    {
-      "ACT Symbol": "MODG",
-      "Security Name": "Topgolf Callaway Brands Corp. Common Stock",
-      "Exchange": "N",
-      "CQS Symbol": "MODG",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "MODG"
     },
     {
       "ACT Symbol": "MOG.A",
@@ -40653,6 +40723,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "MRP"
+    },
+    {
+      "ACT Symbol": "MRSH",
+      "Security Name": "Marsh Common Stock",
+      "Exchange": "N",
+      "CQS Symbol": "MRSH",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "MRSH"
     },
     {
       "ACT Symbol": "MRSK",
@@ -44385,16 +44465,6 @@
       "NASDAQ Symbol": "NX"
     },
     {
-      "ACT Symbol": "NXC",
-      "Security Name": "Nuveen California Select Tax-Free Income Portfolio Common Stock",
-      "Exchange": "N",
-      "CQS Symbol": "NXC",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "NXC"
-    },
-    {
       "ACT Symbol": "NXDR",
       "Security Name": "Nextdoor Holdings, Inc. Class A Common Stock",
       "Exchange": "N",
@@ -44453,16 +44523,6 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "NXJ"
-    },
-    {
-      "ACT Symbol": "NXN",
-      "Security Name": "Nuveen New York Select Tax-Free Income Portfolio Common Stock",
-      "Exchange": "N",
-      "CQS Symbol": "NXN",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "NXN"
     },
     {
       "ACT Symbol": "NXP",
@@ -45223,6 +45283,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "ONDL"
+    },
+    {
+      "ACT Symbol": "ONDU",
+      "Security Name": "Tradr 2X Long ONDS Daily ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "ONDU",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ONDU"
     },
     {
       "ACT Symbol": "ONEO",
@@ -46093,6 +46163,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "PATH"
+    },
+    {
+      "ACT Symbol": "PATX",
+      "Security Name": "Tradr 2X Long PATH Daily ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "PATX",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "PATX"
     },
     {
       "ACT Symbol": "PAUG",
@@ -48033,6 +48113,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "PLTY"
+    },
+    {
+      "ACT Symbol": "PLU",
+      "Security Name": "Defiance Daily Target 2x Long PL ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "PLU",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "PLU"
     },
     {
       "ACT Symbol": "PLX",
@@ -50125,6 +50215,16 @@
       "NASDAQ Symbol": "QETH"
     },
     {
+      "ACT Symbol": "QFHD",
+      "Security Name": "Pacer S&P 500 Quality FCF High Dividend ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "QFHD",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "QFHD"
+    },
+    {
       "ACT Symbol": "QFLR",
       "Security Name": "Innovator Nasdaq-100 Managed Floor ETF",
       "Exchange": "P",
@@ -50133,6 +50233,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "QFLR"
+    },
+    {
+      "ACT Symbol": "QFRD",
+      "Security Name": "Pacer S&P 500 Quality FCF R&D Leaders",
+      "Exchange": "Z",
+      "CQS Symbol": "QFRD",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "QFRD"
     },
     {
       "ACT Symbol": "QGEN",
@@ -51905,16 +52015,6 @@
       "NASDAQ Symbol": "RJF"
     },
     {
-      "ACT Symbol": "RJMG",
-      "Security Name": "FT Raymond James Multicap Growth Equity ETF",
-      "Exchange": "P",
-      "CQS Symbol": "RJMG",
-      "ETF": "Y",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "RJMG"
-    },
-    {
       "ACT Symbol": "RJMI",
       "Security Name": "RJ Eagle Municipal Income ETF",
       "Exchange": "P",
@@ -51943,6 +52043,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "RKT"
+    },
+    {
+      "ACT Symbol": "RKTL",
+      "Security Name": "Defiance Daily Target 2X Long RKT ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "RKTL",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "RKTL"
     },
     {
       "ACT Symbol": "RL",
@@ -55045,6 +55155,16 @@
       "NASDAQ Symbol": "SGRT"
     },
     {
+      "ACT Symbol": "SGRW",
+      "Security Name": "Harbor Active Small Cap Growth ETF",
+      "Exchange": "P",
+      "CQS Symbol": "SGRW",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "SGRW"
+    },
+    {
       "ACT Symbol": "SGU",
       "Security Name": "Star Group L.P. Common Stock",
       "Exchange": "N",
@@ -57115,6 +57235,16 @@
       "NASDAQ Symbol": "SPLB"
     },
     {
+      "ACT Symbol": "SPLS",
+      "Security Name": "PIMCO US Stocks PLUS Active Bond Exchange-Traded Fund",
+      "Exchange": "Z",
+      "CQS Symbol": "SPLS",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "SPLS"
+    },
+    {
       "ACT Symbol": "SPLV",
       "Security Name": "Invesco S&P 500 Low Volatility ETF",
       "Exchange": "P",
@@ -57763,6 +57893,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "SRI"
+    },
+    {
+      "ACT Symbol": "SRJN",
+      "Security Name": "Spire Inc. 6.375% Junior Subordinated Notes due 2086",
+      "Exchange": "N",
+      "CQS Symbol": "SRJN",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "SRJN"
     },
     {
       "ACT Symbol": "SRL",
@@ -59285,6 +59425,16 @@
       "NASDAQ Symbol": "TDAQ"
     },
     {
+      "ACT Symbol": "TDAX",
+      "Security Name": "TDAQ Lift ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "TDAX",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "TDAX"
+    },
+    {
       "ACT Symbol": "TDAY",
       "Security Name": "USA TODAY Co., Inc. Common Stock",
       "Exchange": "N",
@@ -60246,7 +60396,7 @@
     },
     {
       "ACT Symbol": "TIME",
-      "Security Name": "Clockwise Core Equity & Innovation ETF",
+      "Security Name": "Clockwise U.S. Core Equity ETF",
       "Exchange": "P",
       "CQS Symbol": "TIME",
       "ETF": "Y",
@@ -61196,7 +61346,7 @@
     },
     {
       "ACT Symbol": "TPZ",
-      "Security Name": "Tortoise Essential Energy Fund",
+      "Security Name": "Tortoise Electrification Infrastructure ETF",
       "Exchange": "N",
       "CQS Symbol": "TPZ",
       "ETF": "Y",
@@ -61423,6 +61573,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "TRTN-F"
+    },
+    {
+      "ACT Symbol": "TRTN$G",
+      "Security Name": "Triton International Limited 7.500% Series G Cumulative Redeemable Perpetual Preference Shares",
+      "Exchange": "N",
+      "CQS Symbol": "TRTNpG",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "TRTN-G"
     },
     {
       "ACT Symbol": "TRTX",
@@ -63173,6 +63333,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "USAS"
+    },
+    {
+      "ACT Symbol": "USAX",
+      "Security Name": "Tradr 2X Long USAR Daily ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "USAX",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "USAX"
     },
     {
       "ACT Symbol": "USB",
@@ -65856,7 +66026,7 @@
     },
     {
       "ACT Symbol": "WDTE",
-      "Security Name": "Defiance S&P 500 Enhanced Options & 0DTE Income ETF",
+      "Security Name": "Defiance S&P 500 Weekly Distribution ETF",
       "Exchange": "P",
       "CQS Symbol": "WDTE",
       "ETF": "Y",
@@ -66143,16 +66313,6 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "WIA"
-    },
-    {
-      "ACT Symbol": "WILD",
-      "Security Name": "VistaShares Animal Spirits Daily 2X Strategy ETF",
-      "Exchange": "P",
-      "CQS Symbol": "WILD",
-      "ETF": "Y",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "WILD"
     },
     {
       "ACT Symbol": "WINN",
@@ -68763,6 +68923,66 @@
       "Round Lot Size": 100.0,
       "Test Issue": "Y",
       "NASDAQ Symbol": "ZBZX"
+    },
+    {
+      "ACT Symbol": "ZCBA",
+      "Security Name": "Global X Zero Coupon Bond 2030 ETF",
+      "Exchange": "P",
+      "CQS Symbol": "ZCBA",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ZCBA"
+    },
+    {
+      "ACT Symbol": "ZCBB",
+      "Security Name": "Global X Zero Coupon Bond 2031 ETF",
+      "Exchange": "P",
+      "CQS Symbol": "ZCBB",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ZCBB"
+    },
+    {
+      "ACT Symbol": "ZCBC",
+      "Security Name": "Global X Zero Coupon Bond 2032 ETF",
+      "Exchange": "P",
+      "CQS Symbol": "ZCBC",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ZCBC"
+    },
+    {
+      "ACT Symbol": "ZCBE",
+      "Security Name": "Global X Zero Coupon Bond 2033 ETF",
+      "Exchange": "P",
+      "CQS Symbol": "ZCBE",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ZCBE"
+    },
+    {
+      "ACT Symbol": "ZCBF",
+      "Security Name": "Global X Zero Coupon Bond 2034 ETF",
+      "Exchange": "P",
+      "CQS Symbol": "ZCBF",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ZCBF"
+    },
+    {
+      "ACT Symbol": "ZCBG",
+      "Security Name": "Global X Zero Coupon Bond 2035 ETF",
+      "Exchange": "P",
+      "CQS Symbol": "ZCBG",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ZCBG"
     },
     {
       "ACT Symbol": "ZDEK",
