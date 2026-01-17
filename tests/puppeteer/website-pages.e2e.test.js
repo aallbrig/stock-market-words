@@ -3,7 +3,7 @@
  * Ensures all pages load successfully with no console errors
  * 
  * Environment variables:
- * - TEST_URL: Override base URL (e.g., https://aallbrig.github.io/stock-market-words/)
+ * - TEST_URL: Override base URL (e.g., https://stockmarketwords.com/)
  * - START_SERVER: Set to 'false' to skip server startup (default: true)
  * - SERVER_PORT: Port for local server (default: 8668)
  */

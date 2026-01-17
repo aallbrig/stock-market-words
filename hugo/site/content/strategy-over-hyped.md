@@ -1,7 +1,7 @@
 ---
 title: "📈 Over Hyped Strategy"
 description: "Overbought stocks"
-date: 2026-01-13T20:36:06.449832
+date: 2026-01-17T14:44:25.299028
 type: "page"
 layout: "strategy-filter"
 strategy_key: "over_hyped"

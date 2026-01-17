@@ -115,3 +115,65 @@ This project uses a **test-driven quality approach**:
 - Tests serve as living documentation
 
 **Always ask**: "Should this change have a test?" before committing code.
+
+## Hugo Development Guidelines
+
+### Local Development MUST Always Work
+
+When making changes to Hugo configuration or deployment settings:
+
+1. **Always preserve local development workflow**
+   - Local development uses: `hugo server` (no flags required)
+   - Hugo's `--baseURL` flag automatically overrides config for local server
+   - Never require environment variables for local development to work
+
+2. **BaseURL Configuration Strategy**
+   - `hugo.toml`: Set production `baseURL = 'https://stockmarketwords.com/'`
+   - Local dev: Hugo server automatically overrides to `http://localhost:1313/`
+   - This is Hugo's expected behavior - no special handling needed
+
+3. **Environment-Specific Features**
+   - Features like Google Analytics should be **optional** via parameters
+   - Default parameter values must allow local dev without configuration
+   - Use Hugo params with empty defaults: `googleAnalyticsId = ""`
+   - Production sets params via environment: `HUGO_PARAMS_GOOGLEANALYTICSID`
+
+4. **Testing Configuration Changes**
+   Before committing changes to `hugo.toml` or deployment workflows:
+   ```bash
+   # Test local development still works
+   cd hugo/site
+   hugo server
+   # Visit http://localhost:1313/ - should work without errors
+   
+   # Test production build still works
+   hugo --minify
+   # Check public/ folder for correct URLs
+   ```
+
+5. **Configuration Change Checklist**
+   - [ ] Local `hugo server` starts without errors
+   - [ ] No environment variables required for local dev
+   - [ ] Assets load correctly on localhost
+   - [ ] Production build generates correct absolute URLs
+   - [ ] Optional features (GA, etc.) don't break local dev
+
+### Common Pitfalls to Avoid
+
+❌ **Don't**: Require environment variables for basic local development
+❌ **Don't**: Break `hugo server` with production-only settings
+❌ **Don't**: Hardcode production URLs in templates (use `.Site.BaseURL`)
+
+✅ **Do**: Use Hugo's built-in baseURL override in dev mode
+✅ **Do**: Make tracking/analytics optional via parameters
+✅ **Do**: Test both local and production builds before committing
+
+### Why This Matters
+
+Local development is the primary workflow for:
+- Content creation
+- Layout changes
+- JavaScript development
+- Quick iteration and testing
+
+Breaking local development slows down all contributors and makes the project harder to work with.

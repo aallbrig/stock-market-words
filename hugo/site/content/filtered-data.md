@@ -1,7 +1,7 @@
 ---
 title: "Filtered Ticker Data"
 description: "Ticker data after Pass 1 filtering and price extraction"
-date: 2026-01-13T20:36:06.449555
+date: 2026-01-17T14:44:25.298529
 type: "page"
 layout: "filtered-data"
 ---

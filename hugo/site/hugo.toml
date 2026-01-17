@@ -1,4 +1,9 @@
-baseURL = '/'
+baseURL = 'https://stockmarketwords.com/'
 languageCode = 'en-us'
 title = 'Stock Market Words'
 uglyURLs = false
+
+[params]
+# Google Analytics tracking ID (leave empty for local development)
+# Set via environment variable HUGO_PARAMS_GOOGLEANALYTICSID in production
+googleAnalyticsId = ""

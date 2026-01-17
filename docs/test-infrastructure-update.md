@@ -111,7 +111,7 @@ env:
 
 ### ✅ Verified Working
 1. **Local auto-managed server**: Tests start Hugo, run tests, cleanup ✓
-2. **Remote sites**: Tests successfully run against both production (https://stockmarketwords.com/) and QA (https://aallbrig.github.io/stock-market-words/) ✓
+2. **Remote sites**: Tests successfully run against production (https://stockmarketwords.com/) ✓
 3. **HTTP/HTTPS support**: Both protocols work correctly ✓
 4. **Server availability check**: Properly validates before running tests ✓
 5. **Graceful cleanup**: Server properly terminated after tests ✓

@@ -37,7 +37,29 @@
         <li class="nav-item">
           <a class="nav-link{{ if eq .RelPermalink "/about/" }} active" aria-current="page{{ end }}" href="{{ "/about/" | relURL }}">About</a>
         </li>
+        <!-- QR Code - visible only on mobile -->
+        <li class="nav-item d-lg-none">
+          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#qrModal">
+            📱 QR Code
+          </a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
+
+<!-- QR Code Modal -->
+<div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qrModalLabel">Share Stock Market Words</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img src="{{ "/media/stockmarketwords.com.qr.png" | relURL }}" alt="QR Code for Stock Market Words" class="img-fluid" style="max-width: 300px;">
+        <p class="mt-3 text-muted">Scan to visit stockmarketwords.com</p>
+      </div>
+    </div>
+  </div>
+</div>
