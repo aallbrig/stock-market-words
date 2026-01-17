@@ -211,6 +211,147 @@ def recommend_next_step():
     return None, "✓ All steps completed for today!"
 
 
+def get_pipeline_state(target_date=None):
+    """
+    Get the current state of the pipeline for a given date.
+    
+    Returns: dict with keys:
+        - status: 'idle', 'in_progress', 'completed', 'failed', 'partial'
+        - current_step: step name if in_progress, else None
+        - progress: (current, total) if in_progress, else None
+        - completed_steps: list of completed step names
+        - recommendation: 'resume', 'restart', or 'run'
+    """
+    if target_date is None:
+        target_date = get_today()
+    
+    if not DB_PATH.exists():
+        return {
+            'status': 'idle',
+            'current_step': None,
+            'progress': None,
+            'completed_steps': [],
+            'recommendation': 'run'
+        }
+    
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # Check for steps today
+    cursor.execute("""
+        SELECT step_name, tickers_processed, status, completed_at
+        FROM pipeline_steps
+        WHERE run_date = ?
+        ORDER BY completed_at DESC
+    """, (target_date,))
+    
+    steps = cursor.fetchall()
+    
+    if not steps:
+        conn.close()
+        return {
+            'status': 'idle',
+            'current_step': None,
+            'progress': None,
+            'completed_steps': [],
+            'recommendation': 'run'
+        }
+    
+    # Check for in_progress
+    in_progress = [s for s in steps if s[2] == 'in_progress']
+    if in_progress:
+        step_name, progress, _, _ = in_progress[0]
+        # Get total for this step
+        total = _get_step_total(step_name, target_date, cursor)
+        conn.close()
+        return {
+            'status': 'in_progress',
+            'current_step': step_name,
+            'progress': (progress, total),
+            'completed_steps': [s[0] for s in steps if s[2] == 'completed'],
+            'recommendation': 'resume'
+        }
+    
+    # Check for failed
+    failed = [s for s in steps if s[2] == 'failed']
+    if failed:
+        conn.close()
+        return {
+            'status': 'failed',
+            'current_step': failed[0][0],
+            'progress': None,
+            'completed_steps': [s[0] for s in steps if s[2] == 'completed'],
+            'recommendation': 'restart'
+        }
+    
+    # All completed
+    completed_steps = [s[0] for s in steps if s[2] == 'completed']
+    all_steps = ['sync-ftp', 'extract-prices', 'extract-metadata', 'build', 'generate-hugo']
+    
+    conn.close()
+    
+    if set(completed_steps) >= set(all_steps):
+        return {
+            'status': 'completed',
+            'current_step': None,
+            'progress': None,
+            'completed_steps': completed_steps,
+            'recommendation': 'idle'
+        }
+    else:
+        # Partially completed
+        return {
+            'status': 'partial',
+            'current_step': None,
+            'progress': None,
+            'completed_steps': completed_steps,
+            'recommendation': 'resume'
+        }
+
+
+def _get_step_total(step_name, date, cursor=None):
+    """Get the expected total for a step."""
+    should_close = False
+    if cursor is None:
+        conn = get_connection()
+        cursor = conn.cursor()
+        should_close = True
+    
+    try:
+        if step_name == 'sync-ftp':
+            # Total tickers in FTP files
+            cursor.execute("SELECT COUNT(*) FROM tickers")
+            total = cursor.fetchone()[0]
+        elif step_name == 'extract-prices':
+            # Non-ETF tickers
+            cursor.execute("SELECT COUNT(*) FROM tickers WHERE is_etf = 0")
+            total = cursor.fetchone()[0]
+        elif step_name == 'extract-metadata':
+            # Filtered tickers
+            cursor.execute("""
+                SELECT COUNT(*) FROM daily_metrics 
+                WHERE date = ? AND price >= 5.0 AND volume >= 100000
+            """, (date,))
+            total = cursor.fetchone()[0]
+        elif step_name == 'build':
+            # Same as extract-metadata
+            cursor.execute("""
+                SELECT COUNT(*) FROM daily_metrics 
+                WHERE date = ? AND price >= 5.0 AND volume >= 100000 AND market_cap IS NOT NULL
+            """, (date,))
+            total = cursor.fetchone()[0]
+        elif step_name == 'generate-hugo':
+            # Number of pages/files generated
+            total = 7  # raw-ftp, filtered, 5 strategies
+        else:
+            total = 0
+        
+        return total
+    finally:
+        if should_close:
+            conn.close()
+
+
 def get_step_summary(step_name, run_date=None):
     """
     Get a summary of a completed pipeline step.

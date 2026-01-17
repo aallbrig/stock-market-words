@@ -1,7 +1,7 @@
 {
   "source": "NASDAQ FTP",
   "file": "nasdaqlisted.txt",
-  "downloaded_at": "2026-01-17T14:44:24.619203",
+  "downloaded_at": "2026-01-17T15:09:03.554514",
   "total_rows": 5261,
   "columns": [
     "Symbol",

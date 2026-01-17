@@ -563,7 +563,7 @@ function renderPortfolios(text, words, portfolios) {
                 const page = Math.floor(idx / tickersPerPage);
                 const shouldHide = needsPagination && page > 0;
                 const rowStyle = shouldHide ? ' style="display: none;"' : '';
-                html += `<tr data-page="${page}"${rowStyle}><td><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
+                html += `<tr data-page="${page}"${rowStyle}><td><a href="https://finance.yahoo.com/quote/${t.symbol.toUpperCase()}" target="_blank" rel="noopener"><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></a></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
             });
             html += '</tbody></table>';
 

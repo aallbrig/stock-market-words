@@ -3,7 +3,7 @@
   "strategy_key": "moon_shot",
   "description": "High volatility growth stocks (beta > 1.5, RSI < 70)",
   "icon": "\ud83d\ude80",
-  "generated_at": "2026-01-17T14:44:25.190607",
+  "generated_at": "2026-01-17T15:09:04.112701",
   "date": "2026-01-17",
   "total_matches": 381,
   "filter_criteria": "beta > 1.5 AND rsi_14 < 70",

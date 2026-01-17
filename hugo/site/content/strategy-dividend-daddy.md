@@ -1,7 +1,7 @@
 ---
 title: "💰 Dividend Daddy Strategy"
 description: "Stocks that pay dividends"
-date: 2026-01-17T14:44:25.298698
+date: 2026-01-17T15:09:04.218525
 type: "page"
 layout: "strategy-filter"
 strategy_key: "dividend_daddy"

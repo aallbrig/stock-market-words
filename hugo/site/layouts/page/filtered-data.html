@@ -12,7 +12,7 @@
       
       <!-- Summary Cards -->
       <div class="row mb-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="card border-success">
             <div class="card-body text-center">
               <h5 class="card-title">✅ Total Tickers</h5>
@@ -23,7 +23,7 @@
         </div>
         
         {{ if $filtered.statistics }}
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="card border-info">
             <div class="card-body text-center">
               <h5 class="card-title">💹 With Price Data</h5>
@@ -36,12 +36,21 @@
         
         {{ if $pass1 }}
         {{ if $pass1.pass1_extraction }}
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="card border-primary">
             <div class="card-body text-center">
               <h5 class="card-title">📊 Success Rate</h5>
               <h2 class="display-4 text-primary">{{ $pass1.pass1_extraction.success_rate }}</h2>
               <p class="text-muted">Pass 1 extraction</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card border-warning">
+            <div class="card-body text-center">
+              <h5 class="card-title">📅 Data Refreshed</h5>
+              <p class="display-6 text-warning" id="refresh-date-display">Loading...</p>
+              <p class="text-muted small" id="refresh-time-display"></p>
             </div>
           </div>
         </div>
@@ -53,16 +62,16 @@
       {{ if $filtered.exchanges }}
       <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-          <h5 class="mb-0">📈 Tickers by Exchange (Click to Filter)</h5>
+          <h5 class="mb-0">📈 Tickers by Exchange (Click to Toggle)</h5>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-12 mb-3">
-              <button class="btn btn-sm btn-outline-secondary exchange-filter-btn" onclick="filterByExchange('ALL')">All Exchanges</button>
+              <button class="btn btn-sm btn-secondary exchange-filter-btn active" id="btn-all-exchanges" onclick="toggleAllExchanges()">All Exchanges</button>
             </div>
             {{ range $exchange, $count := $filtered.exchanges }}
             <div class="col-md-3 col-sm-6 mb-3">
-              <button class="btn btn-outline-primary exchange-filter-btn" onclick="filterByExchange('{{ $exchange }}')">
+              <button class="btn btn-outline-primary exchange-filter-btn active" data-exchange="{{ $exchange }}" onclick="toggleExchange('{{ $exchange }}')">
                 <strong>{{ $exchange }}</strong> <span class="badge bg-primary rounded-pill">{{ $count }}</span>
               </button>
             </div>
@@ -92,12 +101,12 @@
             </thead>
             <tbody>
               {{ range $filtered.tickers }}
-              <tr>
-                <td><strong>{{ .symbol }}</strong></td>
+              <tr data-exchange="{{ .exchange }}">
+                <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank" rel="noopener">{{ .symbol }}</a></strong></td>
                 <td>{{ .name }}</td>
                 <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
                 <td>{{ if .is_etf }}Yes{{ else }}No{{ end }}</td>
-                <td>
+                <td data-order="{{ if .price_data }}{{ if .price_data.price }}{{ .price_data.price }}{{ else }}0{{ end }}{{ else }}0{{ end }}">
                   {{ if .price_data }}
                     {{ if .price_data.price }}
                       ${{ printf "%.2f" .price_data.price }}
@@ -108,7 +117,7 @@
                     <span class="text-muted">N/A</span>
                   {{ end }}
                 </td>
-                <td>
+                <td data-order="{{ if .price_data }}{{ if .price_data.volume }}{{ .price_data.volume }}{{ else }}0{{ end }}{{ else }}0{{ end }}">
                   {{ if .price_data }}
                     {{ if .price_data.volume }}
                       {{ .price_data.volume | lang.FormatNumber 0 }}
@@ -119,7 +128,7 @@
                     <span class="text-muted">N/A</span>
                   {{ end }}
                 </td>
-                <td>
+                <td data-order="{{ if .price_data }}{{ if .price_data.market_cap }}{{ .price_data.market_cap }}{{ else }}0{{ end }}{{ else }}0{{ end }}">
                   {{ if .price_data }}
                     {{ if .price_data.market_cap }}
                       ${{ .price_data.market_cap | lang.FormatNumber 0 }}
@@ -151,13 +160,16 @@
   </div>
 </div>
 
-<!-- DataTables for sorting and filtering -->
+<!-- DataTables for sorting and filtering - CSS only here -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+{{ end }}
+{{ define "page-scripts" }}
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 <script>
 let tickerTable;
+let activeExchanges = new Set();
+let previousExchanges = new Set();
 
 $(document).ready(function() {
   if ($('#tickerTable').length) {
@@ -168,16 +180,118 @@ $(document).ready(function() {
         { targets: [4, 5, 6], type: 'num' }
       ]
     });
+    
+    // Initialize with all exchanges active
+    $('.exchange-filter-btn[data-exchange]').each(function() {
+      activeExchanges.add($(this).data('exchange'));
+    });
   }
+  
+  // Fetch and display data refresh date
+  fetch('/data/filtered_tickers.json')
+    .then(r => r.json())
+    .then(data => {
+      if (data.generated_at) {
+        const date = new Date(data.generated_at);
+        
+        // Update the refresh date card
+        const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        $('#refresh-date-display').text(dateStr);
+        $('#refresh-time-display').text(timeStr);
+      } else {
+        console.warn('No generated_at field in data:', data);
+        $('#refresh-date-display').text('Not available');
+        $('#refresh-time-display').text('');
+      }
+    })
+    .catch(err => {
+      console.error('Could not load refresh date:', err);
+      $('#refresh-date-display').text('Error');
+      $('#refresh-time-display').text('');
+    });
 });
 
-function filterByExchange(exchange) {
+function toggleExchange(exchange) {
+  const btn = $(`.exchange-filter-btn[data-exchange="${exchange}"]`);
+  
+  if (activeExchanges.has(exchange)) {
+    activeExchanges.delete(exchange);
+    btn.removeClass('active').addClass('btn-outline-primary').removeClass('btn-primary');
+  } else {
+    activeExchanges.add(exchange);
+    btn.addClass('active').removeClass('btn-outline-primary').addClass('btn-primary');
+  }
+  
+  // Update "All Exchanges" button state
+  const allBtn = $('#btn-all-exchanges');
+  const totalExchanges = $('.exchange-filter-btn[data-exchange]').length;
+  
+  if (activeExchanges.size === totalExchanges) {
+    allBtn.addClass('active').removeClass('btn-outline-secondary').addClass('btn-secondary');
+  } else {
+    allBtn.removeClass('active').addClass('btn-outline-secondary').removeClass('btn-secondary');
+  }
+  
+  applyExchangeFilter();
+}
+
+function toggleAllExchanges() {
+  const allBtn = $('#btn-all-exchanges');
+  const totalExchanges = $('.exchange-filter-btn[data-exchange]').length;
+  
+  if (activeExchanges.size === totalExchanges) {
+    // Currently all selected - remember state and toggle to previous selection (or none if no previous)
+    previousExchanges = new Set(activeExchanges);
+    activeExchanges.clear();
+    
+    // Deactivate all buttons
+    $('.exchange-filter-btn[data-exchange]').removeClass('active').addClass('btn-outline-primary').removeClass('btn-primary');
+    allBtn.removeClass('active').addClass('btn-outline-secondary').removeClass('btn-secondary');
+  } else {
+    // Not all selected - check if we have a previous state
+    if (previousExchanges.size > 0 && previousExchanges.size < totalExchanges) {
+      // Restore previous selection
+      activeExchanges = new Set(previousExchanges);
+      
+      $('.exchange-filter-btn[data-exchange]').each(function() {
+        const exchange = $(this).data('exchange');
+        if (activeExchanges.has(exchange)) {
+          $(this).addClass('active').removeClass('btn-outline-primary').addClass('btn-primary');
+        } else {
+          $(this).removeClass('active').addClass('btn-outline-primary').removeClass('btn-primary');
+        }
+      });
+      
+      allBtn.removeClass('active').addClass('btn-outline-secondary').removeClass('btn-secondary');
+    } else {
+      // Select all
+      activeExchanges.clear();
+      $('.exchange-filter-btn[data-exchange]').each(function() {
+        activeExchanges.add($(this).data('exchange'));
+        $(this).addClass('active').removeClass('btn-outline-primary').addClass('btn-primary');
+      });
+      
+      allBtn.addClass('active').removeClass('btn-outline-secondary').addClass('btn-secondary');
+    }
+  }
+  
+  applyExchangeFilter();
+}
+
+function applyExchangeFilter() {
   if (!tickerTable) return;
   
-  if (exchange === 'ALL') {
+  if (activeExchanges.size === 0) {
+    // No exchanges selected - show nothing
+    tickerTable.column(2).search('^$', true, false).draw();
+  } else if (activeExchanges.size === $('.exchange-filter-btn[data-exchange]').length) {
+    // All exchanges selected - show all
     tickerTable.column(2).search('').draw();
   } else {
-    tickerTable.column(2).search('^' + exchange + '$', true, false).draw();
+    // Some exchanges selected - build regex
+    const exchangePattern = Array.from(activeExchanges).join('|');
+    tickerTable.column(2).search(exchangePattern, true, false).draw();
   }
 }
 </script>

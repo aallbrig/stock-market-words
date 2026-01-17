@@ -1,7 +1,7 @@
 ---
 title: "🚀 Moon Shot Strategy"
 description: "High volatility growth stocks"
-date: 2026-01-17T14:44:25.298822
+date: 2026-01-17T15:09:04.218648
 type: "page"
 layout: "strategy-filter"
 strategy_key: "moon_shot"
