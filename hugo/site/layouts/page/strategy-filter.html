@@ -52,10 +52,21 @@
                 <th>Price</th>
                 <th>Volume</th>
                 <th>Market Cap</th>
+                {{ if eq $strategyKey "dividend_daddy" }}
                 <th>Div Yield %</th>
+                {{ end }}
+                {{ if eq $strategyKey "institutional_whale" }}
+                <th>Div Yield %</th>
+                {{ end }}
+                {{ if or (eq $strategyKey "moon_shot") (eq $strategyKey "falling_knife") (eq $strategyKey "over_hyped") (eq $strategyKey "institutional_whale") }}
                 <th>Beta</th>
+                {{ end }}
+                {{ if or (eq $strategyKey "moon_shot") (eq $strategyKey "falling_knife") (eq $strategyKey "over_hyped") }}
                 <th>RSI</th>
+                {{ end }}
+                {{ if or (eq $strategyKey "dividend_daddy") (eq $strategyKey "falling_knife") (eq $strategyKey "institutional_whale") }}
                 <th>MA200</th>
+                {{ end }}
                 <th>Strategy Score</th>
               </tr>
             </thead>
@@ -74,6 +85,7 @@
                     <span class="text-muted">N/A</span>
                   {{ end }}
                 </td>
+                {{ if eq $strategyKey "dividend_daddy" }}
                 <td>
                   {{ if .dividendYield }}
                     {{ printf "%.2f%%" .dividendYield }}
@@ -81,6 +93,17 @@
                     <span class="text-muted">N/A</span>
                   {{ end }}
                 </td>
+                {{ end }}
+                {{ if eq $strategyKey "institutional_whale" }}
+                <td>
+                  {{ if .dividendYield }}
+                    {{ printf "%.2f%%" .dividendYield }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                {{ end }}
+                {{ if or (eq $strategyKey "moon_shot") (eq $strategyKey "falling_knife") (eq $strategyKey "over_hyped") (eq $strategyKey "institutional_whale") }}
                 <td>
                   {{ if .beta }}
                     {{ printf "%.2f" .beta }}
@@ -88,6 +111,8 @@
                     <span class="text-muted">N/A</span>
                   {{ end }}
                 </td>
+                {{ end }}
+                {{ if or (eq $strategyKey "moon_shot") (eq $strategyKey "falling_knife") (eq $strategyKey "over_hyped") }}
                 <td>
                   {{ if .rsi }}
                     {{ $rsi := .rsi }}
@@ -102,6 +127,8 @@
                     <span class="text-muted">N/A</span>
                   {{ end }}
                 </td>
+                {{ end }}
+                {{ if or (eq $strategyKey "dividend_daddy") (eq $strategyKey "falling_knife") (eq $strategyKey "institutional_whale") }}
                 <td>
                   {{ if .ma200 }}
                     ${{ printf "%.2f" .ma200 }}
@@ -109,6 +136,7 @@
                     <span class="text-muted">N/A</span>
                   {{ end }}
                 </td>
+                {{ end }}
                 <td>
                   {{ if .scores }}
                     {{ $score := 0 }}
@@ -225,12 +253,19 @@ ticker-cli hugo pages</code></pre>
 <script>
 $(document).ready(function() {
   if ($('#strategyTable').length) {
+    // Find the last column index (Strategy Score column)
+    const lastColIndex = $('#strategyTable thead tr th').length - 1;
+    
+    // All numeric columns (everything after Exchange)
+    const numericCols = [];
+    for (let i = 3; i <= lastColIndex; i++) {
+      numericCols.push({ targets: i, type: 'num' });
+    }
+    
     $('#strategyTable').DataTable({
       pageLength: 25,
-      order: [[10, 'desc']], // Sort by strategy score descending
-      columnDefs: [
-        { targets: [3, 4, 5, 6, 7, 8, 9, 10], type: 'num' }
-      ]
+      order: [[lastColIndex, 'desc']], // Sort by strategy score descending
+      columnDefs: numericCols
     });
   }
 });

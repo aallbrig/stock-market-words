@@ -1,7 +1,7 @@
 {
   "source": "NASDAQ FTP",
   "file": "otherlisted.txt",
-  "downloaded_at": "2026-01-17T14:44:24.762905",
+  "downloaded_at": "2026-01-17T15:09:03.696421",
   "total_rows": 6935,
   "columns": [
     "ACT Symbol",

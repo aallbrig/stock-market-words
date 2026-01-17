@@ -594,6 +594,10 @@ def generate_all_hugo_content(dry_run=False):
     logger.info("======================================================================")
     logger.info("")
     
+    # Record step start
+    from .database import record_pipeline_step
+    record_pipeline_step('generate-hugo', 0, 'in_progress', dry_run=False)
+    
     # Generate raw FTP data
     logger.info("Step 1: Generating raw FTP data...")
     generate_raw_ftp_data(dry_run=False)
@@ -613,6 +617,12 @@ def generate_all_hugo_content(dry_run=False):
     logger.info("Step 4: Generating Hugo markdown pages...")
     generate_hugo_pages(dry_run=False)
     logger.info("")
+    
+    # Count generated files
+    pages_generated = 7  # raw-ftp, filtered, 5 strategies
+    
+    # Record completion
+    record_pipeline_step('generate-hugo', pages_generated, 'completed', dry_run=False)
     
     logger.info("======================================================================")
     logger.info("=== ✅ HUGO CONTENT GENERATION COMPLETE ===")

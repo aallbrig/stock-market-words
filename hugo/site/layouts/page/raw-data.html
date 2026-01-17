@@ -59,7 +59,7 @@
               </tr>
             </thead>
             <tbody>
-              {{ range first 100 $nasdaq.data }}
+              {{ range $nasdaq.data }}
               {{ $row := . }}
               <tr>
                 {{ range $nasdaq.columns }}
@@ -70,7 +70,7 @@
             </tbody>
           </table>
         </div>
-        <p class="text-muted"><em>Showing first 100 of {{ $nasdaq.total_rows }} rows</em></p>
+        <p class="text-muted"><em>Showing all {{ $nasdaq.total_rows }} rows. Click column headers to sort.</em></p>
       </div>
       {{ end }}
       
@@ -90,7 +90,7 @@
               </tr>
             </thead>
             <tbody>
-              {{ range first 100 $otherlisted.data }}
+              {{ range $otherlisted.data }}
               {{ $row := . }}
               <tr>
                 {{ range $otherlisted.columns }}
@@ -101,7 +101,7 @@
             </tbody>
           </table>
         </div>
-        <p class="text-muted"><em>Showing first 100 of {{ $otherlisted.total_rows }} rows</em></p>
+        <p class="text-muted"><em>Showing all {{ $otherlisted.total_rows}} rows. Click column headers to sort.</em></p>
       </div>
       {{ end }}
       

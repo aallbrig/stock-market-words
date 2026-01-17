@@ -7,6 +7,7 @@
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
+  {{ block "page-scripts" . }}{{ end }}
   {{ if .Params.custom_js }}
     {{ if reflect.IsSlice .Params.custom_js }}
       {{ range .Params.custom_js }}

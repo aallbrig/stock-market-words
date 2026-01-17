@@ -1,7 +1,7 @@
 ---
 title: "🐋 Institutional Whale Strategy"
 description: "Large cap stocks"
-date: 2026-01-17T14:44:25.299127
+date: 2026-01-17T15:09:04.218966
 type: "page"
 layout: "strategy-filter"
 strategy_key: "institutional_whale"

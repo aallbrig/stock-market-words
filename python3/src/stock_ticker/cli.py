@@ -111,89 +111,80 @@ def status():
     
     logger.info("")
     
-    # 2. PIPELINE STEPS
+    # ENHANCED PIPELINE STEPS
     logger.info("2️⃣  PIPELINE STEPS")
     
-    if not DB_PATH.exists():
-        logger.info("   No pipeline history (database not initialized)")
-    else:
-        conn = get_connection()
-        cursor = conn.cursor()
-        today = get_today()
-        
-        # Define the pipeline steps in order
-        steps = [
-            ('sync-ftp', '📥 Sync FTP ticker lists'),
-            ('extract-prices', '💹 Extract price/volume data'),
-            ('extract-metadata', '📊 Extract metadata'),
-            ('build', '🔨 Build JSON assets')
-        ]
-        
-        for step_name, step_label in steps:
+    today = get_today()
+    from .database import get_pipeline_state
+    state = get_pipeline_state(today)
+    
+    logger.info(f"   Pipeline state: {state['status'].upper()}")
+    logger.info("")
+    
+    # Define all steps with emojis
+    all_steps = [
+        ('sync-ftp', '📥 Sync FTP ticker lists'),
+        ('extract-prices', '💹 Extract price/volume data'),
+        ('extract-metadata', '📊 Extract detailed metrics'),
+        ('build', '🔨 Calculate strategy scores'),
+        ('generate-hugo', '📄 Generate Hugo content')
+    ]
+    
+    for step_name, step_desc in all_steps:
+        # Check if this step is in completed_steps
+        if step_name in state['completed_steps']:
+            # Get details from DB
+            conn = get_connection()
+            cursor = conn.cursor()
             cursor.execute("""
-                SELECT completed_at, tickers_processed 
-                FROM pipeline_steps 
-                WHERE step_name = ? AND run_date = ?
+                SELECT tickers_processed, completed_at
+                FROM pipeline_steps
+                WHERE step_name = ? AND run_date = ? AND status = 'completed'
             """, (step_name, today))
             result = cursor.fetchone()
+            conn.close()
             
             if result:
-                completed_at, tickers_processed = result
-                logger.info(f"   ✓ {step_label}: Done ({tickers_processed} tickers)")
-            else:
-                # Check last run
-                cursor.execute("""
-                    SELECT run_date, completed_at 
-                    FROM pipeline_steps 
-                    WHERE step_name = ? 
-                    ORDER BY run_date DESC, completed_at DESC 
-                    LIMIT 1
-                """, (step_name,))
-                last_run = cursor.fetchone()
-                if last_run:
-                    logger.info(f"   ⏸  {step_label}: Last run {last_run[0]}")
-                else:
-                    logger.info(f"   ⏸  {step_label}: Never run")
+                count, timestamp = result
+                logger.info(f"   ✓ {step_desc}: Completed ({count:,} items)")
         
-        conn.close()
+        elif step_name == state['current_step']:
+            # In progress
+            if state['progress']:
+                current, total = state['progress']
+                pct = (current / total * 100) if total > 0 else 0
+                logger.info(f"   🔄 {step_desc}: IN PROGRESS ({current:,}/{total:,}, {pct:.1f}%)")
+            else:
+                logger.info(f"   🔄 {step_desc}: IN PROGRESS")
+        
+        else:
+            # Not started
+            logger.info(f"   ⏸  {step_desc}: Not started")
     
     logger.info("")
     
-    # 3. RECOMMENDATION
+    # ENHANCED RECOMMENDATION
     logger.info("3️⃣  RECOMMENDATION")
     
-    if not all_deps_ok:
-        logger.warning("   ⚠ Fix dependencies before running pipeline")
-        logger.info("   → Check database, packages, and network connectivity")
-    else:
-        last_run = get_last_pipeline_run()
-        if last_run:
-            # Parse last run timestamp
-            try:
-                last_run_dt = datetime.fromisoformat(last_run.replace(' UTC', '+00:00'))
-                now = datetime.now(timezone.utc)
-                hours_since = (now - last_run_dt).total_seconds() / 3600
-                
-                if hours_since > 24:
-                    logger.info(f"   💡 Run full pipeline (last run: {hours_since:.0f}h ago)")
-                    logger.info("   → ticker-cli run-all")
-                else:
-                    next_step, reason = recommend_next_step()
-                    if next_step:
-                        logger.info(f"   💡 {reason}")
-                        logger.info(f"   → ticker-cli {next_step}")
-                    else:
-                        logger.info("   ✓ Pipeline up to date")
-            except Exception:
-                logger.info("   💡 Run full pipeline")
-                logger.info("   → ticker-cli run-all")
-        else:
-            logger.info("   💡 Run full pipeline (never run)")
-            logger.info("   → ticker-cli run-all")
+    if state['status'] == 'idle':
+        logger.info("   💡 Run full pipeline")
+        logger.info("   → python -m stock_ticker.cli run-all")
     
-    logger.info("")
-    logger.info("=" * 70)
-
+    elif state['status'] == 'in_progress':
+        logger.info("   ⚠️  Pipeline interrupted - resume to continue")
+        logger.info("   → python -m stock_ticker.cli run-all")
+    
+    elif state['status'] == 'completed':
+        logger.info("   ✓ Pipeline complete for today!")
+        logger.info("   💡 Run again tomorrow for fresh data")
+    
+    elif state['status'] == 'failed':
+        logger.info("   ❌ Pipeline failed - review logs and restart")
+        logger.info("   → python -m stock_ticker.cli run-all")
+    
+    elif state['status'] == 'partial':
+        logger.info("   ⚠️  Pipeline partially complete - continue")
+        logger.info("   → python -m stock_ticker.cli run-all")
 
 @cli.command()
 @click.pass_context
@@ -298,6 +289,40 @@ def run_all(ctx):
     logger.info("=== 🚀 RUNNING FULL DATA PIPELINE ===")
     logger.info("=" * 70)
     
+    # Check pipeline state
+    today = get_today()
+    from .database import get_pipeline_state
+    state = get_pipeline_state(today)
+    
+    logger.info("")
+    logger.info(f"Pipeline state: {state['status'].upper()}")
+    
+    if state['status'] == 'in_progress':
+        logger.info(f"⚠️  Found interrupted pipeline from today")
+        logger.info(f"   Step: {state['current_step']}")
+        if state['progress']:
+            current, total = state['progress']
+            pct = (current / total * 100) if total > 0 else 0
+            logger.info(f"   Progress: {current:,}/{total:,} ({pct:.1f}%)")
+        logger.info("")
+        logger.info("🔄 Resuming from where we left off...")
+        logger.info("")
+    
+    elif state['status'] == 'completed':
+        logger.info("✓ Pipeline already completed for today.")
+        logger.info("")
+        logger.info("Completed steps:")
+        for step in state['completed_steps']:
+            logger.info(f"  ✓ {step}")
+        logger.info("")
+        logger.info("💡 Run again tomorrow for fresh data.")
+        return
+    
+    elif state['completed_steps']:
+        logger.info(f"🔄 Resuming partial pipeline")
+        logger.info(f"   Already completed: {', '.join(state['completed_steps'])}")
+        logger.info("")
+    
     if ctx.obj.dry_run:
         logger.info("DRY RUN: Full pipeline simulation")
         logger.info("")
@@ -306,6 +331,7 @@ def run_all(ctx):
         logger.info("Step 3: Extract prices (Pass 1 - price/volume)")
         logger.info("Step 4: Extract metadata (Pass 2 - detailed metrics)")
         logger.info("Step 5: Build (generate JSON assets)")
+        logger.info("Step 6: Generate Hugo (create site content)")
         logger.info("")
         logger.info("DRY RUN: No actual changes would be made")
         return
@@ -318,25 +344,50 @@ def run_all(ctx):
     failed_step = None
     
     try:
-        # Sync FTP
-        logger.info("")
-        logger.info("📥 Step 1: Syncing FTP ticker lists...")
-        sync_ftp(dry_run=False)
+        # Sync FTP (skip if already done)
+        if 'sync-ftp' not in state['completed_steps']:
+            logger.info("")
+            logger.info("📥 Step 1: Syncing FTP ticker lists...")
+            sync_ftp(dry_run=False)
+        else:
+            logger.info("")
+            logger.info("📥 Step 1: Syncing FTP ticker lists... ✓ Already completed")
         
-        # Extract prices
-        logger.info("")
-        logger.info("💹 Step 2: Extracting price/volume data (Pass 1)...")
-        extract_prices(dry_run=False)
+        # Extract prices (skip if already done)
+        if 'extract-prices' not in state['completed_steps']:
+            logger.info("")
+            logger.info("💹 Step 2: Extracting price/volume data (Pass 1)...")
+            extract_prices(dry_run=False)
+        else:
+            logger.info("")
+            logger.info("💹 Step 2: Extracting price/volume data (Pass 1)... ✓ Already completed")
         
-        # Extract metadata
-        logger.info("")
-        logger.info("📊 Step 3: Extracting metadata (Pass 2)...")
-        extract_metadata(dry_run=False)
+        # Extract metadata (skip if already done)
+        if 'extract-metadata' not in state['completed_steps']:
+            logger.info("")
+            logger.info("📊 Step 3: Extracting detailed metrics (Pass 2)...")
+            extract_metadata(dry_run=False)
+        else:
+            logger.info("")
+            logger.info("📊 Step 3: Extracting detailed metrics (Pass 2)... ✓ Already completed")
         
-        # Build assets
-        logger.info("")
-        logger.info("🔨 Step 4: Building JSON assets...")
-        build_assets(dry_run=False)
+        # Build assets (skip if already done)
+        if 'build' not in state['completed_steps']:
+            logger.info("")
+            logger.info("🔨 Step 4: Calculating strategy scores & building JSON...")
+            build_assets(dry_run=False)
+        else:
+            logger.info("")
+            logger.info("🔨 Step 4: Calculating strategy scores & building JSON... ✓ Already completed")
+        
+        # Generate Hugo content (NEW STEP)
+        if 'generate-hugo' not in state['completed_steps']:
+            logger.info("")
+            logger.info("📄 Step 5: Generating Hugo site content...")
+            generate_all_hugo_content(dry_run=False)
+        else:
+            logger.info("")
+            logger.info("📄 Step 5: Generating Hugo site content... ✓ Already completed")
         
     except Exception as e:
         pipeline_failed = True

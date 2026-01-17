@@ -40,6 +40,9 @@ def extract_prices(dry_run=False):
     cursor = conn.cursor()
     today = get_today()
     
+    # Record step start
+    record_pipeline_step('extract-prices', 0, 'in_progress', dry_run=False)
+    
     # Get all valid tickers that need price data
     cursor.execute("""
         SELECT symbol FROM tickers 
@@ -62,16 +65,21 @@ def extract_prices(dry_run=False):
         logger.info("✓ All tickers already have price data for today.")
         logger.info(f"  • Tickers processed: {completed_count:,}")
         
+        # Mark as completed
+        record_pipeline_step('extract-prices', completed_count, 'completed', dry_run=False)
         conn.close()
         return
     
-    logger.info(f"Fetching price data for {total} tickers...")
+    logger.info(f"Fetching price data for {total:,} tickers...")
     
     processed = 0
     
     for i in range(0, total, PRICE_BATCH_SIZE):
         batch = pending_symbols[i:i + PRICE_BATCH_SIZE]
-        logger.info(f"Processing batch {i // PRICE_BATCH_SIZE + 1}/{(total + PRICE_BATCH_SIZE - 1) // PRICE_BATCH_SIZE} ({len(batch)} tickers)...")
+        batch_num = i // PRICE_BATCH_SIZE + 1
+        total_batches = (total + PRICE_BATCH_SIZE - 1) // PRICE_BATCH_SIZE
+        
+        logger.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} tickers)...")
         
         try:
             # Fetch data in batch
@@ -106,7 +114,11 @@ def extract_prices(dry_run=False):
                 """, batch_data)
                 conn.commit()
                 processed += len(batch_data)
-                logger.info(f"✓ Saved {len(batch_data)} tickers. Total: {processed}/{total}")
+                logger.info(f"✓ Saved {len(batch_data)} tickers. Total: {processed:,}/{total:,}")
+                
+                # Update progress every 5 batches
+                if batch_num % 5 == 0:
+                    record_pipeline_step('extract-prices', processed, 'in_progress', dry_run=False)
             
             # Rate limiting
             if i + PRICE_BATCH_SIZE < total:
@@ -117,7 +129,7 @@ def extract_prices(dry_run=False):
             continue
     
     conn.close()
-    logger.info(f"=== Pass 1 Complete: {processed} tickers processed ===")
+    logger.info(f"=== Pass 1 Complete: {processed:,} tickers processed ===")
     
     # Record step completion
     record_pipeline_step('extract-prices', processed, 'completed', dry_run=False)
@@ -144,7 +156,20 @@ def extract_metadata(dry_run=False):
         logger.info(f"DRY RUN: Estimated time: ~{pending * 1.5 / METADATA_BATCH_SIZE:.0f} minutes")
         return
     
-    logger.info("=== Starting Pass 2: Metadata Extraction ===")
+    logger.info("=== Starting Pass 2: Detailed Metrics Extraction ===")
+    logger.info("")
+    logger.info("Metrics to extract for each ticker:")
+    logger.info("  • Market Cap - Company size/valuation")
+    logger.info("  • Dividend Yield - Annual dividend as % of price")
+    logger.info("  • Beta - Volatility measure (vs. market)")
+    logger.info("  • RSI-14 - Momentum indicator (oversold/overbought)")
+    logger.info("  • MA-200 - 200-day moving average (trend)")
+    logger.info("")
+    logger.info("These metrics enable strategy scoring in Step 4.")
+    logger.info("")
+    
+    # Record step start
+    record_pipeline_step('extract-metadata', 0, 'in_progress', dry_run=False)
     
     conn = get_connection()
     cursor = conn.cursor()
@@ -175,10 +200,12 @@ def extract_metadata(dry_run=False):
         logger.info("✓ All filtered tickers already have metadata for today.")
         logger.info(f"  • Tickers with complete metadata: {completed_count:,}")
         
+        # Mark as completed
+        record_pipeline_step('extract-metadata', completed_count, 'completed', dry_run=False)
         conn.close()
         return
     
-    logger.info(f"Fetching metadata for {total} filtered tickers...")
+    logger.info(f"Fetching data for {total:,} filtered tickers...")
     
     processed = 0
     
@@ -223,7 +250,9 @@ def extract_metadata(dry_run=False):
                 processed += 1
                 
                 if processed % 10 == 0:
-                    logger.info(f"✓ Progress: {processed}/{total}")
+                    logger.info(f"✓ Progress: {processed:,}/{total:,}")
+                    # Update pipeline_steps
+                    record_pipeline_step('extract-metadata', processed, 'in_progress', dry_run=False)
             
             except Exception as e:
                 logger.debug(f"Failed to fetch metadata for {symbol}: {e}")
@@ -234,7 +263,7 @@ def extract_metadata(dry_run=False):
             time.sleep(1)
     
     conn.close()
-    logger.info(f"=== Pass 2 Complete: {processed} tickers processed ===")
+    logger.info(f"=== Pass 2 Complete: {processed:,} tickers processed ===")
     
     # Record step completion
     record_pipeline_step('extract-metadata', processed, 'completed', dry_run=False)
