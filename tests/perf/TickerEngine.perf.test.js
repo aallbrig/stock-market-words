@@ -17,9 +17,9 @@ const SAMPLE_TEXTS = {
 // Mock ticker data and trie for testing
 function createMockTickerData() {
   const tickers = [
-    'CAT', 'CAN', 'TV', 'F', 'UBER', 'PEP', 'COST', 'JACK', 'TGT',
+    'T', 'CAT', 'CAN', 'TV', 'F', 'UBER', 'PEP', 'COST', 'JACK', 'TGT',
     'AAPL', 'DELL', 'ORCL', 'BTI', 'GM', 'DASH', 'GRAB', 'LOW', 
-    'HD', 'JACK', 'SONC', 'MA', 'TECH', 'BAR'
+    'HD', 'SONC', 'MA', 'TECH', 'BAR', 'A', 'O', 'C', 'ST', 'H', 'WH', 'ETN'
   ];
   
   const metadata = {};
@@ -199,6 +199,53 @@ describe('TickerEngine Performance Tests', () => {
       const duration = Date.now() - startTime;
       console.log(`5 sequential runs completed in ${duration}ms`);
       expect(duration).toBeLessThan(60000);
+    });
+  });
+  
+  describe('Duplicate Prevention Tests', () => {
+    test('SHORT sample should not have duplicate ticker symbols', () => {
+      const result = engine.extractPortfolios(SAMPLE_TEXTS.SHORT, 'DIVIDEND_DADDY');
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+      
+      const portfolio = result[0];
+      const symbols = portfolio.tickers;  // tickers is already an array of strings
+      const uniqueSymbols = [...new Set(symbols)];
+      
+      console.log(`SHORT text found: ${symbols.join(', ')}`);
+      console.log(`Unique count: ${uniqueSymbols.length}, Total count: ${symbols.length}`);
+      
+      expect(symbols.length).toBe(uniqueSymbols.length);
+    });
+    
+    test('MEDIUM sample should not have duplicate ticker symbols', () => {
+      const result = engine.extractPortfolios(SAMPLE_TEXTS.MEDIUM, 'DIVIDEND_DADDY');
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+      
+      const portfolio = result[0];
+      const symbols = portfolio.tickers;
+      const uniqueSymbols = [...new Set(symbols)];
+      
+      console.log(`MEDIUM text found: ${symbols.join(', ')}`);
+      console.log(`Unique count: ${uniqueSymbols.length}, Total count: ${symbols.length}`);
+      
+      expect(symbols.length).toBe(uniqueSymbols.length);
+    });
+    
+    test('LONG sample should not have duplicate ticker symbols', () => {
+      const result = engine.extractPortfolios(SAMPLE_TEXTS.LONG, 'DIVIDEND_DADDY');
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+      
+      const portfolio = result[0];
+      const symbols = portfolio.tickers;
+      const uniqueSymbols = [...new Set(symbols)];
+      
+      console.log(`LONG text found: ${symbols.join(', ')}`);
+      console.log(`Unique count: ${uniqueSymbols.length}, Total count: ${symbols.length}`);
+      
+      expect(symbols.length).toBe(uniqueSymbols.length);
     });
   });
 });

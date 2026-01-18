@@ -307,28 +307,43 @@ function findBestPortfolio(text, words, strategy, strategyTickerData, strategyTi
         }
     }
 
-    // Bottom-up DP: dp[i] = { score, tickers } for best from i to end
+    // Bottom-up DP: dp[i] = { score, tickers, usedSymbols } for best from i to end
     const dp = Array(n + 1).fill(null);
-    dp[n] = { score: 0, tickers: [] };
+    dp[n] = { score: 0, tickers: [], usedSymbols: new Set() };
 
     for (let i = n - 1; i >= 0; i--) {
         // Skip this position
-        let best = dp[i + 1] ? { score: dp[i + 1].score, tickers: [...dp[i + 1].tickers] } : { score: 0, tickers: [] };
+        let best = dp[i + 1] ? { 
+            score: dp[i + 1].score, 
+            tickers: [...dp[i + 1].tickers],
+            usedSymbols: new Set(dp[i + 1].usedSymbols)
+        } : { score: 0, tickers: [], usedSymbols: new Set() };
 
         // Try each possible ticker starting at i
         for (const { ticker, span } of possibleTickers[i]) {
             const next = i + span;
             if (dp[next]) {
+                // Skip if this symbol was already used in the optimal path
+                if (dp[next].usedSymbols.has(ticker.symbol)) {
+                    continue;
+                }
+                
                 const candidateScore = scorer(ticker.symbol) + dp[next].score;
                 if (candidateScore > best.score) {
-                    best = { score: candidateScore, tickers: [ticker, ...dp[next].tickers] };
+                    const newUsedSymbols = new Set(dp[next].usedSymbols);
+                    newUsedSymbols.add(ticker.symbol);
+                    best = { 
+                        score: candidateScore, 
+                        tickers: [ticker, ...dp[next].tickers],
+                        usedSymbols: newUsedSymbols
+                    };
                 }
             }
         }
         dp[i] = best;
     }
 
-    return dp[0];
+    return { score: dp[0].score, tickers: dp[0].tickers };
 }
 
 function findTickerInSpan(text, words, startWordIdx, endWordIdx, trie) {
@@ -373,12 +388,29 @@ function renderHighlighted(text, words, tickers, tickerData) {
         });
 
         const [startWord, endWord] = t.consumedWords;
+        
+        // Mark characters in consumed words
         for (let i = startWord; i <= endWord; i++) {
             const word = words[i];
             for (let j = word.start; j <= word.end; j++) {
                 if (charTypes[j] === 'normal') {
                     charTypes[j] = 'consumed';
-                    charToTicker.set(j, t.symbol); // In-between chars also get ticker for grouping
+                    charToTicker.set(j, t.symbol);
+                }
+            }
+        }
+        
+        // Mark spaces between consumed words as part of the ticker group
+        if (startWord < endWord) {
+            for (let i = startWord; i < endWord; i++) {
+                const currentWordEnd = words[i].end;
+                const nextWordStart = words[i + 1].start;
+                // Mark all characters between words (typically just space)
+                for (let j = currentWordEnd + 1; j < nextWordStart; j++) {
+                    if (charTypes[j] === 'normal') {
+                        charTypes[j] = 'consumed';
+                        charToTicker.set(j, t.symbol);
+                    }
                 }
             }
         }
@@ -404,13 +436,14 @@ function renderHighlighted(text, words, tickers, tickerData) {
                 currentGroupChars = [];
             }
 
-            // Start new group or add normal char
+            // Start new group or add muted normal char
             if (ticker) {
                 currentTicker = ticker;
                 currentGroupChars.push({ char, type, idx: i });
             } else {
                 currentTicker = null;
-                html += escapeHtml(char);
+                // Mute non-consumed text (match token-in-between styling)
+                html += `<span style="opacity: 0.4; color: #6c757d;">${escapeHtml(char)}</span>`;
             }
         }
     }
@@ -424,32 +457,31 @@ function renderHighlighted(text, words, tickers, tickerData) {
 }
 
 function renderTickerGroup(charArray, ticker, tickerData) {
-    // Separate ticker chars from consumed chars
-    let styledContent = '';
-    let tickerCharCount = 0;
-
+    // Identify ticker character positions (ignoring spaces between words)
+    const tickerChars = [];
+    
     for (let i = 0; i < charArray.length; i++) {
         const { char, type } = charArray[i];
-
         if (type === 'ticker') {
-            tickerCharCount++;
+            tickerChars.push(i);
         }
     }
 
-    let tickerCharsSeen = 0;
+    const tickerCharCount = tickerChars.length;
+    let styledContent = '';
 
     for (let i = 0; i < charArray.length; i++) {
         const { char, type } = charArray[i];
 
         if (type === 'ticker') {
-            tickerCharsSeen++;
+            const tickerPos = tickerChars.indexOf(i);
             let cssClass = 'token-ticker';
 
             if (tickerCharCount === 1) {
                 cssClass += ' token-ticker-single';
-            } else if (tickerCharsSeen === 1) {
+            } else if (tickerPos === 0) {
                 cssClass += ' token-ticker-first';
-            } else if (tickerCharsSeen === tickerCharCount) {
+            } else if (tickerPos === tickerCharCount - 1) {
                 cssClass += ' token-ticker-last';
             } else {
                 cssClass += ' token-ticker-middle';
@@ -544,7 +576,7 @@ function renderPortfolios(text, words, portfolios) {
             // 1. Show highlighted text FIRST
             html += '<div class="mb-4">';
             html += '<h6>Highlighted Input Text:</h6>';
-            html += '<div class="bg-light p-3 border rounded" style="font-family: monospace; white-space: pre-wrap;">';
+            html += '<div class="bg-light p-3 border rounded" style="font-family: monospace; white-space: pre-wrap; line-height: 2;">';
             html += renderHighlighted(text, words, portfolio.tickers, tickerData);
             html += '</div>';
             html += '<div class="mt-2"><small class="text-muted">';
@@ -552,27 +584,17 @@ function renderPortfolios(text, words, portfolios) {
             html += '</small></div>';
             html += '</div>';
 
-            // 2. Show tickers found (deduplicate by symbol)
-            const uniqueSymbols = [...new Set(portfolio.tickers.map(t => t.symbol.toUpperCase()))];
-            html += `<p><strong>Tickers found:</strong> ${uniqueSymbols.join(', ')}</p>`;
+            // 2. Show tickers found
+            const symbols = portfolio.tickers.map(t => t.symbol.toUpperCase());
+            html += `<p><strong>Tickers found:</strong> ${symbols.join(', ')}</p>`;
 
             // 3. Show ticker details table (with pagination for 10+)
-            // Deduplicate tickers by symbol
-            const uniqueTickers = [];
-            const seenSymbols = new Set();
-            portfolio.tickers.forEach(t => {
-                if (!seenSymbols.has(t.symbol)) {
-                    seenSymbols.add(t.symbol);
-                    uniqueTickers.push(t);
-                }
-            });
-            
             const tickersPerPage = 10;
-            const needsPagination = uniqueTickers.length > tickersPerPage;
+            const needsPagination = portfolio.tickers.length > tickersPerPage;
             const tableId = `table-${strategyKey}`;
 
             html += `<table class="table table-sm table-striped mb-3" id="${tableId}"><thead><tr><th>Symbol</th><th>Name</th><th>Price</th></tr></thead><tbody>`;
-            uniqueTickers.forEach((t, idx) => {
+            portfolio.tickers.forEach((t, idx) => {
                 const data = tickerData[t.symbol];
                 const page = Math.floor(idx / tickersPerPage);
                 const shouldHide = needsPagination && page > 0;
@@ -583,7 +605,7 @@ function renderPortfolios(text, words, portfolios) {
 
             // Add pagination if needed
             if (needsPagination) {
-                const totalPages = Math.ceil(uniqueTickers.length / tickersPerPage);
+                const totalPages = Math.ceil(portfolio.tickers.length / tickersPerPage);
                 html += `<div class="pagination-controls" data-table="${tableId}">`;
                 html += `<button class="btn btn-sm btn-outline-secondary" onclick="changePage('${tableId}', -1)">Previous</button> `;
                 html += `<span class="mx-2">Page <span id="${tableId}-page">1</span> of ${totalPages}</span> `;
@@ -592,7 +614,7 @@ function renderPortfolios(text, words, portfolios) {
             }
 
             // Portfolio Visualizer button
-            html += `<div class="mt-3"><button class="btn btn-sm btn-primary" onclick="openPortfolioVisualizer('${uniqueSymbols.join(',')}')">📊 View in Portfolio Visualizer</button></div>`;
+            html += `<div class="mt-3"><button class="btn btn-sm btn-primary" onclick="openPortfolioVisualizer('${symbols.join(',')}')">📊 View in Portfolio Visualizer</button></div>`;
         }
 
         html += '</div></div>';
