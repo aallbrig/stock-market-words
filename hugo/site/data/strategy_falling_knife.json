@@ -3,7 +3,7 @@
   "strategy_key": "falling_knife",
   "description": "Oversold stocks below 200-day moving average (RSI < 30, price < MA200)",
   "icon": "\ud83d\udd2a",
-  "generated_at": "2026-01-17T15:09:04.131015",
+  "generated_at": "2026-01-18T10:47:58.107129",
   "date": "2026-01-17",
   "total_matches": 162,
   "filter_criteria": "rsi_14 < 30 AND ma_200 IS NOT NULL AND price < ma_200",

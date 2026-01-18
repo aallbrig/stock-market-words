@@ -104,6 +104,8 @@ Key locations:
 - Hugo layouts: `hugo/site/layouts/`
 - JavaScript: `hugo/site/static/js/`
 - Documentation: `docs/` and `tests/README.md`
+- Database: `data/market_data.db` (SQLite database with tickers, daily_metrics, strategy_scores tables)
+- Hugo data files: `hugo/site/static/data/` (JSON files for website consumption)
 
 ## Testing Philosophy
 
