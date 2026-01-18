@@ -156,7 +156,17 @@ def generate_filtered_data(dry_run=False):
     
     conn = get_connection()
     cursor = conn.cursor()
-    today = get_today()
+    
+    # Get the most recent date with data (don't rely on today's date)
+    cursor.execute("SELECT MAX(date) FROM daily_metrics WHERE price IS NOT NULL")
+    result = cursor.fetchone()
+    if not result or not result[0]:
+        logger.warning("No data found in daily_metrics. Run 'ticker-cli run-all' first.")
+        conn.close()
+        return
+    
+    latest_date = result[0]
+    logger.info(f"Using latest data from: {latest_date}")
     
     # Get all tickers in database (these passed filtering)
     logger.info("Querying filtered tickers...")
@@ -178,14 +188,14 @@ def generate_filtered_data(dry_run=False):
         FROM tickers t
         LEFT JOIN daily_metrics dm ON t.symbol = dm.symbol AND dm.date = ?
         ORDER BY t.exchange, t.symbol
-    """, (today,))
+    """, (latest_date,))
     
     rows = cursor.fetchall()
     
     # Build filtered data structure
     filtered_data = {
         'generated_at': datetime.now().isoformat(),
-        'date': today,
+        'date': latest_date,
         'total_tickers': len(rows),
         'exchanges': {},
         'tickers': []
@@ -224,10 +234,10 @@ def generate_filtered_data(dry_run=False):
     cursor.execute("SELECT COUNT(*) FROM tickers")
     total_filtered = cursor.fetchone()[0]
     
-    cursor.execute("SELECT COUNT(*) FROM daily_metrics WHERE date = ? AND price IS NOT NULL", (today,))
+    cursor.execute("SELECT COUNT(*) FROM daily_metrics WHERE date = ? AND price IS NOT NULL", (latest_date,))
     with_price = cursor.fetchone()[0]
     
-    cursor.execute("SELECT COUNT(*) FROM daily_metrics WHERE date = ? AND market_cap IS NOT NULL", (today,))
+    cursor.execute("SELECT COUNT(*) FROM daily_metrics WHERE date = ? AND market_cap IS NOT NULL", (latest_date,))
     with_metadata = cursor.fetchone()[0]
     
     filtered_data['statistics'] = {
@@ -253,7 +263,7 @@ def generate_filtered_data(dry_run=False):
     # Generate Pass 1 results summary
     pass1_data = {
         'generated_at': datetime.now().isoformat(),
-        'date': today,
+        'date': latest_date,
         'pass1_extraction': {
             'total_attempted': total_filtered,
             'successful': with_price,
@@ -497,7 +507,7 @@ def generate_strategy_filters(dry_run=False):
         logger.info(f"Processing {strategy_info['name']}...")
         
         query = f"""
-            SELECT 
+            SELECT DISTINCT
                 t.symbol,
                 t.name,
                 t.exchange,

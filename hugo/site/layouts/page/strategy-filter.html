@@ -73,7 +73,7 @@
             <tbody>
               {{ range $strategyData.tickers }}
               <tr>
-                <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank">{{ .symbol }}</a></strong></td>
+                <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
                 <td>{{ .name }}</td>
                 <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
                 <td>${{ printf "%.2f" .price }}</td>
@@ -244,9 +244,14 @@ ticker-cli hugo pages</code></pre>
   </div>
 </div>
 
-<!-- DataTables for sorting and filtering -->
+<!-- DataTables for sorting and filtering - CSS only here -->
 {{ if gt $strategyData.total_matches 0 }}
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+{{ end }}
+{{ end }}
+{{ define "page-scripts" }}
+{{ $strategyData := index .Site.Data (printf "strategy_%s" .Params.strategy_key) }}
+{{ if gt $strategyData.total_matches 0 }}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>

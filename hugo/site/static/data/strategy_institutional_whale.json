@@ -3,7 +3,7 @@
   "strategy_key": "institutional_whale",
   "description": "Large cap stocks (market cap > $10 billion)",
   "icon": "\ud83d\udc0b",
-  "generated_at": "2026-01-17T15:09:04.185447",
+  "generated_at": "2026-01-18T10:47:58.163948",
   "date": "2026-01-17",
   "total_matches": 848,
   "filter_criteria": "market_cap > 10000000000",

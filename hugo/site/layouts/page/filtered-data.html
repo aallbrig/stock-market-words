@@ -97,12 +97,13 @@
                 <th>Price</th>
                 <th>Volume</th>
                 <th>Market Cap</th>
+                <th>First Seen</th>
               </tr>
             </thead>
             <tbody>
               {{ range $filtered.tickers }}
               <tr data-exchange="{{ .exchange }}">
-                <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank" rel="noopener">{{ .symbol }}</a></strong></td>
+                <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank" rel="noopener" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
                 <td>{{ .name }}</td>
                 <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
                 <td>{{ if .is_etf }}Yes{{ else }}No{{ end }}</td>
@@ -139,6 +140,7 @@
                     <span class="text-muted">N/A</span>
                   {{ end }}
                 </td>
+                <td>{{ .first_seen }}</td>
               </tr>
               {{ end }}
             </tbody>
@@ -175,7 +177,7 @@ $(document).ready(function() {
   if ($('#tickerTable').length) {
     tickerTable = $('#tickerTable').DataTable({
       pageLength: 50,
-      order: [[0, 'asc']],
+      order: [[5, 'desc']], // Sort by Volume (column 5) descending
       columnDefs: [
         { targets: [4, 5, 6], type: 'num' }
       ]

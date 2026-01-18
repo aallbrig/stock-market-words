@@ -361,7 +361,7 @@ function findTickerInSpan(text, words, startWordIdx, endWordIdx, trie) {
     return search(0, trie, []);
 }
 
-function renderHighlighted(text, words, tickers) {
+function renderHighlighted(text, words, tickers, tickerData) {
     const charTypes = new Array(text.length).fill('normal');
     const charToTicker = new Map(); // Map char index to ticker symbol
 
@@ -400,7 +400,7 @@ function renderHighlighted(text, words, tickers) {
         } else {
             // Finish previous group if exists
             if (currentTicker) {
-                html += renderTickerGroup(currentGroupChars, currentTicker);
+                html += renderTickerGroup(currentGroupChars, currentTicker, tickerData);
                 currentGroupChars = [];
             }
 
@@ -417,13 +417,13 @@ function renderHighlighted(text, words, tickers) {
 
     // Finish last group if exists
     if (currentTicker) {
-        html += renderTickerGroup(currentGroupChars, currentTicker);
+        html += renderTickerGroup(currentGroupChars, currentTicker, tickerData);
     }
 
     return html;
 }
 
-function renderTickerGroup(charArray, ticker) {
+function renderTickerGroup(charArray, ticker, tickerData) {
     // Separate ticker chars from consumed chars
     let styledContent = '';
     let tickerCharCount = 0;
@@ -462,7 +462,11 @@ function renderTickerGroup(charArray, ticker) {
         }
     }
 
-    return `<span class="ticker-group" title="${ticker}">${styledContent}</span>`;
+    // Get ticker name from metadata
+    const tickerName = tickerData && tickerData[ticker] ? tickerData[ticker].name : ticker;
+    const tooltipText = `${ticker} - ${tickerName}`;
+
+    return `<span class="ticker-group" title="${escapeHtml(tooltipText)}">${styledContent}</span>`;
 }
 
 function escapeHtml(text) {
@@ -541,35 +545,45 @@ function renderPortfolios(text, words, portfolios) {
             html += '<div class="mb-4">';
             html += '<h6>Highlighted Input Text:</h6>';
             html += '<div class="bg-light p-3 border rounded" style="font-family: monospace; white-space: pre-wrap;">';
-            html += renderHighlighted(text, words, portfolio.tickers);
+            html += renderHighlighted(text, words, portfolio.tickers, tickerData);
             html += '</div>';
             html += '<div class="mt-2"><small class="text-muted">';
-            html += '<span class="token-ticker token-ticker-single">Green</span> = Ticker (hover to see symbol)';
+            html += '<span class="token-ticker token-ticker-single">Green</span> = Ticker (hover to see symbol and name)';
             html += '</small></div>';
             html += '</div>';
 
-            // 2. Show tickers found
-            const symbols = portfolio.tickers.map(t => t.symbol.toUpperCase());
-            html += `<p><strong>Tickers found:</strong> ${symbols.join(', ')}</p>`;
+            // 2. Show tickers found (deduplicate by symbol)
+            const uniqueSymbols = [...new Set(portfolio.tickers.map(t => t.symbol.toUpperCase()))];
+            html += `<p><strong>Tickers found:</strong> ${uniqueSymbols.join(', ')}</p>`;
 
             // 3. Show ticker details table (with pagination for 10+)
+            // Deduplicate tickers by symbol
+            const uniqueTickers = [];
+            const seenSymbols = new Set();
+            portfolio.tickers.forEach(t => {
+                if (!seenSymbols.has(t.symbol)) {
+                    seenSymbols.add(t.symbol);
+                    uniqueTickers.push(t);
+                }
+            });
+            
             const tickersPerPage = 10;
-            const needsPagination = portfolio.tickers.length > tickersPerPage;
+            const needsPagination = uniqueTickers.length > tickersPerPage;
             const tableId = `table-${strategyKey}`;
 
             html += `<table class="table table-sm table-striped mb-3" id="${tableId}"><thead><tr><th>Symbol</th><th>Name</th><th>Price</th></tr></thead><tbody>`;
-            portfolio.tickers.forEach((t, idx) => {
+            uniqueTickers.forEach((t, idx) => {
                 const data = tickerData[t.symbol];
                 const page = Math.floor(idx / tickersPerPage);
                 const shouldHide = needsPagination && page > 0;
                 const rowStyle = shouldHide ? ' style="display: none;"' : '';
-                html += `<tr data-page="${page}"${rowStyle}><td><a href="https://finance.yahoo.com/quote/${t.symbol.toUpperCase()}" target="_blank" rel="noopener"><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></a></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
+                html += `<tr data-page="${page}"${rowStyle}><td><a href="https://finance.yahoo.com/quote/${t.symbol.toUpperCase()}" target="_blank" rel="noopener" title="${t.symbol.toUpperCase()} - ${data.name}"><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></a></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
             });
             html += '</tbody></table>';
 
             // Add pagination if needed
             if (needsPagination) {
-                const totalPages = Math.ceil(portfolio.tickers.length / tickersPerPage);
+                const totalPages = Math.ceil(uniqueTickers.length / tickersPerPage);
                 html += `<div class="pagination-controls" data-table="${tableId}">`;
                 html += `<button class="btn btn-sm btn-outline-secondary" onclick="changePage('${tableId}', -1)">Previous</button> `;
                 html += `<span class="mx-2">Page <span id="${tableId}-page">1</span> of ${totalPages}</span> `;
@@ -578,7 +592,7 @@ function renderPortfolios(text, words, portfolios) {
             }
 
             // Portfolio Visualizer button
-            html += `<div class="mt-3"><button class="btn btn-sm btn-primary" onclick="openPortfolioVisualizer('${symbols.join(',')}')">📊 View in Portfolio Visualizer</button></div>`;
+            html += `<div class="mt-3"><button class="btn btn-sm btn-primary" onclick="openPortfolioVisualizer('${uniqueSymbols.join(',')}')">📊 View in Portfolio Visualizer</button></div>`;
         }
 
         html += '</div></div>';
