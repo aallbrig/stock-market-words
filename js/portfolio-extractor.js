@@ -307,28 +307,43 @@ function findBestPortfolio(text, words, strategy, strategyTickerData, strategyTi
         }
     }
 
-    // Bottom-up DP: dp[i] = { score, tickers } for best from i to end
+    // Bottom-up DP: dp[i] = { score, tickers, usedSymbols } for best from i to end
     const dp = Array(n + 1).fill(null);
-    dp[n] = { score: 0, tickers: [] };
+    dp[n] = { score: 0, tickers: [], usedSymbols: new Set() };
 
     for (let i = n - 1; i >= 0; i--) {
         // Skip this position
-        let best = dp[i + 1] ? { score: dp[i + 1].score, tickers: [...dp[i + 1].tickers] } : { score: 0, tickers: [] };
+        let best = dp[i + 1] ? { 
+            score: dp[i + 1].score, 
+            tickers: [...dp[i + 1].tickers],
+            usedSymbols: new Set(dp[i + 1].usedSymbols)
+        } : { score: 0, tickers: [], usedSymbols: new Set() };
 
         // Try each possible ticker starting at i
         for (const { ticker, span } of possibleTickers[i]) {
             const next = i + span;
             if (dp[next]) {
+                // Skip if this symbol was already used in the optimal path
+                if (dp[next].usedSymbols.has(ticker.symbol)) {
+                    continue;
+                }
+                
                 const candidateScore = scorer(ticker.symbol) + dp[next].score;
                 if (candidateScore > best.score) {
-                    best = { score: candidateScore, tickers: [ticker, ...dp[next].tickers] };
+                    const newUsedSymbols = new Set(dp[next].usedSymbols);
+                    newUsedSymbols.add(ticker.symbol);
+                    best = { 
+                        score: candidateScore, 
+                        tickers: [ticker, ...dp[next].tickers],
+                        usedSymbols: newUsedSymbols
+                    };
                 }
             }
         }
         dp[i] = best;
     }
 
-    return dp[0];
+    return { score: dp[0].score, tickers: dp[0].tickers };
 }
 
 function findTickerInSpan(text, words, startWordIdx, endWordIdx, trie) {
@@ -361,7 +376,7 @@ function findTickerInSpan(text, words, startWordIdx, endWordIdx, trie) {
     return search(0, trie, []);
 }
 
-function renderHighlighted(text, words, tickers) {
+function renderHighlighted(text, words, tickers, tickerData) {
     const charTypes = new Array(text.length).fill('normal');
     const charToTicker = new Map(); // Map char index to ticker symbol
 
@@ -373,12 +388,29 @@ function renderHighlighted(text, words, tickers) {
         });
 
         const [startWord, endWord] = t.consumedWords;
+        
+        // Mark characters in consumed words
         for (let i = startWord; i <= endWord; i++) {
             const word = words[i];
             for (let j = word.start; j <= word.end; j++) {
                 if (charTypes[j] === 'normal') {
                     charTypes[j] = 'consumed';
-                    charToTicker.set(j, t.symbol); // In-between chars also get ticker for grouping
+                    charToTicker.set(j, t.symbol);
+                }
+            }
+        }
+        
+        // Mark spaces between consumed words as part of the ticker group
+        if (startWord < endWord) {
+            for (let i = startWord; i < endWord; i++) {
+                const currentWordEnd = words[i].end;
+                const nextWordStart = words[i + 1].start;
+                // Mark all characters between words (typically just space)
+                for (let j = currentWordEnd + 1; j < nextWordStart; j++) {
+                    if (charTypes[j] === 'normal') {
+                        charTypes[j] = 'consumed';
+                        charToTicker.set(j, t.symbol);
+                    }
                 }
             }
         }
@@ -400,56 +432,56 @@ function renderHighlighted(text, words, tickers) {
         } else {
             // Finish previous group if exists
             if (currentTicker) {
-                html += renderTickerGroup(currentGroupChars, currentTicker);
+                html += renderTickerGroup(currentGroupChars, currentTicker, tickerData);
                 currentGroupChars = [];
             }
 
-            // Start new group or add normal char
+            // Start new group or add muted normal char
             if (ticker) {
                 currentTicker = ticker;
                 currentGroupChars.push({ char, type, idx: i });
             } else {
                 currentTicker = null;
-                html += escapeHtml(char);
+                // Mute non-consumed text (match token-in-between styling)
+                html += `<span style="opacity: 0.4; color: #6c757d;">${escapeHtml(char)}</span>`;
             }
         }
     }
 
     // Finish last group if exists
     if (currentTicker) {
-        html += renderTickerGroup(currentGroupChars, currentTicker);
+        html += renderTickerGroup(currentGroupChars, currentTicker, tickerData);
     }
 
     return html;
 }
 
-function renderTickerGroup(charArray, ticker) {
-    // Separate ticker chars from consumed chars
-    let styledContent = '';
-    let tickerCharCount = 0;
-
+function renderTickerGroup(charArray, ticker, tickerData) {
+    // Identify ticker character positions (ignoring spaces between words)
+    const tickerChars = [];
+    
     for (let i = 0; i < charArray.length; i++) {
         const { char, type } = charArray[i];
-
         if (type === 'ticker') {
-            tickerCharCount++;
+            tickerChars.push(i);
         }
     }
 
-    let tickerCharsSeen = 0;
+    const tickerCharCount = tickerChars.length;
+    let styledContent = '';
 
     for (let i = 0; i < charArray.length; i++) {
         const { char, type } = charArray[i];
 
         if (type === 'ticker') {
-            tickerCharsSeen++;
+            const tickerPos = tickerChars.indexOf(i);
             let cssClass = 'token-ticker';
 
             if (tickerCharCount === 1) {
                 cssClass += ' token-ticker-single';
-            } else if (tickerCharsSeen === 1) {
+            } else if (tickerPos === 0) {
                 cssClass += ' token-ticker-first';
-            } else if (tickerCharsSeen === tickerCharCount) {
+            } else if (tickerPos === tickerCharCount - 1) {
                 cssClass += ' token-ticker-last';
             } else {
                 cssClass += ' token-ticker-middle';
@@ -462,7 +494,11 @@ function renderTickerGroup(charArray, ticker) {
         }
     }
 
-    return `<span class="ticker-group" title="${ticker}">${styledContent}</span>`;
+    // Get ticker name from metadata
+    const tickerName = tickerData && tickerData[ticker] ? tickerData[ticker].name : ticker;
+    const tooltipText = `${ticker} - ${tickerName}`;
+
+    return `<span class="ticker-group" title="${escapeHtml(tooltipText)}">${styledContent}</span>`;
 }
 
 function escapeHtml(text) {
@@ -540,11 +576,11 @@ function renderPortfolios(text, words, portfolios) {
             // 1. Show highlighted text FIRST
             html += '<div class="mb-4">';
             html += '<h6>Highlighted Input Text:</h6>';
-            html += '<div class="bg-light p-3 border rounded" style="font-family: monospace; white-space: pre-wrap;">';
-            html += renderHighlighted(text, words, portfolio.tickers);
+            html += '<div class="bg-light p-3 border rounded" style="font-family: monospace; white-space: pre-wrap; line-height: 2;">';
+            html += renderHighlighted(text, words, portfolio.tickers, tickerData);
             html += '</div>';
             html += '<div class="mt-2"><small class="text-muted">';
-            html += '<span class="token-ticker token-ticker-single">Green</span> = Ticker (hover to see symbol)';
+            html += '<span class="token-ticker token-ticker-single">Green</span> = Ticker (hover to see symbol and name)';
             html += '</small></div>';
             html += '</div>';
 
@@ -563,7 +599,7 @@ function renderPortfolios(text, words, portfolios) {
                 const page = Math.floor(idx / tickersPerPage);
                 const shouldHide = needsPagination && page > 0;
                 const rowStyle = shouldHide ? ' style="display: none;"' : '';
-                html += `<tr data-page="${page}"${rowStyle}><td><a href="https://finance.yahoo.com/quote/${t.symbol.toUpperCase()}" target="_blank" rel="noopener"><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></a></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
+                html += `<tr data-page="${page}"${rowStyle}><td><a href="https://finance.yahoo.com/quote/${t.symbol.toUpperCase()}" target="_blank" rel="noopener" title="${t.symbol.toUpperCase()} - ${data.name}"><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></a></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
             });
             html += '</tbody></table>';
 

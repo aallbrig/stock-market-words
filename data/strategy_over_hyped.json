@@ -3,7 +3,7 @@
   "strategy_key": "over_hyped",
   "description": "Overbought stocks (RSI > 70)",
   "icon": "\ud83d\udcc8",
-  "generated_at": "2026-01-17T15:09:04.146345",
+  "generated_at": "2026-01-18T10:47:58.123768",
   "date": "2026-01-17",
   "total_matches": 760,
   "filter_criteria": "rsi_14 > 70",
