@@ -106,106 +106,109 @@ hugo/site/
 ```
 
 ### Getting Started
-Bash scripts
+
+**Local Development (Hugo website):**
 ```bash
-# Start up Hugo development server (requires Hugo)
+# Start Hugo development server
 ./scripts/website-up.sh
+# Or manually:
+cd hugo/site && hugo server
+
+# Stop Hugo server
 ./scripts/website-down.sh
-# Test website with acceptance tests (requires node)
-./scripts/website-test.sh
-
-# Single liner
-./scripts/website-down.sh && ./scripts/website-up.sh
-
-# Extract stock exchange(s) data
-./scripts/extract-exchanges-txt-data.sh
-
-# Create resources on AWS (idempotent shell script)
-./scripts/infrastructure-up.sh
+# Or: pkill -f "hugo server"
 ```
 
-Python scripts
+**Data Pipeline (Python CLI):**
 ```bash
-# Virtual environment
-python3 -m virtualenv venv
-source venv/bin/activate
-source venv/bin/deactivate
+cd python3
+./run.sh status        # Check system status
+./run.sh run-all       # Run full data extraction pipeline
+```
+
+**Testing:**
+```bash
+npm test               # All tests
+npm run test:e2e       # E2E tests (requires Hugo server)
+```
+
+Python CLI (Data Pipeline)
+```bash
+# Change to python3 directory
+cd python3
 
 # Install requirements
-pip3 install -r src/requirements.txt
+pip3 install -r requirements.txt
 
-# Test python files
-python3 -m unittest -v
+# Run CLI commands
+python -m stock_ticker.cli status        # Check system status
+python -m stock_ticker.cli run-all       # Run full data pipeline
 
-# Run python script
-python3 -m src.app
+# Or use convenience wrapper
+./run.sh status
+./run.sh run-all
+
+# See all commands
+./run.sh --help
 ```
+
 ### Developer quick commands
 ```bash
-# Preferred Development Bash Command
-./scripts/infrastructure-down.sh && ./scripts/infrastructure-down.sh && ./scripts/infrastructure-up.sh && ./scripts/infrastructure-up.sh
-# Note: the double call is to ensure the script is idempotent in a user friendly way
+# Preferred Development Command (Hugo website)
+cd hugo/site
+hugo server
+
+# Run tests
+npm test              # All tests
+npm run test:perf     # Performance tests only
+npm run test:e2e      # E2E tests (requires Hugo server running)
 ```
 
-### TODO
-- [ ] Bash script to pull stock tickers
-- [ ] Python script to pull info about stock ticker from Yahoo Finance
-- [ ] Website acceptance tests
-    - [ ] index.spec.js
-        - [x] Website describes itself
-        - [ ] "Data Updated Date"
-        - [x] Website has all exchanges link
-        - [ ] Website has NASDAQ exchange link
-        - [ ] Website has NYSE exchange link
-        - [ ] Website has AMEX exchange link
-        - [ ] Website provides telemetry on user activity
-    - [ ] exchange-data-pages.spec.js
-        - [x] HTML page (One HTML data display page for all exchanges)
-            - [ ] "Data Updated Date"
-            - [ ] display page title
-            - [ ] display data
-            - [ ] link to JSON format
-            - [ ] (stretch) link to TXT format
-            - [ ] (stretch) link to CSV format
-            - [ ] (stretch) link to XML format
-        
-        - [ ] (maybe) A-Z links are available. Once clicked, browser will scroll to that section. Makes it easier to navigate the results
-- [ ] Website (First Draft)
-    - [x] Website describes itself
-    - [x] QR code to QA environment
-    - [x] Website has all exchanges link
-    - [ ] Website has NASDAQ exchange link
-    - [ ] Website has NYSE exchange link
-    - [ ] Website has AMEX exchange link
-    - [ ] Website has all exchanges page
-    - [ ] Website has NASDAQ exchange page
-    - [ ] Website has NYSE exchange page
-    - [ ] Website has AMEX exchange page
-    - [ ] Website provides telemetry on user activity
-- [ ] Website is available from Github Pages
-    - [ ] Website JS loads QR code for Github Pages, when it detects it is running there
-- [ ] Website is deployed to Github Pages using Github Actions
-- [ ] Website data is updated by CRON Github Actions
-- [ ] Bash script exists that captures AWS CLI commands
-    - [ ] Buy domain in AWS
-    - [ ] AWS DNS configuration
-    - [ ] AWS CloudFront
-    - [ ] AWS Certificate Manager
-    - [x] AWS S3 bucket, for static website assets
-          - [x] Configure bucket for serving static web assets
-          - [ ] Enable public access for bucket
-          - [x] Bucket for website access logs
-    - [ ] AWS S3 bucket, for CloudFront logging
+### Current Status
 
-### Stretch Goals
-- [ ] Public API to allow users to easily extract data
-    - [ ] Website contains API documentation
-        - [ ] Website contains link to API documentation
-    - [ ] meta tag exists with references to (1) Yahoo Finance (2)rreichel3's repo, because credit
-    - [ ] /api/stocks
-    - [ ] /api/stocks?filter=NASDAQ
-    - [ ] /api/stocks?filter=NYSE
-    - [ ] /api/stocks?filter=AMEX
+**✅ Completed Features:**
+- Website deployed to GitHub Pages at [stockmarketwords.com](https://stockmarketwords.com)
+- Data pipeline extracts tickers from NASDAQ FTP
+- Strategy-based filtering (5 investment strategies)
+- Interactive ticker extraction tool
+- Performance-optimized data loading
+- Comprehensive E2E test suite
+- Google Analytics tracking
+
+**📊 Data Pipeline:**
+- Python CLI tool for data extraction and processing
+- FTP sync from NASDAQ (daily ticker lists)
+- Yahoo Finance API integration for metrics
+- Strategy scoring algorithm (5 strategies)
+- Hugo site content generation
+
+**🧪 Testing:**
+- 23 E2E tests (Jest + Puppeteer)
+- Performance tests for TickerEngine
+- Test reports with HTML output
+
+See [TESTING.md](./TESTING.md) for test documentation.
+
+### Future Enhancements
+
+**Data Features:**
+- [ ] Add historical price charts
+- [ ] Add sector/industry filtering
+- [ ] Add market cap filtering
+- [ ] Add dividend history
+- [ ] Real-time data updates (WebSocket)
+
+**UI Features:**
+- [ ] Dark mode toggle
+- [ ] Save/export ticker portfolios
+- [ ] Comparison tool for multiple tickers
+- [ ] Mobile app (PWA)
+
+**API:**
+- [ ] Public REST API for ticker data
+- [ ] API documentation page
+- [ ] Rate limiting and authentication
+- [ ] CSV/JSON export endpoints
     - [ ] /api/stocks?filter[]=NASDAQ&filter[]=NYSE&filter[]=AMEX
     - [ ] /api/stocks.json or /api/stocks?format=json
     - [ ] /api/stocks.csv or /api/stocks?format=csv
