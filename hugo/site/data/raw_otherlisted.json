@@ -1,8 +1,8 @@
 {
   "source": "NASDAQ FTP",
   "file": "otherlisted.txt",
-  "downloaded_at": "2026-01-18T10:47:57.679002",
-  "total_rows": 6935,
+  "downloaded_at": "2026-01-20T23:46:57.967869",
+  "total_rows": 6936,
   "columns": [
     "ACT Symbol",
     "Security Name",
@@ -15643,6 +15643,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "DGIN"
+    },
+    {
+      "ACT Symbol": "DGJA",
+      "Security Name": "FT Vest U.S. Equity Buffer & Digital Return ETF - January",
+      "Exchange": "Z",
+      "CQS Symbol": "DGJA",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "DGJA"
     },
     {
       "ACT Symbol": "DGOC",
@@ -39205,6 +39215,16 @@
       "NASDAQ Symbol": "MEMX"
     },
     {
+      "ACT Symbol": "MEMY",
+      "Security Name": "Tuttle Capital Meme Stock Income Blast ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "MEMY",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "MEMY"
+    },
+    {
       "ACT Symbol": "MER$K",
       "Security Name": "Bank of America Corporation Income Capital Obligation Notes initially due December 15, 2066",
       "Exchange": "N",
@@ -59663,16 +59683,6 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "TECS"
-    },
-    {
-      "ACT Symbol": "TEF",
-      "Security Name": "Telefonica SA Common Stock",
-      "Exchange": "N",
-      "CQS Symbol": "TEF",
-      "ETF": "N",
-      "Round Lot Size": 100.0,
-      "Test Issue": "N",
-      "NASDAQ Symbol": "TEF"
     },
     {
       "ACT Symbol": "TEI",
