@@ -1,0 +1,20 @@
+[Unit]
+Description=Stock Market Words Data Pipeline Timer (Daily at 6PM EST)
+Documentation=https://github.com/aallbright/stock-market-words
+Requires=stock-market-words.service
+
+[Timer]
+# Run at 6PM EST (23:00 UTC) every day
+# Note: This is 23:00 UTC for EST (winter), 22:00 UTC for EDT (summer)
+# Using 23:00 UTC to ensure it runs after market close (4PM EST)
+OnCalendar=*-*-* 23:00:00
+
+# If system was down, run on next boot (but wait 5 minutes)
+Persistent=true
+OnBootSec=5min
+
+# Randomize start time by up to 5 minutes to avoid thundering herd
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

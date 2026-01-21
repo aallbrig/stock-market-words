@@ -57,14 +57,18 @@ def status():
     logger.info("=" * 70)
     logger.info("")
     
+    # Track various issues for exit code
+    missing_deps = []
+    unreachable_services = []
+    db_issue = False
+    
     # 1. DEPENDENCIES CHECK
     logger.info("1️⃣  DEPENDENCIES")
-    all_deps_ok = True
     
     # Database
     if not DB_PATH.exists():
         logger.warning("   ⚠ Database: NOT FOUND")
-        all_deps_ok = False
+        db_issue = True
     else:
         try:
             conn = get_connection()
@@ -74,12 +78,12 @@ def status():
             conn.close()
             if not tables:
                 logger.warning("   ⚠ Database: Schema not initialized")
-                all_deps_ok = False
+                db_issue = True
             else:
                 logger.info("   ✓ Database: Ready")
         except Exception as e:
             logger.warning(f"   ⚠ Database: Error ({e})")
-            all_deps_ok = False
+            db_issue = True
     
     # Python packages
     try:
@@ -87,50 +91,76 @@ def status():
         logger.info(f"   ✓ yfinance: {yfinance.__version__}")
     except ImportError:
         logger.warning("   ⚠ yfinance: NOT INSTALLED")
-        all_deps_ok = False
+        missing_deps.append('yfinance')
     
     try:
         import pandas as pd
         logger.info(f"   ✓ pandas: {pd.__version__}")
     except ImportError:
         logger.warning("   ⚠ pandas: NOT INSTALLED")
-        all_deps_ok = False
+        missing_deps.append('pandas')
+    
+    try:
+        import numpy
+        logger.info(f"   ✓ numpy: {numpy.__version__}")
+    except ImportError:
+        logger.warning("   ⚠ numpy: NOT INSTALLED")
+        missing_deps.append('numpy')
     
     # External services
-    if check_ftp_server(FTP_HOST):
+    ftp_reachable = check_ftp_server(FTP_HOST)
+    if ftp_reachable:
         logger.info(f"   ✓ NASDAQ FTP: Reachable ({FTP_HOST})")
     else:
         logger.warning(f"   ⚠ NASDAQ FTP: Unreachable ({FTP_HOST})")
-        all_deps_ok = False
+        unreachable_services.append('NASDAQ FTP')
     
-    if check_yahoo_finance(YAHOO_API_HOST):
+    yahoo_reachable = check_yahoo_finance(YAHOO_API_HOST)
+    if yahoo_reachable:
         logger.info(f"   ✓ Yahoo Finance API: Reachable ({YAHOO_API_HOST})")
     else:
         logger.warning(f"   ⚠ Yahoo Finance API: Unreachable ({YAHOO_API_HOST})")
-        all_deps_ok = False
+        unreachable_services.append('Yahoo Finance API')
     
     logger.info("")
     
-    # ENHANCED PIPELINE STEPS
+    # 2. PIPELINE STEPS
     logger.info("2️⃣  PIPELINE STEPS")
     
     today = get_today()
-    from .database import get_pipeline_state
+    from .database import get_pipeline_state, get_last_successful_run
     state = get_pipeline_state(today)
     
-    logger.info(f"   Pipeline state: {state['status'].upper()}")
+    # Get last successful run date
+    last_run_date = get_last_successful_run()
+    
+    # Make pipeline state more prominent
+    if state['status'] == 'idle':
+        if last_run_date:
+            if last_run_date == today:
+                logger.info(f"   Pipeline state: IDLE (completed earlier today)")
+            else:
+                logger.warning(f"   ⚠️  Pipeline state: IDLE - NO RUN TODAY")
+                logger.warning(f"   ⚠️  Last successful run: {last_run_date}")
+        else:
+            logger.warning(f"   ⚠️  Pipeline state: IDLE - NEVER RUN")
+    else:
+        logger.info(f"   Pipeline state: {state['status'].upper()}")
+        if last_run_date and last_run_date != today:
+            logger.info(f"   Last successful run: {last_run_date}")
+    
     logger.info("")
     
-    # Define all steps with emojis
+    # Define all steps with emojis and CLI commands
     all_steps = [
-        ('sync-ftp', '📥 Sync FTP ticker lists'),
-        ('extract-prices', '💹 Extract price/volume data'),
-        ('extract-metadata', '📊 Extract detailed metrics'),
-        ('build', '🔨 Calculate strategy scores'),
-        ('generate-hugo', '📄 Generate Hugo content')
+        ('sync-ftp', '📥 Sync FTP ticker lists', 'sync-ftp'),
+        ('extract-prices', '💹 Extract price/volume data', 'extract-prices'),
+        ('extract-metadata', '📊 Extract detailed metrics', 'extract-metadata'),
+        ('build', '🔨 Calculate strategy scores', 'build'),
+        ('generate-hugo', '📄 Generate Hugo content', 'hugo all')
     ]
     
-    for step_name, step_desc in all_steps:
+    for step_name, step_desc, cli_command in all_steps:
         # Check if this step is in completed_steps
         if step_name in state['completed_steps']:
             # Get details from DB
@@ -158,33 +188,70 @@ def status():
                 logger.info(f"   🔄 {step_desc}: IN PROGRESS")
         
         else:
-            # Not started
-            logger.info(f"   ⏸  {step_desc}: Not started")
+            # Not started - show CLI command to run this step
+            logger.info(f"   ⏸  {step_desc}: Not started (python -m stock_ticker.cli {cli_command})")
     
     logger.info("")
     
-    # ENHANCED RECOMMENDATION
+    # 3. ENHANCED RECOMMENDATION
     logger.info("3️⃣  RECOMMENDATION")
     
+    # Check for missing dependencies first
+    if missing_deps:
+        logger.error("   ❌ Missing Python dependencies")
+        logger.error(f"   → Install with: pip install -r requirements.txt")
+        logger.error(f"   → Missing: {', '.join(missing_deps)}")
+        sys.exit(2)  # Exit code 2: missing dependencies
+    
+    # Check for database issues
+    if db_issue:
+        logger.warning("   ⚠️  Database not initialized")
+        logger.info("   → Initialize with: python -m stock_ticker.cli init")
+        sys.exit(3)  # Exit code 3: database not ready
+    
+    # Check for unreachable services
+    if unreachable_services:
+        logger.warning("   ⚠️  External services unreachable")
+        logger.warning(f"   → Check network connectivity")
+        logger.warning(f"   → Unreachable: {', '.join(unreachable_services)}")
+        if not ftp_reachable:
+            logger.warning(f"   → Test FTP: telnet {FTP_HOST} 21")
+        if not yahoo_reachable:
+            logger.warning(f"   → Test Yahoo: curl -I https://{YAHOO_API_HOST}")
+        sys.exit(4)  # Exit code 4: external services unreachable
+    
+    # Now check pipeline state
     if state['status'] == 'idle':
-        logger.info("   💡 Run full pipeline")
-        logger.info("   → python -m stock_ticker.cli run-all")
+        if last_run_date == today:
+            logger.info("   ✓ Pipeline complete for today!")
+            logger.info("   💡 Run again tomorrow for fresh data")
+            sys.exit(0)  # Success
+        else:
+            logger.warning("   ⚠️  Pipeline has not run today")
+            logger.info("   💡 Run full pipeline")
+            logger.info("   → python -m stock_ticker.cli run-all")
+            sys.exit(1)  # Exit code 1: needs to run
     
     elif state['status'] == 'in_progress':
         logger.info("   ⚠️  Pipeline interrupted - resume to continue")
         logger.info("   → python -m stock_ticker.cli run-all")
+        sys.exit(5)  # Exit code 5: pipeline interrupted
     
     elif state['status'] == 'completed':
         logger.info("   ✓ Pipeline complete for today!")
         logger.info("   💡 Run again tomorrow for fresh data")
+        sys.exit(0)  # Success
     
     elif state['status'] == 'failed':
-        logger.info("   ❌ Pipeline failed - review logs and restart")
-        logger.info("   → python -m stock_ticker.cli run-all")
+        logger.error("   ❌ Pipeline failed - review logs and restart")
+        logger.error("   → python -m stock_ticker.cli run-all")
+        logger.error(f"   → Check logs: {ERROR_LOG_PATH}")
+        sys.exit(6)  # Exit code 6: pipeline failed
     
     elif state['status'] == 'partial':
         logger.info("   ⚠️  Pipeline partially complete - continue")
         logger.info("   → python -m stock_ticker.cli run-all")
+        sys.exit(7)  # Exit code 7: pipeline partial
 
 @cli.command()
 @click.pass_context

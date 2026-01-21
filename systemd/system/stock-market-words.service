@@ -1,0 +1,38 @@
+[Unit]
+Description=Stock Market Words Data Pipeline
+Documentation=https://github.com/aallbright/stock-market-words
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=smw
+Group=smw
+WorkingDirectory=/opt/stock-market-words/python3
+
+# Environment setup
+Environment="PATH=/opt/stock-market-words/python3/venv/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="PYTHONUNBUFFERED=1"
+
+# Run the pipeline
+ExecStart=/opt/stock-market-words/python3/venv/bin/python -m stock_ticker.cli run-all
+
+# Git commit and push changes (if configured)
+ExecStartPost=/opt/stock-market-words/systemd/scripts/git-commit-and-push.sh
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=stock-market-words
+
+# Resource limits
+TimeoutStartSec=3600
+MemoryMax=4G
+CPUQuota=200%
+
+# Restart policy
+Restart=on-failure
+RestartSec=300
+
+[Install]
+WantedBy=multi-user.target
