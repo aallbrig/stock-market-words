@@ -119,8 +119,15 @@
   </div>
 </div>
 
-<!-- DataTables for sorting and filtering -->
+<!-- DataTables for sorting and filtering - CSS only here -->
+{{ if or $nasdaq $otherlisted }}
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+{{ end }}
+{{ end }}
+{{ define "page-scripts" }}
+{{ $nasdaq := .Site.Data.raw_nasdaq }}
+{{ $otherlisted := .Site.Data.raw_otherlisted }}
+{{ if or $nasdaq $otherlisted }}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
@@ -140,4 +147,5 @@ $(document).ready(function() {
   }
 });
 </script>
+{{ end }}
 {{ end }}

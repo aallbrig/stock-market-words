@@ -1,7 +1,7 @@
 {
   "source": "NASDAQ FTP",
   "file": "nasdaqlisted.txt",
-  "downloaded_at": "2026-01-18T10:47:57.539143",
+  "downloaded_at": "2026-01-20T23:46:57.825136",
   "total_rows": 5261,
   "columns": [
     "Symbol",
@@ -1069,7 +1069,7 @@
       "Security Name": "Antelope Enterprise Holdings Limited - Class A Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "E",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -2529,7 +2529,7 @@
       "Security Name": "Alpha Modus Holdings, Inc. - Class A Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -8779,7 +8779,7 @@
       "Security Name": "Cheche Group Inc. - Class A Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -10779,7 +10779,7 @@
       "Security Name": "Coeptis Therapeutics Holdings, Inc. - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -10789,7 +10789,7 @@
       "Security Name": "Coeptis Therapeutics Holdings, Inc. - Warrants",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -12119,7 +12119,7 @@
       "Security Name": "Currenc Group Inc. - Ordinary Shares",
       "Market Category": "G",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -12792,16 +12792,6 @@
       "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "Y",
-      "NextShares": "N"
-    },
-    {
-      "Symbol": "DENN",
-      "Security Name": "Denny's Corporation - Common Stock",
-      "Market Category": "S",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
       "NextShares": "N"
     },
     {
@@ -14927,16 +14917,6 @@
     {
       "Symbol": "ELVR",
       "Security Name": "Elevra Lithium Limited - American Depository Shares",
-      "Market Category": "S",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
-      "NextShares": "N"
-    },
-    {
-      "Symbol": "ELWS",
-      "Security Name": "Earlyworks Co., Ltd. - American Depositary Shares",
       "Market Category": "S",
       "Test Issue": "N",
       "Financial Status": "N",
@@ -19625,16 +19605,6 @@
       "NextShares": "N"
     },
     {
-      "Symbol": "GIFI",
-      "Security Name": "Gulf Island Fabrication, Inc. - Common Stock",
-      "Market Category": "Q",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
-      "NextShares": "N"
-    },
-    {
       "Symbol": "GIFT",
       "Security Name": "Giftify, Inc. - Common Stock",
       "Market Category": "S",
@@ -21699,7 +21669,7 @@
       "Security Name": "Cellyan Biotechnology Co., Ltd  - Class A Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -23149,7 +23119,7 @@
       "Security Name": "SeaStar Medical Holding Corporation - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -24825,8 +24795,28 @@
       "NextShares": "N"
     },
     {
+      "Symbol": "ITHA",
+      "Security Name": "ITHAX Acquisition Corp III - Class A Ordinary Shares",
+      "Market Category": "G",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
       "Symbol": "ITHAU",
       "Security Name": "ITHAX Acquisition Corp III - Units",
+      "Market Category": "G",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
+      "Symbol": "ITHAW",
+      "Security Name": "ITHAX Acquisition Corp III - Warrants",
       "Market Category": "G",
       "Test Issue": "N",
       "Financial Status": "N",
@@ -24979,7 +24969,7 @@
       "Security Name": "Inspire Veterinary Partners, Inc. - Class A Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -31089,7 +31079,7 @@
       "Security Name": "MicroVision, Inc. - Common Stock",
       "Market Category": "G",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -32789,7 +32779,7 @@
       "Security Name": "NRX Pharmaceuticals, Inc. - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -32799,7 +32789,7 @@
       "Security Name": "NRX Pharmaceuticals, Inc. - Warrant",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -34366,7 +34356,7 @@
     },
     {
       "Symbol": "ONDS",
-      "Security Name": "Ondas Holdings Inc. - Common Stock",
+      "Security Name": "Ondas Inc - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
       "Financial Status": "N",
@@ -35865,6 +35855,16 @@
       "NextShares": "N"
     },
     {
+      "Symbol": "PDC",
+      "Security Name": "Perpetuals.com Ltd - American Depositary Shares",
+      "Market Category": "S",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
       "Symbol": "PDD",
       "Security Name": "PDD Holdings Inc. - American Depositary Shares",
       "Market Category": "Q",
@@ -37296,7 +37296,7 @@
     },
     {
       "Symbol": "PRFX",
-      "Security Name": "PainReform Ltd. - Ordinary Shares",
+      "Security Name": "PRF Technologies Ltd. - Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
       "Financial Status": "N",
@@ -41485,6 +41485,26 @@
       "NextShares": "N"
     },
     {
+      "Symbol": "SCII",
+      "Security Name": "SC II Acquisition Corp. - Class A ordinary share",
+      "Market Category": "G",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
+      "Symbol": "SCIIR",
+      "Security Name": "SC II Acquisition Corp. - Rights",
+      "Market Category": "G",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
       "Symbol": "SCIIU",
       "Security Name": "SC II Acquisition Corp. - Units",
       "Market Category": "G",
@@ -42169,7 +42189,7 @@
       "Security Name": "SPAR Group, Inc. - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -43065,16 +43085,6 @@
       "NextShares": "N"
     },
     {
-      "Symbol": "SMLR",
-      "Security Name": "Semler Scientific, Inc. - Common Stock",
-      "Market Category": "S",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
-      "NextShares": "N"
-    },
-    {
       "Symbol": "SMMT",
       "Security Name": "Summit Therapeutics Inc.  - Common Stock",
       "Market Category": "G",
@@ -43949,7 +43959,7 @@
       "Security Name": "SciSparc Ltd. - Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -45119,7 +45129,7 @@
       "Security Name": "Synlogic, Inc. - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -46559,7 +46569,7 @@
       "Security Name": "TNL Mediagene - Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -47409,7 +47419,7 @@
       "Security Name": "Turbo Energy, S.A. - American Depositary Shares",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -49872,16 +49882,6 @@
       "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "Y",
-      "NextShares": "N"
-    },
-    {
-      "Symbol": "VSSYW",
-      "Security Name": "Versus Systems Inc. - Class A Warrants",
-      "Market Category": "S",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
       "NextShares": "N"
     },
     {

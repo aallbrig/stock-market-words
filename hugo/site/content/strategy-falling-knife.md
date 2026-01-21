@@ -1,7 +1,7 @@
 ---
 title: "🔪 Falling Knife Strategy"
 description: "Oversold stocks below moving average"
-date: 2026-01-18T10:47:58.198098
+date: 2026-01-20T23:46:58.503960
 type: "page"
 layout: "strategy-filter"
 strategy_key: "falling_knife"

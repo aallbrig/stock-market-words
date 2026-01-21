@@ -53,19 +53,19 @@
                 <th>Volume</th>
                 <th>Market Cap</th>
                 {{ if eq $strategyKey "dividend_daddy" }}
-                <th>Div Yield %</th>
+                <th>Dividend Yield %</th>
                 {{ end }}
                 {{ if eq $strategyKey "institutional_whale" }}
-                <th>Div Yield %</th>
+                <th>Dividend Yield %</th>
                 {{ end }}
                 {{ if or (eq $strategyKey "moon_shot") (eq $strategyKey "falling_knife") (eq $strategyKey "over_hyped") (eq $strategyKey "institutional_whale") }}
                 <th>Beta</th>
                 {{ end }}
                 {{ if or (eq $strategyKey "moon_shot") (eq $strategyKey "falling_knife") (eq $strategyKey "over_hyped") }}
-                <th>RSI</th>
+                <th>RSI (14-Day)</th>
                 {{ end }}
                 {{ if or (eq $strategyKey "dividend_daddy") (eq $strategyKey "falling_knife") (eq $strategyKey "institutional_whale") }}
-                <th>MA200</th>
+                <th>200-Day Moving Average</th>
                 {{ end }}
                 <th>Strategy Score</th>
               </tr>
@@ -76,9 +76,9 @@
                 <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
                 <td>{{ .name }}</td>
                 <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
-                <td>${{ printf "%.2f" .price }}</td>
-                <td>{{ .volume | lang.FormatNumber 0 }}</td>
-                <td>
+                <td data-order="{{ .price }}">${{ printf "%.2f" .price }}</td>
+                <td data-order="{{ .volume }}">{{ .volume | lang.FormatNumber 0 }}</td>
+                <td data-order="{{ if .marketCap }}{{ .marketCap }}{{ else }}0{{ end }}">
                   {{ if .marketCap }}
                     ${{ .marketCap | lang.FormatNumber 0 }}
                   {{ else }}
@@ -86,7 +86,7 @@
                   {{ end }}
                 </td>
                 {{ if eq $strategyKey "dividend_daddy" }}
-                <td>
+                <td data-order="{{ if .dividendYield }}{{ .dividendYield }}{{ else }}0{{ end }}">
                   {{ if .dividendYield }}
                     {{ printf "%.2f%%" .dividendYield }}
                   {{ else }}
@@ -95,7 +95,7 @@
                 </td>
                 {{ end }}
                 {{ if eq $strategyKey "institutional_whale" }}
-                <td>
+                <td data-order="{{ if .dividendYield }}{{ .dividendYield }}{{ else }}0{{ end }}">
                   {{ if .dividendYield }}
                     {{ printf "%.2f%%" .dividendYield }}
                   {{ else }}
@@ -104,7 +104,7 @@
                 </td>
                 {{ end }}
                 {{ if or (eq $strategyKey "moon_shot") (eq $strategyKey "falling_knife") (eq $strategyKey "over_hyped") (eq $strategyKey "institutional_whale") }}
-                <td>
+                <td data-order="{{ if .beta }}{{ .beta }}{{ else }}0{{ end }}">
                   {{ if .beta }}
                     {{ printf "%.2f" .beta }}
                   {{ else }}
@@ -113,7 +113,7 @@
                 </td>
                 {{ end }}
                 {{ if or (eq $strategyKey "moon_shot") (eq $strategyKey "falling_knife") (eq $strategyKey "over_hyped") }}
-                <td>
+                <td data-order="{{ if .rsi }}{{ .rsi }}{{ else }}0{{ end }}">
                   {{ if .rsi }}
                     {{ $rsi := .rsi }}
                     {{ if lt $rsi 30.0 }}
@@ -129,7 +129,7 @@
                 </td>
                 {{ end }}
                 {{ if or (eq $strategyKey "dividend_daddy") (eq $strategyKey "falling_knife") (eq $strategyKey "institutional_whale") }}
-                <td>
+                <td data-order="{{ if .ma200 }}{{ .ma200 }}{{ else }}0{{ end }}">
                   {{ if .ma200 }}
                     ${{ printf "%.2f" .ma200 }}
                   {{ else }}
@@ -137,7 +137,7 @@
                   {{ end }}
                 </td>
                 {{ end }}
-                <td>
+                <td data-order="{{ if .scores }}{{ if eq $strategyKey "dividend_daddy" }}{{ .scores.dividendDaddy }}{{ else if eq $strategyKey "moon_shot" }}{{ .scores.moonShot }}{{ else if eq $strategyKey "falling_knife" }}{{ .scores.fallingKnife }}{{ else if eq $strategyKey "over_hyped" }}{{ .scores.overHyped }}{{ else if eq $strategyKey "institutional_whale" }}{{ .scores.instWhale }}{{ end }}{{ else }}0{{ end }}">
                   {{ if .scores }}
                     {{ $score := 0 }}
                     {{ if eq $strategyKey "dividend_daddy" }}
