@@ -91,18 +91,42 @@ def sync_ftp(dry_run=False):
         ftp.cwd('SymbolDirectory')
         
         logger.info("Downloading nasdaqlisted.txt...")
+        file_size_before = nasdaq_file.stat().st_size if nasdaq_file.exists() else 0
         with open(nasdaq_file, 'wb') as f:
             ftp.retrbinary('RETR nasdaqlisted.txt', f.write)
+        file_size_after = nasdaq_file.stat().st_size
+        logger.info(f"✓ Downloaded nasdaqlisted.txt ({file_size_after:,} bytes)")
+        
+        if file_size_after == 0:
+            logger.error("ERROR: nasdaqlisted.txt is empty - download failed")
+            record_pipeline_step('sync-ftp', 0, 'failed', dry_run=False)
+            conn.close()
+            sys.exit(1)
         
         logger.info("Downloading otherlisted.txt...")
         with open(other_file, 'wb') as f:
             ftp.retrbinary('RETR otherlisted.txt', f.write)
+        file_size_after = other_file.stat().st_size
+        logger.info(f"✓ Downloaded otherlisted.txt ({file_size_after:,} bytes)")
+        
+        if file_size_after == 0:
+            logger.error("ERROR: otherlisted.txt is empty - download failed")
+            record_pipeline_step('sync-ftp', 0, 'failed', dry_run=False)
+            conn.close()
+            sys.exit(1)
         
         ftp.quit()
         logger.info("✓ Files downloaded successfully.")
     
     except Exception as e:
         logger.error(f"FTP download failed: {e}")
+        logger.error(f"ERROR: Unable to connect to {FTP_HOST}")
+        logger.error("Possible causes:")
+        logger.error("  - No network connectivity")
+        logger.error("  - FTP server is down")
+        logger.error("  - Firewall blocking FTP port 21")
+        logger.error(f"Test connection: telnet {FTP_HOST} 21")
+        record_pipeline_step('sync-ftp', 0, 'failed', dry_run=False)
         conn.close()
         sys.exit(1)
     

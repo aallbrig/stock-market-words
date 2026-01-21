@@ -22,6 +22,7 @@ ticker-cli = "stock_ticker.cli:main"
 dev = [
     "pytest>=7.0",
     "pytest-cov>=3.0",
+    "pytest-mock>=3.10",
 ]
 
 [tool.setuptools.packages.find]
@@ -29,3 +30,18 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 stock_ticker = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --strict-markers"
+markers = [
+    "unit: Unit tests (fast, no external dependencies)",
+    "integration: Integration tests (database, file I/O)",
+    "slow: Slow-running tests",
+    "cli: CLI command tests",
+    "database: Database-related tests",
+    "api: Tests that mock external APIs",
+]

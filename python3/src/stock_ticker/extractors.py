@@ -4,7 +4,7 @@ Data extraction functions for price/volume and metadata.
 import time
 import yfinance as yf
 import pandas as pd
-from .config import PRICE_BATCH_SIZE, METADATA_BATCH_SIZE
+from .config import PRICE_BATCH_SIZE, METADATA_BATCH_SIZE, YAHOO_API_HOST
 from .utils import get_today
 from .database import get_connection, record_pipeline_step
 from .logging_setup import setup_logging
@@ -119,13 +119,23 @@ def extract_prices(dry_run=False):
                 # Update progress every 5 batches
                 if batch_num % 5 == 0:
                     record_pipeline_step('extract-prices', processed, 'in_progress', dry_run=False)
+            else:
+                logger.warning(f"Batch {batch_num} returned no data - possible Yahoo Finance API issue")
             
             # Rate limiting
             if i + PRICE_BATCH_SIZE < total:
                 time.sleep(1)
         
         except Exception as e:
-            logger.error(f"Batch failed: {e}")
+            logger.error(f"Batch {batch_num} failed: {e}")
+            if "rate limit" in str(e).lower() or "429" in str(e):
+                logger.error("ERROR: Yahoo Finance API rate limit exceeded")
+                logger.error("Waiting 60 seconds before continuing...")
+                time.sleep(60)
+            elif "connection" in str(e).lower() or "timeout" in str(e).lower():
+                logger.error(f"ERROR: Network issue connecting to {YAHOO_API_HOST}")
+                logger.error("Waiting 10 seconds before continuing...")
+                time.sleep(10)
             continue
     
     conn.close()
@@ -255,7 +265,15 @@ def extract_metadata(dry_run=False):
                     record_pipeline_step('extract-metadata', processed, 'in_progress', dry_run=False)
             
             except Exception as e:
-                logger.debug(f"Failed to fetch metadata for {symbol}: {e}")
+                error_msg = str(e)
+                if "rate limit" in error_msg.lower() or "429" in error_msg:
+                    logger.error(f"Yahoo Finance API rate limit exceeded at {symbol}")
+                    logger.error("Waiting 60 seconds before continuing...")
+                    time.sleep(60)
+                elif "connection" in error_msg.lower() or "timeout" in error_msg.lower():
+                    logger.warning(f"Network issue fetching {symbol}: {e}")
+                else:
+                    logger.debug(f"Failed to fetch metadata for {symbol}: {e}")
                 continue
         
         # Rate limiting

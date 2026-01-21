@@ -388,3 +388,38 @@ def get_step_summary(step_name, run_date=None):
         }
     
     return None
+
+
+def get_last_successful_run():
+    """
+    Get the most recent date when the full pipeline completed successfully.
+    
+    Returns:
+        Date string (ISO format) or None if never completed
+    """
+    if not DB_PATH.exists():
+        return None
+    
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        # A successful run has all required steps completed on the same date
+        all_steps = ['sync-ftp', 'extract-prices', 'extract-metadata', 'build', 'generate-hugo']
+        
+        cursor.execute("""
+            SELECT run_date
+            FROM pipeline_steps
+            WHERE status = 'completed'
+            GROUP BY run_date
+            HAVING COUNT(DISTINCT step_name) >= 5
+            ORDER BY run_date DESC
+            LIMIT 1
+        """)
+        
+        result = cursor.fetchone()
+        conn.close()
+        
+        return result[0] if result else None
+    except Exception:
+        return None
