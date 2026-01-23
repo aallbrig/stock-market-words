@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-01-20T23:46:58.301417",
-  "date": "2026-01-20",
+  "generated_at": "2026-01-22T20:12:07.640247",
+  "date": "2026-01-22",
   "pass1_extraction": {
-    "total_attempted": 5496,
-    "successful": 5473,
-    "failed": 23,
-    "success_rate": "99.6%"
+    "total_attempted": 5501,
+    "successful": 4611,
+    "failed": 890,
+    "success_rate": "83.8%"
   },
   "pass2_extraction": {
-    "total_attempted": 5473,
-    "successful": 3080,
-    "pending": 2393
+    "total_attempted": 4611,
+    "successful": 2609,
+    "pending": 2002
   }
 }
