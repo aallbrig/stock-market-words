@@ -3,6 +3,7 @@ Utility functions for the stock ticker CLI.
 """
 import socket
 from datetime import date
+from .retry import get_request_metrics
 
 
 def get_today():
@@ -53,6 +54,9 @@ def is_valid_symbol(symbol):
 
 def check_ftp_server(host, timeout=5):
     """Check if FTP server is reachable."""
+    metrics = get_request_metrics()
+    metrics.record_request('nasdaq_ftp', 'healthcheck')
+    
     try:
         socket.create_connection((host, 21), timeout=timeout)
         return True
@@ -62,6 +66,9 @@ def check_ftp_server(host, timeout=5):
 
 def check_yahoo_finance(host, timeout=5):
     """Check if Yahoo Finance API is reachable."""
+    metrics = get_request_metrics()
+    metrics.record_request('yahoo_finance', 'healthcheck')
+    
     try:
         socket.create_connection((host, 443), timeout=timeout)
         return True

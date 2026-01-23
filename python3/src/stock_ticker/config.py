@@ -31,3 +31,8 @@ FTP_FILES = ["nasdaqlisted.txt", "otherlisted.txt"]
 
 # Yahoo Finance configuration
 YAHOO_API_HOST = "query1.finance.yahoo.com"
+
+# Exponential backoff configuration
+BACKOFF_INITIAL_DELAY = 0.5  # seconds
+BACKOFF_MAX_DELAY = 300  # 5 minutes in seconds (configurable)
+BACKOFF_MULTIPLIER = 2.0

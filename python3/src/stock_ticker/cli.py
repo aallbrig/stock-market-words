@@ -497,6 +497,11 @@ def run_all(ctx):
         logger.info("=" * 70)
         logger.info("=== ✅ PIPELINE COMPLETE ===")
         logger.info("=" * 70)
+        
+        # Print request metrics summary
+        metrics = get_request_metrics()
+        logger.info("")
+        logger.info(metrics.summary())
 
 
 @cli.command()
