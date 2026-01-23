@@ -8,6 +8,7 @@ from .config import PRICE_BATCH_SIZE, METADATA_BATCH_SIZE, YAHOO_API_HOST
 from .utils import get_today
 from .database import get_connection, record_pipeline_step
 from .logging_setup import setup_logging
+from .retry import get_retry_tracker, get_request_metrics, BackoffLimitExceeded
 
 logger = setup_logging()
 
@@ -73,6 +74,8 @@ def extract_prices(dry_run=False):
     logger.info(f"Fetching price data for {total:,} tickers...")
     
     processed = 0
+    retry_tracker = get_retry_tracker()
+    metrics = get_request_metrics()
     
     for i in range(0, total, PRICE_BATCH_SIZE):
         batch = pending_symbols[i:i + PRICE_BATCH_SIZE]
@@ -82,10 +85,16 @@ def extract_prices(dry_run=False):
         logger.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} tickers)...")
         
         try:
+            # Record API request
+            metrics.record_request('yahoo_finance', 'batch_download')
+            
             # Fetch data in batch
             tickers_str = ' '.join(batch)
             data = yf.download(tickers_str, period='1d', group_by='ticker', 
                                progress=False, threads=True)
+            
+            # Success - reset backoff for this operation
+            retry_tracker.record_success('yahoo_finance_batch')
             
             # Process results
             batch_data = []
@@ -126,16 +135,29 @@ def extract_prices(dry_run=False):
             if i + PRICE_BATCH_SIZE < total:
                 time.sleep(1)
         
+        except BackoffLimitExceeded as e:
+            logger.error(f"CRITICAL: {e}")
+            logger.error(f"Processed {processed:,} of {total:,} tickers before hitting rate limit threshold")
+            logger.error("Pipeline is idempotent - re-run 'run-all' later to resume from this point")
+            conn.close()
+            raise
+        
         except Exception as e:
             logger.error(f"Batch {batch_num} failed: {e}")
-            if "rate limit" in str(e).lower() or "429" in str(e):
-                logger.error("ERROR: Yahoo Finance API rate limit exceeded")
-                logger.error("Waiting 60 seconds before continuing...")
-                time.sleep(60)
-            elif "connection" in str(e).lower() or "timeout" in str(e).lower():
-                logger.error(f"ERROR: Network issue connecting to {YAHOO_API_HOST}")
-                logger.error("Waiting 10 seconds before continuing...")
-                time.sleep(10)
+            error_msg = str(e).lower()
+            
+            if "rate limit" in error_msg or "429" in error_msg:
+                logger.error("Yahoo Finance API rate limit detected")
+                try:
+                    retry_tracker.record_failure('yahoo_finance_batch')
+                except BackoffLimitExceeded:
+                    raise
+            elif "connection" in error_msg or "timeout" in error_msg:
+                logger.error(f"Network issue connecting to {YAHOO_API_HOST}")
+                try:
+                    retry_tracker.record_failure('yahoo_finance_batch')
+                except BackoffLimitExceeded:
+                    raise
             continue
     
     conn.close()
@@ -218,6 +240,8 @@ def extract_metadata(dry_run=False):
     logger.info(f"Fetching data for {total:,} filtered tickers...")
     
     processed = 0
+    retry_tracker = get_retry_tracker()
+    metrics = get_request_metrics()
     
     for i in range(0, total, METADATA_BATCH_SIZE):
         batch = pending_symbols[i:i + METADATA_BATCH_SIZE]
@@ -225,6 +249,10 @@ def extract_metadata(dry_run=False):
         
         for symbol in batch:
             try:
+                # Record API requests
+                metrics.record_request('yahoo_finance', 'ticker_info')
+                metrics.record_request('yahoo_finance', 'ticker_history')
+                
                 ticker = yf.Ticker(symbol)
                 info = ticker.info
                 
@@ -259,19 +287,35 @@ def extract_metadata(dry_run=False):
                 conn.commit()
                 processed += 1
                 
+                # Success - reset backoff for this symbol
+                retry_tracker.record_success(f'yahoo_finance_metadata:{symbol}')
+                
                 if processed % 10 == 0:
                     logger.info(f"✓ Progress: {processed:,}/{total:,}")
                     # Update pipeline_steps
                     record_pipeline_step('extract-metadata', processed, 'in_progress', dry_run=False)
             
+            except BackoffLimitExceeded as e:
+                logger.error(f"CRITICAL: {e}")
+                logger.error(f"Processed {processed:,} of {total:,} tickers before hitting rate limit threshold")
+                logger.error("Pipeline is idempotent - re-run 'run-all' later to resume from this point")
+                conn.close()
+                raise
+            
             except Exception as e:
-                error_msg = str(e)
-                if "rate limit" in error_msg.lower() or "429" in error_msg:
-                    logger.error(f"Yahoo Finance API rate limit exceeded at {symbol}")
-                    logger.error("Waiting 60 seconds before continuing...")
-                    time.sleep(60)
-                elif "connection" in error_msg.lower() or "timeout" in error_msg.lower():
+                error_msg = str(e).lower()
+                if "rate limit" in error_msg or "429" in error_msg:
+                    logger.error(f"Yahoo Finance API rate limit at {symbol}")
+                    try:
+                        retry_tracker.record_failure(f'yahoo_finance_metadata:{symbol}')
+                    except BackoffLimitExceeded:
+                        raise
+                elif "connection" in error_msg or "timeout" in error_msg:
                     logger.warning(f"Network issue fetching {symbol}: {e}")
+                    try:
+                        retry_tracker.record_failure(f'yahoo_finance_metadata:{symbol}')
+                    except BackoffLimitExceeded:
+                        raise
                 else:
                     logger.debug(f"Failed to fetch metadata for {symbol}: {e}")
                 continue

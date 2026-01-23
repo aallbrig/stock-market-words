@@ -10,6 +10,7 @@ from .config import FTP_HOST, FTP_PATH, FTP_FILES, TMP_DIR
 from .utils import get_today, is_valid_symbol
 from .database import get_connection, record_pipeline_step
 from .logging_setup import setup_logging
+from .retry import get_request_metrics
 
 logger = setup_logging()
 
@@ -86,11 +87,15 @@ def sync_ftp(dry_run=False):
     
     try:
         logger.info("Connecting to ftp.nasdaqtrader.com...")
+        metrics = get_request_metrics()
+        metrics.record_request('nasdaq_ftp', 'connect')
+        
         ftp = FTP(FTP_HOST, timeout=30)
         ftp.login()
         ftp.cwd('SymbolDirectory')
         
         logger.info("Downloading nasdaqlisted.txt...")
+        metrics.record_request('nasdaq_ftp', 'download')
         file_size_before = nasdaq_file.stat().st_size if nasdaq_file.exists() else 0
         with open(nasdaq_file, 'wb') as f:
             ftp.retrbinary('RETR nasdaqlisted.txt', f.write)
