@@ -687,10 +687,30 @@ function changePage(tableId, direction) {
 
 function openPortfolioVisualizer(symbolsStr) {
     const symbols = symbolsStr.split(',');
-    const alloc = (100 / symbols.length).toFixed(2);
+    const count = symbols.length;
+    
+    // Calculate allocations that sum to exactly 100.00
+    const baseAlloc = Math.floor((100 / count) * 100) / 100; // e.g., 1.75 for 57 symbols
+    const allocations = Array(count).fill(baseAlloc);
+    
+    // Calculate remainder and distribute it
+    const totalAllocated = baseAlloc * count;
+    const remainder = Math.round((100 - totalAllocated) * 100) / 100;
+    
+    // Add the remainder to the first allocation(s) to reach exactly 100
+    if (remainder > 0) {
+        const increment = 0.01;
+        let remaining = remainder;
+        for (let i = 0; i < count && remaining > 0; i++) {
+            allocations[i] = Math.round((allocations[i] + increment) * 100) / 100;
+            remaining = Math.round((remaining - increment) * 100) / 100;
+        }
+    }
+    
+    // Build URL
     let url = 'https://www.portfoliovisualizer.com/backtest-portfolio?s=y&benchmark=-1&benchmarkSymbol=SPY&portfolioNames=true&portfolioName1=Portfolio';
     symbols.forEach((sym, i) => {
-        url += `&symbol${i+1}=${sym}&allocation${i+1}_1=${alloc}`;
+        url += `&symbol${i+1}=${sym}&allocation${i+1}_1=${allocations[i].toFixed(2)}`;
     });
     window.open(url, '_blank');
 }
