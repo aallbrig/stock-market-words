@@ -1,8 +1,8 @@
 {
   "source": "NASDAQ FTP",
   "file": "nasdaqlisted.txt",
-  "downloaded_at": "2026-01-20T23:46:57.825136",
-  "total_rows": 5261,
+  "downloaded_at": "2026-01-22T20:12:07.377431",
+  "total_rows": 5264,
   "columns": [
     "Symbol",
     "Security Name",
@@ -446,7 +446,7 @@
     },
     {
       "Symbol": "ACCL",
-      "Security Name": "Acco Group Holdings Limited - Ordinary Shares",
+      "Security Name": "Acco Group Holdings Limited - Class A Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
       "Financial Status": "N",
@@ -2245,6 +2245,16 @@
       "NextShares": "N"
     },
     {
+      "Symbol": "ALOVU",
+      "Security Name": "Aldabra 4 Liquidity Opportunity Vehicle, Inc. - Units",
+      "Market Category": "G",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
       "Symbol": "ALPS",
       "Security Name": "ALPS Group Inc - Ordinary Share",
       "Market Category": "G",
@@ -3449,7 +3459,7 @@
       "Security Name": "American Resources Corporation - Class A Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -4729,7 +4739,7 @@
       "Security Name": "A2Z Cust2Mate Solutions Corp. - Common Shares",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "N",
+      "Financial Status": "D",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -18885,16 +18895,6 @@
       "NextShares": "N"
     },
     {
-      "Symbol": "FYBR",
-      "Security Name": "Frontier Communications Parent, Inc. - Common Stock",
-      "Market Category": "Q",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
-      "NextShares": "N"
-    },
-    {
       "Symbol": "FYC",
       "Security Name": "First Trust Small Cap Growth AlphaDEX Fund",
       "Market Category": "G",
@@ -24957,16 +24957,6 @@
     {
       "Symbol": "IVF",
       "Security Name": "INVO Fertility, Inc. - Common Stock",
-      "Market Category": "S",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
-      "NextShares": "N"
-    },
-    {
-      "Symbol": "IVP",
-      "Security Name": "Inspire Veterinary Partners, Inc. - Class A Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
       "Financial Status": "N",
@@ -31436,7 +31426,7 @@
     },
     {
       "Symbol": "NAKA",
-      "Security Name": "Kindly MD, Inc. - Common Stock",
+      "Security Name": "Nakamoto Inc. - Common Stock",
       "Market Category": "G",
       "Test Issue": "N",
       "Financial Status": "D",
@@ -34155,6 +34145,16 @@
       "NextShares": "N"
     },
     {
+      "Symbol": "OLOX",
+      "Security Name": "Olenox Industries Inc. - Common Stock",
+      "Market Category": "S",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
       "Symbol": "OLPX",
       "Security Name": "Olaplex Holdings, Inc. - Common Stock",
       "Market Category": "Q",
@@ -35499,7 +35499,7 @@
       "Security Name": "PAVmed Inc. - Common Stock",
       "Market Category": "S",
       "Test Issue": "N",
-      "Financial Status": "D",
+      "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "N",
       "NextShares": "N"
@@ -36647,6 +36647,16 @@
     {
       "Symbol": "PLSE",
       "Security Name": "Pulse Biosciences, Inc - Common Stock",
+      "Market Category": "S",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
+      "Symbol": "PLSM",
+      "Security Name": "Pulsenmore Ltd. - Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
       "Financial Status": "N",
@@ -40235,6 +40245,16 @@
       "NextShares": "N"
     },
     {
+      "Symbol": "RKNG",
+      "Security Name": "Defiance Retail Kings ETF",
+      "Market Category": "G",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "Y",
+      "NextShares": "N"
+    },
+    {
       "Symbol": "RLAY",
       "Security Name": "Relay Therapeutics, Inc. - Common Stock",
       "Market Category": "G",
@@ -41645,6 +41665,16 @@
       "NextShares": "N"
     },
     {
+      "Symbol": "SCZM",
+      "Security Name": "Santacruz Silver Mining Ltd. - Common Shares",
+      "Market Category": "S",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
       "Symbol": "SDA",
       "Security Name": "SunCar Technology Group Inc. - Ordinary Shares",
       "Market Category": "S",
@@ -42108,16 +42138,6 @@
       "Symbol": "SGA",
       "Security Name": "Saga Communications, Inc. - Class A Common Stock",
       "Market Category": "G",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
-      "NextShares": "N"
-    },
-    {
-      "Symbol": "SGBX",
-      "Security Name": "Safe & Green Holdings Corp. - Common Stock",
-      "Market Category": "S",
       "Test Issue": "N",
       "Financial Status": "N",
       "Round Lot Size": 100.0,
@@ -45125,16 +45145,6 @@
       "NextShares": "N"
     },
     {
-      "Symbol": "SYBX",
-      "Security Name": "Synlogic, Inc. - Common Stock",
-      "Market Category": "S",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
-      "NextShares": "N"
-    },
-    {
       "Symbol": "SYM",
       "Security Name": "Symbotic Inc. - Class A Common Stock",
       "Market Category": "G",
@@ -45775,6 +45785,16 @@
       "NextShares": "N"
     },
     {
+      "Symbol": "TDOG",
+      "Security Name": "21shares Dogecoin ETF",
+      "Market Category": "G",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "Y",
+      "NextShares": "N"
+    },
+    {
       "Symbol": "TDSB",
       "Security Name": "ETC Cabana Target Beta ETF",
       "Market Category": "G",
@@ -45997,6 +46017,16 @@
     {
       "Symbol": "TEXN",
       "Security Name": "iShares Texas Equity ETF",
+      "Market Category": "G",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "Y",
+      "NextShares": "N"
+    },
+    {
+      "Symbol": "TEXX",
+      "Security Name": "Horizon Kinetics Texas ETF",
       "Market Category": "G",
       "Test Issue": "N",
       "Financial Status": "N",
@@ -47002,16 +47032,6 @@
       "Financial Status": "N",
       "Round Lot Size": 100.0,
       "ETF": "Y",
-      "NextShares": "N"
-    },
-    {
-      "Symbol": "TRUE",
-      "Security Name": "TrueCar, Inc. - Common Stock",
-      "Market Category": "Q",
-      "Test Issue": "N",
-      "Financial Status": "N",
-      "Round Lot Size": 100.0,
-      "ETF": "N",
       "NextShares": "N"
     },
     {
@@ -51345,6 +51365,16 @@
       "NextShares": "N"
     },
     {
+      "Symbol": "XCBEU",
+      "Security Name": "X3 Acquisition Corp. Ltd. - Unit",
+      "Market Category": "G",
+      "Test Issue": "N",
+      "Financial Status": "N",
+      "Round Lot Size": 100.0,
+      "ETF": "N",
+      "NextShares": "N"
+    },
+    {
       "Symbol": "XCH",
       "Security Name": "XCHG Limited - ADS",
       "Market Category": "G",
@@ -52236,7 +52266,7 @@
     },
     {
       "Symbol": "ZDAI",
-      "Security Name": "DirectBooking Technology Co., Ltd. - Ordinary Shares",
+      "Security Name": "DirectBooking Technology Co., Ltd. - Class A Ordinary Shares",
       "Market Category": "S",
       "Test Issue": "N",
       "Financial Status": "D",

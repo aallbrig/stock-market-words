@@ -23,6 +23,7 @@ from .hugo_generators import (
     generate_all_hugo_content
 )
 from .utils import get_today, check_ftp_server, check_yahoo_finance
+from .retry import get_request_metrics
 
 logger = setup_logging()
 

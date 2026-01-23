@@ -1,8 +1,8 @@
 {
   "source": "NASDAQ FTP",
   "file": "otherlisted.txt",
-  "downloaded_at": "2026-01-20T23:46:57.967869",
-  "total_rows": 6936,
+  "downloaded_at": "2026-01-22T20:12:07.460273",
+  "total_rows": 6952,
   "columns": [
     "ACT Symbol",
     "Security Name",
@@ -2915,6 +2915,16 @@
       "NASDAQ Symbol": "APLY"
     },
     {
+      "ACT Symbol": "APLZ",
+      "Security Name": "Tradr 2X Short APLD Daily ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "APLZ",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "APLZ"
+    },
+    {
       "ACT Symbol": "APMU",
       "Security Name": "ActivePassive Intermediate Municipal Bond ETF",
       "Exchange": "P",
@@ -4473,6 +4483,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "AVRE"
+    },
+    {
+      "ACT Symbol": "AVRY",
+      "Security Name": "Avory Foundational ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "AVRY",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "AVRY"
     },
     {
       "ACT Symbol": "AVSC",
@@ -7326,7 +7346,7 @@
     },
     {
       "ACT Symbol": "BKKT",
-      "Security Name": "Bakkt Holdings, Inc. Class A Common Stock",
+      "Security Name": "Bakkt, Inc. Class A Common Stock",
       "Exchange": "N",
       "CQS Symbol": "BKKT",
       "ETF": "N",
@@ -7336,7 +7356,7 @@
     },
     {
       "ACT Symbol": "BKKT.W",
-      "Security Name": "Bakkt Holdings, Inc. Warrant",
+      "Security Name": "Bakkt, Inc. Warrants to purchase Class A Common Stock, each Warrant entitles a holder to purchase 1/25th of a share of Class A common stock at an exercise price of $287.50 for one share",
       "Exchange": "N",
       "CQS Symbol": "BKKT.WS",
       "ETF": "N",
@@ -8285,6 +8305,16 @@
       "NASDAQ Symbol": "BPRE"
     },
     {
+      "ACT Symbol": "BPRO",
+      "Security Name": "Bitwise Proficio Currency Debasement ETF",
+      "Exchange": "P",
+      "CQS Symbol": "BPRO",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "BPRO"
+    },
+    {
       "ACT Symbol": "BQ",
       "Security Name": "Boqii Holding Limited Class A Ordinary Shares",
       "Exchange": "A",
@@ -8793,6 +8823,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "BTG"
+    },
+    {
+      "ACT Symbol": "BTGO",
+      "Security Name": "BitGo Holdings, Inc. Class A Common Stock",
+      "Exchange": "N",
+      "CQS Symbol": "BTGO",
+      "ETF": "N",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "BTGO"
     },
     {
       "ACT Symbol": "BTI",
@@ -25425,6 +25465,16 @@
       "NASDAQ Symbol": "GDOT"
     },
     {
+      "ACT Symbol": "GDT",
+      "Security Name": "WisdomTree Efficient TIPS Plus Gold Fund",
+      "Exchange": "Z",
+      "CQS Symbol": "GDT",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "GDT"
+    },
+    {
       "ACT Symbol": "GDV",
       "Security Name": "Gabelli Dividend & Income Trust Common Shares of Beneficial Interest",
       "Exchange": "N",
@@ -28165,6 +28215,16 @@
       "NASDAQ Symbol": "HAIL"
     },
     {
+      "ACT Symbol": "HAKY",
+      "Security Name": "Amplify HACK Cybersecurity Covered Call ETF",
+      "Exchange": "P",
+      "CQS Symbol": "HAKY",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "HAKY"
+    },
+    {
       "ACT Symbol": "HAL",
       "Security Name": "Halliburton Company Common Stock",
       "Exchange": "N",
@@ -28296,7 +28356,7 @@
     },
     {
       "ACT Symbol": "HBTC",
-      "Security Name": "Fortuna Hedged Bitcoin Fund",
+      "Security Name": "Fortuna Hedged Bitcoin ETF",
       "Exchange": "Z",
       "CQS Symbol": "HBTC",
       "ETF": "Y",
@@ -32525,6 +32585,16 @@
       "NASDAQ Symbol": "IREX"
     },
     {
+      "ACT Symbol": "IREZ",
+      "Security Name": "Tradr 2X Short IREN Daily ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "IREZ",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "IREZ"
+    },
+    {
       "ACT Symbol": "IRM",
       "Security Name": "Iron Mountain Incorporated (Delaware)Common Stock REIT",
       "Exchange": "N",
@@ -32593,6 +32663,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "IRVH"
+    },
+    {
+      "ACT Symbol": "ISBG",
+      "Security Name": "IncomeSTKd 1x Bitcoin & 1x Gold Premium ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "ISBG",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ISBG"
     },
     {
       "ACT Symbol": "ISCB",
@@ -32703,6 +32783,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "ISRA"
+    },
+    {
+      "ACT Symbol": "ISSB",
+      "Security Name": "IncomeSTKd 1x US Stocks & 1x Bitcoin Premium ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "ISSB",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "ISSB"
     },
     {
       "ACT Symbol": "ISVL",
@@ -36815,6 +36905,16 @@
       "NASDAQ Symbol": "LCII"
     },
     {
+      "ACT Symbol": "LCIZ",
+      "Security Name": "Tradr 2X Short LCID Daily ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "LCIZ",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "LCIZ"
+    },
+    {
       "ACT Symbol": "LCLG",
       "Security Name": "Logan Capital Broad Innovative Growth ETF",
       "Exchange": "P",
@@ -37593,6 +37693,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "LNN"
+    },
+    {
+      "ACT Symbol": "LNOK",
+      "Security Name": "Defiance Daily Target 2X Long NOK ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "LNOK",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "LNOK"
     },
     {
       "ACT Symbol": "LOAR",
@@ -42143,6 +42253,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "NBHC"
+    },
+    {
+      "ACT Symbol": "NBIZ",
+      "Security Name": "Tradr 2X Short NBIS Daily ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "NBIZ",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "NBIZ"
     },
     {
       "ACT Symbol": "NBJP",
@@ -50823,6 +50943,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "QWLD"
+    },
+    {
+      "ACT Symbol": "QXAS",
+      "Security Name": "Quantify 2X Daily Alt Season Crypto ETF",
+      "Exchange": "P",
+      "CQS Symbol": "QXAS",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "QXAS"
     },
     {
       "ACT Symbol": "QXO",
@@ -59715,6 +59845,16 @@
       "NASDAQ Symbol": "TEL"
     },
     {
+      "ACT Symbol": "TEMD",
+      "Security Name": "Templeton Emerging Markets Debt ETF",
+      "Exchange": "P",
+      "CQS Symbol": "TEMD",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "TEMD"
+    },
+    {
       "ACT Symbol": "TEMT",
       "Security Name": "Tradr 2X Long TEM Daily ETF",
       "Exchange": "Z",
@@ -60623,6 +60763,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "TLCI"
+    },
+    {
+      "ACT Symbol": "TLDR",
+      "Security Name": "The Laddered T-Bill ETF",
+      "Exchange": "Z",
+      "CQS Symbol": "TLDR",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "TLDR"
     },
     {
       "ACT Symbol": "TLH",
@@ -66803,6 +66953,16 @@
       "Round Lot Size": 100.0,
       "Test Issue": "N",
       "NASDAQ Symbol": "WTIU"
+    },
+    {
+      "ACT Symbol": "WTLS",
+      "Security Name": "WisdomTree Efficient Long/Short U.S. Equity Fund",
+      "Exchange": "Z",
+      "CQS Symbol": "WTLS",
+      "ETF": "Y",
+      "Round Lot Size": 100.0,
+      "Test Issue": "N",
+      "NASDAQ Symbol": "WTLS"
     },
     {
       "ACT Symbol": "WTM",
