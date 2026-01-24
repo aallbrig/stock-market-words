@@ -13,7 +13,7 @@ from .retry import get_retry_tracker, get_request_metrics, BackoffLimitExceeded
 logger = setup_logging()
 
 
-def extract_prices(dry_run=False):
+def extract_prices(dry_run=False, limit=None):
     """Pass 1: Rapidly fetch price/volume for entire universe."""
     if dry_run:
         logger.info("DRY RUN: Would extract price/volume data (Pass 1)")
@@ -29,6 +29,8 @@ def extract_prices(dry_run=False):
             )
         """, (today,))
         pending = cursor.fetchone()[0]
+        if limit:
+            pending = min(pending, limit)
         conn.close()
         logger.info(f"DRY RUN: Would fetch data for {pending} tickers")
         logger.info(f"DRY RUN: Would process in batches of {PRICE_BATCH_SIZE}")
@@ -36,6 +38,9 @@ def extract_prices(dry_run=False):
         return
     
     logger.info("=== Starting Pass 1: Price/Volume Extraction ===")
+    
+    if limit:
+        logger.info(f"⚠️  LIMIT MODE: Processing limited to {limit} tickers")
     
     conn = get_connection()
     cursor = conn.cursor()
@@ -56,6 +61,11 @@ def extract_prices(dry_run=False):
     """, (today,))
     
     pending_symbols = [row[0] for row in cursor.fetchall()]
+    
+    # Apply limit if specified
+    if limit:
+        pending_symbols = pending_symbols[:limit]
+    
     total = len(pending_symbols)
     
     if total == 0:
@@ -167,7 +177,7 @@ def extract_prices(dry_run=False):
     record_pipeline_step('extract-prices', processed, 'completed', dry_run=False)
 
 
-def extract_metadata(dry_run=False):
+def extract_metadata(dry_run=False, limit=None):
     """Pass 2: Fetch deep metrics for filtered 'surviving' tickers."""
     if dry_run:
         logger.info("DRY RUN: Would extract metadata (Pass 2)")
@@ -182,6 +192,8 @@ def extract_metadata(dry_run=False):
             AND market_cap IS NULL
         """, (today,))
         pending = cursor.fetchone()[0]
+        if limit:
+            pending = min(pending, limit)
         conn.close()
         logger.info(f"DRY RUN: Would fetch metadata for {pending} filtered tickers")
         logger.info(f"DRY RUN: Would collect: market cap, dividend yield, beta, RSI, MA200")
@@ -189,6 +201,8 @@ def extract_metadata(dry_run=False):
         return
     
     logger.info("=== Starting Pass 2: Detailed Metrics Extraction ===")
+    if limit:
+        logger.info(f"⚠️  LIMIT MODE: Processing limited to {limit} tickers")
     logger.info("")
     logger.info("Metrics to extract for each ticker:")
     logger.info("  • Market Cap - Company size/valuation")
@@ -218,6 +232,11 @@ def extract_metadata(dry_run=False):
     """, (today,))
     
     pending_symbols = [row[0] for row in cursor.fetchall()]
+    
+    # Apply limit if specified
+    if limit:
+        pending_symbols = pending_symbols[:limit]
+    
     total = len(pending_symbols)
     
     if total == 0:

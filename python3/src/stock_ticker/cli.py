@@ -3,8 +3,10 @@ Click-based CLI for the stock ticker application.
 """
 import sys
 import click
+import time
 from datetime import datetime, timezone
 from pathlib import Path
+from functools import wraps
 
 from .logging_setup import setup_logging
 from .config import DB_PATH, API_DIR, ERROR_LOG_PATH, FTP_HOST, YAHOO_API_HOST
@@ -26,6 +28,38 @@ from .utils import get_today, check_ftp_server, check_yahoo_finance
 from .retry import get_request_metrics
 
 logger = setup_logging()
+
+
+def format_duration(seconds):
+    """Format duration in human-readable format."""
+    if seconds < 60:
+        return f"{seconds:.1f}s"
+    elif seconds < 3600:
+        minutes = seconds / 60
+        return f"{minutes:.1f}m ({seconds:.0f}s)"
+    else:
+        hours = seconds / 3600
+        minutes = (seconds % 3600) / 60
+        return f"{hours:.1f}h ({minutes:.0f}m)"
+
+
+def log_timing(func):
+    """Decorator to log execution time of commands."""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        try:
+            result = func(*args, **kwargs)
+            elapsed = time.time() - start_time
+            logger.info("")
+            logger.info(f"⏱️  Command completed in {format_duration(elapsed)}")
+            return result
+        except Exception as e:
+            elapsed = time.time() - start_time
+            logger.error("")
+            logger.error(f"⏱️  Command failed after {format_duration(elapsed)}")
+            raise
+    return wrapper
 
 
 class Context:
@@ -51,6 +85,7 @@ def cli(ctx, dry_run):
 
 
 @cli.command()
+@log_timing
 def status():
     """Check system readiness and pipeline status."""
     logger.info("=" * 70)
@@ -256,6 +291,7 @@ def status():
 
 @cli.command()
 @click.pass_context
+@log_timing
 def init(ctx):
     """Initialize the database schema."""
     init_db(dry_run=ctx.obj.dry_run)
@@ -263,6 +299,7 @@ def init(ctx):
 
 @cli.command('sync-ftp')
 @click.pass_context
+@log_timing
 def sync_ftp_cmd(ctx):
     """Download and parse ticker lists from NASDAQ FTP."""
     ensure_initialized()
@@ -270,23 +307,28 @@ def sync_ftp_cmd(ctx):
 
 
 @cli.command('extract-prices')
+@click.option('--limit', type=int, default=None, help='Limit ticker processing for testing')
 @click.pass_context
-def extract_prices_cmd(ctx):
+@log_timing
+def extract_prices_cmd(ctx, limit):
     """Pass 1: Fetch price/volume data for all tickers."""
     ensure_initialized()
-    extract_prices(dry_run=ctx.obj.dry_run)
+    extract_prices(dry_run=ctx.obj.dry_run, limit=limit)
 
 
 @cli.command('extract-metadata')
+@click.option('--limit', type=int, default=None, help='Limit ticker processing for testing')
 @click.pass_context
-def extract_metadata_cmd(ctx):
+@log_timing
+def extract_metadata_cmd(ctx, limit):
     """Pass 2: Fetch detailed metrics for filtered tickers."""
     ensure_initialized()
-    extract_metadata(dry_run=ctx.obj.dry_run)
+    extract_metadata(dry_run=ctx.obj.dry_run, limit=limit)
 
 
 @cli.command()
 @click.pass_context
+@log_timing
 def build(ctx):
     """Generate JSON assets (trie.json and metadata.json)."""
     ensure_initialized()
@@ -350,19 +392,33 @@ def print_pipeline_summary():
 
 
 @cli.command('run-all')
+@click.option('--limit', type=int, default=None, help='Limit ticker processing for testing (e.g., --limit 10)')
+@click.option('--force', is_flag=True, help='Force re-run even if already completed today (does not reset state)')
 @click.pass_context
-def run_all(ctx):
+def run_all(ctx, limit, force):
     """Execute all pipeline steps in sequence."""
+    pipeline_start_time = time.time()
+    step_timings = {}
+    
     logger.info("=" * 70)
     logger.info("=== 🚀 RUNNING FULL DATA PIPELINE ===")
     logger.info("=" * 70)
+    logger.info("")
+    
+    if limit:
+        logger.info(f"⚠️  LIMIT MODE: Processing limited to {limit} tickers for testing")
+    
+    if force:
+        logger.info(f"⚠️  FORCE MODE: Will ignore completion status")
+    
+    if limit or force:
+        logger.info("")
     
     # Check pipeline state
     today = get_today()
     from .database import get_pipeline_state
     state = get_pipeline_state(today)
     
-    logger.info("")
     logger.info(f"Pipeline state: {state['status'].upper()}")
     
     if state['status'] == 'in_progress':
@@ -377,14 +433,20 @@ def run_all(ctx):
         logger.info("")
     
     elif state['status'] == 'completed':
-        logger.info("✓ Pipeline already completed for today.")
-        logger.info("")
-        logger.info("Completed steps:")
-        for step in state['completed_steps']:
-            logger.info(f"  ✓ {step}")
-        logger.info("")
-        logger.info("💡 Run again tomorrow for fresh data.")
-        return
+        if not force:
+            logger.info("✓ Pipeline already completed for today")
+            logger.info("")
+            logger.info("Completed steps:")
+            for step in state['completed_steps']:
+                logger.info(f"  ✓ {step}")
+            logger.info("")
+            logger.info("💡 Run again tomorrow for fresh data, or use --force to override.")
+            return
+        else:
+            logger.info("  (ignoring completed state due to --force flag)")
+            logger.info("")
+            # Clear completed steps when forcing a re-run
+            state['completed_steps'] = []
     
     elif state['completed_steps']:
         logger.info(f"🔄 Resuming partial pipeline")
@@ -416,7 +478,9 @@ def run_all(ctx):
         if 'sync-ftp' not in state['completed_steps']:
             logger.info("")
             logger.info("📥 Step 1: Syncing FTP ticker lists...")
+            step_start = time.time()
             sync_ftp(dry_run=False)
+            step_timings['sync-ftp'] = time.time() - step_start
         else:
             logger.info("")
             logger.info("📥 Step 1: Syncing FTP ticker lists... ✓ Already completed")
@@ -425,7 +489,9 @@ def run_all(ctx):
         if 'extract-prices' not in state['completed_steps']:
             logger.info("")
             logger.info("💹 Step 2: Extracting price/volume data (Pass 1)...")
-            extract_prices(dry_run=False)
+            step_start = time.time()
+            extract_prices(dry_run=False, limit=limit)
+            step_timings['extract-prices'] = time.time() - step_start
         else:
             logger.info("")
             logger.info("💹 Step 2: Extracting price/volume data (Pass 1)... ✓ Already completed")
@@ -434,7 +500,9 @@ def run_all(ctx):
         if 'extract-metadata' not in state['completed_steps']:
             logger.info("")
             logger.info("📊 Step 3: Extracting detailed metrics (Pass 2)...")
-            extract_metadata(dry_run=False)
+            step_start = time.time()
+            extract_metadata(dry_run=False, limit=limit)
+            step_timings['extract-metadata'] = time.time() - step_start
         else:
             logger.info("")
             logger.info("📊 Step 3: Extracting detailed metrics (Pass 2)... ✓ Already completed")
@@ -443,7 +511,9 @@ def run_all(ctx):
         if 'build' not in state['completed_steps']:
             logger.info("")
             logger.info("🔨 Step 4: Calculating strategy scores & building JSON...")
+            step_start = time.time()
             build_assets(dry_run=False)
+            step_timings['build'] = time.time() - step_start
         else:
             logger.info("")
             logger.info("🔨 Step 4: Calculating strategy scores & building JSON... ✓ Already completed")
@@ -452,7 +522,9 @@ def run_all(ctx):
         if 'generate-hugo' not in state['completed_steps']:
             logger.info("")
             logger.info("📄 Step 5: Generating Hugo site content...")
+            step_start = time.time()
             generate_all_hugo_content(dry_run=False)
+            step_timings['generate-hugo'] = time.time() - step_start
         else:
             logger.info("")
             logger.info("📄 Step 5: Generating Hugo site content... ✓ Already completed")
@@ -498,6 +570,15 @@ def run_all(ctx):
         logger.info("=" * 70)
         logger.info("=== ✅ PIPELINE COMPLETE ===")
         logger.info("=" * 70)
+        
+        # Print timing breakdown
+        total_elapsed = time.time() - pipeline_start_time
+        if step_timings:
+            logger.info("")
+            logger.info("⏱️  Timing Breakdown:")
+            for step_name, duration in step_timings.items():
+                logger.info(f"   • {step_name}: {format_duration(duration)}")
+            logger.info(f"   • TOTAL: {format_duration(total_elapsed)}")
         
         # Print request metrics summary
         metrics = get_request_metrics()

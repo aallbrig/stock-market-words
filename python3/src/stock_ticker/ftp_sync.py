@@ -109,6 +109,7 @@ def sync_ftp(dry_run=False):
             sys.exit(1)
         
         logger.info("Downloading otherlisted.txt...")
+        metrics.record_request('nasdaq_ftp', 'download')
         with open(other_file, 'wb') as f:
             ftp.retrbinary('RETR otherlisted.txt', f.write)
         file_size_after = other_file.stat().st_size
