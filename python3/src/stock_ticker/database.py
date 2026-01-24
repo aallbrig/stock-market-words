@@ -309,6 +309,28 @@ def get_pipeline_state(target_date=None):
         }
 
 
+def reset_pipeline_state(target_date=None):
+    """
+    Reset the pipeline state for a given date by deleting all pipeline_steps records.
+    This allows --force to re-run the pipeline from scratch.
+    """
+    if target_date is None:
+        target_date = get_today()
+    
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        DELETE FROM pipeline_steps
+        WHERE run_date = ?
+    """, (target_date,))
+    
+    conn.commit()
+    conn.close()
+    
+    logger.info(f"Pipeline state reset for {target_date}")
+
+
 def _get_step_total(step_name, date, cursor=None):
     """Get the expected total for a step."""
     should_close = False
