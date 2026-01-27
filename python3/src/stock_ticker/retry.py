@@ -124,9 +124,21 @@ class RetryTracker:
         }
 
 
+def format_bytes(num_bytes):
+    """Format bytes in human-readable format with raw bytes in parentheses."""
+    if num_bytes == 0:
+        return "0 B (0 bytes)"
+    
+    for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
+        if abs(num_bytes) < 1024.0:
+            return f"{num_bytes:.1f} {unit} ({int(num_bytes * (1024 ** (['B', 'KB', 'MB', 'GB', 'TB'].index(unit))))} bytes)"
+        num_bytes /= 1024.0
+    return f"{num_bytes:.1f} PB"
+
+
 class RequestMetrics:
     """
-    Tracks API request counts by service and endpoint.
+    Tracks API request counts, bytes transferred, and failures by service and endpoint.
     
     Provides runtime statistics on external API usage.
     """
@@ -134,17 +146,27 @@ class RequestMetrics:
     def __init__(self):
         """Initialize request counter."""
         self.requests = {}  # (service, endpoint) -> count
+        self.bytes_downloaded = {}  # (service, endpoint) -> bytes
+        self.failures = {}  # (service, endpoint) -> count
     
-    def record_request(self, service, endpoint='default'):
+    def record_request(self, service, endpoint='default', bytes_downloaded=0, failed=False):
         """
         Record an API request.
         
         Args:
             service: Service name (e.g., 'yahoo_finance', 'nasdaq_ftp', 'database')
             endpoint: Specific endpoint or operation (e.g., 'healthcheck', 'download', 'batch_fetch')
+            bytes_downloaded: Number of bytes downloaded in this request (default: 0)
+            failed: Whether this request failed (default: False)
         """
         key = (service, endpoint)
         self.requests[key] = self.requests.get(key, 0) + 1
+        
+        if bytes_downloaded > 0:
+            self.bytes_downloaded[key] = self.bytes_downloaded.get(key, 0) + bytes_downloaded
+        
+        if failed:
+            self.failures[key] = self.failures.get(key, 0) + 1
     
     def get_counts(self):
         """
@@ -155,6 +177,34 @@ class RequestMetrics:
         """
         result = {}
         for (service, endpoint), count in self.requests.items():
+            if service not in result:
+                result[service] = {}
+            result[service][endpoint] = count
+        return result
+    
+    def get_bytes(self):
+        """
+        Get bytes downloaded grouped by service.
+        
+        Returns:
+            dict: Service -> {endpoint -> bytes}
+        """
+        result = {}
+        for (service, endpoint), bytes_count in self.bytes_downloaded.items():
+            if service not in result:
+                result[service] = {}
+            result[service][endpoint] = bytes_count
+        return result
+    
+    def get_failures(self):
+        """
+        Get failure counts grouped by service.
+        
+        Returns:
+            dict: Service -> {endpoint -> count}
+        """
+        result = {}
+        for (service, endpoint), count in self.failures.items():
             if service not in result:
                 result[service] = {}
             result[service][endpoint] = count
@@ -174,9 +224,39 @@ class RequestMetrics:
             return sum(self.requests.values())
         return sum(count for (srv, _), count in self.requests.items() if srv == service)
     
+    def get_total_bytes(self, service=None):
+        """
+        Get total bytes downloaded for a service or all services.
+        
+        Args:
+            service: Service name, or None for grand total
+            
+        Returns:
+            int: Bytes downloaded
+        """
+        if service is None:
+            return sum(self.bytes_downloaded.values())
+        return sum(bytes_count for (srv, _), bytes_count in self.bytes_downloaded.items() if srv == service)
+    
+    def get_total_failures(self, service=None):
+        """
+        Get total failure count for a service or all services.
+        
+        Args:
+            service: Service name, or None for grand total
+            
+        Returns:
+            int: Failure count
+        """
+        if service is None:
+            return sum(self.failures.values())
+        return sum(count for (srv, _), count in self.failures.items() if srv == service)
+    
     def reset(self):
         """Reset all counters."""
         self.requests.clear()
+        self.bytes_downloaded.clear()
+        self.failures.clear()
     
     def summary(self):
         """
@@ -186,14 +266,50 @@ class RequestMetrics:
             str: Human-readable summary
         """
         counts = self.get_counts()
+        bytes_data = self.get_bytes()
+        failures_data = self.get_failures()
+        
         lines = ["API Request Summary:"]
         for service in sorted(counts.keys()):
-            total = sum(counts[service].values())
-            lines.append(f"  {service}: {total:,} requests")
+            total_requests = sum(counts[service].values())
+            total_bytes = sum(bytes_data.get(service, {}).values())
+            total_failures = sum(failures_data.get(service, {}).values())
+            
+            # Build service summary line
+            summary_parts = [f"{total_requests:,} requests"]
+            if total_failures > 0:
+                summary_parts.append(f"{total_failures:,} failed")
+            if total_bytes > 0:
+                summary_parts.append(format_bytes(total_bytes))
+            
+            lines.append(f"  {service}: {', '.join(summary_parts)}")
+            
             for endpoint in sorted(counts[service].keys()):
                 count = counts[service][endpoint]
-                lines.append(f"    - {endpoint}: {count:,}")
-        lines.append(f"  TOTAL: {self.get_total():,} requests")
+                endpoint_bytes = bytes_data.get(service, {}).get(endpoint, 0)
+                endpoint_failures = failures_data.get(service, {}).get(endpoint, 0)
+                
+                # Build endpoint detail line
+                detail_parts = [f"{count:,}"]
+                if endpoint_bytes > 0:
+                    detail_parts.append(format_bytes(endpoint_bytes))
+                if endpoint_failures > 0:
+                    detail_parts.append(f"{endpoint_failures:,} failed")
+                
+                lines.append(f"    - {endpoint}: {', '.join(detail_parts)}")
+        
+        # Grand total
+        grand_total_requests = self.get_total()
+        grand_total_bytes = self.get_total_bytes()
+        grand_total_failures = self.get_total_failures()
+        
+        total_parts = [f"{grand_total_requests:,} requests"]
+        if grand_total_failures > 0:
+            total_parts.append(f"{grand_total_failures:,} failed")
+        if grand_total_bytes > 0:
+            total_parts.append(format_bytes(grand_total_bytes))
+        
+        lines.append(f"  TOTAL: {', '.join(total_parts)}")
         return "\n".join(lines)
 
 

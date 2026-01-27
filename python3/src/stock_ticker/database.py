@@ -2,6 +2,7 @@
 Database operations for the stock ticker CLI.
 """
 import sqlite3
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from .config import DB_PATH, SCHEMA_PATH
@@ -9,6 +10,42 @@ from .utils import get_today
 from .logging_setup import setup_logging
 
 logger = setup_logging()
+
+
+def get_expected_tables_from_schema():
+    """
+    Parse schema.sql and extract all table names dynamically.
+    
+    Returns:
+        list: Table names defined in the schema file
+    """
+    # Ensure SCHEMA_PATH is a Path object
+    schema_path = Path(SCHEMA_PATH) if isinstance(SCHEMA_PATH, str) else SCHEMA_PATH
+    
+    if not schema_path.exists():
+        logger.warning(f"Schema file not found at {schema_path}")
+        return []
+    
+    with open(schema_path, 'r') as f:
+        schema_content = f.read()
+    
+    # Pattern to match CREATE TABLE statements
+    # Matches: CREATE TABLE IF NOT EXISTS tablename
+    # Also matches: CREATE TABLE tablename
+    pattern = r'CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?([a-zA-Z_][a-zA-Z0-9_]*)'
+    
+    table_names = re.findall(pattern, schema_content, re.IGNORECASE)
+    
+    # Remove duplicates while preserving order
+    seen = set()
+    unique_tables = []
+    for table in table_names:
+        if table not in seen:
+            seen.add(table)
+            unique_tables.append(table)
+    
+    logger.debug(f"Parsed {len(unique_tables)} tables from schema: {', '.join(unique_tables)}")
+    return unique_tables
 
 
 def get_connection():
@@ -445,3 +482,240 @@ def get_last_successful_run():
         return result[0] if result else None
     except Exception:
         return None
+
+
+def create_pipeline_run(run_date, nasdaq_ftp_reachable=None, yahoo_finance_reachable=None):
+    """
+    Create a new pipeline run record.
+    
+    Args:
+        run_date: Date of the pipeline run
+        nasdaq_ftp_reachable: Whether NASDAQ FTP was reachable (optional)
+        yahoo_finance_reachable: Whether Yahoo Finance API was reachable (optional)
+    
+    Returns:
+        int: run_id of the created record
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        INSERT INTO pipeline_runs (
+            run_date, started_at, status,
+            nasdaq_ftp_reachable, yahoo_finance_reachable
+        ) VALUES (?, CURRENT_TIMESTAMP, 'pending', ?, ?)
+    """, (run_date, nasdaq_ftp_reachable, yahoo_finance_reachable))
+    
+    run_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    
+    return run_id
+
+
+def update_pipeline_run(run_id, status='completed', failed_step=None, metrics=None, timings=None):
+    """
+    Update a pipeline run record with final status and metrics.
+    
+    Args:
+        run_id: ID of the pipeline run
+        status: Final status ('completed', 'failed')
+        failed_step: Name of step that failed (if applicable)
+        metrics: Dict with keys: total_requests, total_failures, total_bytes_downloaded,
+                 tickers_processed_prices, tickers_processed_metadata
+        timings: Dict with keys: sync_ftp, extract_prices, extract_metadata, build, 
+                 generate_hugo, total
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    updates = ['completed_at = CURRENT_TIMESTAMP', 'status = ?']
+    params = [status]
+    
+    if failed_step:
+        updates.append('failed_step = ?')
+        params.append(failed_step)
+    
+    if metrics:
+        if 'total_requests' in metrics:
+            updates.append('total_requests = ?')
+            params.append(metrics['total_requests'])
+        if 'total_failures' in metrics:
+            updates.append('total_failures = ?')
+            params.append(metrics['total_failures'])
+        if 'total_bytes_downloaded' in metrics:
+            updates.append('total_bytes_downloaded = ?')
+            params.append(metrics['total_bytes_downloaded'])
+        if 'tickers_processed_prices' in metrics:
+            updates.append('tickers_processed_prices = ?')
+            params.append(metrics['tickers_processed_prices'])
+        if 'tickers_processed_metadata' in metrics:
+            updates.append('tickers_processed_metadata = ?')
+            params.append(metrics['tickers_processed_metadata'])
+    
+    if timings:
+        if 'sync_ftp' in timings:
+            updates.append('timing_sync_ftp = ?')
+            params.append(timings['sync_ftp'])
+        if 'extract_prices' in timings:
+            updates.append('timing_extract_prices = ?')
+            params.append(timings['extract_prices'])
+        if 'extract_metadata' in timings:
+            updates.append('timing_extract_metadata = ?')
+            params.append(timings['extract_metadata'])
+        if 'build' in timings:
+            updates.append('timing_build = ?')
+            params.append(timings['build'])
+        if 'generate_hugo' in timings:
+            updates.append('timing_generate_hugo = ?')
+            params.append(timings['generate_hugo'])
+        if 'total' in timings:
+            updates.append('timing_total = ?')
+            params.append(timings['total'])
+    
+    params.append(run_id)
+    
+    query = f"UPDATE pipeline_runs SET {', '.join(updates)} WHERE run_id = ?"
+    cursor.execute(query, params)
+    conn.commit()
+    conn.close()
+
+
+def batch_create_ticker_sync_records(run_id, sync_type, symbols, batch_number):
+    """
+    Create pending ticker sync records for a batch.
+    
+    Args:
+        run_id: ID of the pipeline run
+        sync_type: 'price' or 'metadata'
+        symbols: List of ticker symbols
+        batch_number: Batch number for this group of tickers
+    
+    Returns:
+        List of created record IDs
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    records = [
+        (run_id, sync_type, symbol, batch_number, 'pending')
+        for symbol in symbols
+    ]
+    
+    cursor.executemany("""
+        INSERT INTO ticker_sync_history (
+            run_id, sync_type, symbol, batch_number, started_at, status
+        ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
+    """, records)
+    
+    conn.commit()
+    
+    # Get the IDs of created records
+    cursor.execute("""
+        SELECT id FROM ticker_sync_history
+        WHERE run_id = ? AND sync_type = ? AND batch_number = ?
+        ORDER BY id DESC
+        LIMIT ?
+    """, (run_id, sync_type, batch_number, len(symbols)))
+    
+    ids = [row[0] for row in cursor.fetchall()]
+    conn.close()
+    
+    return ids
+
+
+def batch_update_ticker_sync_records(run_id, sync_type, batch_number, successful_symbols, 
+                                      failed_symbols_with_errors, bytes_per_ticker=None):
+    """
+    Update ticker sync records after batch completes.
+    
+    Args:
+        run_id: ID of the pipeline run
+        sync_type: 'price' or 'metadata'
+        batch_number: Batch number
+        successful_symbols: List of symbols that succeeded
+        failed_symbols_with_errors: Dict of {symbol: error_message} for failures
+        bytes_per_ticker: Dict of {symbol: bytes_downloaded} (optional)
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # Update successful symbols
+    if successful_symbols:
+        for symbol in successful_symbols:
+            bytes_downloaded = bytes_per_ticker.get(symbol, 0) if bytes_per_ticker else 0
+            cursor.execute("""
+                UPDATE ticker_sync_history
+                SET completed_at = CURRENT_TIMESTAMP,
+                    status = 'success',
+                    bytes_downloaded = ?
+                WHERE run_id = ? AND sync_type = ? AND symbol = ? AND batch_number = ?
+            """, (bytes_downloaded, run_id, sync_type, symbol, batch_number))
+    
+    # Update failed symbols
+    for symbol, error_msg in failed_symbols_with_errors.items():
+        cursor.execute("""
+            UPDATE ticker_sync_history
+            SET completed_at = CURRENT_TIMESTAMP,
+                status = 'failed',
+                error_message = ?
+            WHERE run_id = ? AND sync_type = ? AND symbol = ? AND batch_number = ?
+        """, (error_msg, run_id, sync_type, symbol, batch_number))
+    
+    conn.commit()
+    conn.close()
+
+
+def get_ticker_sync_failures(run_id=None, sync_type=None, limit=100):
+    """
+    Get ticker sync failures for a specific run or globally.
+    
+    Args:
+        run_id: Optional pipeline run ID to filter by
+        sync_type: Optional sync type ('price' or 'metadata') to filter by
+        limit: Maximum number of results to return
+    
+    Returns:
+        List of dicts with failure information
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    query = """
+        SELECT 
+            tsh.symbol,
+            tsh.sync_type,
+            tsh.completed_at,
+            tsh.error_message,
+            pr.run_date
+        FROM ticker_sync_history tsh
+        JOIN pipeline_runs pr ON tsh.run_id = pr.run_id
+        WHERE tsh.status = 'failed'
+    """
+    params = []
+    
+    if run_id:
+        query += " AND tsh.run_id = ?"
+        params.append(run_id)
+    
+    if sync_type:
+        query += " AND tsh.sync_type = ?"
+        params.append(sync_type)
+    
+    query += " ORDER BY tsh.completed_at DESC LIMIT ?"
+    params.append(limit)
+    
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
+    conn.close()
+    
+    return [
+        {
+            'symbol': row[0],
+            'sync_type': row[1],
+            'completed_at': row[2],
+            'error_message': row[3],
+            'run_date': row[4]
+        }
+        for row in rows
+    ]

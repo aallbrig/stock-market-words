@@ -104,21 +104,53 @@ def status():
     # Database
     if not DB_PATH.exists():
         logger.warning("   ⚠ Database: NOT FOUND")
+        logger.warning(f"   → Database file expected at: {DB_PATH}")
+        logger.warning("   → Initialize database with: python -m stock_ticker.cli init")
         db_issue = True
     else:
         try:
             conn = get_connection()
             cursor = conn.cursor()
+            
+            # Check if sqlite3 command is available
+            import shutil
+            if not shutil.which('sqlite3'):
+                logger.warning("   ⚠ sqlite3 command-line tool: NOT FOUND")
+                logger.warning("   → Install with: sudo apt-get install sqlite3 (Debian/Ubuntu)")
+                logger.warning("   → Or: brew install sqlite (macOS)")
+           
             cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
             tables = [row[0] for row in cursor.fetchall()]
-            conn.close()
+            
             if not tables:
                 logger.warning("   ⚠ Database: Schema not initialized")
+                logger.warning(f"   → Database file exists but has no tables")
+                logger.warning("   → Initialize schema with: python -m stock_ticker.cli init")
                 db_issue = True
             else:
-                logger.info("   ✓ Database: Ready")
+                # Check if all expected tables exist (dynamically parsed from schema.sql)
+                from .database import get_expected_tables_from_schema
+                expected_tables = get_expected_tables_from_schema()
+                
+                if not expected_tables:
+                    # Fallback if schema parsing fails
+                    logger.warning("   ⚠ Could not parse schema file for expected tables")
+                    logger.info(f"   ✓ Database: Ready ({len(tables)} tables)")
+                else:
+                    missing_tables = [t for t in expected_tables if t not in tables]
+                    
+                    if missing_tables:
+                        logger.warning(f"   ⚠ Database: Missing tables: {', '.join(missing_tables)}")
+                        logger.warning("   → Reinitialize schema with: python -m stock_ticker.cli init")
+                        db_issue = True
+                    else:
+                        logger.info(f"   ✓ Database: Ready ({len(tables)} tables)")
+            
+            conn.close()
         except Exception as e:
-            logger.warning(f"   ⚠ Database: Error ({e})")
+            logger.warning(f"   ⚠ Database: Error connecting ({e})")
+            logger.warning(f"   → Check database file permissions: {DB_PATH}")
+            logger.warning("   → Try reinitializing: python -m stock_ticker.cli init")
             db_issue = True
     
     # Python packages
@@ -469,6 +501,15 @@ def run_all(ctx, limit, force):
     # Initialize if needed (automatic)
     ensure_initialized()
     
+    # Check service reachability before starting
+    from .utils import check_ftp_server, check_yahoo_finance
+    nasdaq_ftp_reachable = check_ftp_server(FTP_HOST)
+    yahoo_finance_reachable = check_yahoo_finance(YAHOO_API_HOST)
+    
+    # Create pipeline run record
+    from .database import create_pipeline_run, update_pipeline_run
+    run_id = create_pipeline_run(today, nasdaq_ftp_reachable, yahoo_finance_reachable)
+    
     # Track success
     pipeline_failed = False
     failed_step = None
@@ -490,7 +531,7 @@ def run_all(ctx, limit, force):
             logger.info("")
             logger.info("💹 Step 2: Extracting price/volume data (Pass 1)...")
             step_start = time.time()
-            extract_prices(dry_run=False, limit=limit)
+            extract_prices(dry_run=False, limit=limit, run_id=run_id)
             step_timings['extract-prices'] = time.time() - step_start
         else:
             logger.info("")
@@ -501,7 +542,7 @@ def run_all(ctx, limit, force):
             logger.info("")
             logger.info("📊 Step 3: Extracting detailed metrics (Pass 2)...")
             step_start = time.time()
-            extract_metadata(dry_run=False, limit=limit)
+            extract_metadata(dry_run=False, limit=limit, run_id=run_id)
             step_timings['extract-metadata'] = time.time() - step_start
         else:
             logger.info("")
@@ -559,6 +600,14 @@ def run_all(ctx, limit, force):
         from .database import record_pipeline_step
         record_pipeline_step(failed_step, 0, 'failed', dry_run=False)
         
+        # Update pipeline run with failure
+        update_pipeline_run(
+            run_id,
+            status='failed',
+            failed_step=failed_step,
+            timings={'total': time.time() - pipeline_start_time}
+        )
+        
         # Re-raise to ensure non-zero exit code
         raise
     
@@ -584,6 +633,36 @@ def run_all(ctx, limit, force):
         metrics = get_request_metrics()
         logger.info("")
         logger.info(metrics.summary())
+        
+        # Get ticker counts from database
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM daily_metrics WHERE date = ? AND price IS NOT NULL", (today,))
+        tickers_with_prices = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM daily_metrics WHERE date = ? AND market_cap IS NOT NULL", (today,))
+        tickers_with_metadata = cursor.fetchone()[0]
+        conn.close()
+        
+        # Update pipeline run with success
+        update_pipeline_run(
+            run_id,
+            status='completed',
+            metrics={
+                'total_requests': metrics.get_total(),
+                'total_failures': metrics.get_total_failures(),
+                'total_bytes_downloaded': metrics.get_total_bytes(),
+                'tickers_processed_prices': tickers_with_prices,
+                'tickers_processed_metadata': tickers_with_metadata
+            },
+            timings={
+                'sync_ftp': step_timings.get('sync-ftp'),
+                'extract_prices': step_timings.get('extract-prices'),
+                'extract_metadata': step_timings.get('extract-metadata'),
+                'build': step_timings.get('build'),
+                'generate_hugo': step_timings.get('generate-hugo'),
+                'total': total_elapsed
+            }
+        )
 
 
 @cli.command()

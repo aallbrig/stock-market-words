@@ -60,3 +60,48 @@ CREATE TABLE IF NOT EXISTS pipeline_steps (
     status TEXT,
     PRIMARY KEY (step_name, run_date)
 );
+
+-- Table 6: Pipeline Run History
+-- Tracks complete pipeline runs with metrics and status
+CREATE TABLE IF NOT EXISTS pipeline_runs (
+    run_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_date DATE NOT NULL,
+    started_at TIMESTAMP NOT NULL,
+    completed_at TIMESTAMP,
+    status TEXT NOT NULL,  -- 'pending', 'completed', 'failed'
+    failed_step TEXT,
+    nasdaq_ftp_reachable BOOLEAN,
+    yahoo_finance_reachable BOOLEAN,
+    total_requests INTEGER DEFAULT 0,
+    total_failures INTEGER DEFAULT 0,
+    total_bytes_downloaded INTEGER DEFAULT 0,
+    tickers_processed_prices INTEGER DEFAULT 0,
+    tickers_processed_metadata INTEGER DEFAULT 0,
+    timing_sync_ftp REAL,
+    timing_extract_prices REAL,
+    timing_extract_metadata REAL,
+    timing_build REAL,
+    timing_generate_hugo REAL,
+    timing_total REAL
+);
+
+-- Table 7: Ticker Sync History
+-- Tracks success/failure state of each ticker for each Yahoo Finance sync operation
+CREATE TABLE IF NOT EXISTS ticker_sync_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id INTEGER NOT NULL,
+    sync_type TEXT NOT NULL,  -- 'price' or 'metadata'
+    symbol TEXT NOT NULL,
+    batch_number INTEGER NOT NULL,
+    started_at TIMESTAMP NOT NULL,
+    completed_at TIMESTAMP,
+    status TEXT NOT NULL,  -- 'pending', 'success', 'failed'
+    error_message TEXT,
+    bytes_downloaded INTEGER DEFAULT 0,
+    FOREIGN KEY (run_id) REFERENCES pipeline_runs (run_id),
+    FOREIGN KEY (symbol) REFERENCES tickers (symbol)
+);
+
+-- Index for fast lookup of ticker sync history
+CREATE INDEX IF NOT EXISTS idx_ticker_sync_run ON ticker_sync_history (run_id, sync_type);
+CREATE INDEX IF NOT EXISTS idx_ticker_sync_symbol ON ticker_sync_history (symbol, sync_type, completed_at);
