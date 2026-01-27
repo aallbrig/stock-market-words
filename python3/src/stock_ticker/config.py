@@ -5,8 +5,9 @@ from pathlib import Path
 
 # Base paths
 BASE_DIR = Path(__file__).parent.parent.parent.parent
+PYTHON_DIR = Path(__file__).parent.parent.parent
 DB_PATH = BASE_DIR / "data" / "market_data.db"
-SCHEMA_PATH = BASE_DIR / "schema.sql"
+SCHEMA_PATH = PYTHON_DIR / "schema.sql"
 TMP_DIR = BASE_DIR / "data" / "tmp"
 API_DIR = BASE_DIR / "hugo" / "static" / "api"
 ERROR_LOG_PATH = BASE_DIR / "data" / "error.log"

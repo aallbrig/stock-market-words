@@ -13,7 +13,7 @@ from .retry import get_retry_tracker, get_request_metrics, BackoffLimitExceeded
 logger = setup_logging()
 
 
-def extract_prices(dry_run=False, limit=None):
+def extract_prices(dry_run=False, limit=None, run_id=None):
     """Pass 1: Rapidly fetch price/volume for entire universe."""
     if dry_run:
         logger.info("DRY RUN: Would extract price/volume data (Pass 1)")
@@ -87,6 +87,10 @@ def extract_prices(dry_run=False, limit=None):
     retry_tracker = get_retry_tracker()
     metrics = get_request_metrics()
     
+    # Import batch tracking functions if run_id provided
+    if run_id:
+        from .database import batch_create_ticker_sync_records, batch_update_ticker_sync_records
+    
     for i in range(0, total, PRICE_BATCH_SIZE):
         batch = pending_symbols[i:i + PRICE_BATCH_SIZE]
         batch_num = i // PRICE_BATCH_SIZE + 1
@@ -94,10 +98,14 @@ def extract_prices(dry_run=False, limit=None):
         
         logger.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} tickers)...")
         
+        # Track ticker sync if run_id provided
+        if run_id:
+            batch_create_ticker_sync_records(run_id, 'price', batch, batch_num)
+        
+        successful_symbols = []
+        failed_symbols = {}
+        
         try:
-            # Record API request
-            metrics.record_request('yahoo_finance', 'batch_download')
-            
             # Fetch data in batch
             tickers_str = ' '.join(batch)
             data = yf.download(tickers_str, period='1d', group_by='ticker', 
@@ -120,10 +128,31 @@ def extract_prices(dry_run=False, limit=None):
                         volume = int(ticker_data['Volume'].iloc[-1])
                         
                         batch_data.append((symbol, today, close_price, volume))
+                        successful_symbols.append(symbol)
+                    else:
+                        failed_symbols[symbol] = "No price data returned"
                 
                 except Exception as e:
                     logger.debug(f"Failed to process {symbol}: {e}")
+                    failed_symbols[symbol] = str(e)
                     continue
+            
+            # Record successful API request with estimated bytes
+            # Rough estimate: ~200 bytes per ticker for price data
+            estimated_bytes = len(successful_symbols) * 200
+            metrics.record_request('yahoo_finance', 'batch_download', bytes_downloaded=estimated_bytes)
+            
+            # Record failures
+            if failed_symbols:
+                for _ in failed_symbols:
+                    metrics.record_request('yahoo_finance', 'batch_download', failed=True)
+            
+            # Update ticker sync records if run_id provided
+            if run_id:
+                batch_update_ticker_sync_records(
+                    run_id, 'price', batch_num,
+                    successful_symbols, failed_symbols
+                )
             
             # Insert batch into database
             if batch_data:
@@ -149,12 +178,34 @@ def extract_prices(dry_run=False, limit=None):
             logger.error(f"CRITICAL: {e}")
             logger.error(f"Processed {processed:,} of {total:,} tickers before hitting rate limit threshold")
             logger.error("Pipeline is idempotent - re-run 'run-all' later to resume from this point")
+            
+            # Mark all remaining tickers in batch as failed if run_id provided
+            if run_id:
+                remaining_symbols = [s for s in batch if s not in successful_symbols]
+                failed_symbols.update({s: "Backoff limit exceeded" for s in remaining_symbols})
+                batch_update_ticker_sync_records(
+                    run_id, 'price', batch_num,
+                    successful_symbols, failed_symbols
+                )
+            
             conn.close()
             raise
         
         except Exception as e:
             logger.error(f"Batch {batch_num} failed: {e}")
             error_msg = str(e).lower()
+            
+            # Mark entire batch as failed if catastrophic error
+            if run_id:
+                remaining_symbols = [s for s in batch if s not in successful_symbols]
+                failed_symbols.update({s: str(e) for s in remaining_symbols})
+                batch_update_ticker_sync_records(
+                    run_id, 'price', batch_num,
+                    successful_symbols, failed_symbols
+                )
+            
+            # Record failed request
+            metrics.record_request('yahoo_finance', 'batch_download', failed=True)
             
             if "rate limit" in error_msg or "429" in error_msg:
                 logger.error("Yahoo Finance API rate limit detected")
@@ -177,7 +228,7 @@ def extract_prices(dry_run=False, limit=None):
     record_pipeline_step('extract-prices', processed, 'completed', dry_run=False)
 
 
-def extract_metadata(dry_run=False, limit=None):
+def extract_metadata(dry_run=False, limit=None, run_id=None):
     """Pass 2: Fetch deep metrics for filtered 'surviving' tickers."""
     if dry_run:
         logger.info("DRY RUN: Would extract metadata (Pass 2)")
@@ -262,18 +313,32 @@ def extract_metadata(dry_run=False, limit=None):
     retry_tracker = get_retry_tracker()
     metrics = get_request_metrics()
     
+    # Import batch tracking functions if run_id provided
+    if run_id:
+        from .database import batch_create_ticker_sync_records, batch_update_ticker_sync_records
+    
     for i in range(0, total, METADATA_BATCH_SIZE):
         batch = pending_symbols[i:i + METADATA_BATCH_SIZE]
-        logger.info(f"Processing batch {i // METADATA_BATCH_SIZE + 1}/{(total + METADATA_BATCH_SIZE - 1) // METADATA_BATCH_SIZE} ({len(batch)} tickers)...")
+        batch_num = i // METADATA_BATCH_SIZE + 1
+        total_batches = (total + METADATA_BATCH_SIZE - 1) // METADATA_BATCH_SIZE
+        logger.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} tickers)...")
+        
+        # Track ticker sync if run_id provided
+        if run_id:
+            batch_create_ticker_sync_records(run_id, 'metadata', batch, batch_num)
+        
+        successful_symbols = []
+        failed_symbols = {}
+        batch_bytes = 0
         
         for symbol in batch:
             try:
-                # Record API requests
-                metrics.record_request('yahoo_finance', 'ticker_info')
-                metrics.record_request('yahoo_finance', 'ticker_history')
-                
                 ticker = yf.Ticker(symbol)
                 info = ticker.info
+                
+                # Estimate bytes: info object is typically 5-10KB, history ~2KB
+                symbol_bytes = 7000
+                batch_bytes += symbol_bytes
                 
                 # Extract metadata
                 market_cap = info.get('marketCap')
@@ -305,9 +370,14 @@ def extract_metadata(dry_run=False, limit=None):
                 
                 conn.commit()
                 processed += 1
+                successful_symbols.append(symbol)
                 
                 # Success - reset backoff for this symbol
                 retry_tracker.record_success(f'yahoo_finance_metadata:{symbol}')
+                
+                # Record successful API requests
+                metrics.record_request('yahoo_finance', 'ticker_info', bytes_downloaded=symbol_bytes)
+                metrics.record_request('yahoo_finance', 'ticker_history', bytes_downloaded=0)
                 
                 if processed % 10 == 0:
                     logger.info(f"✓ Progress: {processed:,}/{total:,}")
@@ -318,10 +388,26 @@ def extract_metadata(dry_run=False, limit=None):
                 logger.error(f"CRITICAL: {e}")
                 logger.error(f"Processed {processed:,} of {total:,} tickers before hitting rate limit threshold")
                 logger.error("Pipeline is idempotent - re-run 'run-all' later to resume from this point")
+                
+                # Mark remaining symbols in batch as failed
+                if run_id:
+                    remaining_symbols = [s for s in batch if s not in successful_symbols]
+                    failed_symbols.update({s: "Backoff limit exceeded" for s in remaining_symbols})
+                    batch_update_ticker_sync_records(
+                        run_id, 'metadata', batch_num,
+                        successful_symbols, failed_symbols
+                    )
+                
                 conn.close()
                 raise
             
             except Exception as e:
+                failed_symbols[symbol] = str(e)
+                
+                # Record failed API requests
+                metrics.record_request('yahoo_finance', 'ticker_info', failed=True)
+                metrics.record_request('yahoo_finance', 'ticker_history', failed=True)
+                
                 error_msg = str(e).lower()
                 if "rate limit" in error_msg or "429" in error_msg:
                     logger.error(f"Yahoo Finance API rate limit at {symbol}")
@@ -338,6 +424,13 @@ def extract_metadata(dry_run=False, limit=None):
                 else:
                     logger.debug(f"Failed to fetch metadata for {symbol}: {e}")
                 continue
+        
+        # Update ticker sync records for this batch if run_id provided
+        if run_id:
+            batch_update_ticker_sync_records(
+                run_id, 'metadata', batch_num,
+                successful_symbols, failed_symbols
+            )
         
         # Rate limiting
         if i + METADATA_BATCH_SIZE < total:

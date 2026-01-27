@@ -95,27 +95,26 @@ def sync_ftp(dry_run=False):
         ftp.cwd('SymbolDirectory')
         
         logger.info("Downloading nasdaqlisted.txt...")
-        metrics.record_request('nasdaq_ftp', 'download')
-        file_size_before = nasdaq_file.stat().st_size if nasdaq_file.exists() else 0
         with open(nasdaq_file, 'wb') as f:
             ftp.retrbinary('RETR nasdaqlisted.txt', f.write)
-        file_size_after = nasdaq_file.stat().st_size
-        logger.info(f"✓ Downloaded nasdaqlisted.txt ({file_size_after:,} bytes)")
+        nasdaq_bytes = nasdaq_file.stat().st_size
+        logger.info(f"✓ Downloaded nasdaqlisted.txt ({nasdaq_bytes:,} bytes)")
+        metrics.record_request('nasdaq_ftp', 'download', bytes_downloaded=nasdaq_bytes)
         
-        if file_size_after == 0:
+        if nasdaq_bytes == 0:
             logger.error("ERROR: nasdaqlisted.txt is empty - download failed")
             record_pipeline_step('sync-ftp', 0, 'failed', dry_run=False)
             conn.close()
             sys.exit(1)
         
         logger.info("Downloading otherlisted.txt...")
-        metrics.record_request('nasdaq_ftp', 'download')
         with open(other_file, 'wb') as f:
             ftp.retrbinary('RETR otherlisted.txt', f.write)
-        file_size_after = other_file.stat().st_size
-        logger.info(f"✓ Downloaded otherlisted.txt ({file_size_after:,} bytes)")
+        other_bytes = other_file.stat().st_size
+        logger.info(f"✓ Downloaded otherlisted.txt ({other_bytes:,} bytes)")
+        metrics.record_request('nasdaq_ftp', 'download', bytes_downloaded=other_bytes)
         
-        if file_size_after == 0:
+        if other_bytes == 0:
             logger.error("ERROR: otherlisted.txt is empty - download failed")
             record_pipeline_step('sync-ftp', 0, 'failed', dry_run=False)
             conn.close()
