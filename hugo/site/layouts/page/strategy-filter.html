@@ -48,10 +48,12 @@
               <tr>
                 <th>Symbol</th>
                 <th>Name</th>
+                <th>Sector</th>
                 <th>Exchange</th>
                 <th>Price</th>
                 <th>Volume</th>
                 <th>Market Cap</th>
+                <th>P/E Ratio</th>
                 {{ if eq $strategyKey "dividend_daddy" }}
                 <th>Dividend Yield %</th>
                 {{ end }}
@@ -65,8 +67,10 @@
                 <th>RSI (14-Day)</th>
                 {{ end }}
                 {{ if or (eq $strategyKey "dividend_daddy") (eq $strategyKey "falling_knife") (eq $strategyKey "institutional_whale") }}
-                <th>200-Day Moving Average</th>
+                <th>200-Day MA</th>
                 {{ end }}
+                <th>52W High</th>
+                <th>52W Low</th>
                 <th>Strategy Score</th>
               </tr>
             </thead>
@@ -75,12 +79,26 @@
               <tr>
                 <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
                 <td>{{ .name }}</td>
+                <td>
+                  {{ if .sector }}
+                    <span class="badge bg-info">{{ .sector }}</span>
+                  {{ else }}
+                    <span class="text-muted">-</span>
+                  {{ end }}
+                </td>
                 <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
                 <td data-order="{{ .price }}">${{ printf "%.2f" .price }}</td>
                 <td data-order="{{ .volume }}">{{ .volume | lang.FormatNumber 0 }}</td>
                 <td data-order="{{ if .marketCap }}{{ .marketCap }}{{ else }}0{{ end }}">
                   {{ if .marketCap }}
                     ${{ .marketCap | lang.FormatNumber 0 }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td data-order="{{ if .peRatio }}{{ .peRatio }}{{ else }}0{{ end }}">
+                  {{ if .peRatio }}
+                    {{ printf "%.2f" .peRatio }}
                   {{ else }}
                     <span class="text-muted">N/A</span>
                   {{ end }}
@@ -165,6 +183,20 @@
                     {{ else }}
                       <span class="text-muted">N/A</span>
                     {{ end }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td data-order="{{ if .week52High }}{{ .week52High }}{{ else }}0{{ end }}">
+                  {{ if .week52High }}
+                    ${{ printf "%.2f" .week52High }}
+                  {{ else }}
+                    <span class="text-muted">N/A</span>
+                  {{ end }}
+                </td>
+                <td data-order="{{ if .week52Low }}{{ .week52Low }}{{ else }}0{{ end }}">
+                  {{ if .week52Low }}
+                    ${{ printf "%.2f" .week52Low }}
                   {{ else }}
                     <span class="text-muted">N/A</span>
                   {{ end }}

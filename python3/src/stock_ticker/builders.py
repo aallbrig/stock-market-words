@@ -40,9 +40,18 @@ def build_assets(dry_run=False):
     # Load all tickers with complete data for today
     query = """
         SELECT 
-            t.symbol, t.name, t.exchange,
+            t.symbol, t.name, t.exchange, t.sector, t.industry,
             dm.price, dm.volume, dm.market_cap, 
-            dm.dividend_yield, dm.beta, dm.rsi_14, dm.ma_200
+            dm.dividend_yield, dm.beta, dm.rsi_14, dm.ma_200, dm.ma_50,
+            dm.pe_ratio, dm.forward_pe, dm.price_to_book, dm.peg_ratio,
+            dm.enterprise_value, dm.week_52_high, dm.week_52_low,
+            dm.avg_volume_10day, dm.short_ratio, dm.short_percent_float,
+            dm.debt_to_equity, dm.current_ratio, dm.quick_ratio,
+            dm.profit_margin, dm.operating_margin,
+            dm.return_on_equity, dm.return_on_assets,
+            dm.revenue_growth, dm.earnings_growth,
+            dm.target_mean_price, dm.recommendation_mean, dm.num_analyst_opinions,
+            dm.shares_outstanding, dm.float_shares
         FROM tickers t
         JOIN daily_metrics dm ON t.symbol = dm.symbol
         WHERE dm.date = ?
@@ -182,6 +191,8 @@ def build_assets(dry_run=False):
         metadata[symbol] = {
             'name': row['name'],
             'exchange': row['exchange'],
+            'sector': row['sector'] if pd.notna(row['sector']) else None,
+            'industry': row['industry'] if pd.notna(row['industry']) else None,
             'price': round(float(row['price']), 2),
             'volume': int(row['volume']),
             'marketCap': int(row['market_cap']) if pd.notna(row['market_cap']) else None,
@@ -189,6 +200,40 @@ def build_assets(dry_run=False):
             'beta': round(float(row['beta']), 2) if pd.notna(row['beta']) else None,
             'rsi': round(float(row['rsi_14']), 1) if pd.notna(row['rsi_14']) else None,
             'ma200': round(float(row['ma_200']), 2) if pd.notna(row['ma_200']) else None,
+            'ma50': round(float(row['ma_50']), 2) if pd.notna(row['ma_50']) else None,
+            # Valuation metrics
+            'peRatio': round(float(row['pe_ratio']), 2) if pd.notna(row['pe_ratio']) else None,
+            'forwardPE': round(float(row['forward_pe']), 2) if pd.notna(row['forward_pe']) else None,
+            'priceToBook': round(float(row['price_to_book']), 2) if pd.notna(row['price_to_book']) else None,
+            'pegRatio': round(float(row['peg_ratio']), 2) if pd.notna(row['peg_ratio']) else None,
+            'enterpriseValue': int(row['enterprise_value']) if pd.notna(row['enterprise_value']) else None,
+            # Price range
+            'week52High': round(float(row['week_52_high']), 2) if pd.notna(row['week_52_high']) else None,
+            'week52Low': round(float(row['week_52_low']), 2) if pd.notna(row['week_52_low']) else None,
+            # Volume
+            'avgVolume10Day': int(row['avg_volume_10day']) if pd.notna(row['avg_volume_10day']) else None,
+            # Short interest
+            'shortRatio': round(float(row['short_ratio']), 2) if pd.notna(row['short_ratio']) else None,
+            'shortPercentFloat': round(float(row['short_percent_float'] * 100), 2) if pd.notna(row['short_percent_float']) else None,
+            # Financial health
+            'debtToEquity': round(float(row['debt_to_equity']), 2) if pd.notna(row['debt_to_equity']) else None,
+            'currentRatio': round(float(row['current_ratio']), 2) if pd.notna(row['current_ratio']) else None,
+            'quickRatio': round(float(row['quick_ratio']), 2) if pd.notna(row['quick_ratio']) else None,
+            # Profitability
+            'profitMargin': round(float(row['profit_margin'] * 100), 2) if pd.notna(row['profit_margin']) else None,
+            'operatingMargin': round(float(row['operating_margin'] * 100), 2) if pd.notna(row['operating_margin']) else None,
+            'returnOnEquity': round(float(row['return_on_equity'] * 100), 2) if pd.notna(row['return_on_equity']) else None,
+            'returnOnAssets': round(float(row['return_on_assets'] * 100), 2) if pd.notna(row['return_on_assets']) else None,
+            # Growth
+            'revenueGrowth': round(float(row['revenue_growth'] * 100), 2) if pd.notna(row['revenue_growth']) else None,
+            'earningsGrowth': round(float(row['earnings_growth'] * 100), 2) if pd.notna(row['earnings_growth']) else None,
+            # Analyst data
+            'targetMeanPrice': round(float(row['target_mean_price']), 2) if pd.notna(row['target_mean_price']) else None,
+            'recommendationMean': round(float(row['recommendation_mean']), 2) if pd.notna(row['recommendation_mean']) else None,
+            'numAnalystOpinions': int(row['num_analyst_opinions']) if pd.notna(row['num_analyst_opinions']) else None,
+            # Share data
+            'sharesOutstanding': int(row['shares_outstanding']) if pd.notna(row['shares_outstanding']) else None,
+            'floatShares': int(row['float_shares']) if pd.notna(row['float_shares']) else None,
             'scores': {
                 'dividendDaddy': int(row['dividend_daddy_score']),
                 'moonShot': int(row['moon_shot_score']),
