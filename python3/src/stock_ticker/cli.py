@@ -14,6 +14,10 @@ from .database import (
     init_db, ensure_initialized, get_connection, 
     get_all_steps_today, get_last_pipeline_run, recommend_next_step
 )
+from .migrations import (
+    check_migrations_needed, migrate_up, migrate_down, 
+    migration_status, ensure_migrations_table
+)
 from .ftp_sync import sync_ftp
 from .extractors import extract_prices, extract_metadata
 from .builders import build_assets
@@ -145,6 +149,23 @@ def status():
                         db_issue = True
                     else:
                         logger.info(f"   ✓ Database: Ready ({len(tables)} tables)")
+                
+                # Check for pending migrations
+                if check_migrations_needed():
+                    logger.warning("   ⚠️  Database migrations pending!")
+                    logger.warning("   → Run migrations with: python -m stock_ticker.cli migrate up")
+                    db_issue = True
+                else:
+                    # Check if schema was recently updated (migrations applied today)
+                    cursor.execute("""
+                        SELECT COUNT(*) FROM schema_migrations 
+                        WHERE DATE(applied_at) = DATE('now')
+                    """)
+                    recent_migrations = cursor.fetchone()[0]
+                    
+                    if recent_migrations > 0:
+                        logger.info(f"   ℹ️  Schema updated today ({recent_migrations} migration(s) applied)")
+                        logger.info("   💡 Re-run extract-metadata to populate new fields")
             
             conn.close()
         except Exception as e:
@@ -327,6 +348,87 @@ def status():
 def init(ctx):
     """Initialize the database schema."""
     init_db(dry_run=ctx.obj.dry_run)
+
+
+@cli.group()
+def migrate():
+    """Manage database schema migrations."""
+    pass
+
+
+@migrate.command('status')
+def migrate_status_cmd():
+    """Show migration status."""
+    ensure_migrations_table()
+    
+    status = migration_status()
+    
+    logger.info("=" * 70)
+    logger.info("=== 📋 DATABASE MIGRATION STATUS ===")
+    logger.info("=" * 70)
+    logger.info("")
+    logger.info(f"Total migrations: {status['total']}")
+    logger.info(f"Applied: {status['applied']}")
+    logger.info(f"Pending: {status['pending']}")
+    logger.info("")
+    
+    if status['migrations']:
+        logger.info("Migrations:")
+        for m in status['migrations']:
+            status_icon = "✓" if m['applied'] else "○"
+            status_text = "APPLIED" if m['applied'] else "PENDING"
+            logger.info(f"  {status_icon} {m['version']:03d}: {m['description']} - {status_text}")
+    else:
+        logger.info("No migration files found")
+    
+    logger.info("")
+    
+    if status['pending'] > 0:
+        logger.warning("⚠️  Pending migrations detected!")
+        logger.info("→ Apply with: python -m stock_ticker.cli migrate up")
+        sys.exit(1)
+    else:
+        logger.info("✓ Database schema is up to date")
+        sys.exit(0)
+
+
+@migrate.command('up')
+def migrate_up_cmd():
+    """Apply all pending migrations."""
+    logger.info("=" * 70)
+    logger.info("=== 🔼 APPLYING MIGRATIONS ===")
+    logger.info("=" * 70)
+    logger.info("")
+    
+    try:
+        migrate_up()
+        logger.info("")
+        logger.info("✓ All migrations applied successfully")
+        sys.exit(0)
+    except Exception as e:
+        logger.error(f"✗ Migration failed: {e}")
+        sys.exit(1)
+
+
+@migrate.command('down')
+@click.confirmation_option(prompt='Are you sure you want to rollback the last migration?')
+def migrate_down_cmd():
+    """Rollback the most recent migration."""
+    logger.info("=" * 70)
+    logger.info("=== 🔽 ROLLING BACK MIGRATION ===")
+    logger.info("=" * 70)
+    logger.info("")
+    logger.warning("Note: SQLite doesn't support DROP COLUMN - this only removes migration records")
+    logger.info("")
+    
+    try:
+        migrate_down()
+        logger.info("")
+        logger.info("✓ Migration rolled back")
+        sys.exit(0)
+    except Exception as e:
+        logger.error(f"✗ Rollback failed: {e}")
+        sys.exit(1)
 
 
 @cli.command('sync-ftp')

@@ -42,15 +42,7 @@ CREATE TABLE IF NOT EXISTS strategy_scores (
     FOREIGN KEY (symbol) REFERENCES tickers (symbol)
 );
 
--- Table 4: FTP Sync Tracking
--- Tracks when we last synced the FTP lists
-CREATE TABLE IF NOT EXISTS sync_history (
-    sync_date DATE PRIMARY KEY,
-    tickers_synced INTEGER,
-    sync_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Table 5: Pipeline Step Tracking
+-- Table 4: Pipeline Step Tracking
 -- Tracks when each pipeline step was completed for the current date
 CREATE TABLE IF NOT EXISTS pipeline_steps (
     step_name TEXT,
@@ -61,7 +53,7 @@ CREATE TABLE IF NOT EXISTS pipeline_steps (
     PRIMARY KEY (step_name, run_date)
 );
 
--- Table 6: Pipeline Run History
+-- Table 5: Pipeline Run History
 -- Tracks complete pipeline runs with metrics and status
 CREATE TABLE IF NOT EXISTS pipeline_runs (
     run_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -85,7 +77,7 @@ CREATE TABLE IF NOT EXISTS pipeline_runs (
     timing_total REAL
 );
 
--- Table 7: Ticker Sync History
+-- Table 6: Ticker Sync History
 -- Tracks success/failure state of each ticker for each Yahoo Finance sync operation
 CREATE TABLE IF NOT EXISTS ticker_sync_history (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
