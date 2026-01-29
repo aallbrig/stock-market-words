@@ -172,7 +172,8 @@ def get_last_pipeline_run():
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT MAX(sync_timestamp) FROM sync_history
+            SELECT MAX(completed_at) FROM pipeline_runs
+            WHERE status = 'completed'
         """)
         result = cursor.fetchone()
         conn.close()
@@ -189,12 +190,6 @@ def recommend_next_step():
     conn = get_connection()
     cursor = conn.cursor()
     today = get_today()
-    
-    # Check if FTP sync is done
-    cursor.execute("SELECT sync_date FROM sync_history WHERE sync_date = ?", (today,))
-    if not cursor.fetchone():
-        conn.close()
-        return "sync-ftp", "Download ticker lists from NASDAQ FTP"
     
     # Check if prices extracted
     cursor.execute("""

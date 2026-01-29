@@ -340,19 +340,70 @@ def extract_metadata(dry_run=False, limit=None, run_id=None):
                 symbol_bytes = 7000
                 batch_bytes += symbol_bytes
                 
-                # Extract metadata
+                # Extract basic metadata (existing fields)
                 market_cap = info.get('marketCap')
                 dividend_yield = info.get('dividendYield')
                 beta = info.get('beta')
                 
-                # Calculate RSI and MA (simplified - would need historical data for real calc)
+                # NEW: Extract sector/industry (for tickers table)
+                sector = info.get('sector')
+                industry = info.get('industry')
+                
+                # NEW: Valuation metrics
+                pe_ratio = info.get('trailingPE')
+                forward_pe = info.get('forwardPE')
+                price_to_book = info.get('priceToBook')
+                peg_ratio = info.get('pegRatio')
+                enterprise_value = info.get('enterpriseValue')
+                
+                # NEW: 52-week price range
+                week_52_high = info.get('fiftyTwoWeekHigh')
+                week_52_low = info.get('fiftyTwoWeekLow')
+                
+                # NEW: Volume metrics
+                avg_volume_10day = info.get('averageVolume10days')
+                
+                # NEW: Short interest
+                short_ratio = info.get('shortRatio')
+                short_percent_float = info.get('shortPercentOfFloat')
+                
+                # NEW: Financial health
+                debt_to_equity = info.get('debtToEquity')
+                current_ratio = info.get('currentRatio')
+                quick_ratio = info.get('quickRatio')
+                
+                # NEW: Profitability metrics
+                profit_margin = info.get('profitMargins')
+                operating_margin = info.get('operatingMargins')
+                return_on_equity = info.get('returnOnEquity')
+                return_on_assets = info.get('returnOnAssets')
+                
+                # NEW: Growth metrics
+                revenue_growth = info.get('revenueGrowth')
+                earnings_growth = info.get('earningsGrowth')
+                
+                # NEW: Analyst data
+                target_mean_price = info.get('targetMeanPrice')
+                recommendation_mean = info.get('recommendationMean')
+                num_analyst_opinions = info.get('numberOfAnalystOpinions')
+                
+                # NEW: Trading metrics
+                shares_outstanding = info.get('sharesOutstanding')
+                float_shares = info.get('floatShares')
+                
+                # Calculate RSI and MA (existing logic)
                 hist = ticker.history(period='1y')
                 if not hist.empty and len(hist) >= 200:
                     ma_200 = hist['Close'].tail(200).mean()
                 else:
                     ma_200 = None
                 
-                # Simple RSI calculation (14-day)
+                # NEW: Calculate MA-50
+                ma_50 = None
+                if not hist.empty and len(hist) >= 50:
+                    ma_50 = hist['Close'].tail(50).mean()
+                
+                # Simple RSI calculation (14-day) - existing
                 rsi_14 = None
                 if not hist.empty and len(hist) >= 14:
                     delta = hist['Close'].diff()
@@ -361,12 +412,39 @@ def extract_metadata(dry_run=False, limit=None, run_id=None):
                     rs = gain / loss
                     rsi_14 = float(100 - (100 / (1 + rs.iloc[-1]))) if not pd.isna(rs.iloc[-1]) else None
                 
-                # Update database
+                # Update tickers table with sector/industry
+                if sector or industry:
+                    cursor.execute("""
+                        UPDATE tickers
+                        SET sector = ?, industry = ?
+                        WHERE symbol = ?
+                    """, (sector, industry, symbol))
+                
+                # Update database with ALL fields
                 cursor.execute("""
                     UPDATE daily_metrics
-                    SET market_cap = ?, dividend_yield = ?, beta = ?, rsi_14 = ?, ma_200 = ?
+                    SET market_cap = ?, dividend_yield = ?, beta = ?, rsi_14 = ?, ma_200 = ?,
+                        pe_ratio = ?, forward_pe = ?, price_to_book = ?, peg_ratio = ?, enterprise_value = ?,
+                        week_52_high = ?, week_52_low = ?, avg_volume_10day = ?,
+                        short_ratio = ?, short_percent_float = ?,
+                        debt_to_equity = ?, current_ratio = ?, quick_ratio = ?,
+                        profit_margin = ?, operating_margin = ?, return_on_equity = ?, return_on_assets = ?,
+                        revenue_growth = ?, earnings_growth = ?,
+                        target_mean_price = ?, recommendation_mean = ?, num_analyst_opinions = ?,
+                        ma_50 = ?, shares_outstanding = ?, float_shares = ?
                     WHERE symbol = ? AND date = ?
-                """, (market_cap, dividend_yield, beta, rsi_14, ma_200, symbol, today))
+                """, (
+                    market_cap, dividend_yield, beta, rsi_14, ma_200,
+                    pe_ratio, forward_pe, price_to_book, peg_ratio, enterprise_value,
+                    week_52_high, week_52_low, avg_volume_10day,
+                    short_ratio, short_percent_float,
+                    debt_to_equity, current_ratio, quick_ratio,
+                    profit_margin, operating_margin, return_on_equity, return_on_assets,
+                    revenue_growth, earnings_growth,
+                    target_mean_price, recommendation_mean, num_analyst_opinions,
+                    ma_50, shares_outstanding, float_shares,
+                    symbol, today
+                ))
                 
                 conn.commit()
                 processed += 1
