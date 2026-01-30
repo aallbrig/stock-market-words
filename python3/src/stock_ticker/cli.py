@@ -12,7 +12,8 @@ from .logging_setup import setup_logging
 from .config import DB_PATH, API_DIR, ERROR_LOG_PATH, FTP_HOST, YAHOO_API_HOST
 from .database import (
     init_db, ensure_initialized, get_connection, 
-    get_all_steps_today, get_last_pipeline_run, recommend_next_step
+    get_all_steps_today, get_last_pipeline_run, recommend_next_step,
+    clean_today_data
 )
 from .migrations import (
     check_migrations_needed, migrate_up, migrate_down, 
@@ -432,40 +433,72 @@ def migrate_down_cmd():
 
 
 @cli.command('sync-ftp')
+@click.option('--clean', is_flag=True, help='Clean today\'s data before running')
 @click.pass_context
 @log_timing
-def sync_ftp_cmd(ctx):
+def sync_ftp_cmd(ctx, clean):
     """Download and parse ticker lists from NASDAQ FTP."""
     ensure_initialized()
+    
+    if clean:
+        logger.info("")
+        logger.info("🧹 Cleaning today's sync-ftp data...")
+        clean_today_data(step_name='sync-ftp', dry_run=ctx.obj.dry_run)
+        logger.info("")
+    
     sync_ftp(dry_run=ctx.obj.dry_run)
 
 
 @cli.command('extract-prices')
 @click.option('--limit', type=int, default=None, help='Limit ticker processing for testing')
+@click.option('--clean', is_flag=True, help='Clean today\'s data before running')
 @click.pass_context
 @log_timing
-def extract_prices_cmd(ctx, limit):
+def extract_prices_cmd(ctx, limit, clean):
     """Pass 1: Fetch price/volume data for all tickers."""
     ensure_initialized()
+    
+    if clean:
+        logger.info("")
+        logger.info("🧹 Cleaning today's extract-prices data...")
+        clean_today_data(step_name='extract-prices', dry_run=ctx.obj.dry_run)
+        logger.info("")
+    
     extract_prices(dry_run=ctx.obj.dry_run, limit=limit)
 
 
 @cli.command('extract-metadata')
 @click.option('--limit', type=int, default=None, help='Limit ticker processing for testing')
+@click.option('--clean', is_flag=True, help='Clean today\'s data before running')
 @click.pass_context
 @log_timing
-def extract_metadata_cmd(ctx, limit):
+def extract_metadata_cmd(ctx, limit, clean):
     """Pass 2: Fetch detailed metrics for filtered tickers."""
     ensure_initialized()
+    
+    if clean:
+        logger.info("")
+        logger.info("🧹 Cleaning today's extract-metadata data...")
+        clean_today_data(step_name='extract-metadata', dry_run=ctx.obj.dry_run)
+        logger.info("")
+    
     extract_metadata(dry_run=ctx.obj.dry_run, limit=limit)
 
 
 @cli.command()
+@click.option('--clean', is_flag=True, help='Clean today\'s data before running')
 @click.pass_context
 @log_timing
-def build(ctx):
+def build(ctx, clean):
     """Generate JSON assets (trie.json and metadata.json)."""
     ensure_initialized()
+    
+    if clean:
+        logger.info("")
+        logger.info("🧹 Cleaning today's build data...")
+        clean_today_data(step_name='build', dry_run=ctx.obj.dry_run)
+        logger.info("")
+    
     build_assets(dry_run=ctx.obj.dry_run)
 
 
@@ -528,8 +561,9 @@ def print_pipeline_summary():
 @cli.command('run-all')
 @click.option('--limit', type=int, default=None, help='Limit ticker processing for testing (e.g., --limit 10)')
 @click.option('--force', is_flag=True, help='Force re-run even if already completed today (does not reset state)')
+@click.option('--clean', is_flag=True, help='Clean today\'s data before running (resets pipeline state)')
 @click.pass_context
-def run_all(ctx, limit, force):
+def run_all(ctx, limit, force, clean):
     """Execute all pipeline steps in sequence."""
     pipeline_start_time = time.time()
     step_timings = {}
@@ -545,7 +579,10 @@ def run_all(ctx, limit, force):
     if force:
         logger.info(f"⚠️  FORCE MODE: Will ignore completion status")
     
-    if limit or force:
+    if clean:
+        logger.info(f"🧹 CLEAN MODE: Resetting today's pipeline data...")
+    
+    if limit or force or clean:
         logger.info("")
     
     # Check pipeline state
@@ -602,6 +639,16 @@ def run_all(ctx, limit, force):
     
     # Initialize if needed (automatic)
     ensure_initialized()
+    
+    # Clean today's data if --clean flag is set
+    if clean and not ctx.obj.dry_run:
+        logger.info("")
+        logger.info("🧹 Cleaning all today's data...")
+        clean_today_data(step_name=None, dry_run=False)
+        logger.info("")
+        # After cleaning, reset state to force fresh run
+        state['completed_steps'] = []
+        state['status'] = 'idle'
     
     # Check service reachability before starting
     from .utils import check_ftp_server, check_yahoo_finance
@@ -800,13 +847,8 @@ def reset(ctx, force):
     """, (today,))
     steps_count = cursor.fetchone()[0]
     
-    cursor.execute("""
-        SELECT sync_date FROM sync_history WHERE sync_date = ?
-    """, (today,))
-    ftp_synced = cursor.fetchone() is not None
-    
     # Check if there's anything to reset
-    if daily_metrics_count == 0 and scores_count == 0 and steps_count == 0 and not ftp_synced:
+    if daily_metrics_count == 0 and scores_count == 0 and steps_count == 0:
         if not force:
             logger.info("✓ No data found for today. Nothing to reset.")
             logger.info("   Use --force to reset anyway.")
@@ -867,7 +909,6 @@ def reset(ctx, force):
     cursor.execute("DELETE FROM daily_metrics WHERE date = ?", (today,))
     cursor.execute("DELETE FROM strategy_scores WHERE date = ?", (today,))
     cursor.execute("DELETE FROM pipeline_steps WHERE run_date = ?", (today,))
-    cursor.execute("DELETE FROM sync_history WHERE sync_date = ?", (today,))
     
     conn.commit()
     conn.close()
@@ -911,9 +952,16 @@ def hugo_pages(ctx):
 
 
 @hugo.command('all')
+@click.option('--clean', is_flag=True, help='Clean today\'s data before running')
 @click.pass_context
-def hugo_all(ctx):
+def hugo_all(ctx, clean):
     """Generate all Hugo site content."""
+    if clean:
+        logger.info("")
+        logger.info("🧹 Cleaning today's generate-hugo data...")
+        clean_today_data(step_name='generate-hugo', dry_run=ctx.obj.dry_run)
+        logger.info("")
+    
     generate_all_hugo_content(dry_run=ctx.obj.dry_run)
 
 

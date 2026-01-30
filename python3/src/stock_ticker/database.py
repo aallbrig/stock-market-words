@@ -714,3 +714,181 @@ def get_ticker_sync_failures(run_id=None, sync_type=None, limit=100):
         }
         for row in rows
     ]
+
+
+def clean_today_data(step_name=None, target_date=None, dry_run=False):
+    """
+    Clean today's data for a specific step or all steps.
+    
+    This function removes data for today only, never previous days.
+    Used with --clean flag to reset the pipeline for a fresh run.
+    
+    Args:
+        step_name: Optional step name to clean ('sync-ftp', 'extract-prices', 
+                   'extract-metadata', 'build', 'generate-hugo', or None for all)
+        target_date: Date to clean (defaults to today)
+        dry_run: If True, only log what would be deleted
+    
+    Returns:
+        dict with counts of deleted records
+    """
+    if target_date is None:
+        target_date = get_today()
+    
+    logger.info(f"Cleaning data for {target_date}" + 
+                (f" (step: {step_name})" if step_name else " (all steps)"))
+    
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    counts = {
+        'ticker_sync_history': 0,
+        'pipeline_runs': 0,
+        'strategy_scores': 0,
+        'daily_metrics': 0,
+        'pipeline_steps': 0
+    }
+    
+    if dry_run:
+        logger.info("DRY RUN: Would delete the following:")
+        
+        # Check what would be deleted
+        if step_name is None or step_name in ['extract-prices', 'extract-metadata']:
+            cursor.execute("""
+                SELECT COUNT(*) FROM ticker_sync_history 
+                WHERE run_id IN (SELECT run_id FROM pipeline_runs WHERE run_date = ?)
+            """, (target_date,))
+            counts['ticker_sync_history'] = cursor.fetchone()[0]
+        
+        if step_name is None:
+            cursor.execute("SELECT COUNT(*) FROM pipeline_runs WHERE run_date = ?", (target_date,))
+            counts['pipeline_runs'] = cursor.fetchone()[0]
+            
+            cursor.execute("SELECT COUNT(*) FROM strategy_scores WHERE date = ?", (target_date,))
+            counts['strategy_scores'] = cursor.fetchone()[0]
+            
+            cursor.execute("SELECT COUNT(*) FROM daily_metrics WHERE date = ?", (target_date,))
+            counts['daily_metrics'] = cursor.fetchone()[0]
+            
+            cursor.execute("SELECT COUNT(*) FROM pipeline_steps WHERE run_date = ?", (target_date,))
+            counts['pipeline_steps'] = cursor.fetchone()[0]
+        elif step_name == 'build':
+            cursor.execute("SELECT COUNT(*) FROM strategy_scores WHERE date = ?", (target_date,))
+            counts['strategy_scores'] = cursor.fetchone()[0]
+            
+            cursor.execute("""
+                SELECT COUNT(*) FROM pipeline_steps 
+                WHERE run_date = ? AND step_name = ?
+            """, (target_date, step_name))
+            counts['pipeline_steps'] = cursor.fetchone()[0]
+        elif step_name in ['extract-prices', 'extract-metadata']:
+            cursor.execute("SELECT COUNT(*) FROM daily_metrics WHERE date = ?", (target_date,))
+            counts['daily_metrics'] = cursor.fetchone()[0]
+            
+            cursor.execute("""
+                SELECT COUNT(*) FROM pipeline_steps 
+                WHERE run_date = ? AND step_name = ?
+            """, (target_date, step_name))
+            counts['pipeline_steps'] = cursor.fetchone()[0]
+        else:
+            cursor.execute("""
+                SELECT COUNT(*) FROM pipeline_steps 
+                WHERE run_date = ? AND step_name = ?
+            """, (target_date, step_name))
+            counts['pipeline_steps'] = cursor.fetchone()[0]
+        
+        for table, count in counts.items():
+            if count > 0:
+                logger.info(f"  • {table}: {count} records")
+        
+        conn.close()
+        return counts
+    
+    # Perform actual deletion
+    if step_name is None:
+        # Clean everything for today
+        logger.info("  Deleting ticker_sync_history...")
+        cursor.execute("""
+            DELETE FROM ticker_sync_history 
+            WHERE run_id IN (SELECT run_id FROM pipeline_runs WHERE run_date = ?)
+        """, (target_date,))
+        counts['ticker_sync_history'] = cursor.rowcount
+        
+        logger.info("  Deleting pipeline_runs...")
+        cursor.execute("DELETE FROM pipeline_runs WHERE run_date = ?", (target_date,))
+        counts['pipeline_runs'] = cursor.rowcount
+        
+        logger.info("  Deleting strategy_scores...")
+        cursor.execute("DELETE FROM strategy_scores WHERE date = ?", (target_date,))
+        counts['strategy_scores'] = cursor.rowcount
+        
+        logger.info("  Deleting daily_metrics...")
+        cursor.execute("DELETE FROM daily_metrics WHERE date = ?", (target_date,))
+        counts['daily_metrics'] = cursor.rowcount
+        
+        logger.info("  Deleting pipeline_steps...")
+        cursor.execute("DELETE FROM pipeline_steps WHERE run_date = ?", (target_date,))
+        counts['pipeline_steps'] = cursor.rowcount
+        
+    elif step_name == 'sync-ftp':
+        # Clean only the pipeline step record (ticker data stays)
+        logger.info("  Deleting pipeline_steps for sync-ftp...")
+        cursor.execute("""
+            DELETE FROM pipeline_steps 
+            WHERE run_date = ? AND step_name = ?
+        """, (target_date, step_name))
+        counts['pipeline_steps'] = cursor.rowcount
+        
+    elif step_name in ['extract-prices', 'extract-metadata']:
+        # Clean daily_metrics, ticker_sync_history for this step, and pipeline_steps
+        logger.info(f"  Deleting ticker_sync_history for {step_name}...")
+        sync_type = 'price' if step_name == 'extract-prices' else 'metadata'
+        cursor.execute("""
+            DELETE FROM ticker_sync_history 
+            WHERE run_id IN (SELECT run_id FROM pipeline_runs WHERE run_date = ?)
+            AND sync_type = ?
+        """, (target_date, sync_type))
+        counts['ticker_sync_history'] = cursor.rowcount
+        
+        logger.info(f"  Deleting daily_metrics for {target_date}...")
+        cursor.execute("DELETE FROM daily_metrics WHERE date = ?", (target_date,))
+        counts['daily_metrics'] = cursor.rowcount
+        
+        logger.info(f"  Deleting pipeline_steps for {step_name}...")
+        cursor.execute("""
+            DELETE FROM pipeline_steps 
+            WHERE run_date = ? AND step_name = ?
+        """, (target_date, step_name))
+        counts['pipeline_steps'] = cursor.rowcount
+        
+    elif step_name == 'build':
+        # Clean strategy_scores and pipeline_steps
+        logger.info("  Deleting strategy_scores...")
+        cursor.execute("DELETE FROM strategy_scores WHERE date = ?", (target_date,))
+        counts['strategy_scores'] = cursor.rowcount
+        
+        logger.info("  Deleting pipeline_steps for build...")
+        cursor.execute("""
+            DELETE FROM pipeline_steps 
+            WHERE run_date = ? AND step_name = ?
+        """, (target_date, step_name))
+        counts['pipeline_steps'] = cursor.rowcount
+        
+    elif step_name == 'generate-hugo':
+        # Clean only pipeline_steps (Hugo files stay on disk)
+        logger.info("  Deleting pipeline_steps for generate-hugo...")
+        cursor.execute("""
+            DELETE FROM pipeline_steps 
+            WHERE run_date = ? AND step_name = ?
+        """, (target_date, step_name))
+        counts['pipeline_steps'] = cursor.rowcount
+    
+    conn.commit()
+    conn.close()
+    
+    logger.info("✓ Data cleaned successfully")
+    for table, count in counts.items():
+        if count > 0:
+            logger.info(f"  • {table}: {count} records deleted")
+    
+    return counts
