@@ -37,7 +37,8 @@ class TestDatabaseInitialization:
             'daily_metrics',
             'strategy_scores',
             'pipeline_steps',
-            'sync_history'
+            'pipeline_runs',
+            'ticker_sync_history'
         ]
         
         for table in required_tables:

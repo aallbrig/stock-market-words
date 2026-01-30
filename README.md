@@ -124,6 +124,12 @@ cd hugo/site && hugo server
 cd python3
 ./run.sh status        # Check system status
 ./run.sh run-all       # Run full data extraction pipeline
+
+# Clean today's data before running (use when data is corrupted or incomplete)
+./run.sh run-all --clean
+
+# See the --clean flag guide for more options
+# docs/CLEAN_FLAG_GUIDE.md
 ```
 
 **Testing:**
@@ -143,14 +149,22 @@ pip3 install -r requirements.txt
 # Run CLI commands
 python -m stock_ticker.cli status        # Check system status
 python -m stock_ticker.cli run-all       # Run full data pipeline
+python -m stock_ticker.cli run-all --clean  # Reset today's data before running
 
 # Or use convenience wrapper
 ./run.sh status
 ./run.sh run-all
+./run.sh run-all --clean
 
 # See all commands
 ./run.sh --help
 ```
+
+**Pipeline Data Management:**
+- Use `--clean` flag to reset today's data before running
+- Useful when downloads are interrupted or data looks corrupted
+- Only removes today's data, never previous days
+- See [docs/CLEAN_FLAG_GUIDE.md](./docs/CLEAN_FLAG_GUIDE.md) for details
 
 ### Developer quick commands
 ```bash

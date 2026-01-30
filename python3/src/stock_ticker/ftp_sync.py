@@ -8,7 +8,7 @@ import pandas as pd
 import re
 from .config import FTP_HOST, FTP_PATH, FTP_FILES, TMP_DIR
 from .utils import get_today, is_valid_symbol
-from .database import get_connection, record_pipeline_step
+from .database import get_connection, record_pipeline_step, get_step_info
 from .logging_setup import setup_logging
 from .retry import get_request_metrics
 
@@ -59,25 +59,24 @@ def sync_ftp(dry_run=False):
     
     logger.info("Syncing ticker lists from ftp.nasdaqtrader.com...")
     
+    # Check if already synced today using pipeline_steps
+    step_info = get_step_info('sync-ftp')
+    if step_info and step_info[2] == 'completed':
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM tickers")
+        total_tickers = cursor.fetchone()[0]
+        conn.close()
+        
+        tickers_count = step_info[1]  # tickers_processed
+        logger.info(f"✓ FTP already synced today. Skipping.")
+        logger.info(f"  • Tickers in database: {total_tickers:,}")
+        logger.info(f"  • New tickers added during sync: {tickers_count}")
+        return
+    
     conn = get_connection()
     cursor = conn.cursor()
     today = get_today()
-    
-    # Check if already synced today
-    cursor.execute("SELECT sync_date, tickers_synced FROM sync_history WHERE sync_date = ?", (today,))
-    existing_sync = cursor.fetchone()
-    if existing_sync:
-        # Show summary of existing sync
-        tickers_count = existing_sync[1]
-        cursor.execute("SELECT COUNT(*) FROM tickers")
-        total_tickers = cursor.fetchone()[0]
-        
-        logger.info(f"✓ FTP already synced today ({today}). Skipping.")
-        logger.info(f"  • Tickers in database: {total_tickers:,}")
-        logger.info(f"  • New tickers added during sync: {tickers_count}")
-        
-        conn.close()
-        return
     
     tickers_added = 0
     
@@ -246,17 +245,12 @@ def sync_ftp(dry_run=False):
     except Exception as e:
         logger.error(f"Failed to parse otherlisted.txt: {e}")
     
-    # Record sync in history (only after successful batch inserts)
+    # Commit the ticker inserts and record step completion
     try:
-        cursor.execute("""
-            INSERT OR REPLACE INTO sync_history (sync_date, tickers_synced)
-            VALUES (?, ?)
-        """, (today, tickers_added))
-        
         conn.commit()
         logger.info(f"✓ FTP sync complete. {tickers_added} new tickers added.")
         
-        # Record step completion
+        # Record step completion in pipeline_steps
         record_pipeline_step('sync-ftp', tickers_added, 'completed', dry_run=False)
         
     except Exception as e:

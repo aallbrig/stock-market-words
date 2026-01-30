@@ -219,6 +219,24 @@
         {{ end }}
       </div>
       
+      <!-- Sector Distribution Chart -->
+      {{ if gt $strategyData.total_matches 0 }}
+      <div class="mb-5">
+        <h2>Sector Distribution</h2>
+        <p class="text-muted">Distribution of matching stocks across different sectors.</p>
+        
+        <div class="row">
+          <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+            <div class="card">
+              <div class="card-body" style="min-height: 400px;">
+                <canvas id="sectorPieChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+      
       <!-- Strategy Navigation -->
       <div class="card mb-5">
         <div class="card-header">
@@ -280,6 +298,11 @@ ticker-cli hugo pages</code></pre>
 {{ if gt $strategyData.total_matches 0 }}
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
 {{ end }}
+
+<!-- Chart.js for pie chart -->
+{{ if gt $strategyData.total_matches 0 }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+{{ end }}
 {{ end }}
 {{ define "page-scripts" }}
 {{ $strategyData := index .Site.Data (printf "strategy_%s" .Params.strategy_key) }}
@@ -304,6 +327,118 @@ $(document).ready(function() {
       order: [[lastColIndex, 'desc']], // Sort by strategy score descending
       columnDefs: numericCols
     });
+  }
+  
+  // Sector Distribution Pie Chart
+  if ($('#sectorPieChart').length) {
+    // Count stocks by sector
+    const sectorCounts = {};
+    {{ range $strategyData.tickers }}
+    {{ if .sector }}
+    sectorCounts["{{ .sector }}"] = (sectorCounts["{{ .sector }}"] || 0) + 1;
+    {{ end }}
+    {{ end }}
+    
+    // Sort sectors by count (descending) and prepare data
+    const sortedSectors = Object.entries(sectorCounts)
+      .sort((a, b) => b[1] - a[1]);
+    
+    const labels = sortedSectors.map(([sector]) => sector);
+    const data = sortedSectors.map(([, count]) => count);
+    
+    // Generate distinct colors for each sector
+    const colors = generateColors(labels.length);
+    
+    // Create pie chart
+    const ctx = document.getElementById('sectorPieChart').getContext('2d');
+    
+    // Determine legend position based on screen size
+    const isMobile = window.innerWidth < 768;
+    
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: data,
+          backgroundColor: colors,
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Sector Distribution of Matching Stocks',
+            font: {
+              size: isMobile ? 14 : 16,
+              weight: 'bold'
+            },
+            padding: {
+              bottom: 20
+            }
+          },
+          legend: {
+            position: isMobile ? 'bottom' : 'right',
+            labels: {
+              padding: isMobile ? 10 : 15,
+              font: {
+                size: isMobile ? 11 : 12
+              },
+              generateLabels: function(chart) {
+                const data = chart.data;
+                if (data.labels.length && data.datasets.length) {
+                  return data.labels.map((label, i) => {
+                    const value = data.datasets[0].data[i];
+                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                    const percentage = ((value / total) * 100).toFixed(1);
+                    return {
+                      text: `${label}: ${value} (${percentage}%)`,
+                      fillStyle: data.datasets[0].backgroundColor[i],
+                      hidden: false,
+                      index: i
+                    };
+                  });
+                }
+                return [];
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.parsed || 0;
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = ((value / total) * 100).toFixed(1);
+                return `${label}: ${value} stocks (${percentage}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
+    
+    // Generate distinct colors using HSL color space
+    function generateColors(count) {
+      const colors = [];
+      const goldenRatio = 0.618033988749895;
+      let hue = Math.random(); // Start with random hue
+      
+      for (let i = 0; i < count; i++) {
+        hue += goldenRatio;
+        hue %= 1;
+        // Use varied saturation and lightness for better distinction
+        const saturation = 65 + (i % 3) * 10;
+        const lightness = 50 + (i % 4) * 5;
+        colors.push(`hsl(${hue * 360}, ${saturation}%, ${lightness}%)`);
+      }
+      
+      return colors;
+    }
   }
 });
 </script>

@@ -563,6 +563,20 @@ def generate_strategy_filters(dry_run=False):
         cursor.execute(query, (latest_date,))
         rows = cursor.fetchall()
         
+        # Helper function to safely convert and round floats (handles inf/nan)
+        def safe_float(value, decimals=2):
+            """Convert value to float and round, returning None for inf/nan."""
+            if value is None:
+                return None
+            try:
+                f = float(value)
+                # Check for inf or nan
+                if not (f == f and abs(f) != float('inf')):  # nan != nan, inf == inf
+                    return None
+                return round(f, decimals)
+            except (ValueError, TypeError):
+                return None
+        
         # Build ticker list
         tickers = []
         for row in rows:
@@ -575,16 +589,16 @@ def generate_strategy_filters(dry_run=False):
                 'price': round(float(row[5]), 2),
                 'volume': int(row[6]),
                 'marketCap': int(row[7]) if row[7] else None,
-                'dividendYield': round(float(row[8] * 100), 2) if row[8] else None,
-                'beta': round(float(row[9]), 2) if row[9] else None,
-                'rsi': round(float(row[10]), 1) if row[10] else None,
-                'ma200': round(float(row[11]), 2) if row[11] else None,
-                'ma50': round(float(row[12]), 2) if row[12] else None,
-                'peRatio': round(float(row[13]), 2) if row[13] else None,
-                'forwardPE': round(float(row[14]), 2) if row[14] else None,
-                'priceToBook': round(float(row[15]), 2) if row[15] else None,
-                'week52High': round(float(row[16]), 2) if row[16] else None,
-                'week52Low': round(float(row[17]), 2) if row[17] else None,
+                'dividendYield': safe_float(row[8] * 100, 2) if row[8] else None,
+                'beta': safe_float(row[9], 2),
+                'rsi': safe_float(row[10], 1),
+                'ma200': safe_float(row[11], 2),
+                'ma50': safe_float(row[12], 2),
+                'peRatio': safe_float(row[13], 2),
+                'forwardPE': safe_float(row[14], 2),
+                'priceToBook': safe_float(row[15], 2),
+                'week52High': safe_float(row[16], 2),
+                'week52Low': safe_float(row[17], 2),
                 'scores': {
                     'dividendDaddy': int(row[18]) if row[18] else None,
                     'moonShot': int(row[19]) if row[19] else None,
