@@ -103,8 +103,76 @@ def status():
     unreachable_services = []
     db_issue = False
     
-    # 1. DEPENDENCIES CHECK
-    logger.info("1️⃣  DEPENDENCIES")
+    # 1. DATA OVERVIEW
+    logger.info("1️⃣  DATA OVERVIEW")
+    
+    if not DB_PATH.exists():
+        logger.warning("   ⚠ No database found")
+        logger.info("")
+    else:
+        try:
+            conn = get_connection()
+            cursor = conn.cursor()
+            
+            # Get latest date
+            cursor.execute("SELECT MAX(date) FROM daily_metrics")
+            latest_date = cursor.fetchone()[0]
+            
+            if latest_date:
+                # Count unique active tickers
+                cursor.execute("""
+                    SELECT COUNT(DISTINCT symbol) 
+                    FROM daily_metrics 
+                    WHERE date = ?
+                """, (latest_date,))
+                active_tickers = cursor.fetchone()[0]
+                
+                # Get database file size
+                import os
+                db_bytes = os.path.getsize(DB_PATH)
+                db_mb = db_bytes / (1024 * 1024)
+                
+                # Count tickers with metadata (those with sector info)
+                cursor.execute("""
+                    SELECT COUNT(DISTINCT dm.symbol)
+                    FROM daily_metrics dm
+                    JOIN tickers t ON dm.symbol = t.symbol
+                    WHERE dm.date = ? AND t.sector IS NOT NULL
+                """, (latest_date,))
+                metadata_tickers = cursor.fetchone()[0]
+                
+                # Get sector breakdown
+                cursor.execute("""
+                    SELECT t.sector, COUNT(DISTINCT dm.symbol) as count
+                    FROM daily_metrics dm
+                    JOIN tickers t ON dm.symbol = t.symbol
+                    WHERE dm.date = ? AND t.sector IS NOT NULL
+                    GROUP BY t.sector
+                    ORDER BY count DESC
+                """, (latest_date,))
+                sectors = cursor.fetchall()
+                
+                logger.info(f"   Latest data: {latest_date}")
+                logger.info(f"   Active tickers: {active_tickers:,}")
+                logger.info(f"   Database size: {db_mb:.1f} MB ({db_bytes:,} bytes)")
+                logger.info(f"   Tickers with metadata: {metadata_tickers:,}")
+                
+                if sectors:
+                    logger.info("   Sector breakdown:")
+                    for sector, count in sectors:
+                        percentage = (count / metadata_tickers * 100) if metadata_tickers > 0 else 0
+                        logger.info(f"      • {sector}: {count:,} ({percentage:.1f}%)")
+            else:
+                logger.warning("   ⚠ No data in database yet")
+            
+            conn.close()
+        except Exception as e:
+            logger.warning(f"   ⚠ Error reading data: {e}")
+    
+    logger.info("")
+    
+    # 2. DEPENDENCIES CHECK
+    logger.info("2️⃣  DEPENDENCIES")
     
     # Database
     if not DB_PATH.exists():
@@ -214,8 +282,8 @@ def status():
     
     logger.info("")
     
-    # 2. PIPELINE STEPS
-    logger.info("2️⃣  PIPELINE STEPS")
+    # 3. PIPELINE STEPS
+    logger.info("3️⃣  PIPELINE STEPS")
     
     today = get_today()
     from .database import get_pipeline_state, get_last_successful_run
@@ -283,8 +351,8 @@ def status():
     
     logger.info("")
     
-    # 3. ENHANCED RECOMMENDATION
-    logger.info("3️⃣  RECOMMENDATION")
+    # 4. ENHANCED RECOMMENDATION
+    logger.info("4️⃣  RECOMMENDATION")
     
     # Check for missing dependencies first
     if missing_deps:
