@@ -1,6 +1,7 @@
 .idea
 .DS_Store
 venv
+temp/
 
 # Python
 __pycache__/
@@ -167,3 +168,4 @@ vite.config.ts.timestamp-*
 .vite/
 
 test-reports/
+.test-timings.json

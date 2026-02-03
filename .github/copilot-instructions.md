@@ -179,3 +179,6 @@ Local development is the primary workflow for:
 - Quick iteration and testing
 
 Breaking local development slows down all contributors and makes the project harder to work with.
+
+### Other Instructions
+If you feel compelled to create a doc about the code changes you're making, please channel your energy into creating a doc in the temp/ directory (create one if it does not exist)

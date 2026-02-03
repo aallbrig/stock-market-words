@@ -6,12 +6,21 @@ This directory contains all automated tests for the Stock Market Words project.
 
 ```
 tests/
-├── test-server.js                 # Test server management utility
+├── cli/                           # Test CLI tools
+│   └── test-status.js             # Test status and timing command
+├── reporters/                     # Custom Jest reporters
+│   ├── test-results-reporter.js   # Saves test timing data
+│   └── quiet-reporter.js          # Suppresses console.log for passing tests
+├── test-server.js                 # Auto-starting Hugo server manager
 ├── perf/                          # Unit performance tests
-│   └── TickerEngine.perf.test.js  # Algorithm performance tests
+│   ├── TickerEngine.perf.test.js  # Algorithm performance tests
+│   └── strategy-data-loading.perf.test.js
 └── puppeteer/                     # E2E browser tests
     ├── ticker-ui.e2e.test.js      # Ticker extraction tool performance
-    └── website-pages.e2e.test.js  # Basic page load & error tests
+    ├── website-pages.e2e.test.js  # Basic page load & error tests
+    ├── datatables-sorting.e2e.test.js  # DataTables sorting tests
+    ├── portfolio-pagination.e2e.test.js
+    └── google-analytics.e2e.test.js
 ```
 
 ## Running Tests
@@ -19,14 +28,64 @@ tests/
 ### Quick Commands
 
 ```bash
-# Run all tests
+# Run all tests (auto-starts Hugo server on port 1313!)
 npm test
+
+# View test status and timing estimates
+npm run test:status
 
 # Run specific test suites
 npm run test:perf              # Unit performance tests (fast)
 npm run test:e2e               # All E2E tests (auto-manages server)
 npm run test:e2e:pages         # Just page load tests
 npm run test:e2e:ticker        # Just ticker performance tests
+npm run test:e2e:datatables    # DataTables sorting tests
+
+# Test against production
+npm run test:e2e:qa            # Tests stockmarketwords.com
+```
+
+## Auto-Server Features
+
+The test infrastructure automatically starts and manages the Hugo server:
+
+- ✅ **Default port 1313** (Hugo's standard port)
+- ✅ **Auto-detects Hugo binary** (fails gracefully if missing)
+- ✅ **Smart port selection** (finds next available port if 1313 is busy)
+- ✅ **Waits for server ready** (polls until server responds)
+- ✅ **Cleanup on exit** (stops server after tests)
+
+**You don't need to manually start `hugo server` anymore!** Just run `npm test`.
+
+### Environment Variables
+
+- `TEST_URL` - Use external server (e.g., `https://stockmarketwords.com/`)
+- `NO_AUTO_SERVER` - Disable auto-starting Hugo (default: false)
+- `SERVER_PORT` - Local server port (default: 1313)
+- `SERVER_HOST` - Local server host (default: 127.0.0.1)
+
+### Examples
+
+```bash
+# Run tests against production
+TEST_URL=https://stockmarketwords.com/ NO_AUTO_SERVER=true npm test
+
+# Run tests on custom port
+SERVER_PORT=8080 npm test
+
+# Disable auto-server (must start Hugo manually)
+NO_AUTO_SERVER=true npm test
+```
+
+## Console Output Control
+
+Tests are configured to minimize noise:
+
+- Console.log statements **only appear for failing tests**
+- Passing tests show minimal output
+- HTML reports exclude console logs for brevity
+
+This makes it much easier to spot failures and debug issues!
 
 # CI-optimized (10-second timeout)
 npm run test:e2e:ci            # Page load tests with 10s timeout
