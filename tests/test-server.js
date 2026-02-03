@@ -2,12 +2,13 @@
  * Test Server Manager
  * 
  * Manages starting and stopping the Hugo server for tests.
- * Can be disabled via TEST_URL environment variable for testing against remote servers.
+ * Auto-starts Hugo server if not already running (can be disabled).
  * 
  * Environment variables:
  * - TEST_URL: If set, skips server management and uses this URL
- * - START_SERVER: If set to 'false', skips server startup (default: true)
- * - SERVER_PORT: Port for local server (default: 8668)
+ * - NO_AUTO_SERVER: If set to 'true', skips auto-starting Hugo (default: false)
+ * - START_SERVER: Legacy flag, if set to 'false', skips server startup
+ * - SERVER_PORT: Port for local server (default: 1313)
  * - SERVER_HOST: Host for local server (default: 127.0.0.1)
  */
 
@@ -22,10 +23,26 @@ const sleep = promisify(setTimeout);
 class TestServer {
   constructor() {
     this.process = null;
-    this.port = process.env.SERVER_PORT || 8668;
+    this.port = process.env.SERVER_PORT || 1313;
     this.host = process.env.SERVER_HOST || '127.0.0.1';
-    this.shouldManageServer = !process.env.TEST_URL && process.env.START_SERVER !== 'false';
+    this.shouldManageServer = !process.env.TEST_URL && process.env.START_SERVER !== 'false' && process.env.NO_AUTO_SERVER !== 'true';
     this.baseUrl = process.env.TEST_URL || `http://${this.host}:${this.port}`;
+  }
+
+  /**
+   * Check if a port is available
+   */
+  async isPortAvailable(port) {
+    const net = require('net');
+    return new Promise((resolve) => {
+      const server = net.createServer();
+      server.once('error', () => resolve(false));
+      server.once('listening', () => {
+        server.close();
+        resolve(true);
+      });
+      server.listen(port, this.host);
+    });
   }
 
   /**
@@ -69,6 +86,47 @@ class TestServer {
   }
 
   /**
+   * Check if Hugo is available
+   */
+  async isHugoAvailable() {
+    const { spawn } = require('child_process');
+    return new Promise((resolve) => {
+      const process = spawn('which', ['hugo']);
+      process.on('close', (code) => {
+        resolve(code === 0);
+      });
+      process.on('error', () => {
+        resolve(false);
+      });
+    });
+  }
+
+  /**
+   * Find available port if default is taken
+   */
+  async findAvailablePort(startPort) {
+    const net = require('net');
+    
+    for (let port = startPort; port < startPort + 100; port++) {
+      const available = await new Promise((resolve) => {
+        const server = net.createServer();
+        server.once('error', () => resolve(false));
+        server.once('listening', () => {
+          server.close();
+          resolve(true);
+        });
+        server.listen(port, this.host);
+      });
+      
+      if (available) {
+        return port;
+      }
+    }
+    
+    throw new Error('No available ports found');
+  }
+
+  /**
    * Start Hugo server
    */
   async start() {
@@ -83,12 +141,26 @@ class TestServer {
       return;
     }
 
+    // Check if Hugo is available
+    if (!(await this.isHugoAvailable())) {
+      throw new Error('Hugo binary not found. Please install Hugo or set TEST_URL environment variable.');
+    }
+
     console.log(`Starting Hugo server on ${this.host}:${this.port}...`);
 
     // Check if server is already running
     if (await this.isServerReady()) {
       console.log('Server is already running');
       return;
+    }
+
+    // Find available port if default is taken
+    const originalPort = this.port;
+    if (!(await this.isPortAvailable(this.port))) {
+      console.log(`Port ${this.port} is in use, finding available port...`);
+      this.port = await this.findAvailablePort(this.port + 1);
+      this.baseUrl = `http://${this.host}:${this.port}`;
+      console.log(`Using port ${this.port} instead of ${originalPort}`);
     }
 
     // Start Hugo server
