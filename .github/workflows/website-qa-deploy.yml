@@ -30,6 +30,7 @@ jobs:
           hugo --minify
         env:
           HUGO_PARAMS_GOOGLEANALYTICSID: G-RQCDXSWTLG
+          HUGO_PARAMS_GOOGLEADSENSEID: ca-pub-2847616693333026
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

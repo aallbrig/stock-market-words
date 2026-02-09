@@ -7,3 +7,7 @@ uglyURLs = false
 # Google Analytics tracking ID (leave empty for local development)
 # Set via environment variable HUGO_PARAMS_GOOGLEANALYTICSID in production
 googleAnalyticsId = ""
+
+# Google AdSense client ID (leave empty for local development)
+# Set via environment variable HUGO_PARAMS_GOOGLEADSENSEID in production
+googleAdSenseId = ""
