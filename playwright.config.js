@@ -15,6 +15,8 @@ export default defineConfig({
   fullyParallel: true,
   /* Default timeout per test — large data pages can take a while */
   timeout: 60000,
+  /* Default assertion timeout — large DataTables pages (5,651 rows) need extra time */
+  expect: { timeout: 30000 },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */

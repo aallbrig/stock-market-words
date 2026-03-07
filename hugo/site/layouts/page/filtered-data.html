@@ -103,7 +103,7 @@
             <tbody>
               {{ range $filtered.tickers }}
               <tr data-exchange="{{ .exchange }}">
-                <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank" rel="noopener" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
+                <td><strong><a href="/tickers/{{ .symbol | lower }}/" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
                 <td>{{ .name }}</td>
                 <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
                 <td>{{ if .is_etf }}Yes{{ else }}No{{ end }}</td>

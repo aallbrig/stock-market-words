@@ -1,0 +1,29 @@
+{{- range .Site.Data.all_tickers.tickers }}
+  {{- $page := dict
+    "kind"  "page"
+    "path"  .symbol
+    "title" (printf "%s Stock — %s" .symbol .name)
+    "params" (dict
+      "symbol"       .symbol
+      "name"         .name
+      "exchange"     .exchange
+      "sector"       .sector
+      "industry"     .industry
+      "price"        .price
+      "volume"       .volume
+      "marketCap"    .marketCap
+      "dividendYield" .dividendYield
+      "beta"         .beta
+      "rsi"          .rsi
+      "ma200"        .ma200
+      "ma50"         .ma50
+      "peRatio"      .peRatio
+      "forwardPE"    .forwardPE
+      "priceToBook"  .priceToBook
+      "week52High"   .week52High
+      "week52Low"    .week52Low
+      "scores"       .scores
+    )
+  }}
+  {{- $.AddPage $page }}
+{{- end }}
