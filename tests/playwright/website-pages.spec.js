@@ -11,13 +11,17 @@ import { test, expect } from '@playwright/test';
 const PAGES = [
   { path: '/', name: 'Home' },
   { path: '/about/', name: 'About' },
+  { path: '/privacy-policy/', name: 'Privacy Policy' },
   { path: '/raw-ftp-data/', name: 'Raw FTP Data' },
   { path: '/filtered-data/', name: 'Filtered Data' },
   { path: '/strategy-dividend-daddy/', name: 'Strategy: Dividend Daddy' },
   { path: '/strategy-moon-shot/', name: 'Strategy: Moon Shot' },
   { path: '/strategy-falling-knife/', name: 'Strategy: Falling Knife' },
   { path: '/strategy-over-hyped/', name: 'Strategy: Over Hyped' },
-  { path: '/strategy-institutional-whale/', name: 'Strategy: Institutional Whale' }
+  { path: '/strategy-institutional-whale/', name: 'Strategy: Institutional Whale' },
+  { path: '/tickers/aapl/', name: 'Ticker: AAPL' },
+  { path: '/tickers/msft/', name: 'Ticker: MSFT' },
+  { path: '/tickers/tsla/', name: 'Ticker: TSLA' },
 ];
 
 test.describe('Website Page Load Tests', () => {
@@ -146,7 +150,7 @@ test.describe('Website Page Load Tests', () => {
       await expect(page.locator('#user-input')).toBeVisible();
       
       // Check for submit button
-      await expect(page.locator('button[type="submit"]')).toBeVisible();
+      await expect(page.locator('#ticker-form button[type="submit"]')).toBeVisible();
       
       console.log('✓ Home page has ticker extraction tool');
     });

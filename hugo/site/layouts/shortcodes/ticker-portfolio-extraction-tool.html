@@ -61,5 +61,28 @@
         <div id="portfolio-strategies" class="mb-4"></div>
       </div>
     </div>
+
+    <!-- Ticker Lookup -->
+    <div class="card mt-4 border-secondary">
+      <div class="card-body">
+        <h5 class="card-title">🔍 Look Up a Ticker</h5>
+        <p class="card-text text-muted">Jump directly to a stock's detail page — price, metrics, and strategy scores.</p>
+        <form id="ticker-lookup-form" class="d-flex gap-2" onsubmit="return tickerLookup(event)">
+          <input type="text" id="ticker-lookup-input" class="form-control" placeholder="e.g. AAPL, MSFT, TSLA" maxlength="10" style="max-width: 200px;" autocomplete="off" autocapitalize="characters">
+          <button type="submit" class="btn btn-outline-primary">Go →</button>
+        </form>
+        <small class="text-muted mt-2 d-block">
+          Or <a href="/filtered-data/">browse all {{ len .Site.Data.all_tickers.tickers }} tickers →</a>
+        </small>
+      </div>
+    </div>
   </div>
 </div>
+<script>
+function tickerLookup(e) {
+  e.preventDefault();
+  const sym = document.getElementById('ticker-lookup-input').value.trim().toLowerCase();
+  if (sym) window.location.href = '/tickers/' + sym + '/';
+  return false;
+}
+</script>
