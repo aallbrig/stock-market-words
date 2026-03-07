@@ -61,4 +61,4 @@ We may update this Privacy Policy from time to time. Changes will be posted on t
 
 ## Contact
 
-If you have questions about this Privacy Policy, please visit our [About page](/about/) for contact information.
+If you have questions about this Privacy Policy, please [contact us](/contact/).

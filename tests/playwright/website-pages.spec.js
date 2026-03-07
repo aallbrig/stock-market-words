@@ -22,6 +22,10 @@ const PAGES = [
   { path: '/tickers/aapl/', name: 'Ticker: AAPL' },
   { path: '/tickers/msft/', name: 'Ticker: MSFT' },
   { path: '/tickers/tsla/', name: 'Ticker: TSLA' },
+  { path: '/contact/', name: 'Contact' },
+  { path: '/glossary/', name: 'Glossary' },
+  { path: '/glossary/rsi/', name: 'Glossary: RSI' },
+  { path: '/glossary/beta/', name: 'Glossary: Beta' },
 ];
 
 test.describe('Website Page Load Tests', () => {
