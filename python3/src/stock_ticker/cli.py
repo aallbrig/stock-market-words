@@ -27,6 +27,7 @@ from .hugo_generators import (
     generate_filtered_data, 
     generate_strategy_filters,
     generate_hugo_pages,
+    generate_all_tickers_json,
     generate_all_hugo_content
 )
 from .utils import get_today, check_ftp_server, check_yahoo_finance
@@ -1017,6 +1018,13 @@ def hugo_strategies(ctx):
 def hugo_pages(ctx):
     """Generate Hugo markdown pages."""
     generate_hugo_pages(dry_run=ctx.obj.dry_run)
+
+
+@hugo.command('all-tickers')
+@click.pass_context
+def hugo_all_tickers(ctx):
+    """Generate all_tickers.json for individual ticker detail pages."""
+    generate_all_tickers_json(dry_run=ctx.obj.dry_run)
 
 
 @hugo.command('all')

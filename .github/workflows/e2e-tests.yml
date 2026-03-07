@@ -48,6 +48,8 @@ jobs:
         # Generate strategy filter data and pages
         python -m stock_ticker.cli hugo strategies || echo "No existing data, skipping strategy generation"
         python -m stock_ticker.cli hugo pages || echo "Page generation failed, using existing pages"
+        # Regenerate all_tickers.json for individual ticker pages
+        python -m stock_ticker.cli hugo all-tickers || echo "all-tickers generation failed, using committed file"
         cd ..
         
     - name: Run E2E tests with managed server
