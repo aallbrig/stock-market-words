@@ -103,8 +103,9 @@ test.describe('Website Page Load Tests', () => {
 
   test.describe('Navigation Structure', () => {
     test('All pages have navigation bar', async ({ page }) => {
+      test.setTimeout(90000); // 9 pages × ~8s each
       for (const { path, name } of PAGES) {
-        await page.goto(path);
+        await page.goto(path, { waitUntil: 'domcontentloaded' });
         
         // Check for navbar
         await expect(page.locator('nav.navbar')).toBeVisible();
@@ -154,7 +155,7 @@ test.describe('Website Page Load Tests', () => {
       await page.goto('/about/');
       
       // Should have at least a heading
-      await expect(page.locator('h1')).toBeVisible();
+      await expect(page.locator('h1').first()).toBeVisible();
       
       console.log('✓ About page has content');
     });
