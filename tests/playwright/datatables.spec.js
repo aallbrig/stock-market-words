@@ -16,31 +16,31 @@ const PAGES_WITH_TABLES = [
     path: '/strategy-dividend-daddy/',
     name: 'Strategy: Dividend Daddy',
     tableId: '#strategyTable',
-    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Dividend Yield %', '200-Day MA', 'Relative Strength (90-Day)', 'Relative Strength (30-Day)', 'Strategy Score']
+    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Dividend Yield %', '200-Day MA', '52W High', '52W Low', 'Strategy Score']
   },
   {
     path: '/strategy-moon-shot/',
     name: 'Strategy: Moon Shot',
     tableId: '#strategyTable',
-    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Beta', 'RSI (14-Day)', 'Relative Strength (90-Day)', 'Relative Strength (30-Day)', 'Strategy Score']
+    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Beta', 'RSI (14-Day)', '52W High', '52W Low', 'Strategy Score']
   },
   {
     path: '/strategy-falling-knife/',
     name: 'Strategy: Falling Knife',
     tableId: '#strategyTable',
-    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Beta', 'RSI (14-Day)', '200-Day MA', 'Relative Strength (90-Day)', 'Relative Strength (30-Day)', 'Strategy Score']
+    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Beta', 'RSI (14-Day)', '200-Day MA', '52W High', '52W Low', 'Strategy Score']
   },
   {
     path: '/strategy-over-hyped/',
     name: 'Strategy: Over Hyped',
     tableId: '#strategyTable',
-    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Beta', 'RSI (14-Day)', 'Relative Strength (90-Day)', 'Relative Strength (30-Day)', 'Strategy Score']
+    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Beta', 'RSI (14-Day)', '52W High', '52W Low', 'Strategy Score']
   },
   {
     path: '/strategy-institutional-whale/',
     name: 'Strategy: Institutional Whale',
     tableId: '#strategyTable',
-    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Dividend Yield %', 'Beta', '200-Day MA', 'Relative Strength (90-Day)', 'Relative Strength (30-Day)', 'Strategy Score']
+    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Dividend Yield %', 'Beta', '200-Day MA', '52W High', '52W Low', 'Strategy Score']
   },
   {
     path: '/filtered-data/',
@@ -83,7 +83,7 @@ test.describe('DataTables Sorting', () => {
 
   // Helper function to get column values
   async function getColumnValues(page, tableSelector, columnIndex) {
-    return await page.evaluate((selector, colIdx) => {
+    return await page.evaluate(({ selector, colIdx }) => {
       const values = [];
       const table = document.querySelector(selector);
       if (!table) return values;
@@ -100,16 +100,16 @@ test.describe('DataTables Sorting', () => {
         }
       }
       return values;
-    }, tableSelector, columnIndex);
+    }, { selector: tableSelector, colIdx: columnIndex });
   }
 
   // Helper function to click column header
   async function clickColumnHeader(page, tableSelector, columnIndex) {
-    await page.evaluate((selector, colIdx) => {
+    await page.evaluate(({ selector, colIdx }) => {
       const table = document.querySelector(selector);
       const headers = table.querySelectorAll('thead th');
       headers[colIdx].click();
-    }, tableSelector, columnIndex);
+    }, { selector: tableSelector, colIdx: columnIndex });
     
     await page.waitForTimeout(500);
   }
@@ -170,9 +170,15 @@ test.describe('DataTables Sorting', () => {
       test('should be able to sort numeric columns', async ({ page }) => {
         await page.goto(pageInfo.path);
         await expect(page.locator(pageInfo.tableId)).toBeVisible();
+
+        // Wait for DataTables to initialize before attempting to sort
+        await page.waitForFunction((selector) => {
+          return typeof $ !== 'undefined' && $.fn.DataTable.isDataTable(selector);
+        }, pageInfo.tableId, { timeout: 30000 });
         
         const headers = await getColumnHeaders(page, pageInfo.tableId);
-        const nonNumericColumns = ['Symbol', 'Name', 'Exchange', 'ETF', 'First Seen', 'Sector'];
+        const nonNumericColumns = ['Symbol', 'Name', 'Security Name', 'Exchange', 'ETF', 'First Seen', 'Sector',
+          'Market Category', 'Test Issue', 'Financial Status', 'NextShares'];
         
         // Test first numeric column only (for speed)
         for (let i = 0; i < headers.length; i++) {

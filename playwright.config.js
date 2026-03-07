@@ -13,6 +13,8 @@ export default defineConfig({
   testDir: './tests/playwright',
   /* Run tests in files in parallel */
   fullyParallel: true,
+  /* Default timeout per test — large data pages can take a while */
+  timeout: 60000,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -28,7 +30,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.TEST_URL || 'http://localhost:1313',
+    baseURL: process.env.TEST_URL || 'http://localhost:1314',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -38,6 +40,9 @@ export default defineConfig({
 
     /* Video on failure */
     video: 'retain-on-failure',
+
+    /* Default navigation timeout for large data pages */
+    navigationTimeout: 60000,
   },
 
   /* Configure projects for major browsers */
@@ -72,8 +77,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: process.env.NO_AUTO_SERVER ? undefined : {
-    command: 'cd hugo/site && hugo server',
-    url: 'http://localhost:1313',
+    command: 'cd hugo/site && hugo server --port 1314 --bind 127.0.0.1',
+    url: 'http://localhost:1314',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },
