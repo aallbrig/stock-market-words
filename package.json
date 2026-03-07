@@ -8,13 +8,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:perf": "jest tests/perf/",
-    "test:e2e": "jest tests/puppeteer/",
-    "test:e2e:pages": "jest tests/puppeteer/website-pages.e2e.test.js",
-    "test:e2e:ticker": "jest tests/puppeteer/ticker-ui.e2e.test.js",
-    "test:e2e:datatables": "jest tests/puppeteer/datatables-sorting.e2e.test.js",
-    "test:e2e:ci": "TIMEOUT_SECONDS=10 jest tests/puppeteer/website-pages.e2e.test.js",
-    "test:e2e:qa": "TEST_URL=https://stockmarketwords.com/ NO_AUTO_SERVER=true npm run test:e2e",
-    "test:e2e:ga": "TEST_URL=https://stockmarketwords.com/ NO_AUTO_SERVER=true jest tests/puppeteer/google-analytics.e2e.test.js",
+    "test:e2e:ci": "playwright test",
+    "test:e2e:qa": "TEST_URL=https://stockmarketwords.com/ NO_AUTO_SERVER=true playwright test",
     "test:status": "node tests/cli/test-status.js",
     "profile": "node --prof node_modules/.bin/jest tests/perf/ && echo '\nProfile generated! Process with: node --prof-process isolate-*.log > profile.txt'",
     "test:pw": "playwright test",
@@ -80,7 +75,6 @@
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
     "jest-html-reporter": "^4.3.0",
-    "jest-junit": "^16.0.0",
-    "puppeteer": "^24.34.0"
+    "jest-junit": "^16.0.0"
   }
 }
