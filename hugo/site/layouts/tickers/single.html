@@ -1,0 +1,206 @@
+{{ define "main" }}
+{{- $sym    := .Params.symbol }}
+{{- $name   := .Params.name }}
+{{- $scores := .Params.scores }}
+
+<div class="container mt-5">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/filtered-data/">All Tickers</a></li>
+      <li class="breadcrumb-item active">{{ $sym }}</li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <h1 class="mb-0">{{ $sym }}</h1>
+    <span class="badge bg-secondary fs-6">{{ .Params.exchange }}</span>
+    {{ if .Params.sector }}<span class="badge bg-primary fs-6">{{ .Params.sector }}</span>{{ end }}
+  </div>
+  <p class="lead text-muted">{{ $name }}</p>
+  {{ if .Params.industry }}<p class="text-muted">{{ .Params.industry }}</p>{{ end }}
+
+  <div class="row g-4">
+
+    <!-- Left column: price metrics -->
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-header bg-dark text-white"><h5 class="mb-0">📊 Market Data</h5></div>
+        <div class="card-body">
+          <table class="table table-sm mb-0">
+            <tbody>
+              {{ if .Params.price }}
+              <tr><th scope="row">Price</th><td>${{ printf "%.2f" .Params.price }}</td></tr>
+              {{ end }}
+              {{ if .Params.volume }}
+              <tr><th scope="row">Volume</th><td>{{ lang.FormatNumber 0 .Params.volume }}</td></tr>
+              {{ end }}
+              {{ if .Params.marketCap }}
+              <tr>
+                <th scope="row">Market Cap</th>
+                <td>
+                  {{- $mc := .Params.marketCap -}}
+                  {{- if ge $mc 1000000000000.0 }}{{ printf "%.2fT" (div $mc 1000000000000.0) }}
+                  {{- else if ge $mc 1000000000.0 }}{{ printf "%.2fB" (div $mc 1000000000.0) }}
+                  {{- else if ge $mc 1000000.0 }}{{ printf "%.2fM" (div $mc 1000000.0) }}
+                  {{- else }}{{ printf "%.0f" $mc }}{{ end }}
+                </td>
+              </tr>
+              {{ end }}
+              {{ if .Params.dividendYield }}
+              <tr><th scope="row">Dividend Yield</th><td>{{ printf "%.2f" (div .Params.dividendYield 100.0) }}%</td></tr>
+              {{ end }}
+              {{ if .Params.beta }}
+              <tr><th scope="row">Beta</th><td>{{ printf "%.3f" .Params.beta }}</td></tr>
+              {{ end }}
+              {{ if .Params.rsi }}
+              <tr>
+                <th scope="row">RSI (14-Day)</th>
+                <td>
+                  {{- $rsi := .Params.rsi -}}
+                  <span class="badge {{ if ge $rsi 70.0 }}bg-danger{{ else if le $rsi 30.0 }}bg-success{{ else }}bg-secondary{{ end }}">
+                    {{ printf "%.1f" $rsi }}
+                  </span>
+                  {{ if ge $rsi 70.0 }}<small class="text-muted">Overbought</small>{{ else if le $rsi 30.0 }}<small class="text-muted">Oversold</small>{{ end }}
+                </td>
+              </tr>
+              {{ end }}
+              {{ if .Params.ma200 }}
+              <tr><th scope="row">200-Day MA</th><td>${{ printf "%.2f" .Params.ma200 }}</td></tr>
+              {{ end }}
+              {{ if .Params.ma50 }}
+              <tr><th scope="row">50-Day MA</th><td>${{ printf "%.2f" .Params.ma50 }}</td></tr>
+              {{ end }}
+              {{ if .Params.week52High }}
+              <tr><th scope="row">52-Week High</th><td>${{ printf "%.2f" .Params.week52High }}</td></tr>
+              {{ end }}
+              {{ if .Params.week52Low }}
+              <tr><th scope="row">52-Week Low</th><td>${{ printf "%.2f" .Params.week52Low }}</td></tr>
+              {{ end }}
+              {{ if .Params.peRatio }}
+              <tr><th scope="row">P/E Ratio</th><td>{{ printf "%.2f" .Params.peRatio }}</td></tr>
+              {{ end }}
+              {{ if .Params.forwardPE }}
+              <tr><th scope="row">Forward P/E</th><td>{{ printf "%.2f" .Params.forwardPE }}</td></tr>
+              {{ end }}
+              {{ if .Params.priceToBook }}
+              <tr><th scope="row">Price / Book</th><td>{{ printf "%.2f" .Params.priceToBook }}</td></tr>
+              {{ end }}
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer text-end">
+          <a href="https://finance.yahoo.com/quote/{{ $sym }}" target="_blank" rel="nofollow noopener"
+             class="btn btn-sm btn-outline-primary">View on Yahoo Finance →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: strategy scores -->
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-header bg-dark text-white"><h5 class="mb-0">🎯 Investment Strategy Scores</h5></div>
+        <div class="card-body">
+          {{ if $scores }}
+          <p class="text-muted small">How {{ $sym }} scores across each investment strategy. Higher is better for that strategy's goals.</p>
+          <div class="d-flex flex-column gap-3">
+
+            {{ with index $scores "dividendDaddy" }}
+            <div>
+              <div class="d-flex justify-content-between mb-1">
+                <a href="/strategy-dividend-daddy/" class="text-decoration-none">💰 Dividend Daddy</a>
+                <strong>{{ . }}/100</strong>
+              </div>
+              <div class="progress" style="height:10px">
+                <div class="progress-bar bg-success" style="width:{{ . }}%"></div>
+              </div>
+              <small class="text-muted">High dividend yield + low volatility</small>
+            </div>
+            {{ end }}
+
+            {{ with index $scores "moonShot" }}
+            <div>
+              <div class="d-flex justify-content-between mb-1">
+                <a href="/strategy-moon-shot/" class="text-decoration-none">🚀 Moon Shot</a>
+                <strong>{{ . }}/100</strong>
+              </div>
+              <div class="progress" style="height:10px">
+                <div class="progress-bar bg-warning" style="width:{{ . }}%"></div>
+              </div>
+              <small class="text-muted">High growth potential (high beta + oversold)</small>
+            </div>
+            {{ end }}
+
+            {{ with index $scores "fallingKnife" }}
+            <div>
+              <div class="d-flex justify-content-between mb-1">
+                <a href="/strategy-falling-knife/" class="text-decoration-none">🔪 Falling Knife</a>
+                <strong>{{ . }}/100</strong>
+              </div>
+              <div class="progress" style="height:10px">
+                <div class="progress-bar bg-danger" style="width:{{ . }}%"></div>
+              </div>
+              <small class="text-muted">Contrarian plays (oversold + below moving average)</small>
+            </div>
+            {{ end }}
+
+            {{ with index $scores "overHyped" }}
+            <div>
+              <div class="d-flex justify-content-between mb-1">
+                <a href="/strategy-over-hyped/" class="text-decoration-none">🎈 Over-Hyped</a>
+                <strong>{{ . }}/100</strong>
+              </div>
+              <div class="progress" style="height:10px">
+                <div class="progress-bar bg-info" style="width:{{ . }}%"></div>
+              </div>
+              <small class="text-muted">Overbought stocks (potential short candidates)</small>
+            </div>
+            {{ end }}
+
+            {{ with index $scores "instWhale" }}
+            <div>
+              <div class="d-flex justify-content-between mb-1">
+                <a href="/strategy-institutional-whale/" class="text-decoration-none">🐋 Institutional Whale</a>
+                <strong>{{ . }}/100</strong>
+              </div>
+              <div class="progress" style="height:10px">
+                <div class="progress-bar bg-primary" style="width:{{ . }}%"></div>
+              </div>
+              <small class="text-muted">Large-cap, institutional-quality stocks</small>
+            </div>
+            {{ end }}
+
+          </div>
+          {{ else }}
+          <div class="alert alert-secondary">
+            <p class="mb-0">Strategy scores are not yet available for {{ $sym }}. Scores are calculated for tickers that meet at least one strategy's filter criteria.</p>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /row -->
+
+  <!-- Try in the tool -->
+  <div class="card mt-4 border-primary">
+    <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div>
+        <h5 class="mb-1">Find {{ $sym }} in your text</h5>
+        <p class="mb-0 text-muted">Paste any text on the homepage — the tool will extract {{ $sym }} and other hidden tickers.</p>
+      </div>
+      <a href="/" class="btn btn-primary">Try the Ticker Extractor →</a>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <p class="text-muted small mt-4">
+    <strong>Disclaimer:</strong> This data is for educational and entertainment purposes only and does not constitute financial advice.
+    Market data may be delayed. Always do your own research before making investment decisions.
+  </p>
+
+</div>
+{{ end }}

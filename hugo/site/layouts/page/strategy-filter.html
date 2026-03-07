@@ -77,7 +77,7 @@
             <tbody>
               {{ range $strategyData.tickers }}
               <tr>
-                <td><strong><a href="https://finance.yahoo.com/quote/{{ .symbol }}" target="_blank" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
+                <td><strong><a href="/tickers/{{ .symbol | lower }}/" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
                 <td>{{ .name }}</td>
                 <td>
                   {{ if .sector }}

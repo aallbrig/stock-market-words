@@ -143,8 +143,8 @@ test.describe('DataTables Sorting', () => {
       test('should load page and initialize DataTables', async ({ page }) => {
         await page.goto(pageInfo.path);
         
-        // Wait for table to be present
-        await expect(page.locator(pageInfo.tableId)).toBeVisible({ timeout: 10000 });
+        // Wait for table to be present (large pages like filtered-data can take >10s)
+        await expect(page.locator(pageInfo.tableId)).toBeVisible({ timeout: 30000 });
         
         // Check if DataTables is initialized
         const isInitialized = await isDataTablesInitialized(page, pageInfo.tableId);
