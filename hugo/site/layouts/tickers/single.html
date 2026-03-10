@@ -36,11 +36,11 @@
               <tr><th scope="row">Price</th><td>${{ printf "%.2f" .Params.price }}</td></tr>
               {{ end }}
               {{ if .Params.volume }}
-              <tr><th scope="row">Volume</th><td>{{ lang.FormatNumber 0 .Params.volume }}</td></tr>
+              <tr><th scope="row"><a href="/glossary/volume/" class="text-decoration-none text-body">Volume</a></th><td>{{ lang.FormatNumber 0 .Params.volume }}</td></tr>
               {{ end }}
               {{ if .Params.marketCap }}
               <tr>
-                <th scope="row">Market Cap</th>
+                <th scope="row"><a href="/glossary/market-cap/" class="text-decoration-none text-body">Market Cap</a></th>
                 <td>
                   {{- $mc := .Params.marketCap -}}
                   {{- if ge $mc 1000000000000.0 }}{{ printf "%.2fT" (div $mc 1000000000000.0) }}
@@ -51,14 +51,14 @@
               </tr>
               {{ end }}
               {{ if .Params.dividendYield }}
-              <tr><th scope="row">Dividend Yield</th><td>{{ printf "%.2f" (div .Params.dividendYield 100.0) }}%</td></tr>
+              <tr><th scope="row"><a href="/glossary/dividend-yield/" class="text-decoration-none text-body">Dividend Yield</a></th><td>{{ printf "%.2f" (div .Params.dividendYield 100.0) }}%</td></tr>
               {{ end }}
               {{ if .Params.beta }}
-              <tr><th scope="row">Beta</th><td>{{ printf "%.3f" .Params.beta }}</td></tr>
+              <tr><th scope="row"><a href="/glossary/beta/" class="text-decoration-none text-body">Beta</a></th><td>{{ printf "%.3f" .Params.beta }}</td></tr>
               {{ end }}
               {{ if .Params.rsi }}
               <tr>
-                <th scope="row">RSI (14-Day)</th>
+                <th scope="row"><a href="/glossary/rsi/" class="text-decoration-none text-body">RSI (14-Day)</a></th>
                 <td>
                   {{- $rsi := .Params.rsi -}}
                   <span class="badge {{ if ge $rsi 70.0 }}bg-danger{{ else if le $rsi 30.0 }}bg-success{{ else }}bg-secondary{{ end }}">
@@ -69,25 +69,25 @@
               </tr>
               {{ end }}
               {{ if .Params.ma200 }}
-              <tr><th scope="row">200-Day MA</th><td>${{ printf "%.2f" .Params.ma200 }}</td></tr>
+              <tr><th scope="row"><a href="/glossary/moving-average-200/" class="text-decoration-none text-body">200-Day MA</a></th><td>${{ printf "%.2f" .Params.ma200 }}</td></tr>
               {{ end }}
               {{ if .Params.ma50 }}
-              <tr><th scope="row">50-Day MA</th><td>${{ printf "%.2f" .Params.ma50 }}</td></tr>
+              <tr><th scope="row"><a href="/glossary/moving-average-50/" class="text-decoration-none text-body">50-Day MA</a></th><td>${{ printf "%.2f" .Params.ma50 }}</td></tr>
               {{ end }}
               {{ if .Params.week52High }}
-              <tr><th scope="row">52-Week High</th><td>${{ printf "%.2f" .Params.week52High }}</td></tr>
+              <tr><th scope="row"><a href="/glossary/52-week-high/" class="text-decoration-none text-body">52-Week High</a></th><td>${{ printf "%.2f" .Params.week52High }}</td></tr>
               {{ end }}
               {{ if .Params.week52Low }}
-              <tr><th scope="row">52-Week Low</th><td>${{ printf "%.2f" .Params.week52Low }}</td></tr>
+              <tr><th scope="row"><a href="/glossary/52-week-low/" class="text-decoration-none text-body">52-Week Low</a></th><td>${{ printf "%.2f" .Params.week52Low }}</td></tr>
               {{ end }}
               {{ if .Params.peRatio }}
-              <tr><th scope="row">P/E Ratio</th><td>{{ printf "%.2f" .Params.peRatio }}</td></tr>
+              <tr><th scope="row"><a href="/glossary/pe-ratio/" class="text-decoration-none text-body">P/E Ratio</a></th><td>{{ printf "%.2f" .Params.peRatio }}</td></tr>
               {{ end }}
               {{ if .Params.forwardPE }}
-              <tr><th scope="row">Forward P/E</th><td>{{ printf "%.2f" .Params.forwardPE }}</td></tr>
+              <tr><th scope="row"><a href="/glossary/forward-pe/" class="text-decoration-none text-body">Forward P/E</a></th><td>{{ printf "%.2f" .Params.forwardPE }}</td></tr>
               {{ end }}
               {{ if .Params.priceToBook }}
-              <tr><th scope="row">Price / Book</th><td>{{ printf "%.2f" .Params.priceToBook }}</td></tr>
+              <tr><th scope="row"><a href="/glossary/price-to-book/" class="text-decoration-none text-body">Price / Book</a></th><td>{{ printf "%.2f" .Params.priceToBook }}</td></tr>
               {{ end }}
             </tbody>
           </table>
