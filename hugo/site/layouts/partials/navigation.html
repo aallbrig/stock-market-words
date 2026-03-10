@@ -18,6 +18,7 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ "/raw-ftp-data/" | relURL }}">📥 Raw FTP Data</a></li>
             <li><a class="dropdown-item" href="{{ "/filtered-data/" | relURL }}">✅ Filtered Tickers</a></li>
+            <li><a class="dropdown-item" href="{{ "/tickers/" | relURL }}">🔎 Browse All Tickers</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -33,6 +34,9 @@
             <li><a class="dropdown-item" href="{{ "/strategy-over-hyped/" | relURL }}">📈 Over Hyped</a></li>
             <li><a class="dropdown-item" href="{{ "/strategy-institutional-whale/" | relURL }}">🐋 Institutional Whale</a></li>
           </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{{ if hasPrefix .RelPermalink "/glossary" }} active" aria-current="page{{ end }}" href="{{ "/glossary/" | relURL }}">Glossary</a>
         </li>
         <li class="nav-item">
           <a class="nav-link{{ if eq .RelPermalink "/about/" }} active" aria-current="page{{ end }}" href="{{ "/about/" | relURL }}">About</a>

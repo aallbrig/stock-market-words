@@ -1,0 +1,46 @@
+{{ define "main" }}
+<div class="container mt-5">
+  <h1 class="mb-1">Browse All Tickers</h1>
+  <p class="lead text-muted mb-4">
+    {{ len .Pages }} stocks and ETFs with market data and investment strategy scores.
+  </p>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card border-primary h-100">
+        <div class="card-body">
+          <h5 class="card-title">🔍 Search &amp; Filter</h5>
+          <p class="card-text text-muted">Use the full data table to sort by price, volume, market cap, dividend yield, and more.</p>
+          <a href="/filtered-data/" class="btn btn-primary">Open Data Table →</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card border-secondary h-100">
+        <div class="card-body">
+          <h5 class="card-title">🎯 Browse by Strategy</h5>
+          <p class="card-text text-muted">See which tickers score highest for each investment strategy.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="/strategy-dividend-daddy/" class="btn btn-sm btn-outline-secondary">💰 Dividend Daddy</a>
+            <a href="/strategy-moon-shot/" class="btn btn-sm btn-outline-secondary">🚀 Moon Shot</a>
+            <a href="/strategy-falling-knife/" class="btn btn-sm btn-outline-secondary">🔪 Falling Knife</a>
+            <a href="/strategy-over-hyped/" class="btn btn-sm btn-outline-secondary">🎈 Over-Hyped</a>
+            <a href="/strategy-institutional-whale/" class="btn btn-sm btn-outline-secondary">🐋 Institutional Whale</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="h5 mb-3">All Tickers — A to Z</h2>
+  <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-2">
+    {{ range .Pages }}
+    <div class="col">
+      <a href="{{ .RelPermalink }}" class="btn btn-outline-secondary btn-sm w-100 text-truncate" title="{{ .Params.name }}">
+        {{ .Params.symbol }}
+      </a>
+    </div>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
