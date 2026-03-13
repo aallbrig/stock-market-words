@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Articles on Stock Market Words</title><link>https://stockmarketwords.com/articles/</link><description>Recent content in Articles on Stock Market Words</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 13 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://stockmarketwords.com/articles/index.xml" rel="self" type="application/rss+xml"/><item><title>How Ticker Extraction Works</title><link>https://stockmarketwords.com/articles/how-ticker-extraction-works/</link><pubDate>Fri, 13 Mar 2026 00:00:00 +0000</pubDate><guid>https://stockmarketwords.com/articles/how-ticker-extraction-works/</guid><description>&lt;h1 id="how-ticker-extraction-works"&gt;How Ticker Extraction Works&lt;/h1&gt;
+&lt;p&gt;The homepage tool on Stock Market Words starts with a weird but surprisingly tricky problem:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Given an arbitrary piece of English text, can we find valid stock ticker symbols hidden inside it without producing a pile of junk matches?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;That is harder than it sounds.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Last updated:&lt;/strong&gt; March 13, 2026&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="why-this-is-not-a-simple-search-problem"&gt;Why this is not a simple search problem&lt;/h2&gt;
+&lt;p&gt;Stock ticker symbols are short. Many are only one to four characters. That creates immediate ambiguity.&lt;/p&gt;</description></item><item><title>How to Read the Five Strategies</title><link>https://stockmarketwords.com/articles/how-to-read-the-five-strategies/</link><pubDate>Fri, 13 Mar 2026 00:00:00 +0000</pubDate><guid>https://stockmarketwords.com/articles/how-to-read-the-five-strategies/</guid><description>&lt;h1 id="how-to-read-the-five-strategies"&gt;How to Read the Five Strategies&lt;/h1&gt;
+&lt;p&gt;The five strategy pages on Stock Market Words are best understood as &lt;strong&gt;ranking lenses&lt;/strong&gt;, not predictions.&lt;/p&gt;
+&lt;p&gt;Each strategy emphasizes a different market behavior, and each one is useful mainly because it highlights a different tradeoff in the dataset.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Last updated:&lt;/strong&gt; March 13, 2026&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="the-key-idea"&gt;The key idea&lt;/h2&gt;
+&lt;p&gt;A strategy score on this site answers a limited question:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;Given the rules and metrics for this lens, which tickers currently fit best?&amp;rdquo;&lt;/p&gt;</description></item></channel></rss>
