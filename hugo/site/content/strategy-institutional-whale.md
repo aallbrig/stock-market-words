@@ -1,46 +1,56 @@
 ---
 title: "🐋 Institutional Whale Strategy"
-description: "Large-cap stocks favored by institutional investors - follow the smart money"
+description: "Large-cap stocks ranked for scale, liquidity, and institutional relevance"
 date: 2026-01-20T23:46:58.504191
+lastmod: 2026-03-13
 type: "page"
 layout: "strategy-filter"
 strategy_key: "institutional_whale"
 ---
 
-## What is this strategy?
+## What this strategy is trying to capture
 
-**For investors who want to "follow the smart money" - targeting large, institutional-quality companies.**
+Institutional Whale is the site's large-cap lens. It surfaces the part of the market that is easiest for large funds and institutions to own in size.
 
-This strategy focuses on large-cap stocks (market cap > $10 billion) that institutional investors like pension funds, mutual funds, and hedge funds typically hold. These are stable, liquid, well-researched companies.
+> **Last updated:** March 13, 2026
 
-## Filter Criteria
+That usually means more liquidity, more analyst coverage, and more familiarity for readers who want to start with established names.
+
+## Filter criteria
 
 ```
 market_cap > 10000000000
 ```
 
-**In plain English:** We're looking for stocks that:
-- Have market capitalization exceeding $10 billion (large-cap threshold)
-- Are liquid enough for institutional-sized positions
-- Typically have analyst coverage and financial transparency
-- Represent established, proven business models
+## Why this metric matters
 
-**Strategy Score:** Larger market cap earns higher scores. Mega-caps get preferential treatment.
+- **Market capitalization** is a rough proxy for scale and institutional relevance.
+- Larger companies are often easier to trade, more heavily followed, and less fragile than tiny illiquid names.
 
-**Why target institutional stocks?**
-- More stable and less volatile
-- Better liquidity
-- Extensive analyst coverage
-- Often pay dividends
-- Lower risk of sudden collapse
+## What this page is good for
 
-This page shows all stocks that currently match this strategy's criteria. The data is updated daily based on the latest market data from Yahoo Finance.
+- narrowing quickly toward large, recognizable companies
+- comparing scale and stability across the filtered universe
+- finding a less speculative entry point into the site's dataset
 
-## How to use this data
+## What it misses
 
-1. Browse the table below to see matching stocks
-2. Sort by **Market Cap** to see the biggest companies
-3. Sort by **Dividend Yield %** to find income + stability
-4. Sort by **Beta** to gauge volatility (lower = more stable)
-5. Check **Strategy Score** (higher = larger, more established)
+- whether the business is attractively valued
+- whether the company is growing
+- whether institutional ownership is actually a positive signal at current prices
 
+Large-cap does not automatically mean safe, cheap, or superior.
+
+## How to use it responsibly
+
+This page works best when paired with:
+
+1. ticker detail pages for valuation and volatility context
+2. the glossary for market cap, beta, and dividend yield
+3. the other strategies, to see whether a large-cap name also looks stretched or attractive elsewhere
+
+Related reading:
+
+- [Methodology](/methodology/)
+- [How to Read the Five Strategies](/articles/how-to-read-the-five-strategies/)
+- [Market Cap glossary](/glossary/market-cap/)

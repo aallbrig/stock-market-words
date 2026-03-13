@@ -15,11 +15,15 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDataDropdown">
             <li><a class="dropdown-item" href="{{ "/data/" | relURL }}">📊 Data Overview</a></li>
+            <li><a class="dropdown-item" href="{{ "/methodology/" | relURL }}">🧭 Methodology</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ "/raw-ftp-data/" | relURL }}">📥 Raw FTP Data</a></li>
             <li><a class="dropdown-item" href="{{ "/filtered-data/" | relURL }}">✅ Filtered Tickers</a></li>
             <li><a class="dropdown-item" href="{{ "/tickers/" | relURL }}">🔎 Browse All Tickers</a></li>
           </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{{ if hasPrefix .RelPermalink "/articles" }} active" aria-current="page{{ end }}" href="{{ "/articles/" | relURL }}">Articles</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarStrategyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

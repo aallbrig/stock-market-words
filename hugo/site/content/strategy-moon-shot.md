@@ -1,38 +1,61 @@
 ---
 title: "🚀 Moon Shot Strategy"
-description: "High-growth potential stocks with strong momentum for aggressive investors"
+description: "High-beta growth candidates with room for further momentum"
 date: 2026-01-20T23:46:58.503855
+lastmod: 2026-03-13
 type: "page"
 layout: "strategy-filter"
 strategy_key: "moon_shot"
 ---
 
-## What is this strategy?
+## What this strategy is trying to capture
 
-**For aggressive investors seeking explosive growth potential and willing to accept high volatility.**
+Moon Shot is the site's aggressive-growth lens. It favors stocks that move more than the market and are not already at the most stretched end of the RSI scale.
 
-This strategy targets stocks with high beta (volatile, reactive to market swings) that are currently showing momentum. Think growth stocks with high volatility - "catch them before they rocket."
+> **Last updated:** March 13, 2026
 
-## Filter Criteria
+This page is best used as a way to inspect **riskier upside candidates**, not as proof that a breakout is coming.
+
+## Filter criteria
 
 ```
 beta > 1.5 AND rsi < 70
 ```
 
-**In plain English:** We're looking for stocks that:
-- Move MORE than the market (beta > 1.5 means 50%+ more volatile)
-- Have room to run (RSI < 70 means not yet overbought)
-- Have strong momentum potential for rapid gains
+## Why these metrics matter
 
-**Strategy Score:** Higher beta combined with lower RSI earns better scores. More volatile stocks with more room to grow score higher.
+- **Beta** is used as a rough proxy for explosive upside and downside behavior.
+- **RSI below 70** helps avoid names that are already deep into the overbought zone.
 
-This page shows all stocks that currently match this strategy's criteria. The data is updated daily based on the latest market data from Yahoo Finance.
+## What this page is good for
 
-## How to use this data
+- quickly finding volatile names
+- comparing aggressive candidates against one another
+- spotting stocks that may deserve deeper momentum research
 
-1. Browse the table below to see matching stocks
-2. Sort by **Beta** to find most volatile (highest growth potential)
-3. Sort by **RSI (14-Day)** to find best entry points
-4. Check **Strategy Score** (higher = best combo of volatility + momentum)
-5. ⚠️ **High risk, high reward** - consider position sizing carefully
+## What it misses
 
+- valuation discipline
+- earnings quality
+- industry context
+- whether volatility is driven by genuine growth or simple instability
+
+High beta is not the same thing as high quality. It often just means higher risk.
+
+## How to use it responsibly
+
+Open a few ticker pages from the table and compare:
+
+1. beta
+2. RSI
+3. market cap
+4. the stock's fit in other strategies
+
+If a ticker only looks attractive under the most speculative lens, that is useful context by itself.
+
+Related reading:
+
+- [Methodology](/methodology/)
+- [How to Read the Five Strategies](/articles/how-to-read-the-five-strategies/)
+- [RSI glossary](/glossary/rsi/)
+- [Beta glossary](/glossary/beta/)

@@ -1,43 +1,57 @@
 ---
 title: "📈 Over Hyped Strategy"
-description: "Overbought stocks ripe for pullback - for short sellers and mean-reversion traders"
+description: "Overbought stocks ranked for mean-reversion and risk review"
 date: 2026-01-20T23:46:58.504089
+lastmod: 2026-03-13
 type: "page"
 layout: "strategy-filter"
 strategy_key: "over_hyped"
 ---
 
-## What is this strategy?
+## What this strategy is trying to capture
 
-**For short sellers and traders expecting mean reversion - identifying overextended stocks due for a pullback.**
+Over-Hyped is the site's mean-reversion lens. It looks for stocks with very high RSI readings that may be running hotter than their recent trend can sustain.
 
-This strategy finds overbought stocks (high RSI) that have run up too far, too fast. When RSI exceeds 70, it suggests buying exhaustion and potential reversal. Great for short positions or waiting to buy after a dip.
+> **Last updated:** March 13, 2026
 
-## Filter Criteria
+That does **not** mean these stocks are automatically bad or doomed. Strong momentum can remain strong for longer than expected.
+
+## Filter criteria
 
 ```
 rsi > 70
 ```
 
-**In plain English:** We're looking for stocks that:
-- Are overbought (RSI > 70 = recent heavy buying, potentially overdone)
-- Have strong recent momentum that may be unsustainable
-- Could see profit-taking or pullback as momentum fades
+## Why this metric matters
 
-**Strategy Score:** Higher RSI earns higher scores. More overbought = riper for reversal.
+- **High RSI** is a compact way to flag stocks that have had unusually strong recent buying pressure.
 
-**Use Cases:**
-- **Short selling:** Enter short positions expecting pullback
-- **Buy-the-dip waiting:** Add to watchlist, wait for RSI to cool off
-- **Profit taking:** If you own these, consider taking some gains
+This can be useful when:
 
-This page shows all stocks that currently match this strategy's criteria. The data is updated daily based on the latest market data from Yahoo Finance.
+- you want to watch for pullback risk
+- you want to review extended positions you already own
+- you want to compare hot momentum names before chasing them
 
-## How to use this data
+## What this page is good for
 
-1. Browse the table below to see matching stocks
-2. Sort by **RSI (14-Day)** to find most overbought
-3. Sort by **Beta** to gauge volatility (higher = faster potential reversal)
-4. Check **Strategy Score** (higher = more overbought)
-5. For shorts: confirm with volume and trend analysis first
+- spotting extended names quickly
+- building a "wait for better entry" watchlist
+- seeing which high-RSI stocks also look risky in other ways
 
+## What it misses
+
+- whether the momentum is backed by strong fundamentals
+- whether a breakout is just beginning rather than ending
+- whether the company is improving fast enough to justify the move
+
+High RSI is a warning flag, not a verdict.
+
+## How to use it responsibly
+
+Use this table to slow yourself down. If a stock looks exciting, this page can help answer whether you are looking at a healthy breakout, a crowded trade, or a name that needs more patience.
+
+Related reading:
+
+- [Methodology](/methodology/)
+- [How to Read the Five Strategies](/articles/how-to-read-the-five-strategies/)
+- [RSI glossary](/glossary/rsi/)
