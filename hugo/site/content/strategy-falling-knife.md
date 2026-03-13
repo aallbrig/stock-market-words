@@ -1,40 +1,59 @@
 ---
 title: "🔪 Falling Knife Strategy"
-description: "Contrarian value plays - oversold stocks trading below their average"
+description: "Oversold stocks below long-term trend, ranked for contrarian research"
 date: 2026-01-20T23:46:58.503960
+lastmod: 2026-03-13
 type: "page"
 layout: "strategy-filter"
 strategy_key: "falling_knife"
 ---
 
-## What is this strategy?
+## What this strategy is trying to capture
 
-**For contrarian investors who "catch falling knives" - buying beaten-down stocks with potential for rebound.**
+Falling Knife is the site's contrarian lens. It highlights stocks that are both oversold and trading below their long-term trend.
 
-This strategy finds oversold stocks (low RSI) trading BELOW their 200-day moving average. The classic contrarian play: when others are fearful and selling, you're buying the dip, betting on mean reversion.
+> **Last updated:** March 13, 2026
 
-## Filter Criteria
+The theory is simple: some hard selloffs eventually bounce. The danger is just as obvious: some hard selloffs keep falling because the market is pricing in real trouble.
+
+## Filter criteria
 
 ```
 rsi < 30 AND price < ma200
 ```
 
-**In plain English:** We're looking for stocks that:
-- Are deeply oversold (RSI < 30 = recent heavy selling pressure)
-- Are trading BELOW their 200-day average price (technical support level)
-- Have fallen significantly, creating potential bounce-back opportunity
+## Why these metrics matter
 
-**Strategy Score:** Lower RSI and bigger gap below MA-200 earn higher scores. More oversold stocks trading further below their average score better.
+- **RSI below 30** suggests recent selling pressure has been extreme.
+- **Price below MA200** suggests the stock is below its longer-term trend.
 
-**⚠️ Warning:** They call it "catching a falling knife" for a reason - some stocks fall for good reasons. Do your research before buying.
+Together, they surface names that look weak enough to interest mean-reversion traders.
 
-This page shows all stocks that currently match this strategy's criteria. The data is updated daily based on the latest market data from Yahoo Finance.
+## What this page is good for
 
-## How to use this data
+- identifying washout candidates
+- comparing the depth of technical damage across tickers
+- building a research list for rebound setups
 
-1. Browse the table below to see matching stocks
-2. Sort by **RSI (14-Day)** to find most oversold
-3. Compare **Price** vs **200-Day Moving Average** to see discount depth
-4. Check **Strategy Score** (higher = more oversold + further below average)
-5. **Research first** - understand WHY the stock fell before investing
+## What it misses
 
+- why the stock sold off
+- whether earnings or balance-sheet issues justify the decline
+- whether the chart is stabilizing or still deteriorating
+
+This is the easiest strategy on the site to misuse if you treat the table as a buy list.
+
+## How to use it responsibly
+
+Before acting on any name from this table, ask:
+
+1. Is the drop technical, fundamental, or both?
+2. Has the company recently reported bad news?
+3. Is the low RSI a temporary panic or part of a longer breakdown?
+
+Related reading:
+
+- [Methodology](/methodology/)
+- [How to Read the Five Strategies](/articles/how-to-read-the-five-strategies/)
+- [RSI glossary](/glossary/rsi/)
+- [Moving Average (200-Day) glossary](/glossary/moving-average-200/)

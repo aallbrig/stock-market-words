@@ -1,76 +1,84 @@
 ---
 title: "Investment Strategies"
 layout: "page"
+lastmod: 2026-03-13
 ---
 
 # Investment Strategies
 
-The Stock Market Words tool uses 5 different investment strategies to analyze and rank stock tickers found in your text.
+The strategy pages on Stock Market Words are designed to help readers compare the same ticker universe through five different lenses. They are **research aids**, not portfolio instructions.
 
-## Available Strategies
+> **Last updated:** March 13, 2026
+
+Each strategy page combines:
+
+- a rules-based screen
+- a score for current fit
+- a list of matching tickers
+- links back to glossary and ticker detail pages
+
+For the editorial guide to using these pages responsibly, read **[How to Read the Five Strategies](/articles/how-to-read-the-five-strategies/)**.
+
+## Available strategies
 
 ### 💰 Dividend Daddy
-**Focus:** High yield + low volatility  
-**Best for:** Income-focused, conservative investors  
-**[View Data Set →](/strategy-dividend-daddy/)**
 
-Finds stocks with high dividend yields and low volatility (beta). Ideal for investors seeking steady, passive income with minimal price swings.
+**Focus:** Yield + lower volatility  
+**Best use:** Income-oriented screening  
+**[Open strategy page →](/strategy-dividend-daddy/)**
 
----
+This lens favors dividend-paying companies and gives higher scores to names that combine meaningful income with comparatively steadier behavior.
 
-### 🚀 Moon Shot  
-**Focus:** High beta + oversold conditions  
-**Best for:** Aggressive growth seekers  
-**[View Data Set →](/strategy-moon-shot/)**
+### 🚀 Moon Shot
 
-Identifies high-growth potential stocks with high volatility and oversold technical indicators. For investors willing to take risks for potentially explosive gains.
+**Focus:** High beta + room for momentum  
+**Best use:** Aggressive growth exploration  
+**[Open strategy page →](/strategy-moon-shot/)**
 
----
+This lens surfaces volatile names that are not yet deeply overbought, making it a fast way to inspect higher-risk growth candidates.
 
 ### 🔪 Falling Knife
-**Focus:** Oversold + trading below moving average  
-**Best for:** Contrarian value investors  
-**[View Data Set →](/strategy-falling-knife/)**
 
-Contrarian strategy finding oversold stocks trading below their 200-day moving average. "Catching a falling knife" - high risk but potential for bounce-back gains.
+**Focus:** Oversold + below long-term trend  
+**Best use:** Contrarian bounce research  
+**[Open strategy page →](/strategy-falling-knife/)**
 
----
+This lens looks for deeply sold-off names that may attract rebound interest, while also carrying the obvious risk that the decline is justified.
 
 ### 🎈 Over-Hyped
-**Focus:** Overbought momentum  
-**Best for:** Short sellers or mean-reversion traders  
-**[View Data Set →](/strategy-over-hyped/)**
 
-Finds overbought stocks with high RSI values, suggesting momentum exhaustion. Good for identifying stocks that may be due for a pullback.
+**Focus:** Extended momentum / overbought conditions  
+**Best use:** Mean-reversion watchlists  
+**[Open strategy page →](/strategy-over-hyped/)**
 
----
+This lens identifies names with very hot recent momentum that may deserve closer scrutiny for pullback risk.
 
 ### 🐋 Institutional Whale
-**Focus:** Large market capitalization  
-**Best for:** Following institutional money  
-**[View Data Set →](/strategy-institutional-whale/)**
 
-Targets large-cap stocks likely held by institutional investors. "Follow the smart money" - more stable, liquid, and widely covered by analysts.
+**Focus:** Large market capitalization and liquidity  
+**Best use:** Screening for established market leaders  
+**[Open strategy page →](/strategy-institutional-whale/)**
 
-## How It Works
+This lens highlights the part of the market large institutions can realistically own at size.
 
-1. **Text Input:** You provide any text (article, social media post, etc.)
-2. **Ticker Detection:** Our algorithm finds stock ticker symbols in your text
-3. **Strategy Filtering:** Each strategy only considers tickers that match its criteria
-4. **Scoring & Ranking:** Tickers are scored based on strategy-specific metrics
-5. **Portfolio Generation:** Top-scoring non-overlapping tickers are presented
+## What these strategies do well
 
-## Data Sources
+They make the dataset easier to navigate. Instead of one giant table of stocks, each page gives you a different starting point and a different set of questions to ask.
 
-All strategies use data from:
-- NASDAQ FTP daily downloads
-- Technical indicators (RSI, moving averages, beta)
-- Fundamental data (dividends, market cap)
+## What these strategies do not do
 
-[View Data Sets →](/data/)
+They do not replace:
 
-## Learn More
+- valuation work
+- reading filings
+- earnings analysis
+- position sizing
+- risk management
 
-- [About the Project](/about/)
-- [Raw FTP Data](/raw-ftp-data/)
-- [Filtered Tickers](/filtered-data/)
+Use them to narrow your attention, not to outsource judgment.
+
+## Learn more
+
+- [Methodology](/methodology/)
+- [How to Read the Five Strategies](/articles/how-to-read-the-five-strategies/)
+- [Glossary](/glossary/)
