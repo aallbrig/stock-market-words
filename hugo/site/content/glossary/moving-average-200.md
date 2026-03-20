@@ -2,6 +2,8 @@
 title: "Moving Average (200-Day MA) — Stock Market Glossary"
 description: "The 200-day moving average is a key long-term trend indicator. Learn what the 200-day MA means, how traders use it, and how it's used in stock screening."
 ---
+lastmod: 2026-03-20
+---
 
 # Moving Average — 200-Day (MA200)
 
@@ -46,6 +48,13 @@ The 200-day MA appears in the Market Data card on every [individual ticker page]
 - [RSI](/glossary/rsi/) — Often combined with MA200 to identify oversold/downtrend stocks
 - [Beta](/glossary/beta/) — High-beta stocks fluctuate further around their MAs
 - [52-Week High/Low](/glossary/52-week-high/) — Annual price extremes, context for MA position
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — moving averages explained alongside RSI and beta
+- [Moving Average (50-Day)](/glossary/moving-average-50/) — the shorter-term trend companion
+- [Falling Knife Strategy](/strategy-falling-knife/) — the 200-day MA is a core input in this strategy's scoring formula
+- [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — see which tickers are currently furthest below their moving averages
 
 ---
 

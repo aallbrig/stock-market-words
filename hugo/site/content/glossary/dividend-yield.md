@@ -2,6 +2,8 @@
 title: "Dividend Yield — Stock Market Glossary"
 description: "Dividend yield measures how much a company pays in dividends relative to its stock price. Learn how to calculate and interpret dividend yield."
 ---
+lastmod: 2026-03-20
+---
 
 # Dividend Yield
 
@@ -42,6 +44,12 @@ High-yield stocks score significantly better in Dividend Daddy. Browse [all tick
 - [Beta](/glossary/beta/) — Stability matters for dividend reliability
 - [P/E Ratio](/glossary/pe-ratio/) — Earnings coverage of dividends
 - [Market Capitalization](/glossary/market-cap/) — Large-caps tend to have more reliable dividends
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — dividend yield explained with real examples and yield-trap warning signs
+- [Dividend Daddy Strategy](/strategy-dividend-daddy/) — this strategy is built around dividend yield as its primary signal
+- [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — current top Dividend Daddy scorers and what their yields tell you
 
 ---
 

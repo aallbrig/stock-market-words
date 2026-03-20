@@ -2,6 +2,8 @@
 title: "Price-to-Book Ratio — Stock Market Glossary"
 description: "The price-to-book ratio compares a stock's price to the company's net asset value. Learn what P/B means, how to calculate it, and when it's useful."
 ---
+lastmod: 2026-03-20
+---
 
 # Price-to-Book Ratio (P/B)
 
@@ -49,6 +51,12 @@ Price-to-book appears in the Market Data card on every [individual ticker page](
 - [P/E Ratio](/glossary/pe-ratio/) — Valuation relative to earnings
 - [EPS](/glossary/eps/) — Per-share earnings, another valuation input
 - [Market Capitalization](/glossary/market-cap/) — Total size context
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — valuation metrics in context
+- [P/E Ratio](/glossary/pe-ratio/) — the earnings-based counterpart to price-to-book
+- [Methodology](/methodology/) — how this site sources and updates market data including P/B ratios
 
 ---
 

@@ -2,6 +2,8 @@
 title: "52-Week High — Stock Market Glossary"
 description: "The 52-week high is the highest price a stock has traded at over the past year. Learn what it means and how it's used in technical analysis."
 ---
+lastmod: 2026-03-20
+---
 
 # 52-Week High
 
@@ -39,6 +41,12 @@ The 52-week high appears in the Market Data card on every [individual ticker pag
 - [Moving Average (200-Day)](/glossary/moving-average-200/) — Long-term trend context
 - [RSI](/glossary/rsi/) — Momentum indicator; high RSI near 52-week high
 - [Beta](/glossary/beta/) — High-beta stocks have wider 52-week ranges
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — how 52-week range interacts with RSI and moving averages
+- [52-Week Low](/glossary/52-week-low/) — the other end of the annual range
+- [Over-Hyped Strategy](/strategy-over-hyped/) — stocks near 52-week highs often have elevated RSI, a key Over-Hyped signal
 
 ---
 

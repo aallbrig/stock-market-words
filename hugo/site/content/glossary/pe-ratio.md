@@ -2,6 +2,8 @@
 title: "P/E Ratio (Price-to-Earnings) — Stock Market Glossary"
 description: "The P/E ratio compares a company's stock price to its earnings per share. Learn how to calculate, interpret, and use the P/E ratio when evaluating stocks."
 ---
+lastmod: 2026-03-20
+---
 
 # P/E Ratio — Price-to-Earnings Ratio
 
@@ -46,6 +48,12 @@ The **[🐋 Institutional Whale](/strategy-institutional-whale/)** strategy targ
 - [EPS](/glossary/eps/) — The earnings component of P/E
 - [Price-to-Book](/glossary/price-to-book/) — Valuation relative to assets, not earnings
 - [Market Capitalization](/glossary/market-cap/) — Size context for P/E comparison
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — P/E ratio explained with context on when it is and isn't useful
+- [Forward P/E](/glossary/forward-pe/) — how analyst earnings estimates change the picture
+- [Institutional Whale Strategy](/strategy-institutional-whale/) — the large-cap names at the top of this strategy have the most complete P/E data
 
 ---
 

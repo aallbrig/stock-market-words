@@ -2,6 +2,8 @@
 title: "Forward P/E Ratio — Stock Market Glossary"
 description: "Forward P/E uses estimated future earnings instead of past earnings. Learn how forward P/E differs from trailing P/E and when to use each."
 ---
+lastmod: 2026-03-20
+---
 
 # Forward P/E Ratio
 
@@ -45,6 +47,12 @@ Forward P/E appears alongside the standard [P/E ratio](/glossary/pe-ratio/) in t
 - [P/E Ratio](/glossary/pe-ratio/) — The trailing (historical) version
 - [EPS](/glossary/eps/) — The earnings input in the P/E calculation
 - [Market Capitalization](/glossary/market-cap/) — Size context
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — P/E and Forward P/E explained together
+- [P/E Ratio](/glossary/pe-ratio/) — the trailing earnings version of this metric
+- [Methodology](/methodology/) — how valuation metrics are sourced and updated in this site's pipeline
 
 ---
 

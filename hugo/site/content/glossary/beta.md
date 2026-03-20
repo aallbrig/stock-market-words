@@ -2,6 +2,8 @@
 title: "Beta — Stock Market Glossary"
 description: "Beta measures a stock's volatility relative to the overall market. Learn what beta means, how it's calculated, and how to use it when investing."
 ---
+lastmod: 2026-03-20
+---
 
 # Beta
 
@@ -41,6 +43,13 @@ It depends entirely on your investing style:
 - [RSI](/glossary/rsi/) — Another momentum/volatility indicator
 - [52-Week High](/glossary/52-week-high/) and [52-Week Low](/glossary/52-week-low/) — Show the realized price range, which correlates with volatility
 - [Moving Average (200-Day)](/glossary/moving-average-200/) — Often compared with beta to assess trend vs volatility
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — beta explained with real examples, including how NVDA and OXLC differ
+- [Dividend Daddy Strategy](/strategy-dividend-daddy/) — rewards low beta alongside high yield
+- [Moon Shot Strategy](/strategy-moon-shot/) — rewards high beta as a growth signal
+- [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — beta profiles of the current top scorers
 
 ---
 
