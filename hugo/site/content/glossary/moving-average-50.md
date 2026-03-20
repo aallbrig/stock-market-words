@@ -2,6 +2,8 @@
 title: "Moving Average (50-Day MA) — Stock Market Glossary"
 description: "The 50-day moving average smooths short-term price fluctuations. Learn what the 50-day MA means, how to use it, and how it compares to the 200-day MA."
 ---
+lastmod: 2026-03-20
+---
 
 # Moving Average — 50-Day (MA50)
 
@@ -48,6 +50,13 @@ See also the [200-day moving average](/glossary/moving-average-200/) which is us
 - [RSI](/glossary/rsi/) — Momentum indicator often used alongside MAs
 - [52-Week High](/glossary/52-week-high/) / [52-Week Low](/glossary/52-week-low/) — Broader price context
 - [Beta](/glossary/beta/) — Volatility measure; high-beta stocks deviate further from their MAs
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — 50-day and 200-day moving averages explained with real examples
+- [Moving Average (200-Day)](/glossary/moving-average-200/) — the longer-term trend companion to the 50-day
+- [Falling Knife Strategy](/strategy-falling-knife/) — uses both moving averages alongside RSI to score contrarian setups
+- [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — current top Falling Knife scorers are trading well below their moving averages
 
 ---
 

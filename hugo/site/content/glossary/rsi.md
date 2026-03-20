@@ -2,6 +2,8 @@
 title: "RSI (Relative Strength Index) — Stock Market Glossary"
 description: "RSI measures whether a stock is overbought or oversold. Learn what RSI means, how to read it, and how it's used in technical analysis."
 ---
+lastmod: 2026-03-20
+---
 
 # RSI — Relative Strength Index
 
@@ -49,6 +51,14 @@ RSI is a lagging indicator based purely on price history. A stock can remain ove
 - [Beta](/glossary/beta/) — Measures volatility magnitude; RSI measures directional momentum
 - [Moving Average (200-Day)](/glossary/moving-average-200/) — Often used in combination with RSI to confirm trends
 - [52-Week High](/glossary/52-week-high/) / [52-Week Low](/glossary/52-week-low/) — RSI extremes often correlate with price extremes
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — RSI explained with real examples from this site's ticker universe
+- [Moon Shot Strategy](/strategy-moon-shot/) — uses high beta + oversold RSI to surface growth candidates
+- [Falling Knife Strategy](/strategy-falling-knife/) — looks for stocks with very low RSI trading below moving averages
+- [Over-Hyped Strategy](/strategy-over-hyped/) — flags stocks with very high RSI as potential momentum extremes
+- [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — which tickers have the most extreme RSI values right now
 
 ---
 

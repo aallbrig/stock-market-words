@@ -3,6 +3,16 @@
 {{- $name   := .Params.name }}
 {{- $scores := .Params.scores }}
 
+{{/* Build scored strategies list for interpretation */}}
+{{- $scoresList := slice -}}
+{{- if $scores -}}
+  {{- with index $scores "dividendDaddy" -}}{{- $scoresList = $scoresList | append (dict "label" "💰 Dividend Daddy" "url" "/strategy-dividend-daddy/" "score" . "desc" "prioritizes tickers with high dividend yield and low volatility") -}}{{- end -}}
+  {{- with index $scores "moonShot" -}}{{- $scoresList = $scoresList | append (dict "label" "🚀 Moon Shot" "url" "/strategy-moon-shot/" "score" . "desc" "targets high-growth candidates with elevated beta and oversold RSI") -}}{{- end -}}
+  {{- with index $scores "fallingKnife" -}}{{- $scoresList = $scoresList | append (dict "label" "🔪 Falling Knife" "url" "/strategy-falling-knife/" "score" . "desc" "identifies contrarian setups where price has fallen sharply below its moving averages") -}}{{- end -}}
+  {{- with index $scores "overHyped" -}}{{- $scoresList = $scoresList | append (dict "label" "🎈 Over-Hyped" "url" "/strategy-over-hyped/" "score" . "desc" "flags overbought stocks that may be extended relative to recent momentum") -}}{{- end -}}
+  {{- with index $scores "instWhale" -}}{{- $scoresList = $scoresList | append (dict "label" "🐋 Institutional Whale" "url" "/strategy-institutional-whale/" "score" . "desc" "favors large-cap, high-volume stocks suited to institutional-scale positions") -}}{{- end -}}
+{{- end -}}
+
 <div class="container mt-5">
 
   <!-- Breadcrumb -->
@@ -176,7 +186,8 @@
           </div>
           {{ else }}
           <div class="alert alert-secondary">
-            <p class="mb-0">Strategy scores are not yet available for {{ $sym }}. Scores are calculated for tickers that meet at least one strategy's filter criteria.</p>
+            <p class="mb-1">Strategy scores are not yet available for {{ $sym }}. Scores are calculated for tickers that meet at least one strategy's filter criteria.</p>
+            <p class="mb-0 small"><a href="/articles/why-some-tickers-have-no-scores/">Learn why some tickers have no scores →</a></p>
           </div>
           {{ end }}
         </div>
@@ -184,6 +195,70 @@
     </div>
 
   </div><!-- /row -->
+
+  {{/* Strategy interpretation — only if we have scored strategies */}}
+  {{- if $scoresList -}}
+  {{- $sorted := sort $scoresList "score" "desc" -}}
+  {{- $best   := index $sorted 0 -}}
+  {{- $worst  := index $sorted (sub (len $sorted) 1) -}}
+  <div class="card mt-4">
+    <div class="card-header bg-light"><h5 class="mb-0">🔍 Strategy Interpretation</h5></div>
+    <div class="card-body">
+      <p class="mb-2">
+        <strong>Best fit: <a href="{{ index $best "url" }}">{{ index $best "label" }}</a> ({{ index $best "score" }}/100)</strong> —
+        this strategy {{ index $best "desc" }}.
+      </p>
+      {{- if gt (len $sorted) 1 -}}
+      <p class="text-muted small mb-0">
+        Lowest fit among scored strategies: <a href="{{ index $worst "url" }}">{{ index $worst "label" }}</a> ({{ index $worst "score" }}/100).
+        No single score is a buy or sell signal — use multiple lenses together.
+        <a href="/articles/how-to-read-the-five-strategies/">Learn how to read these scores →</a>
+      </p>
+      {{- end -}}
+    </div>
+  </div>
+  {{- end -}}
+
+  {{/* Learn More links */}}
+  <div class="card mt-4 bg-light border-0">
+    <div class="card-header bg-light border-bottom"><h5 class="mb-0">📚 Learn More</h5></div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <h6 class="text-muted text-uppercase small mb-2">Indicators on this page</h6>
+          <ul class="list-unstyled mb-0 small">
+            {{ if .Params.rsi }}<li><a href="/glossary/rsi/">RSI — what it measures</a></li>{{ end }}
+            {{ if .Params.beta }}<li><a href="/glossary/beta/">Beta — market sensitivity</a></li>{{ end }}
+            {{ if .Params.ma50 }}<li><a href="/glossary/moving-average-50/">50-Day Moving Average</a></li>{{ end }}
+            {{ if .Params.ma200 }}<li><a href="/glossary/moving-average-200/">200-Day Moving Average</a></li>{{ end }}
+            {{ if .Params.peRatio }}<li><a href="/glossary/pe-ratio/">P/E Ratio explained</a></li>{{ end }}
+            {{ if .Params.forwardPE }}<li><a href="/glossary/forward-pe/">Forward P/E explained</a></li>{{ end }}
+            {{ if .Params.dividendYield }}<li><a href="/glossary/dividend-yield/">Dividend Yield explained</a></li>{{ end }}
+            {{ if .Params.priceToBook }}<li><a href="/glossary/price-to-book/">Price-to-Book explained</a></li>{{ end }}
+            {{ if .Params.marketCap }}<li><a href="/glossary/market-cap/">Market Cap explained</a></li>{{ end }}
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6 class="text-muted text-uppercase small mb-2">Educational articles</h6>
+          <ul class="list-unstyled mb-0 small">
+            <li><a href="/articles/how-to-read-the-five-strategies/">How to read strategy scores</a></li>
+            <li><a href="/articles/practical-guide-to-stock-indicators/">Guide to stock indicators</a></li>
+            <li><a href="/articles/why-some-tickers-have-no-scores/">Why some tickers have no scores</a></li>
+            <li><a href="/articles/">All articles →</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6 class="text-muted text-uppercase small mb-2">Site resources</h6>
+          <ul class="list-unstyled mb-0 small">
+            <li><a href="/methodology/">How scores are calculated</a></li>
+            <li><a href="/strategies/">All five strategies</a></li>
+            <li><a href="/glossary/">Full glossary</a></li>
+            <li><a href="/tickers/">Browse all tickers</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Try in the tool -->
   <div class="card mt-4 border-primary">
@@ -197,9 +272,11 @@
   </div>
 
   <!-- Disclaimer -->
+  {{- $dataDate := site.Data.all_tickers._meta.data_date -}}
   <p class="text-muted small mt-4">
     <strong>Disclaimer:</strong> This data is for educational and entertainment purposes only and does not constitute financial advice.
     Market data may be delayed. Always do your own research before making investment decisions.
+    {{ if $dataDate }}<br>Data last updated: {{ $dataDate }}.{{ end }}
   </p>
 
 </div>

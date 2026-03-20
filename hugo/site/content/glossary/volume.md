@@ -2,6 +2,8 @@
 title: "Volume — Stock Trading Volume Explained — Stock Market Glossary"
 description: "Trading volume is the number of shares exchanged in a given period. Learn how to read volume, what volume spikes mean, and why it matters for trading decisions."
 ---
+lastmod: 2026-03-20
+---
 
 # Volume
 
@@ -49,6 +51,13 @@ Volume appears in the Market Data card on every [individual ticker page](/filter
 - [Beta](/glossary/beta/) — High-beta stocks often have spiky volume
 - [RSI](/glossary/rsi/) — Volume spikes often trigger RSI extremes
 - [52-Week High](/glossary/52-week-high/) / [52-Week Low](/glossary/52-week-low/) — Breakouts from these levels should have high volume to be meaningful
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — volume in context with price and momentum
+- [Institutional Whale Strategy](/strategy-institutional-whale/) — volume is one of the two primary inputs alongside market cap
+- [Why Some Tickers Have No Scores](/articles/why-some-tickers-have-no-scores/) — volume is one of the filters that determines whether a ticker makes it into the dataset at all
+- [Methodology](/methodology/) — the minimum volume threshold used in this site's pipeline
 
 ---
 

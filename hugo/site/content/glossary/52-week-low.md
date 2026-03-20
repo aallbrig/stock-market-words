@@ -2,6 +2,8 @@
 title: "52-Week Low — Stock Market Glossary"
 description: "The 52-week low is the lowest price a stock has traded at over the past year. Learn what it means and how investors use it as a support level."
 ---
+lastmod: 2026-03-20
+---
 
 # 52-Week Low
 
@@ -41,6 +43,13 @@ The **[🔪 Falling Knife](/strategy-falling-knife/)** strategy focuses on stock
 - [RSI](/glossary/rsi/) — Oversold RSI near 52-week low = key setup
 - [Moving Average (200-Day)](/glossary/moving-average-200/) — Stocks below MA200 are often near 52-week lows
 - [Beta](/glossary/beta/) — High-beta stocks have wider ranges; larger distance to their lows
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — price range in context with momentum indicators
+- [52-Week High](/glossary/52-week-high/) — the upper bound of the annual range
+- [Falling Knife Strategy](/strategy-falling-knife/) — stocks near 52-week lows with low RSI are prime Falling Knife candidates
+- [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — current Falling Knife leaders include names at or near annual lows
 
 ---
 

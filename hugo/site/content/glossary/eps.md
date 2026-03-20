@@ -2,6 +2,8 @@
 title: "EPS — Earnings Per Share — Stock Market Glossary"
 description: "EPS measures a company's profit divided by its number of shares. Learn how to calculate earnings per share and why it matters for valuing stocks."
 ---
+lastmod: 2026-03-20
+---
 
 # EPS — Earnings Per Share
 
@@ -50,6 +52,12 @@ EPS appears in the Market Data card on [individual ticker pages](/filtered-data/
 - [P/E Ratio](/glossary/pe-ratio/) — Uses trailing EPS
 - [Forward P/E](/glossary/forward-pe/) — Uses estimated future EPS
 - [Market Capitalization](/glossary/market-cap/) — Total company value context
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — earnings metrics in context
+- [P/E Ratio](/glossary/pe-ratio/) — EPS is the denominator in P/E
+- [Methodology](/methodology/) — data sourcing and pipeline details for this site
 
 ---
 

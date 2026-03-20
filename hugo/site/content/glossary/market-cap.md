@@ -2,6 +2,8 @@
 title: "Market Capitalization — Stock Market Glossary"
 description: "Market cap is the total market value of a company's outstanding shares. Learn how to calculate market cap and what large-cap, mid-cap, and small-cap mean."
 ---
+lastmod: 2026-03-20
+---
 
 # Market Capitalization
 
@@ -49,6 +51,12 @@ The **[🐋 Institutional Whale](/strategy-institutional-whale/)** strategy spec
 - [Beta](/glossary/beta/) — Large-caps tend to have lower beta
 - [P/E Ratio](/glossary/pe-ratio/) — Valuation relative to earnings
 - [EPS](/glossary/eps/) — Per-share earnings
+
+## Further Reading
+
+- [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — market cap in context with other metrics
+- [Institutional Whale Strategy](/strategy-institutional-whale/) — market cap is the primary driver of this strategy's scores
+- [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — the largest-cap tickers in the current dataset
 
 ---
 

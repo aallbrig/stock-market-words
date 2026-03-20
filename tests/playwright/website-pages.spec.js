@@ -30,6 +30,9 @@ const PAGES = [
   { path: '/glossary/', name: 'Glossary' },
   { path: '/glossary/rsi/', name: 'Glossary: RSI' },
   { path: '/glossary/beta/', name: 'Glossary: Beta' },
+  { path: '/articles/practical-guide-to-stock-indicators/', name: 'Article: Indicators Guide' },
+  { path: '/articles/why-some-tickers-have-no-scores/', name: 'Article: No Scores Explainer' },
+  { path: '/articles/top-stocks-by-strategy-march-2026/', name: 'Article: March 2026 Roundup' },
 ];
 
 test.describe('Website Page Load Tests', () => {
