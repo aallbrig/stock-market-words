@@ -1,51 +1,36 @@
 ---
 title: "Stock Market Words"
-lastmod: 2026-03-13
+lastmod: 2026-03-21
 ---
 
 # Stock Market Words
 
-Stock Market Words is an educational stock research site built around a playful but real technical problem: **finding valid stock ticker symbols hidden inside ordinary text**, then showing how those symbols look through several market-data lenses.
+Paste any text below to discover real stock ticker symbols hiding inside it.
 
-> **Last updated:** March 13, 2026
+{{< ticker-portfolio-extraction-tool >}}
 
-This site combines:
+## How it works
 
-- a **ticker extraction tool**
-- a **filtered stock dataset**
-- **five strategy score views**
-- a growing set of **plain-English educational articles**
+Stock Market Words finds valid ticker symbols inside ordinary text, then shows how those symbols look through several market-data lenses — five strategy score views, key financial metrics, and plain-English explanations.
 
-If you are new here, start in this order:
+If you are new here:
 
-1. Paste text into the extractor below.
-2. Read the **[Methodology](/methodology/)** page.
+1. **Paste text** into the tool above and explore the results.
+2. Read the **[Methodology](/methodology/)** to understand where the data comes from.
 3. Browse the **[Investment Strategies](/strategies/)** overview.
 4. Read **[How Ticker Extraction Works](/articles/how-ticker-extraction-works/)**.
 
 ## What you can do here
 
-### Discover ticker symbols inside text
-
-The homepage tool scans text and looks for real ticker symbols using a custom matching process. This is not meant to replace research. It is meant to surface interesting starting points from text you are already reading.
-
 ### Compare symbols across strategy lenses
 
-Once a ticker is found, the site shows how it fits several strategy profiles:
-
-- income-focused dividend names
-- aggressive high-beta candidates
-- oversold rebound setups
-- overextended momentum names
-- large-cap institutional stocks
+Once a ticker is found, the site shows how it fits several strategy profiles — income-focused dividend names, aggressive high-beta candidates, oversold rebound setups, overextended momentum names, and large-cap institutional stocks.
 
 ### Learn the metrics behind the screens
 
-Every ticker page links back to the glossary, and the editorial section explains how the extraction engine and ranking logic work.
+Every ticker page links back to the [glossary](/glossary/), and the [editorial section](/articles/) explains how the extraction engine and ranking logic work.
 
-{{< ticker-portfolio-extraction-tool >}}
-
-## Read before using the data
+## Further reading
 
 - **[Methodology](/methodology/)** — where the data comes from and how scores are built
 - **[Articles](/articles/)** — original explainers about the engine and strategies
