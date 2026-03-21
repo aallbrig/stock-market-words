@@ -3,7 +3,6 @@ title: "Data Sets"
 layout: "page"
 ---
 
-# Data Sets
 
 View the different data sets used by the Stock Market Words ticker extraction tool.
 

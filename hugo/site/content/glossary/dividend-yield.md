@@ -1,11 +1,9 @@
 ---
 title: "Dividend Yield — Stock Market Glossary"
 description: "Dividend yield measures how much a company pays in dividends relative to its stock price. Learn how to calculate and interpret dividend yield."
----
 lastmod: 2026-03-20
 ---
 
-# Dividend Yield
 
 **Dividend yield** is the annual dividend payment expressed as a percentage of the current stock price. It tells you how much income you receive per dollar invested in a stock.
 

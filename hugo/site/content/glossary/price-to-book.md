@@ -1,11 +1,9 @@
 ---
 title: "Price-to-Book Ratio — Stock Market Glossary"
 description: "The price-to-book ratio compares a stock's price to the company's net asset value. Learn what P/B means, how to calculate it, and when it's useful."
----
 lastmod: 2026-03-20
 ---
 
-# Price-to-Book Ratio (P/B)
 
 The **price-to-book ratio** (P/B ratio) compares a company's stock price to its **book value** — the net value of assets after subtracting liabilities. It tells you how much premium investors are paying over the company's accounting net worth.
 

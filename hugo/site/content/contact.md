@@ -2,7 +2,6 @@
 title: "Contact"
 ---
 
-# Contact
 
 Have a question, found a bug, or want to suggest a feature? We'd love to hear from you.
 

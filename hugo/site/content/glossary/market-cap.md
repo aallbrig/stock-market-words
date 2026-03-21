@@ -1,11 +1,9 @@
 ---
 title: "Market Capitalization — Stock Market Glossary"
 description: "Market cap is the total market value of a company's outstanding shares. Learn how to calculate market cap and what large-cap, mid-cap, and small-cap mean."
----
 lastmod: 2026-03-20
 ---
 
-# Market Capitalization
 
 **Market capitalization** (market cap) is the total market value of all of a company's outstanding shares of stock. It's the most commonly used measure of a company's size.
 

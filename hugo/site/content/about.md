@@ -3,7 +3,6 @@ title: "About"
 lastmod: 2026-03-13
 ---
 
-# About Stock Market Words
 
 **Stock Market Words** is an educational stock research project by **Andrew Allbright**. It started with a simple question: how often do valid stock ticker symbols hide inside normal English text, and can that pattern become a useful way to explore a market dataset?
 

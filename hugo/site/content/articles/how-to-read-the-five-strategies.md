@@ -3,7 +3,6 @@ title: "How to Read the Five Strategies"
 lastmod: 2026-03-13
 ---
 
-# How to Read the Five Strategies
 
 The five strategy pages on Stock Market Words are best understood as **ranking lenses**, not predictions.
 

@@ -1,11 +1,9 @@
 ---
 title: "RSI (Relative Strength Index) — Stock Market Glossary"
 description: "RSI measures whether a stock is overbought or oversold. Learn what RSI means, how to read it, and how it's used in technical analysis."
----
 lastmod: 2026-03-20
 ---
 
-# RSI — Relative Strength Index
 
 **RSI (Relative Strength Index)** is a momentum oscillator that measures the speed and magnitude of recent price changes. It was developed by J. Welles Wilder Jr. in 1978 and remains one of the most popular technical indicators.
 

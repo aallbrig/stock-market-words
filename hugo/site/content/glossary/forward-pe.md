@@ -1,11 +1,9 @@
 ---
 title: "Forward P/E Ratio — Stock Market Glossary"
 description: "Forward P/E uses estimated future earnings instead of past earnings. Learn how forward P/E differs from trailing P/E and when to use each."
----
 lastmod: 2026-03-20
 ---
 
-# Forward P/E Ratio
 
 **Forward P/E** (also called the forward price-to-earnings ratio) is calculated using analysts' consensus estimates for *next twelve months* (NTM) earnings rather than actual reported earnings. It's a forward-looking valuation metric.
 
