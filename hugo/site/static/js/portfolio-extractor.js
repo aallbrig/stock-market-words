@@ -599,7 +599,7 @@ function renderPortfolios(text, words, portfolios) {
                 const page = Math.floor(idx / tickersPerPage);
                 const shouldHide = needsPagination && page > 0;
                 const rowStyle = shouldHide ? ' style="display: none;"' : '';
-                html += `<tr data-page="${page}"${rowStyle}><td><a href="https://finance.yahoo.com/quote/${t.symbol.toUpperCase()}" target="_blank" rel="noopener" title="${t.symbol.toUpperCase()} - ${data.name}"><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></a></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
+                html += `<tr data-page="${page}"${rowStyle}><td><a href="${BASE_URL}/tickers/${t.symbol.toLowerCase()}/" title="${t.symbol.toUpperCase()} - ${data.name}"><span class="badge bg-secondary">${t.symbol.toUpperCase()}</span></a></td><td>${data.name}</td><td>$${data.price.toFixed(2)}</td></tr>`;
             });
             html += '</tbody></table>';
 
@@ -724,6 +724,11 @@ async function handleFormSubmit(e) {
         return;
     }
 
+    // Update URL so back-navigation restores this analysis
+    const params = new URLSearchParams();
+    params.set('q', text);
+    history.pushState(null, '', `?${params.toString()}`);
+
     // Show loading indicator immediately
     const loadingIndicator = document.getElementById('loading-indicator');
     const resultCard = document.getElementById('result-card');
@@ -826,6 +831,20 @@ function handleWorkerResult(data) {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ticker-form').addEventListener('submit', handleFormSubmit);
-    // Don't load data immediately - let it load on first submit for faster page load
+
+    // Restore analysis from URL ?q= param (e.g. after back-navigating from a ticker page)
+    const urlParams = new URLSearchParams(window.location.search);
+    const preloadText = urlParams.get('q');
+    if (preloadText) {
+        const textarea = document.getElementById('user-input');
+        if (textarea) {
+            textarea.value = preloadText;
+            // Dispatch submit so the analysis runs automatically
+            document.getElementById('ticker-form').dispatchEvent(
+                new Event('submit', { bubbles: true, cancelable: true })
+            );
+        }
+    }
+
     console.log('Ticker extraction tool ready. Data will load on first submit.');
 });
