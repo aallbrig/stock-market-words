@@ -132,7 +132,8 @@
 &lt;h2 id="the-dividend-yield-trap"&gt;The Dividend Yield Trap&lt;/h2&gt;
 &lt;p&gt;A very high yield (&amp;gt; 6–8%) can be a warning sign. Yield goes &lt;strong&gt;up&lt;/strong&gt; when the stock price falls. If a stock&amp;rsquo;s dividend yield suddenly looks extraordinarily attractive, it may mean the market is pricing in a dividend cut — the company pays out less than expected, and yield collapses back to normal.&lt;/p&gt;</description></item><item><title>EPS — Earnings Per Share — Stock Market Glossary</title><link>https://stockmarketwords.com/glossary/eps/</link><pubDate>Fri, 20 Mar 2026 00:00:00 +0000</pubDate><guid>https://stockmarketwords.com/glossary/eps/</guid><description>&lt;p&gt;&lt;strong&gt;Earnings Per Share (EPS)&lt;/strong&gt; measures a company&amp;rsquo;s profitability on a per-share basis. It&amp;rsquo;s the foundation of many valuation metrics, including the &lt;a href="https://stockmarketwords.com/glossary/pe-ratio/"&gt;P/E ratio&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="formula"&gt;Formula&lt;/h2&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;EPS = Net Income ÷ Diluted Shares Outstanding
+&lt;pre tabindex="0"&gt;&lt;code&gt;Basic EPS = Net Income ÷ Shares Outstanding
+Diluted EPS = Net Income ÷ Diluted Shares Outstanding
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; A company earning $1 billion in net income with 500 million shares outstanding has an EPS of &lt;strong&gt;$2.00&lt;/strong&gt;.&lt;/p&gt;
 &lt;h2 id="basic-vs-diluted-eps"&gt;Basic vs. Diluted EPS&lt;/h2&gt;
 &lt;table&gt;
@@ -308,7 +309,7 @@
  &lt;/tr&gt;
  &lt;tr&gt;
  &lt;td&gt;&lt;strong&gt;Price crosses above MA50&lt;/strong&gt;&lt;/td&gt;
- &lt;td&gt;Potential buy signal (&amp;ldquo;golden cross&amp;rdquo; with MA200)&lt;/td&gt;
+ &lt;td&gt;Potential buy signal&lt;/td&gt;
  &lt;/tr&gt;
  &lt;tr&gt;
  &lt;td&gt;&lt;strong&gt;Price crosses below MA50&lt;/strong&gt;&lt;/td&gt;
