@@ -4,6 +4,8 @@ title = 'Stock Market Words'
 uglyURLs = false
 
 [params]
+description = "Free tool: paste any text and instantly extract every stock ticker symbol hidden inside it. Strategy scores, key metrics, and educational context for 3,000+ tickers."
+
 # Google Analytics tracking ID (leave empty for local development)
 # Set via environment variable HUGO_PARAMS_GOOGLEANALYTICSID in production
 googleAnalyticsId = ""

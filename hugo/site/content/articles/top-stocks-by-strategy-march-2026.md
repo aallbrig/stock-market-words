@@ -1,7 +1,8 @@
 ---
 title: "Top Tickers by Strategy — March 2026"
-description: "A data-driven monthly roundup of which tickers score highest across each of the five investment strategies on this site, with commentary on what the numbers reveal."
+author: "Andrew Allbright"
 date: 2026-03-20
+description: "A data-driven monthly roundup of which tickers score highest across each of the five investment strategies on this site, with commentary on what the numbers reveal."
 lastmod: 2026-03-20
 draft: false
 ---

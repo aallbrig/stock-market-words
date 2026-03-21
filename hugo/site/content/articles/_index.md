@@ -1,12 +1,17 @@
 ---
 title: "Articles"
-lastmod: 2026-03-20
+lastmod: 2026-03-21
 ---
 
 
-Original articles about the extraction engine, strategy logic, and how to interpret the dataset behind Stock Market Words.
+Original articles about the extraction engine, strategy logic, and how to use the site's data.
 
-> **Last updated:** March 20, 2026
+> **Last updated:** March 21, 2026
+
+## Using the Tool
+
+- [How to Extract Tickers from Financial News](/articles/how-to-extract-tickers-from-financial-news/) — walkthrough of pasting a real news article and interpreting the results
+- [Hidden Tickers in Earnings Call Transcripts](/articles/hidden-tickers-in-earnings-transcripts/) — why transcripts are a goldmine for implicit stock references
 
 ## The Extraction Engine
 
