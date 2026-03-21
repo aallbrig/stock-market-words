@@ -22,7 +22,7 @@ If a stock has a beta of **1.8** and the S&P 500 drops 10%, that stock would be 
 
 ## How It's Used on This Site
 
-Beta is a key input in two of our investment strategies:
+Beta is a key input in three of our investment strategies:
 
 - **[🚀 Moon Shot](/strategy-moon-shot/)** — Targets stocks with **high beta** (≥ 1.5) that are oversold. High volatility + recent dip = potential for explosive recovery.
 - **[🔪 Falling Knife](/strategy-falling-knife/)** — Also favors high-beta stocks that have fallen sharply, on the theory that they'll bounce back hard.

@@ -21,7 +21,7 @@ Since the market is open ~252 days per year, 50 trading days ≈ 2.5 calendar mo
 |---|---|
 | **Price > MA50** | Short-term uptrend; bullish signal |
 | **Price < MA50** | Short-term downtrend; bearish signal |
-| **Price crosses above MA50** | Potential buy signal ("golden cross" with MA200) |
+| **Price crosses above MA50** | Potential buy signal |
 | **Price crosses below MA50** | Potential sell signal |
 
 ## MA50 vs. MA200

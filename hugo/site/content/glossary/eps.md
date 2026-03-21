@@ -10,7 +10,8 @@ lastmod: 2026-03-20
 ## Formula
 
 ```
-EPS = Net Income ÷ Diluted Shares Outstanding
+Basic EPS   = Net Income ÷ Shares Outstanding
+Diluted EPS = Net Income ÷ Diluted Shares Outstanding
 ```
 
 **Example:** A company earning $1 billion in net income with 500 million shares outstanding has an EPS of **$2.00**.
