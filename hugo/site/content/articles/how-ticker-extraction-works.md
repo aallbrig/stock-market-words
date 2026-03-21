@@ -1,5 +1,7 @@
 ---
 title: "How Ticker Extraction Works"
+author: "Andrew Allbright"
+date: 2026-03-20
 lastmod: 2026-03-13
 ---
 

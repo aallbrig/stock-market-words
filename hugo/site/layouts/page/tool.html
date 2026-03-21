@@ -1,0 +1,123 @@
+{{ define "main" }}
+{{/* Load tool assets */}}
+<link href="{{ .Site.BaseURL }}css/ticker-highlight.css" rel="stylesheet">
+<script>window.SITE_BASE_URL = '{{ .Site.BaseURL }}';</script>
+<script src="{{ .Site.BaseURL }}js/portfolio-extractor.js"></script>
+
+<div class="container mt-4">
+
+  <!-- Hero -->
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold mb-3">Stock Ticker Extractor</h1>
+    <p class="lead text-muted mx-auto" style="max-width:600px">Paste any text — financial news, earnings call transcripts, Reddit posts, shareholder letters — and instantly see every stock ticker symbol hiding inside it.</p>
+  </div>
+
+  <!-- The Tool -->
+  <div class="row justify-content-center mb-5">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <div class="mb-3">
+            <p class="mb-2 text-muted small">Try an example:</p>
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillExample(0)">The cat sat on the mat…</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillExample(1)">My dad works at Ford. Yesterday he drove…</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillExample(2)">The tech industry saw major changes…</button>
+            </div>
+          </div>
+          <form id="ticker-form">
+            <div class="mb-3">
+              <label for="user-input" class="form-label fw-semibold">Paste your text:</label>
+              <textarea class="form-control" id="user-input" rows="7" placeholder="Paste a news article, earnings transcript, Reddit post, shareholder letter, or any other text here…"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success btn-lg w-100">Find Hidden Tickers →</button>
+          </form>
+          <div id="loading-indicator" class="mt-3" style="display: none;">
+            <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div></div>
+            <p class="text-center mt-2 small text-muted">Analyzing text… <strong>Computing time: <span id="compute-timer">0</span>s</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4" id="result-card" style="display:none;">
+        <div class="card-body">
+          <h5 class="card-title">🎯 5 Strategy Portfolios</h5>
+          <p class="text-muted small">Each strategy picks the highest-scoring tickers from your text using a different investment lens.</p>
+          <div id="portfolio-strategies" class="mb-4"></div>
+        </div>
+      </div>
+
+      <!-- Ticker Lookup -->
+      <div class="card mt-4 border-secondary">
+        <div class="card-body">
+          <h5 class="card-title">🔍 Look Up a Ticker Directly</h5>
+          <p class="text-muted small mb-3">Jump to a stock's data page — price, metrics, and all five strategy scores.</p>
+          <form id="ticker-lookup-form" class="d-flex gap-2" onsubmit="return tickerLookup(event)">
+            <input type="text" id="ticker-lookup-input" class="form-control" placeholder="e.g. AAPL, NVDA, TSLA" maxlength="10" style="max-width:200px" autocomplete="off" autocapitalize="characters">
+            <button type="submit" class="btn btn-outline-primary">Go →</button>
+          </form>
+          <small class="text-muted mt-2 d-block">Or <a href="/filtered-data/">browse all {{ len .Site.Data.all_tickers.tickers }} tickers →</a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Use cases -->
+  <div class="row g-4 mb-5">
+    <div class="col-12"><h2 class="h4 text-center text-muted mb-3">What you can paste into the tool</h2></div>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 bg-light">
+        <div class="card-body text-center p-4">
+          <div class="fs-2 mb-2">📰</div>
+          <h3 class="h6 fw-bold">Financial News</h3>
+          <p class="small text-muted mb-3">Paste any CNBC, Bloomberg, or Reuters article. The tool finds every company mentioned — including ones that aren't named explicitly.</p>
+          <a href="/articles/how-to-extract-tickers-from-financial-news/" class="btn btn-outline-secondary btn-sm">See it in action →</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 bg-light">
+        <div class="card-body text-center p-4">
+          <div class="fs-2 mb-2">📋</div>
+          <h3 class="h6 fw-bold">Earnings Transcripts</h3>
+          <p class="small text-muted mb-3">Earnings calls mention competitors, partners, and suppliers by name. Paste a transcript and discover every ticker hiding in it.</p>
+          <a href="/articles/hidden-tickers-in-earnings-transcripts/" class="btn btn-outline-secondary btn-sm">See it in action →</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 bg-light">
+        <div class="card-body text-center p-4">
+          <div class="fs-2 mb-2">💬</div>
+          <h3 class="h6 fw-bold">Social Media &amp; Reddit</h3>
+          <p class="small text-muted mb-3">r/wallstreetbets, r/investing, and financial Twitter are full of accidental ticker references. The tool catches what you'd miss reading manually.</p>
+          <a href="/articles/how-ticker-extraction-works/" class="btn btn-outline-secondary btn-sm">How it works →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How it works summary -->
+  <div class="row justify-content-center mb-5">
+    <div class="col-lg-8">
+      <h2 class="h5 mb-3">How does it work?</h2>
+      <p class="text-muted">The extractor uses a non-greedy backtracking algorithm to find all valid ticker symbols within any string of text — handling overlapping matches, common English words that look like tickers (like "IT", "A", or "ARE"), and multi-word company names. Once symbols are found, they're matched against the live database of {{ len .Site.Data.all_tickers.tickers }} tickers and scored across five investment strategy lenses.</p>
+      <p class="text-muted mb-0">
+        <a href="/articles/how-ticker-extraction-works/">Full technical explanation →</a> ·
+        <a href="/methodology/">How scores are calculated →</a> ·
+        <a href="/strategies/">The five strategies →</a>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function tickerLookup(e) {
+  e.preventDefault();
+  const sym = document.getElementById('ticker-lookup-input').value.trim().toLowerCase();
+  if (sym) window.location.href = '/tickers/' + sym + '/';
+  return false;
+}
+</script>
+{{ end }}

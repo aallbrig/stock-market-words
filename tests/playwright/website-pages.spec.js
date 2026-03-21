@@ -33,6 +33,9 @@ const PAGES = [
   { path: '/articles/practical-guide-to-stock-indicators/', name: 'Article: Indicators Guide' },
   { path: '/articles/why-some-tickers-have-no-scores/', name: 'Article: No Scores Explainer' },
   { path: '/articles/top-stocks-by-strategy-march-2026/', name: 'Article: March 2026 Roundup' },
+  { path: '/tool/', name: 'Tool Page' },
+  { path: '/articles/how-to-extract-tickers-from-financial-news/', name: 'Article: Financial News' },
+  { path: '/articles/hidden-tickers-in-earnings-transcripts/', name: 'Article: Earnings Transcripts' },
 ];
 
 test.describe('Website Page Load Tests', () => {

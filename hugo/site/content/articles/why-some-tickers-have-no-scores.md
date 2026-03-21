@@ -1,7 +1,8 @@
 ---
 title: "Why Some Tickers Have No Strategy Scores"
-description: "Not every ticker on this site has strategy scores. Here's exactly why — and what it tells you about coverage, data quality, and filtering."
+author: "Andrew Allbright"
 date: 2026-03-20
+description: "Not every ticker on this site has strategy scores. Here's exactly why — and what it tells you about coverage, data quality, and filtering."
 lastmod: 2026-03-20
 draft: false
 ---

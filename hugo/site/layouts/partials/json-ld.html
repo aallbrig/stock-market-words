@@ -1,0 +1,88 @@
+{{- $type := .Type -}}
+{{- $isHome := .IsHome -}}
+
+{{ if $isHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Stock Market Words",
+  "url": "{{ .Site.BaseURL }}",
+  "description": "{{ .Site.Params.description }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ .Site.BaseURL }}tickers/{search_term_string}/"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Stock Market Words",
+  "url": "{{ .Site.BaseURL }}",
+  "description": "A free tool for extracting stock ticker symbols from any text, with strategy scoring and educational content.",
+  "founder": {
+    "@type": "Person",
+    "name": "Andrew Allbright",
+    "url": "https://github.com/aallbrig"
+  }
+}
+</script>
+{{ end }}
+
+{{ if eq .RelPermalink "/tool/" }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Stock Ticker Extractor",
+  "url": "{{ .Site.BaseURL }}tool/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any (browser-based)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Free browser-based tool that finds every stock ticker symbol hidden in any text — financial news, earnings transcripts, social media posts, or any other written content.",
+  "author": {
+    "@type": "Person",
+    "name": "Andrew Allbright"
+  }
+}
+</script>
+{{ end }}
+
+{{ if eq $type "page" }}
+  {{ with .Params.author }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ $.Title | jsonify }},
+  "description": {{ ($.Params.description | default "") | jsonify }},
+  "datePublished": "{{ $.Date.Format "2006-01-02" }}",
+  "dateModified": "{{ $.Lastmod.Format "2006-01-02" }}",
+  "author": {
+    "@type": "Person",
+    "name": {{ . | jsonify }},
+    "url": "https://github.com/aallbrig"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Stock Market Words",
+    "url": {{ $.Site.BaseURL | jsonify }}
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": {{ $.Permalink | jsonify }}
+  }
+}
+</script>
+  {{ end }}
+{{ end }}

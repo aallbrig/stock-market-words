@@ -1,7 +1,8 @@
 ---
 title: "A Practical Guide to Reading Stock Indicators"
-description: "RSI, beta, moving averages, P/E ratio, and dividend yield explained clearly — with real examples drawn from this site's own ticker universe."
+author: "Andrew Allbright"
 date: 2026-03-20
+description: "RSI, beta, moving averages, P/E ratio, and dividend yield explained clearly — with real examples drawn from this site's own ticker universe."
 lastmod: 2026-03-20
 draft: false
 ---

@@ -2,6 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+    {{ with (.Params.description | default .Site.Params.description) }}<meta name="description" content="{{ . }}">{{ end }}
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cerulean/bootstrap.min.css" rel="stylesheet">
     <link href="{{ .Site.BaseURL }}css/theme.css" rel="stylesheet">
     <link href="{{ .Site.BaseURL }}css/print.css" rel="stylesheet" media="print">
@@ -10,6 +11,10 @@
         <link href="{{ . }}" rel="stylesheet">
       {{ end }}
     {{ end }}
+    {{/* noindex auto-generated ticker pages — keeps AdSense eligibility ratio on editorial content */}}
+    {{ if eq .Type "tickers" }}<meta name="robots" content="noindex,follow">{{ end }}
+    {{/* JSON-LD structured data */}}
+    {{ partial "json-ld.html" . }}
     {{ partial "google-analytics.html" . }}
-  {{ partial "google-adsense.html" . }}
+    {{ partial "google-adsense.html" . }}
 </head>
