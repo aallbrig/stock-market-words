@@ -42,7 +42,7 @@ On individual [ticker pages](/filtered-data/), the RSI badge is color-coded:
 
 ## Limitations
 
-RSI is a lagging indicator based purely on price history. A stock can remain overbought or oversold for extended periods, especially in strong trends. Always use RSI alongside other indicators rather than in isolation.
+RSI is a leading indicator — it's designed to signal potential reversals *before* they happen — but it is based purely on price history. A stock can remain overbought or oversold for extended periods, especially in strong trends. Always use RSI alongside other indicators rather than in isolation.
 
 ## Related Terms
 
