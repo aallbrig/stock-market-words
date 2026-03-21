@@ -1,11 +1,9 @@
 ---
 title: "Beta — Stock Market Glossary"
 description: "Beta measures a stock's volatility relative to the overall market. Learn what beta means, how it's calculated, and how to use it when investing."
----
 lastmod: 2026-03-20
 ---
 
-# Beta
 
 **Beta** measures how much a stock's price moves relative to the overall market (typically the S&P 500). It is one of the most widely used risk metrics in finance.
 

@@ -2,7 +2,6 @@
 title: "Stock Market Glossary"
 ---
 
-# Stock Market Glossary
 
 A plain-English reference for the financial terms used across this site. Each entry explains what the metric means, how it's calculated, and how to use it when evaluating stocks.
 

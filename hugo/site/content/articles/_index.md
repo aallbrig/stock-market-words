@@ -3,7 +3,6 @@ title: "Articles"
 lastmod: 2026-03-20
 ---
 
-# Articles
 
 Original articles about the extraction engine, strategy logic, and how to interpret the dataset behind Stock Market Words.
 

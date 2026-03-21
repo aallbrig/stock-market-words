@@ -1,11 +1,9 @@
 ---
 title: "52-Week Low — Stock Market Glossary"
 description: "The 52-week low is the lowest price a stock has traded at over the past year. Learn what it means and how investors use it as a support level."
----
 lastmod: 2026-03-20
 ---
 
-# 52-Week Low
 
 The **52-week low** is the lowest price at which a stock has traded during the previous 52 weeks (one year). Like the [52-week high](/glossary/52-week-high/), it is a key reference point for technical analysts and long-term investors.
 

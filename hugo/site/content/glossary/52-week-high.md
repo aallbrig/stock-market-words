@@ -1,11 +1,9 @@
 ---
 title: "52-Week High — Stock Market Glossary"
 description: "The 52-week high is the highest price a stock has traded at over the past year. Learn what it means and how it's used in technical analysis."
----
 lastmod: 2026-03-20
 ---
 
-# 52-Week High
 
 The **52-week high** is the highest price at which a stock has traded during the previous 52 weeks (one year). It is a widely used reference point for gauging a stock's current price relative to its annual peak.
 

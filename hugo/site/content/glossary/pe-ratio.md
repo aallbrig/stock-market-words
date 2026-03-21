@@ -1,11 +1,9 @@
 ---
 title: "P/E Ratio (Price-to-Earnings) — Stock Market Glossary"
 description: "The P/E ratio compares a company's stock price to its earnings per share. Learn how to calculate, interpret, and use the P/E ratio when evaluating stocks."
----
 lastmod: 2026-03-20
 ---
 
-# P/E Ratio — Price-to-Earnings Ratio
 
 The **P/E ratio** (Price-to-Earnings ratio) is the most widely used stock valuation metric. It tells you how much investors are willing to pay for each dollar of a company's earnings.
 

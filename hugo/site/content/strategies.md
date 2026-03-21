@@ -4,7 +4,6 @@ layout: "page"
 lastmod: 2026-03-13
 ---
 
-# Investment Strategies
 
 The strategy pages on Stock Market Words are designed to help readers compare the same ticker universe through five different lenses. They are **research aids**, not portfolio instructions.
 

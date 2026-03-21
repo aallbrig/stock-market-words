@@ -1,11 +1,9 @@
 ---
 title: "EPS — Earnings Per Share — Stock Market Glossary"
 description: "EPS measures a company's profit divided by its number of shares. Learn how to calculate earnings per share and why it matters for valuing stocks."
----
 lastmod: 2026-03-20
 ---
 
-# EPS — Earnings Per Share
 
 **Earnings Per Share (EPS)** measures a company's profitability on a per-share basis. It's the foundation of many valuation metrics, including the [P/E ratio](/glossary/pe-ratio/).
 

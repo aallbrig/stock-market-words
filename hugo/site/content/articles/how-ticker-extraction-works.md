@@ -3,7 +3,6 @@ title: "How Ticker Extraction Works"
 lastmod: 2026-03-13
 ---
 
-# How Ticker Extraction Works
 
 The homepage tool on Stock Market Words starts with a weird but surprisingly tricky problem:
 

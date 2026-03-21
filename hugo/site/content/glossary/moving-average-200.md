@@ -1,11 +1,9 @@
 ---
 title: "Moving Average (200-Day MA) — Stock Market Glossary"
 description: "The 200-day moving average is a key long-term trend indicator. Learn what the 200-day MA means, how traders use it, and how it's used in stock screening."
----
 lastmod: 2026-03-20
 ---
 
-# Moving Average — 200-Day (MA200)
 
 The **200-day moving average (MA200)** is the average of a stock's closing prices over the past 200 trading days — roughly 10 calendar months. It is one of the most widely watched technical indicators for identifying long-term trends.
 

@@ -3,7 +3,6 @@ title: "Methodology"
 lastmod: 2026-03-13
 ---
 
-# Methodology
 
 This page explains how Stock Market Words builds its dataset, extracts ticker symbols from text, and scores tickers across the site's five strategy pages.
 

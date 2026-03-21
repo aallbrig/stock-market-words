@@ -1,11 +1,9 @@
 ---
 title: "Moving Average (50-Day MA) — Stock Market Glossary"
 description: "The 50-day moving average smooths short-term price fluctuations. Learn what the 50-day MA means, how to use it, and how it compares to the 200-day MA."
----
 lastmod: 2026-03-20
 ---
 
-# Moving Average — 50-Day (MA50)
 
 The **50-day moving average (MA50)** is the average of a stock's closing prices over the past 50 trading days. It's updated each day as new prices replace old ones — hence "moving."
 

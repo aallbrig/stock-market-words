@@ -1,11 +1,9 @@
 ---
 title: "Volume — Stock Trading Volume Explained — Stock Market Glossary"
 description: "Trading volume is the number of shares exchanged in a given period. Learn how to read volume, what volume spikes mean, and why it matters for trading decisions."
----
 lastmod: 2026-03-20
 ---
 
-# Volume
 
 **Trading volume** is the total number of shares (or contracts) bought and sold during a given time period — usually a single trading day. It's one of the most fundamental metrics in stock market analysis.
 
