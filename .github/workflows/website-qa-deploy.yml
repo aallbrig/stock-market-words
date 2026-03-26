@@ -8,15 +8,34 @@ on:
       - 'hugo/**'
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: Build Hugo site and deploy to GitHub Pages
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: true
+
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -27,14 +46,16 @@ jobs:
       - name: Build Hugo site
         run: |
           cd hugo/site
-          hugo --minify
+          hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
         env:
           HUGO_PARAMS_GOOGLEANALYTICSID: G-RQCDXSWTLG
           HUGO_PARAMS_GOOGLEADSENSEID: ca-pub-2847616693333026
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          branch: gh-pages
-          folder: hugo/site/public
-          clean: true
+          path: hugo/site/public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
