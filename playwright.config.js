@@ -79,7 +79,7 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: process.env.NO_AUTO_SERVER ? undefined : {
+  webServer: (process.env.NO_AUTO_SERVER || process.env.START_SERVER === 'false') ? undefined : {
     command: 'cd hugo/site && hugo server --port 1314 --bind 127.0.0.1',
     url: 'http://localhost:1314',
     reuseExistingServer: !process.env.CI,
