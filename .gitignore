@@ -168,4 +168,5 @@ vite.config.ts.timestamp-*
 .vite/
 
 test-reports/
+test-results/
 .test-timings.json
