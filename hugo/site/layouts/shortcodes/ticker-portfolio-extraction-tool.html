@@ -7,6 +7,7 @@
   {{ .Page.Scratch.Set "ticker-portfolio-extraction-tool-js-loaded" true }}
   <script>
     window.SITE_BASE_URL = '{{ .Page.Site.BaseURL }}';
+    window.SITE_LANG = '{{ .Page.Site.Language.Lang }}';
   </script>
   <script src="{{ .Page.Site.BaseURL }}js/portfolio-extractor.js"></script>
 {{ end }}
@@ -15,31 +16,31 @@
   <div class="col-md-8">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Ticker Extraction Tool</h5>
-        <p class="card-text">Paste any text. We'll find the best stock tickers hidden in your words and show you 5 different portfolios optimized for different strategies!</p>
+        <h5 class="card-title">{{ i18n "shortcode_title" }}</h5>
+        <p class="card-text">{{ i18n "shortcode_desc" }}</p>
         
         <!-- Demo Examples -->
         <div class="mb-3">
-          <p class="mb-2"><small class="text-muted">Try an example:</small></p>
+          <p class="mb-2"><small class="text-muted">{{ i18n "home_try_example" }}</small></p>
           <div class="btn-group-vertical btn-group-sm d-grid gap-2" role="group">
             <button type="button" class="btn btn-outline-secondary text-start" onclick="fillExample(0)">
-              The cat sat on the mat...
+              {{ i18n "home_example_1" }}
             </button>
             <button type="button" class="btn btn-outline-secondary text-start" onclick="fillExample(1)">
-              My dad works at Ford. Yesterday he drove...
+              {{ i18n "home_example_2" }}
             </button>
             <button type="button" class="btn btn-outline-secondary text-start" onclick="fillExample(2)">
-              The tech industry saw major changes...
+              {{ i18n "home_example_3" }}
             </button>
           </div>
         </div>
         
         <form id="ticker-form">
           <div class="mb-3">
-            <label for="user-input" class="form-label">Your Text:</label>
-            <textarea class="form-control" id="user-input" rows="6" placeholder="Enter any text to extract stock tickers..."></textarea>
+            <label for="user-input" class="form-label">{{ i18n "shortcode_your_text" }}</label>
+            <textarea class="form-control" id="user-input" rows="6" placeholder="{{ i18n "shortcode_placeholder" }}"></textarea>
           </div>
-          <button type="submit" class="btn btn-success">Extract Portfolios</button>
+          <button type="submit" class="btn btn-success">{{ i18n "shortcode_extract_btn" }}</button>
         </form>
         
         <!-- Loading Indicator -->
@@ -48,16 +49,16 @@
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
           </div>
           <p class="text-center mt-2">
-            <small class="text-muted">Analyzing text and finding tickers...</small><br>
-            <small class="text-muted"><strong>Computing time: <span id="compute-timer">0</span>s</strong></small>
+            <small class="text-muted">{{ i18n "shortcode_analyzing" }}</small><br>
+            <small class="text-muted"><strong>{{ i18n "tool_computing_time" }} <span id="compute-timer">0</span>s</strong></small>
           </p>
         </div>
       </div>
     </div>
     <div class="card mt-4" id="result-card" style="display:none;">
       <div class="card-body">
-        <h5 class="card-title">🎯 5 Different Portfolios (One Per Strategy)</h5>
-        <p class="text-muted">Each strategy finds the highest-scoring tickers in your text. Words are consumed once found!</p>
+        <h5 class="card-title">{{ i18n "shortcode_portfolios_title" }}</h5>
+        <p class="text-muted">{{ i18n "shortcode_portfolios_desc" }}</p>
         <div id="portfolio-strategies" class="mb-4"></div>
       </div>
     </div>
@@ -65,14 +66,14 @@
     <!-- Ticker Lookup -->
     <div class="card mt-4 border-secondary">
       <div class="card-body">
-        <h5 class="card-title">🔍 Look Up a Ticker</h5>
-        <p class="card-text text-muted">Jump directly to a stock's detail page — price, metrics, and strategy scores.</p>
+        <h5 class="card-title">{{ i18n "home_lookup_title" }}</h5>
+        <p class="card-text text-muted">{{ i18n "shortcode_lookup_desc" }}</p>
         <form id="ticker-lookup-form" class="d-flex gap-2" onsubmit="return tickerLookup(event)">
-          <input type="text" id="ticker-lookup-input" class="form-control" placeholder="e.g. AAPL, MSFT, TSLA" maxlength="10" style="max-width: 200px;" autocomplete="off" autocapitalize="characters">
-          <button type="submit" class="btn btn-outline-primary">Go →</button>
+          <input type="text" id="ticker-lookup-input" class="form-control" placeholder="{{ i18n "home_lookup_placeholder" }}" maxlength="10" style="max-width: 200px;" autocomplete="off" autocapitalize="characters">
+          <button type="submit" class="btn btn-outline-primary">{{ i18n "home_go_btn" }}</button>
         </form>
         <small class="text-muted mt-2 d-block">
-          Or <a href="/filtered-data/">browse all {{ len .Site.Data.all_tickers.tickers }} tickers →</a>
+          {{ i18n "home_browse_prefix" }} <a href="{{ "/filtered-data/" | relLangURL }}">{{ i18n "home_browse_link" }} {{ len .Site.Data.all_tickers.tickers }} {{ i18n "home_browse_suffix" }}</a>
         </small>
       </div>
     </div>
@@ -82,7 +83,7 @@
 function tickerLookup(e) {
   e.preventDefault();
   const sym = document.getElementById('ticker-lookup-input').value.trim().toLowerCase();
-  if (sym) window.location.href = '/tickers/' + sym + '/';
+  if (sym) window.location.href = '{{ "/" | relLangURL }}tickers/' + sym + '/';
   return false;
 }
 </script>

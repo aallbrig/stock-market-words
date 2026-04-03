@@ -3,6 +3,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
     {{ with (.Params.description | default .Site.Params.description) }}<meta name="description" content="{{ . }}">{{ end }}
+    {{/* hreflang tags for multilingual SEO */}}
+    <link rel="alternate" hreflang="{{ .Site.Language.Lang }}" href="{{ .Permalink }}" />
+    {{ range .Translations }}
+    <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />
+    {{ end }}
+    <link rel="alternate" hreflang="x-default" href="{{ .Permalink }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cerulean/bootstrap.min.css" rel="stylesheet">
     <link href="{{ .Site.BaseURL }}css/theme.css" rel="stylesheet">
     <link href="{{ .Site.BaseURL }}css/print.css" rel="stylesheet" media="print">

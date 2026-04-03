@@ -1,16 +1,18 @@
 $(document).ready(function() {
+    const T = (key) => (window.I18N && window.I18N[key]) || key;
+
     // Load filtered ticker data
     $.getJSON('/data/filtered_tickers.json', function(data) {
         renderFilteredTable('filtered-table', data);
     }).fail(function() {
-        $('#filtered-table').html('<div class="alert alert-danger">Failed to load filtered ticker data</div>');
+        $('#filtered-table').html(`<div class="alert alert-danger">${T('failed_load')}</div>`);
     });
 
     // Load Pass 1 results summary
     $.getJSON('/data/pass1_results.json', function(data) {
         renderSummary('pass1-summary', data);
     }).fail(function() {
-        $('#pass1-summary').html('<div class="alert alert-danger">Failed to load Pass 1 summary</div>');
+        $('#pass1-summary').html(`<div class="alert alert-danger">${T('failed_load')}</div>`);
     });
 });
 

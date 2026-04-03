@@ -1,0 +1,829 @@
+# Navigation
+[nav_brand]
+other = "Stock Market Words"
+
+[nav_home]
+other = "Home"
+
+[nav_tool]
+other = "🔍 Tool"
+
+[nav_data]
+other = "Data"
+
+[nav_data_overview]
+other = "📊 Data Overview"
+
+[nav_methodology]
+other = "🧭 Methodology"
+
+[nav_raw_ftp_data]
+other = "📥 Raw FTP Data"
+
+[nav_filtered_tickers]
+other = "✅ Filtered Tickers"
+
+[nav_browse_tickers]
+other = "🔎 Browse All Tickers"
+
+[nav_articles]
+other = "Articles"
+
+[nav_strategies]
+other = "Strategies"
+
+[nav_strategy_overview]
+other = "📈 Strategy Overview"
+
+[nav_glossary]
+other = "Glossary"
+
+[nav_about]
+other = "About"
+
+[nav_qr_code]
+other = "📱 QR Code"
+
+[nav_toggle]
+other = "Toggle navigation"
+
+# QR Modal
+[qr_share_title]
+other = "Share Stock Market Words"
+
+[qr_scan_text]
+other = "Scan to visit stockmarketwords.com"
+
+# Footer
+[footer_source]
+other = "Source:"
+
+[footer_github]
+other = "GitHub"
+
+[footer_show_qr]
+other = "📱 Show QR Code"
+
+[footer_scan_mobile]
+other = "Scan to visit on mobile"
+
+[footer_privacy]
+other = "Privacy Policy"
+
+[footer_tool]
+other = "Tool"
+
+[footer_methodology]
+other = "Methodology"
+
+[footer_articles]
+other = "Articles"
+
+[footer_glossary]
+other = "Glossary"
+
+[footer_contact]
+other = "Contact"
+
+[footer_about]
+other = "About"
+
+[footer_copyright]
+other = "Stock Market Words - © Andrew Allbright 2025-"
+
+# Strategy names (kept in English per requirement)
+[strategy_dividend_daddy]
+other = "💰 Dividend Daddy"
+
+[strategy_moon_shot]
+other = "🚀 Moon Shot"
+
+[strategy_falling_knife]
+other = "🔪 Falling Knife"
+
+[strategy_over_hyped]
+other = "📈 Over Hyped"
+
+[strategy_over_hyped_alt]
+other = "🎈 Over-Hyped"
+
+[strategy_institutional_whale]
+other = "🐋 Institutional Whale"
+
+# Strategy descriptions
+[strategy_dividend_daddy_desc]
+other = "High yield + low volatility"
+
+[strategy_moon_shot_desc]
+other = "High beta + oversold"
+
+[strategy_falling_knife_desc]
+other = "Oversold + below MA"
+
+[strategy_over_hyped_desc]
+other = "Overbought"
+
+[strategy_institutional_whale_desc]
+other = "Large cap"
+
+# Strategy long descriptions (ticker detail page)
+[strategy_dividend_daddy_long]
+other = "High dividend yield + low volatility"
+
+[strategy_moon_shot_long]
+other = "High growth potential (high beta + oversold)"
+
+[strategy_falling_knife_long]
+other = "Contrarian plays (oversold + below moving average)"
+
+[strategy_over_hyped_long]
+other = "Overbought stocks (potential short candidates)"
+
+[strategy_institutional_whale_long]
+other = "Large-cap, institutional-quality stocks"
+
+# Home page
+[home_hero_title]
+other = "Paste any text. Find every hidden stock ticker."
+
+[home_hero_subtitle]
+other = "Stock Market Words scans text for valid ticker symbols, then scores each one across five investment strategy lenses. Free. Runs in your browser."
+
+[home_try_example]
+other = "Try an example:"
+
+[home_example_1]
+other = "The cat sat on the mat…"
+
+[home_example_2]
+other = "My dad works at Ford. Yesterday he drove…"
+
+[home_example_3]
+other = "The tech industry saw major changes…"
+
+[home_your_text]
+other = "Your text:"
+
+[home_textarea_placeholder]
+other = "Paste a news article, earnings transcript, Reddit post, shareholder letter, or any other text…"
+
+[home_extract_btn]
+other = "Extract Tickers →"
+
+[home_analyzing]
+other = "Analyzing…"
+
+[home_strategy_portfolios]
+other = "🎯 5 Strategy Portfolios"
+
+[home_strategy_subtitle]
+other = "Each strategy picks the best-scoring tickers from your text using a different investment lens. Words are consumed once found."
+
+[home_lookup_title]
+other = "🔍 Look Up a Ticker"
+
+[home_lookup_subtitle]
+other = "Jump to a stock's data page — price, key metrics, and all five strategy scores."
+
+[home_lookup_placeholder]
+other = "e.g. AAPL, NVDA, TSLA"
+
+[home_go_btn]
+other = "Go →"
+
+[home_browse_prefix]
+other = "Or"
+
+[home_browse_link]
+other = "browse all"
+
+[home_browse_suffix]
+other = "tickers →"
+
+[home_why_title]
+other = "Why does this exist?"
+
+[home_why_p1]
+other = "Stock ticker symbols hide everywhere in financial writing — in news articles, analyst reports, earnings call transcripts, even social media. Reading \"Nvidia\" doesn't tell you the ticker is <strong>NVDA</strong>. \"Ford\" could be <strong>F</strong>. A Reddit post about \"the cat sat on the mat\" accidentally contains <strong>CAT</strong> and <strong>MAT</strong>."
+
+[home_why_p2]
+other = "This tool solves that. Paste any text, see every valid ticker the text contains, and immediately get strategy scores for each one — so you can decide what to look into further."
+
+[home_algorithm_link]
+other = "How the extraction algorithm works →"
+
+[home_scoring_link]
+other = "How strategy scores are calculated →"
+
+[home_learn_more]
+other = "Learn more"
+
+[home_articles_title]
+other = "📚 Articles"
+
+[home_articles_desc]
+other = "Original explainers about the extraction engine, strategy scoring, and how to use the site's data."
+
+[home_articles_link]
+other = "Browse articles →"
+
+[home_strategies_title]
+other = "📈 Strategies"
+
+[home_strategies_desc]
+other = "Five investment lenses: Dividend Daddy, Moon Shot, Falling Knife, Over-Hyped, and Institutional Whale."
+
+[home_strategies_link]
+other = "Explore strategies →"
+
+[home_glossary_title]
+other = "📖 Glossary"
+
+[home_glossary_desc]
+other = "Plain-English definitions of RSI, beta, moving averages, P/E ratio, dividend yield, and more."
+
+[home_glossary_link]
+other = "Browse glossary →"
+
+# Tool page
+[tool_title]
+other = "Stock Ticker Extractor"
+
+[tool_subtitle]
+other = "Paste any text — financial news, earnings call transcripts, Reddit posts, shareholder letters — and instantly see every stock ticker symbol hiding inside it."
+
+[tool_paste_label]
+other = "Paste your text:"
+
+[tool_textarea_placeholder]
+other = "Paste a news article, earnings transcript, Reddit post, shareholder letter, or any other text here…"
+
+[tool_find_btn]
+other = "Find Hidden Tickers →"
+
+[tool_analyzing]
+other = "Analyzing text…"
+
+[tool_computing_time]
+other = "Computing time:"
+
+[tool_strategy_subtitle]
+other = "Each strategy picks the highest-scoring tickers from your text using a different investment lens."
+
+[tool_lookup_title]
+other = "🔍 Look Up a Ticker Directly"
+
+[tool_lookup_subtitle]
+other = "Jump to a stock's data page — price, metrics, and all five strategy scores."
+
+[tool_use_cases_title]
+other = "What you can paste into the tool"
+
+[tool_news_title]
+other = "Financial News"
+
+[tool_news_desc]
+other = "Paste any CNBC, Bloomberg, or Reuters article. The tool finds every company mentioned — including ones that aren't named explicitly."
+
+[tool_news_link]
+other = "See it in action →"
+
+[tool_earnings_title]
+other = "Earnings Transcripts"
+
+[tool_earnings_desc]
+other = "Earnings calls mention competitors, partners, and suppliers by name. Paste a transcript and discover every ticker hiding in it."
+
+[tool_reddit_title]
+other = "Social Media & Reddit"
+
+[tool_reddit_desc]
+other = "r/wallstreetbets, r/investing, and financial Twitter are full of accidental ticker references. The tool catches what you'd miss reading manually."
+
+[tool_reddit_link]
+other = "How it works →"
+
+[tool_how_title]
+other = "How does it work?"
+
+[tool_how_desc]
+other = "The extractor uses a non-greedy backtracking algorithm to find all valid ticker symbols within any string of text — handling overlapping matches, common English words that look like tickers (like \"IT\", \"A\", or \"ARE\"), and multi-word company names."
+
+[tool_how_link]
+other = "Full technical explanation →"
+
+[tool_scoring_link]
+other = "How scores are calculated →"
+
+[tool_strategies_link]
+other = "The five strategies →"
+
+# Strategy filter page
+[strategy_summary]
+other = "Summary"
+
+[strategy_description]
+other = "Description"
+
+[strategy_filter_criteria]
+other = "Filter Criteria"
+
+[strategy_matching_stocks]
+other = "Matching Stocks"
+
+[strategy_data_generated]
+other = "Data generated:"
+
+[strategy_stocks_meet_criteria]
+other = "Stocks that meet the"
+
+[strategy_click_sort]
+other = "criteria. Click column headers to sort."
+
+[strategy_no_matching]
+other = "No Matching Stocks"
+
+[strategy_no_stocks_match]
+other = "No stocks currently match the"
+
+[strategy_no_stocks_reason]
+other = "criteria. This could mean:"
+
+[strategy_market_conditions]
+other = "Market conditions don't favor this strategy right now"
+
+[strategy_strict_criteria]
+other = "The filtering criteria are very strict"
+
+[strategy_no_data_collected]
+other = "Data hasn't been collected yet (run <code>ticker-cli run-all</code>)"
+
+[strategy_sector_distribution]
+other = "Sector Distribution"
+
+[strategy_sector_desc]
+other = "Distribution of matching stocks across different sectors."
+
+[strategy_explore_other]
+other = "Explore Other Strategies"
+
+[strategy_all_filtered]
+other = "📊 All Filtered Data"
+
+[strategy_no_data]
+other = "No Data Available"
+
+[strategy_no_data_msg]
+other = "Strategy filter data has not been generated yet. Run the following commands:"
+
+[strategy_sector_chart_title]
+other = "Sector Distribution of Matching Stocks"
+
+# Table headers
+[th_symbol]
+other = "Symbol"
+
+[th_name]
+other = "Name"
+
+[th_sector]
+other = "Sector"
+
+[th_exchange]
+other = "Exchange"
+
+[th_price]
+other = "Price"
+
+[th_volume]
+other = "Volume"
+
+[th_market_cap]
+other = "Market Cap"
+
+[th_pe_ratio]
+other = "P/E Ratio"
+
+[th_dividend_yield]
+other = "Dividend Yield %"
+
+[th_beta]
+other = "Beta"
+
+[th_rsi]
+other = "RSI (14-Day)"
+
+[th_ma200]
+other = "200-Day MA"
+
+[th_ma50]
+other = "50-Day MA"
+
+[th_52w_high]
+other = "52-Week High"
+
+[th_52w_low]
+other = "52-Week Low"
+
+[th_strategy_score]
+other = "Strategy Score"
+
+[th_etf]
+other = "ETF"
+
+[th_first_seen]
+other = "First Seen"
+
+# Common labels
+[label_yes]
+other = "Yes"
+
+[label_no]
+other = "No"
+
+[label_na]
+other = "N/A"
+
+[label_loading]
+other = "Loading..."
+
+[label_not_available]
+other = "Not available"
+
+[label_overbought]
+other = "Overbought"
+
+[label_oversold]
+other = "Oversold"
+
+[label_by]
+other = "By"
+
+[label_published]
+other = "Published"
+
+[label_updated]
+other = "Updated"
+
+# Filtered data page
+[filtered_total_tickers]
+other = "✅ Total Tickers"
+
+[filtered_common_stocks]
+other = "Filtered common stocks only"
+
+[filtered_with_price]
+other = "💹 With Price Data"
+
+[filtered_yahoo_finance]
+other = "Successfully fetched from Yahoo Finance"
+
+[filtered_success_rate]
+other = "📊 Success Rate"
+
+[filtered_pass1]
+other = "Pass 1 extraction"
+
+[filtered_data_refreshed]
+other = "📅 Data Refreshed"
+
+[filtered_by_exchange]
+other = "📈 Tickers by Exchange (Click to Toggle)"
+
+[filtered_all_exchanges]
+other = "All Exchanges"
+
+[filtered_ticker_list]
+other = "Filtered Ticker List"
+
+[filtered_ticker_desc]
+other = "All tickers that passed filtering rules. No test tickers, ETFs, warrants, units, rights, or preferred stock."
+
+[filtered_no_data]
+other = "No Data Available"
+
+[filtered_no_data_msg]
+other = "Filtered ticker data has not been generated yet. Run the following command to generate it:"
+
+# Raw data page
+[raw_nasdaq_data]
+other = "📊 NASDAQ Data"
+
+[raw_other_data]
+other = "📊 Other Exchanges Data"
+
+[raw_total_rows]
+other = "Total Rows:"
+
+[raw_file]
+other = "File:"
+
+[raw_downloaded]
+other = "Downloaded:"
+
+[raw_nasdaq_title]
+other = "NASDAQ Listed Securities"
+
+[raw_nasdaq_desc]
+other = "Raw data directly from NASDAQ FTP server"
+
+[raw_nasdaq_includes]
+other = "Includes test tickers, ETFs, warrants, units, and all other securities."
+
+[raw_showing_all]
+other = "Showing all"
+
+[raw_rows_sort]
+other = "rows. Click column headers to sort."
+
+[raw_other_title]
+other = "Other Exchange Securities"
+
+[raw_other_desc]
+other = "Raw data from NASDAQ FTP server"
+
+[raw_other_includes]
+other = "Includes NYSE, NYSE MKT, NYSE ARCA, and other exchanges."
+
+[raw_no_data]
+other = "No Data Available"
+
+[raw_no_data_msg]
+other = "Raw FTP data has not been generated yet. Run the following command to generate it:"
+
+# Ticker detail page
+[ticker_home]
+other = "Home"
+
+[ticker_all_tickers]
+other = "All Tickers"
+
+[ticker_market_data]
+other = "📊 Market Data"
+
+[ticker_view_yahoo]
+other = "View on Yahoo Finance →"
+
+[ticker_strategy_scores]
+other = "🎯 Investment Strategy Scores"
+
+[ticker_scores_desc]
+other = "scores across each investment strategy. Higher is better for that strategy's goals."
+
+[ticker_no_scores]
+other = "Strategy scores are not yet available for"
+
+[ticker_no_scores_reason]
+other = "Scores are calculated for tickers that meet at least one strategy's filter criteria."
+
+[ticker_no_scores_link]
+other = "Learn why some tickers have no scores →"
+
+[ticker_interpretation]
+other = "🔍 Strategy Interpretation"
+
+[ticker_best_fit]
+other = "Best fit:"
+
+[ticker_this_strategy]
+other = "— this strategy"
+
+[ticker_lowest_fit]
+other = "Lowest fit among scored strategies:"
+
+[ticker_no_single_score]
+other = "No single score is a buy or sell signal — use multiple lenses together."
+
+[ticker_learn_scores]
+other = "Learn how to read these scores →"
+
+[ticker_learn_more]
+other = "📚 Learn More"
+
+[ticker_indicators]
+other = "Indicators on this page"
+
+[ticker_educational]
+other = "Educational articles"
+
+[ticker_site_resources]
+other = "Site resources"
+
+[ticker_rsi_link]
+other = "RSI — what it measures"
+
+[ticker_beta_link]
+other = "Beta — market sensitivity"
+
+[ticker_ma50_link]
+other = "50-Day Moving Average"
+
+[ticker_ma200_link]
+other = "200-Day Moving Average"
+
+[ticker_pe_link]
+other = "P/E Ratio explained"
+
+[ticker_fpe_link]
+other = "Forward P/E explained"
+
+[ticker_dy_link]
+other = "Dividend Yield explained"
+
+[ticker_ptb_link]
+other = "Price-to-Book explained"
+
+[ticker_mc_link]
+other = "Market Cap explained"
+
+[ticker_read_scores]
+other = "How to read strategy scores"
+
+[ticker_indicator_guide]
+other = "Guide to stock indicators"
+
+[ticker_why_no_scores]
+other = "Why some tickers have no scores"
+
+[ticker_all_articles]
+other = "All articles →"
+
+[ticker_how_calculated]
+other = "How scores are calculated"
+
+[ticker_all_strategies]
+other = "All five strategies"
+
+[ticker_full_glossary]
+other = "Full glossary"
+
+[ticker_browse_all]
+other = "Browse all tickers"
+
+[ticker_find_in_text]
+other = "Find"
+
+[ticker_in_your_text]
+other = "in your text"
+
+[ticker_paste_desc]
+other = "Paste any article, transcript, or post — the tool will extract"
+
+[ticker_and_every_other]
+other = "and every other hidden ticker."
+
+[ticker_try_extractor]
+other = "Try the Ticker Extractor →"
+
+[ticker_disclaimer]
+other = "<strong>Disclaimer:</strong> This data is for educational and entertainment purposes only and does not constitute financial advice. Market data may be delayed. Always do your own research before making investment decisions."
+
+[ticker_data_updated]
+other = "Data last updated:"
+
+# Ticker list page
+[ticker_list_title]
+other = "Browse All Tickers"
+
+[ticker_list_desc]
+other = "stocks and ETFs with market data and investment strategy scores."
+
+[ticker_list_search]
+other = "🔍 Search & Filter"
+
+[ticker_list_search_desc]
+other = "Use the full data table to sort by price, volume, market cap, dividend yield, and more."
+
+[ticker_list_open_table]
+other = "Open Data Table →"
+
+[ticker_list_browse_strategy]
+other = "🎯 Browse by Strategy"
+
+[ticker_list_strategy_desc]
+other = "See which tickers score highest for each investment strategy."
+
+[ticker_list_a_to_z]
+other = "All Tickers — A to Z"
+
+# Articles
+[article_about_author]
+other = "<strong>About the author:</strong> Andrew Allbright is a software engineer who built Stock Market Words as an open-source project. The site began as a curiosity — can a program reliably find stock tickers hiding in ordinary text? — and grew into a full strategy scoring and financial education platform."
+
+[article_read_more]
+other = "Read more about the project →"
+
+# Shortcode
+[shortcode_title]
+other = "Ticker Extraction Tool"
+
+[shortcode_desc]
+other = "Paste any text. We'll find the best stock tickers hidden in your words and show you 5 different portfolios optimized for different strategies!"
+
+[shortcode_your_text]
+other = "Your Text:"
+
+[shortcode_placeholder]
+other = "Enter any text to extract stock tickers..."
+
+[shortcode_extract_btn]
+other = "Extract Portfolios"
+
+[shortcode_analyzing]
+other = "Analyzing text and finding tickers..."
+
+[shortcode_portfolios_title]
+other = "🎯 5 Different Portfolios (One Per Strategy)"
+
+[shortcode_portfolios_desc]
+other = "Each strategy finds the highest-scoring tickers in your text. Words are consumed once found!"
+
+[shortcode_lookup_desc]
+other = "Jump directly to a stock's detail page — price, metrics, and strategy scores."
+
+# Language switcher
+[lang_switch]
+other = "中文"
+
+# JS-facing strings (injected via template)
+[js_error_processing]
+other = "An error occurred while processing your text. Please try again."
+
+[js_no_tickers_all]
+other = "No Tickers Found in Any Strategy"
+
+[js_no_tickers_all_desc]
+other = "We didn't find any stock tickers in your text that match any of our 5 investment strategies."
+
+[js_your_input]
+other = "Your Input Text:"
+
+[js_why]
+other = "Why?"
+
+[js_why_desc]
+other = "Each strategy only includes tickers that match specific criteria (e.g., high dividends, high beta, etc.). Common tickers like NVDA or TSLA might not appear in dividend-focused strategies."
+
+[js_no_tickers]
+other = "No Tickers Found"
+
+[js_no_tickers_desc]
+other = "We didn't find any stock tickers in your text that match this strategy's criteria."
+
+[js_why_strategy]
+other = "This strategy only includes tickers that match specific criteria."
+
+[js_view_all_tickers]
+other = "View all"
+
+[js_tickers_in_strategy]
+other = "tickers in this strategy →"
+
+[js_highlighted_text]
+other = "Highlighted Input Text:"
+
+[js_green_ticker]
+other = "= Ticker (hover to see symbol and name)"
+
+[js_tickers_found]
+other = "Tickers found:"
+
+[js_previous]
+other = "Previous"
+
+[js_next]
+other = "Next"
+
+[js_page]
+other = "Page"
+
+[js_of]
+other = "of"
+
+[js_view_portfolio]
+other = "📊 View in Portfolio Visualizer"
+
+[js_please_enter]
+other = "Please enter some text."
+
+[js_failed_load]
+other = "Failed to load ticker data. Please refresh the page and try again."
+
+[js_stocks]
+other = "stocks"
+
+# Strategy help text (for JS)
+[js_help_dividend_daddy]
+other = "Finds stocks with high dividend yields and low volatility (beta). Best for income-focused, conservative investors seeking steady returns."
+
+[js_help_moon_shot]
+other = "Identifies high-growth potential stocks with high beta (volatility) and oversold conditions (low RSI). For aggressive growth seekers willing to take risks."
+
+[js_help_falling_knife]
+other = "Contrarian strategy finding oversold stocks trading below their 200-day moving average. \"Catching a falling knife\" - high risk but potential for bounce-back gains."
+
+[js_help_over_hyped]
+other = "Finds overbought stocks with high RSI values, suggesting momentum exhaustion. Good for short sellers or mean-reversion traders expecting pullbacks."
+
+[js_help_institutional_whale]
+other = "Targets large-cap stocks likely held by institutional investors. \"Follow the smart money\" - more stable, liquid, and widely covered by analysts."

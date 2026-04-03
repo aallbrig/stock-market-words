@@ -1,11 +1,28 @@
 baseURL = 'https://stockmarketwords.com/'
-languageCode = 'en-us'
 title = 'Stock Market Words'
 uglyURLs = false
 
-[params]
-description = "Free tool: paste any text and instantly extract every stock ticker symbol hidden inside it. Strategy scores, key metrics, and educational context for 3,000+ tickers."
+defaultContentLanguage = 'en'
+defaultContentLanguageInSubdir = false
 
+[languages]
+  [languages.en]
+    languageName = 'English'
+    languageCode = 'en-us'
+    weight = 1
+    title = 'Stock Market Words'
+    [languages.en.params]
+      description = "Free tool: paste any text and instantly extract every stock ticker symbol hidden inside it. Strategy scores, key metrics, and educational context for 3,000+ tickers."
+
+  [languages.zh-cn]
+    languageName = '简体中文'
+    languageCode = 'zh-cn'
+    weight = 2
+    title = '股市词汇 - Stock Market Words'
+    [languages.zh-cn.params]
+      description = "免费工具：粘贴任何文本，即刻提取隐藏其中的每一个股票代码。为3,000+股票提供策略评分、关键指标和教育背景。"
+
+[params]
 # Google Analytics tracking ID (leave empty for local development)
 # Set via environment variable HUGO_PARAMS_GOOGLEANALYTICSID in production
 googleAnalyticsId = ""

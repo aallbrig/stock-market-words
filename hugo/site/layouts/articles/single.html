@@ -7,10 +7,10 @@
           <h1>{{ .Title }}</h1>
           <div class="text-muted small mb-3">
             {{ with .Params.author }}
-            <span class="me-3">By <strong>{{ . }}</strong></span>
+            <span class="me-3">{{ i18n "label_by" }} <strong>{{ . }}</strong></span>
             {{ end }}
-            {{ with .Date }}<span class="me-3">Published {{ .Format "January 2, 2006" }}</span>{{ end }}
-            {{ with .Lastmod }}{{ if ne (.Format "2006-01-02") ($.Date.Format "2006-01-02") }}<span>Updated {{ .Format "January 2, 2006" }}</span>{{ end }}{{ end }}
+            {{ with .Date }}<span class="me-3">{{ i18n "label_published" }} {{ .Format "January 2, 2006" }}</span>{{ end }}
+            {{ with .Lastmod }}{{ if ne (.Format "2006-01-02") ($.Date.Format "2006-01-02") }}<span>{{ i18n "label_updated" }} {{ .Format "January 2, 2006" }}</span>{{ end }}{{ end }}
           </div>
           {{ with .Params.description }}<p class="lead text-muted">{{ . }}</p>{{ end }}
           <hr>
@@ -23,10 +23,10 @@
         <footer class="mt-5 pt-4 border-top">
           <div class="row align-items-center">
             <div class="col-md-8">
-              <p class="small text-muted mb-1"><strong>About the author:</strong> Andrew Allbright is a software engineer who built Stock Market Words as an open-source project. The site began as a curiosity — can a program reliably find stock tickers hiding in ordinary text? — and grew into a full strategy scoring and financial education platform. <a href="/about/">Read more about the project →</a></p>
+              <p class="small text-muted mb-1">{{ i18n "article_about_author" }} <a href="{{ "/about/" | relLangURL }}">{{ i18n "article_read_more" }}</a></p>
             </div>
             <div class="col-md-4 text-md-end mt-3 mt-md-0">
-              <a href="/tool/" class="btn btn-primary">Try the Ticker Extractor →</a>
+              <a href="{{ "/tool/" | relLangURL }}" class="btn btn-primary">{{ i18n "ticker_try_extractor" }}</a>
             </div>
           </div>
         </footer>

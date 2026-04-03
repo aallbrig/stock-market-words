@@ -1,15 +1,15 @@
 {{ define "main" }}
 {{/* Load tool assets */}}
 <link href="{{ .Site.BaseURL }}css/ticker-highlight.css" rel="stylesheet">
-<script>window.SITE_BASE_URL = '{{ .Site.BaseURL }}';</script>
+<script>window.SITE_BASE_URL = '{{ .Site.BaseURL }}';window.SITE_LANG = '{{ .Site.Language.Lang }}';</script>
 <script src="{{ .Site.BaseURL }}js/portfolio-extractor.js"></script>
 
 <div class="container mt-4">
 
   <!-- Hero -->
   <div class="text-center mb-4">
-    <h1 class="display-5 fw-bold mb-2">Paste any text. Find every hidden stock ticker.</h1>
-    <p class="lead text-muted mx-auto" style="max-width:560px">Stock Market Words scans text for valid ticker symbols, then scores each one across five investment strategy lenses. Free. Runs in your browser.</p>
+    <h1 class="display-5 fw-bold mb-2">{{ i18n "home_hero_title" }}</h1>
+    <p class="lead text-muted mx-auto" style="max-width:560px">{{ i18n "home_hero_subtitle" }}</p>
   </div>
 
   <!-- Tool -->
@@ -18,31 +18,31 @@
       <div class="card shadow-sm">
         <div class="card-body p-4">
           <div class="mb-3">
-            <p class="mb-2 text-muted small">Try an example:</p>
+            <p class="mb-2 text-muted small">{{ i18n "home_try_example" }}</p>
             <div class="d-flex flex-wrap gap-2">
-              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillExample(0)">The cat sat on the mat…</button>
-              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillExample(1)">My dad works at Ford. Yesterday he drove…</button>
-              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillExample(2)">The tech industry saw major changes…</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillExample(0)">{{ i18n "home_example_1" }}</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillExample(1)">{{ i18n "home_example_2" }}</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillExample(2)">{{ i18n "home_example_3" }}</button>
             </div>
           </div>
           <form id="ticker-form">
             <div class="mb-3">
-              <label for="user-input" class="form-label fw-semibold">Your text:</label>
-              <textarea class="form-control" id="user-input" rows="6" placeholder="Paste a news article, earnings transcript, Reddit post, shareholder letter, or any other text…"></textarea>
+              <label for="user-input" class="form-label fw-semibold">{{ i18n "home_your_text" }}</label>
+              <textarea class="form-control" id="user-input" rows="6" placeholder="{{ i18n "home_textarea_placeholder" }}"></textarea>
             </div>
-            <button type="submit" class="btn btn-success btn-lg w-100">Extract Tickers →</button>
+            <button type="submit" class="btn btn-success btn-lg w-100">{{ i18n "home_extract_btn" }}</button>
           </form>
           <div id="loading-indicator" class="mt-3" style="display: none;">
             <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div></div>
-            <p class="text-center mt-2 small text-muted">Analyzing… <strong><span id="compute-timer">0</span>s</strong></p>
+            <p class="text-center mt-2 small text-muted">{{ i18n "home_analyzing" }} <strong><span id="compute-timer">0</span>s</strong></p>
           </div>
         </div>
       </div>
 
       <div class="card mt-4" id="result-card" style="display:none;">
         <div class="card-body">
-          <h5 class="card-title">🎯 5 Strategy Portfolios</h5>
-          <p class="text-muted small">Each strategy picks the best-scoring tickers from your text using a different investment lens. Words are consumed once found.</p>
+          <h5 class="card-title">{{ i18n "home_strategy_portfolios" }}</h5>
+          <p class="text-muted small">{{ i18n "home_strategy_subtitle" }}</p>
           <div id="portfolio-strategies" class="mb-4"></div>
         </div>
       </div>
@@ -50,13 +50,13 @@
       <!-- Ticker Lookup -->
       <div class="card mt-4 border-secondary">
         <div class="card-body">
-          <h5 class="card-title">🔍 Look Up a Ticker</h5>
-          <p class="text-muted small mb-3">Jump to a stock's data page — price, key metrics, and all five strategy scores.</p>
+          <h5 class="card-title">{{ i18n "home_lookup_title" }}</h5>
+          <p class="text-muted small mb-3">{{ i18n "home_lookup_subtitle" }}</p>
           <form id="ticker-lookup-form" class="d-flex gap-2" onsubmit="return tickerLookup(event)">
-            <input type="text" id="ticker-lookup-input" class="form-control" placeholder="e.g. AAPL, NVDA, TSLA" maxlength="10" style="max-width:200px" autocomplete="off" autocapitalize="characters">
-            <button type="submit" class="btn btn-outline-primary">Go →</button>
+            <input type="text" id="ticker-lookup-input" class="form-control" placeholder="{{ i18n "home_lookup_placeholder" }}" maxlength="10" style="max-width:200px" autocomplete="off" autocapitalize="characters">
+            <button type="submit" class="btn btn-outline-primary">{{ i18n "home_go_btn" }}</button>
           </form>
-          <small class="text-muted mt-2 d-block">Or <a href="/filtered-data/">browse all {{ len .Site.Data.all_tickers.tickers }} tickers →</a></small>
+          <small class="text-muted mt-2 d-block">{{ i18n "home_browse_prefix" }} <a href="{{ "/filtered-data/" | relLangURL }}">{{ i18n "home_browse_link" }} {{ len .Site.Data.all_tickers.tickers }} {{ i18n "home_browse_suffix" }}</a></small>
         </div>
       </div>
     </div>
@@ -65,43 +65,43 @@
   <!-- Why this site exists -->
   <div class="row justify-content-center mb-5">
     <div class="col-lg-8">
-      <h2 class="h5 mb-3">Why does this exist?</h2>
-      <p class="text-muted">Stock ticker symbols hide everywhere in financial writing — in news articles, analyst reports, earnings call transcripts, even social media. Reading "Nvidia" doesn't tell you the ticker is <strong>NVDA</strong>. "Ford" could be <strong>F</strong>. A Reddit post about "the cat sat on the mat" accidentally contains <strong>CAT</strong> and <strong>MAT</strong>.</p>
-      <p class="text-muted">This tool solves that. Paste any text, see every valid ticker the text contains, and immediately get strategy scores for each one — so you can decide what to look into further.</p>
+      <h2 class="h5 mb-3">{{ i18n "home_why_title" }}</h2>
+      <p class="text-muted">{{ i18n "home_why_p1" }}</p>
+      <p class="text-muted">{{ i18n "home_why_p2" }}</p>
       <p class="text-muted mb-0">
-        <a href="/articles/how-ticker-extraction-works/">How the extraction algorithm works →</a> ·
-        <a href="/methodology/">How strategy scores are calculated →</a>
+        <a href="{{ "/articles/how-ticker-extraction-works/" | relLangURL }}">{{ i18n "home_algorithm_link" }}</a> ·
+        <a href="{{ "/methodology/" | relLangURL }}">{{ i18n "home_scoring_link" }}</a>
       </p>
     </div>
   </div>
 
   <!-- Supporting resources -->
   <div class="row g-4 mb-5">
-    <div class="col-12"><h2 class="h5 text-center text-muted mb-1">Learn more</h2></div>
+    <div class="col-12"><h2 class="h5 text-center text-muted mb-1">{{ i18n "home_learn_more" }}</h2></div>
     <div class="col-md-4">
       <div class="card h-100 border-0 bg-light">
         <div class="card-body p-3">
-          <h3 class="h6 fw-bold mb-1">📚 Articles</h3>
-          <p class="small text-muted mb-2">Original explainers about the extraction engine, strategy scoring, and how to use the site's data.</p>
-          <a href="/articles/" class="small">Browse articles →</a>
+          <h3 class="h6 fw-bold mb-1">{{ i18n "home_articles_title" }}</h3>
+          <p class="small text-muted mb-2">{{ i18n "home_articles_desc" }}</p>
+          <a href="{{ "/articles/" | relLangURL }}" class="small">{{ i18n "home_articles_link" }}</a>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card h-100 border-0 bg-light">
         <div class="card-body p-3">
-          <h3 class="h6 fw-bold mb-1">📈 Strategies</h3>
-          <p class="small text-muted mb-2">Five investment lenses: Dividend Daddy, Moon Shot, Falling Knife, Over-Hyped, and Institutional Whale.</p>
-          <a href="/strategies/" class="small">Explore strategies →</a>
+          <h3 class="h6 fw-bold mb-1">{{ i18n "home_strategies_title" }}</h3>
+          <p class="small text-muted mb-2">{{ i18n "home_strategies_desc" }}</p>
+          <a href="{{ "/strategies/" | relLangURL }}" class="small">{{ i18n "home_strategies_link" }}</a>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card h-100 border-0 bg-light">
         <div class="card-body p-3">
-          <h3 class="h6 fw-bold mb-1">📖 Glossary</h3>
-          <p class="small text-muted mb-2">Plain-English definitions of RSI, beta, moving averages, P/E ratio, dividend yield, and more.</p>
-          <a href="/glossary/" class="small">Browse glossary →</a>
+          <h3 class="h6 fw-bold mb-1">{{ i18n "home_glossary_title" }}</h3>
+          <p class="small text-muted mb-2">{{ i18n "home_glossary_desc" }}</p>
+          <a href="{{ "/glossary/" | relLangURL }}" class="small">{{ i18n "home_glossary_link" }}</a>
         </div>
       </div>
     </div>
@@ -113,7 +113,7 @@
 function tickerLookup(e) {
   e.preventDefault();
   const sym = document.getElementById('ticker-lookup-input').value.trim().toLowerCase();
-  if (sym) window.location.href = '/tickers/' + sym + '/';
+  if (sym) window.location.href = '{{ "/" | relLangURL }}tickers/' + sym + '/';
   return false;
 }
 </script>

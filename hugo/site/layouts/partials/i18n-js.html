@@ -1,0 +1,54 @@
+{{/* Inject i18n strings as a JS object for use by portfolio-extractor.js and other client-side code */}}
+<script>
+window.I18N = {
+  error_processing: {{ i18n "js_error_processing" | jsonify }},
+  no_tickers_all: {{ i18n "js_no_tickers_all" | jsonify }},
+  no_tickers_all_desc: {{ i18n "js_no_tickers_all_desc" | jsonify }},
+  your_input: {{ i18n "js_your_input" | jsonify }},
+  why: {{ i18n "js_why" | jsonify }},
+  why_desc: {{ i18n "js_why_desc" | jsonify }},
+  no_tickers: {{ i18n "js_no_tickers" | jsonify }},
+  no_tickers_desc: {{ i18n "js_no_tickers_desc" | jsonify }},
+  why_strategy: {{ i18n "js_why_strategy" | jsonify }},
+  view_all_tickers: {{ i18n "js_view_all_tickers" | jsonify }},
+  tickers_in_strategy: {{ i18n "js_tickers_in_strategy" | jsonify }},
+  highlighted_text: {{ i18n "js_highlighted_text" | jsonify }},
+  green_ticker: {{ i18n "js_green_ticker" | jsonify }},
+  tickers_found: {{ i18n "js_tickers_found" | jsonify }},
+  previous: {{ i18n "js_previous" | jsonify }},
+  next: {{ i18n "js_next" | jsonify }},
+  page: {{ i18n "js_page" | jsonify }},
+  of: {{ i18n "js_of" | jsonify }},
+  view_portfolio: {{ i18n "js_view_portfolio" | jsonify }},
+  please_enter: {{ i18n "js_please_enter" | jsonify }},
+  failed_load: {{ i18n "js_failed_load" | jsonify }},
+  stocks: {{ i18n "js_stocks" | jsonify }},
+  strategies: {
+    DIVIDEND_DADDY: {
+      name: {{ i18n "strategy_dividend_daddy" | jsonify }},
+      description: {{ i18n "strategy_dividend_daddy_desc" | jsonify }},
+      help: {{ i18n "js_help_dividend_daddy" | jsonify }}
+    },
+    MOON_SHOT: {
+      name: {{ i18n "strategy_moon_shot" | jsonify }},
+      description: {{ i18n "strategy_moon_shot_desc" | jsonify }},
+      help: {{ i18n "js_help_moon_shot" | jsonify }}
+    },
+    FALLING_KNIFE: {
+      name: {{ i18n "strategy_falling_knife" | jsonify }},
+      description: {{ i18n "strategy_falling_knife_desc" | jsonify }},
+      help: {{ i18n "js_help_falling_knife" | jsonify }}
+    },
+    OVER_HYPED: {
+      name: {{ i18n "strategy_over_hyped_alt" | jsonify }},
+      description: {{ i18n "strategy_over_hyped_desc" | jsonify }},
+      help: {{ i18n "js_help_over_hyped" | jsonify }}
+    },
+    INSTITUTIONAL_WHALE: {
+      name: {{ i18n "strategy_institutional_whale" | jsonify }},
+      description: {{ i18n "strategy_institutional_whale_desc" | jsonify }},
+      help: {{ i18n "js_help_institutional_whale" | jsonify }}
+    }
+  }
+};
+</script>

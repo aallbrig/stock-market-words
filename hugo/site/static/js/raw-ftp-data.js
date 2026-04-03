@@ -1,16 +1,18 @@
 $(document).ready(function() {
+    const T = (key) => (window.I18N && window.I18N[key]) || key;
+
     // Load NASDAQ data
     $.getJSON('/data/raw_nasdaq.json', function(data) {
         renderTable('nasdaq-table', data);
     }).fail(function() {
-        $('#nasdaq-table').html('<div class="alert alert-danger">Failed to load NASDAQ data</div>');
+        $('#nasdaq-table').html(`<div class="alert alert-danger">${T('failed_load')}</div>`);
     });
 
     // Load Other Exchanges data
     $.getJSON('/data/raw_otherlisted.json', function(data) {
         renderTable('otherlisted-table', data);
     }).fail(function() {
-        $('#otherlisted-table').html('<div class="alert alert-danger">Failed to load Other Exchanges data</div>');
+        $('#otherlisted-table').html(`<div class="alert alert-danger">${T('failed_load')}</div>`);
     });
 });
 

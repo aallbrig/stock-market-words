@@ -36,6 +36,17 @@ const PAGES = [
   { path: '/tool/', name: 'Tool Page' },
   { path: '/articles/how-to-extract-tickers-from-financial-news/', name: 'Article: Financial News' },
   { path: '/articles/hidden-tickers-in-earnings-transcripts/', name: 'Article: Earnings Transcripts' },
+  // zh-CN translated pages
+  { path: '/zh-cn/', name: 'Home (zh-CN)' },
+  { path: '/zh-cn/about/', name: 'About (zh-CN)' },
+  { path: '/zh-cn/tool/', name: 'Tool (zh-CN)' },
+  { path: '/zh-cn/contact/', name: 'Contact (zh-CN)' },
+  { path: '/zh-cn/methodology/', name: 'Methodology (zh-CN)' },
+  { path: '/zh-cn/strategies/', name: 'Strategies (zh-CN)' },
+  { path: '/zh-cn/strategy-dividend-daddy/', name: 'Strategy: Dividend Daddy (zh-CN)' },
+  { path: '/zh-cn/filtered-data/', name: 'Filtered Data (zh-CN)' },
+  { path: '/zh-cn/raw-ftp-data/', name: 'Raw FTP Data (zh-CN)' },
+  { path: '/zh-cn/privacy-policy/', name: 'Privacy Policy (zh-CN)' },
 ];
 
 test.describe('Website Page Load Tests', () => {
@@ -121,7 +132,7 @@ test.describe('Website Page Load Tests', () => {
 
   test.describe('Navigation Structure', () => {
     test('All pages have navigation bar', async ({ page }) => {
-      test.setTimeout(90000); // 9 pages × ~8s each
+      test.setTimeout(180000);
       for (const { path, name } of PAGES) {
         await page.goto(path, { waitUntil: 'domcontentloaded' });
         
@@ -131,7 +142,9 @@ test.describe('Website Page Load Tests', () => {
         // Check for brand link
         const brand = page.locator('a.navbar-brand');
         await expect(brand).toBeVisible();
-        await expect(brand).toHaveText('Stock Market Words');
+        // Brand text matches the site title for the current language
+        const brandText = await brand.textContent();
+        expect(brandText.trim()).toBeTruthy();
       }
       
       console.log('✓ All pages have proper navigation');

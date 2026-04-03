@@ -16,11 +16,11 @@
         <div class="col-md-6">
           <div class="card border-primary">
             <div class="card-body">
-              <h5 class="card-title">📊 NASDAQ Data</h5>
+              <h5 class="card-title">{{ i18n "raw_nasdaq_data" }}</h5>
               <p class="card-text">
-                <strong>Total Rows:</strong> {{ $nasdaq.total_rows }}<br>
-                <strong>File:</strong> {{ $nasdaq.file }}<br>
-                <strong>Downloaded:</strong> {{ dateFormat "2006-01-02 15:04:05" $nasdaq.downloaded_at }}
+                <strong>{{ i18n "raw_total_rows" }}</strong> {{ $nasdaq.total_rows }}<br>
+                <strong>{{ i18n "raw_file" }}</strong> {{ $nasdaq.file }}<br>
+                <strong>{{ i18n "raw_downloaded" }}</strong> {{ dateFormat "2006-01-02 15:04:05" $nasdaq.downloaded_at }}
               </p>
             </div>
           </div>
@@ -31,11 +31,11 @@
         <div class="col-md-6">
           <div class="card border-success">
             <div class="card-body">
-              <h5 class="card-title">📊 Other Exchanges Data</h5>
+              <h5 class="card-title">{{ i18n "raw_other_data" }}</h5>
               <p class="card-text">
-                <strong>Total Rows:</strong> {{ $otherlisted.total_rows }}<br>
-                <strong>File:</strong> {{ $otherlisted.file }}<br>
-                <strong>Downloaded:</strong> {{ dateFormat "2006-01-02 15:04:05" $otherlisted.downloaded_at }}
+                <strong>{{ i18n "raw_total_rows" }}</strong> {{ $otherlisted.total_rows }}<br>
+                <strong>{{ i18n "raw_file" }}</strong> {{ $otherlisted.file }}<br>
+                <strong>{{ i18n "raw_downloaded" }}</strong> {{ dateFormat "2006-01-02 15:04:05" $otherlisted.downloaded_at }}
               </p>
             </div>
           </div>
@@ -46,8 +46,8 @@
       <!-- NASDAQ Table -->
       {{ if $nasdaq }}
       <div class="mb-5">
-        <h2>NASDAQ Listed Securities</h2>
-        <p class="text-muted">Raw data directly from NASDAQ FTP server ({{ $nasdaq.file }}). Includes test tickers, ETFs, warrants, units, and all other securities.</p>
+        <h2>{{ i18n "raw_nasdaq_title" }}</h2>
+        <p class="text-muted">{{ i18n "raw_nasdaq_desc" }} ({{ $nasdaq.file }}). {{ i18n "raw_nasdaq_includes" }}</p>
         
         <div class="table-responsive">
           <table class="table table-striped table-hover table-sm" id="nasdaqTable">
@@ -70,15 +70,15 @@
             </tbody>
           </table>
         </div>
-        <p class="text-muted"><em>Showing all {{ $nasdaq.total_rows }} rows. Click column headers to sort.</em></p>
+        <p class="text-muted"><em>{{ i18n "raw_showing_all" }} {{ $nasdaq.total_rows }} {{ i18n "raw_rows_sort" }}</em></p>
       </div>
       {{ end }}
       
       <!-- Other Exchanges Table -->
       {{ if $otherlisted }}
       <div class="mb-5">
-        <h2>Other Exchange Securities</h2>
-        <p class="text-muted">Raw data from NASDAQ FTP server ({{ $otherlisted.file }}). Includes NYSE, NYSE MKT, NYSE ARCA, and other exchanges.</p>
+        <h2>{{ i18n "raw_other_title" }}</h2>
+        <p class="text-muted">{{ i18n "raw_other_desc" }} ({{ $otherlisted.file }}). {{ i18n "raw_other_includes" }}</p>
         
         <div class="table-responsive">
           <table class="table table-striped table-hover table-sm" id="otherlistedTable">
@@ -101,7 +101,7 @@
             </tbody>
           </table>
         </div>
-        <p class="text-muted"><em>Showing all {{ $otherlisted.total_rows}} rows. Click column headers to sort.</em></p>
+        <p class="text-muted"><em>{{ i18n "raw_showing_all" }} {{ $otherlisted.total_rows}} {{ i18n "raw_rows_sort" }}</em></p>
       </div>
       {{ end }}
       
@@ -109,8 +109,8 @@
       
       <!-- No Data Alert -->
       <div class="alert alert-warning" role="alert">
-        <h4 class="alert-heading">No Data Available</h4>
-        <p>Raw FTP data has not been generated yet. Run the following command to generate it:</p>
+        <h4 class="alert-heading">{{ i18n "raw_no_data" }}</h4>
+        <p>{{ i18n "raw_no_data_msg" }}</p>
         <pre><code>ticker-cli hugo raw-ftp</code></pre>
       </div>
       

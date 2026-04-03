@@ -15,9 +15,9 @@
         <div class="col-md-3">
           <div class="card border-success">
             <div class="card-body text-center">
-              <h5 class="card-title">✅ Total Tickers</h5>
+              <h5 class="card-title">{{ i18n "filtered_total_tickers" }}</h5>
               <h2 class="display-4 text-success">{{ $filtered.total_tickers }}</h2>
-              <p class="text-muted">Filtered common stocks only</p>
+              <p class="text-muted">{{ i18n "filtered_common_stocks" }}</p>
             </div>
           </div>
         </div>
@@ -26,9 +26,9 @@
         <div class="col-md-3">
           <div class="card border-info">
             <div class="card-body text-center">
-              <h5 class="card-title">💹 With Price Data</h5>
+              <h5 class="card-title">{{ i18n "filtered_with_price" }}</h5>
               <h2 class="display-4 text-info">{{ $filtered.statistics.with_price_data }}</h2>
-              <p class="text-muted">Successfully fetched from Yahoo Finance</p>
+              <p class="text-muted">{{ i18n "filtered_yahoo_finance" }}</p>
             </div>
           </div>
         </div>
@@ -39,17 +39,17 @@
         <div class="col-md-3">
           <div class="card border-primary">
             <div class="card-body text-center">
-              <h5 class="card-title">📊 Success Rate</h5>
+              <h5 class="card-title">{{ i18n "filtered_success_rate" }}</h5>
               <h2 class="display-4 text-primary">{{ $pass1.pass1_extraction.success_rate }}</h2>
-              <p class="text-muted">Pass 1 extraction</p>
+              <p class="text-muted">{{ i18n "filtered_pass1" }}</p>
             </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="card border-warning">
             <div class="card-body text-center">
-              <h5 class="card-title">📅 Data Refreshed</h5>
-              <p class="display-6 text-warning" id="refresh-date-display">Loading...</p>
+              <h5 class="card-title">{{ i18n "filtered_data_refreshed" }}</h5>
+              <p class="display-6 text-warning" id="refresh-date-display">{{ i18n "label_loading" }}</p>
               <p class="text-muted small" id="refresh-time-display"></p>
             </div>
           </div>
@@ -62,12 +62,12 @@
       {{ if $filtered.exchanges }}
       <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-          <h5 class="mb-0">📈 Tickers by Exchange (Click to Toggle)</h5>
+          <h5 class="mb-0">{{ i18n "filtered_by_exchange" }}</h5>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-12 mb-3">
-              <button class="btn btn-sm btn-secondary exchange-filter-btn active" id="btn-all-exchanges" onclick="toggleAllExchanges()">All Exchanges</button>
+              <button class="btn btn-sm btn-secondary exchange-filter-btn active" id="btn-all-exchanges" onclick="toggleAllExchanges()">{{ i18n "filtered_all_exchanges" }}</button>
             </div>
             {{ range $exchange, $count := $filtered.exchanges }}
             <div class="col-md-3 col-sm-6 mb-3">
@@ -83,39 +83,39 @@
       
       <!-- Ticker Table -->
       <div class="mb-5">
-        <h2>Filtered Ticker List</h2>
-        <p class="text-muted">All tickers that passed filtering rules. No test tickers, ETFs, warrants, units, rights, or preferred stock.</p>
+        <h2>{{ i18n "filtered_ticker_list" }}</h2>
+        <p class="text-muted">{{ i18n "filtered_ticker_desc" }}</p>
         
         <div class="table-responsive">
           <table class="table table-striped table-hover table-sm" id="tickerTable">
             <thead class="table-dark">
               <tr>
-                <th>Symbol</th>
-                <th>Name</th>
-                <th>Exchange</th>
-                <th>ETF</th>
-                <th>Price</th>
-                <th>Volume</th>
-                <th>Market Cap</th>
-                <th>First Seen</th>
+                <th>{{ i18n "th_symbol" }}</th>
+                <th>{{ i18n "th_name" }}</th>
+                <th>{{ i18n "th_exchange" }}</th>
+                <th>{{ i18n "th_etf" }}</th>
+                <th>{{ i18n "th_price" }}</th>
+                <th>{{ i18n "th_volume" }}</th>
+                <th>{{ i18n "th_market_cap" }}</th>
+                <th>{{ i18n "th_first_seen" }}</th>
               </tr>
             </thead>
             <tbody>
               {{ range $filtered.tickers }}
               <tr data-exchange="{{ .exchange }}">
-                <td><strong><a href="/tickers/{{ .symbol | lower }}/" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
+                <td><strong><a href="{{ "/tickers/" | relLangURL }}{{ .symbol | lower }}/" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
                 <td>{{ .name }}</td>
                 <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
-                <td>{{ if .is_etf }}Yes{{ else }}No{{ end }}</td>
+                <td>{{ if .is_etf }}{{ i18n "label_yes" }}{{ else }}{{ i18n "label_no" }}{{ end }}</td>
                 <td data-order="{{ if .price_data }}{{ if .price_data.price }}{{ .price_data.price }}{{ else }}0{{ end }}{{ else }}0{{ end }}">
                   {{ if .price_data }}
                     {{ if .price_data.price }}
                       ${{ printf "%.2f" .price_data.price }}
                     {{ else }}
-                      <span class="text-muted">N/A</span>
+                      <span class="text-muted">{{ i18n "label_na" }}</span>
                     {{ end }}
                   {{ else }}
-                    <span class="text-muted">N/A</span>
+                    <span class="text-muted">{{ i18n "label_na" }}</span>
                   {{ end }}
                 </td>
                 <td data-order="{{ if .price_data }}{{ if .price_data.volume }}{{ .price_data.volume }}{{ else }}0{{ end }}{{ else }}0{{ end }}">
@@ -123,10 +123,10 @@
                     {{ if .price_data.volume }}
                       {{ .price_data.volume | lang.FormatNumber 0 }}
                     {{ else }}
-                      <span class="text-muted">N/A</span>
+                      <span class="text-muted">{{ i18n "label_na" }}</span>
                     {{ end }}
                   {{ else }}
-                    <span class="text-muted">N/A</span>
+                    <span class="text-muted">{{ i18n "label_na" }}</span>
                   {{ end }}
                 </td>
                 <td data-order="{{ if .price_data }}{{ if .price_data.market_cap }}{{ .price_data.market_cap }}{{ else }}0{{ end }}{{ else }}0{{ end }}">
@@ -134,10 +134,10 @@
                     {{ if .price_data.market_cap }}
                       ${{ .price_data.market_cap | lang.FormatNumber 0 }}
                     {{ else }}
-                      <span class="text-muted">N/A</span>
+                      <span class="text-muted">{{ i18n "label_na" }}</span>
                     {{ end }}
                   {{ else }}
-                    <span class="text-muted">N/A</span>
+                    <span class="text-muted">{{ i18n "label_na" }}</span>
                   {{ end }}
                 </td>
                 <td>{{ .first_seen }}</td>
@@ -152,8 +152,8 @@
       
       <!-- No Data Alert -->
       <div class="alert alert-warning" role="alert">
-        <h4 class="alert-heading">No Data Available</h4>
-        <p>Filtered ticker data has not been generated yet. Run the following command to generate it:</p>
+        <h4 class="alert-heading">{{ i18n "filtered_no_data" }}</h4>
+        <p>{{ i18n "filtered_no_data_msg" }}</p>
         <pre><code>ticker-cli hugo filtered</code></pre>
       </div>
       
@@ -197,13 +197,13 @@ $(document).ready(function() {
         const date = new Date(data.generated_at);
         
         // Update the refresh date card
-        const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        const dateStr = date.toLocaleDateString('{{ .Site.Language.Lang }}', { month: 'short', day: 'numeric', year: 'numeric' });
+        const timeStr = date.toLocaleTimeString('{{ .Site.Language.Lang }}', { hour: 'numeric', minute: '2-digit' });
         $('#refresh-date-display').text(dateStr);
         $('#refresh-time-display').text(timeStr);
       } else {
         console.warn('No generated_at field in data:', data);
-        $('#refresh-date-display').text('Not available');
+        $('#refresh-date-display').text('{{ i18n "label_not_available" }}');
         $('#refresh-time-display').text('');
       }
     })

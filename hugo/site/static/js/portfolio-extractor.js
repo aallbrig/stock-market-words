@@ -8,6 +8,15 @@ let currentStrategy = 'DIVIDEND_DADDY';
 // Get base URL from global variable or default to root
 const BASE_URL = (window.SITE_BASE_URL || '/').replace(/\/$/, '');
 
+// i18n helper — uses injected translations from Hugo partial, falls back to English
+const T = (key) => (window.I18N && window.I18N[key]) || key;
+const TS = (strategyKey, field) => {
+    if (window.I18N && window.I18N.strategies && window.I18N.strategies[strategyKey]) {
+        return window.I18N.strategies[strategyKey][field];
+    }
+    return STRATEGIES[strategyKey] ? STRATEGIES[strategyKey][field] : '';
+};
+
 const STRATEGIES = {
     DIVIDEND_DADDY: {
         name: '💰 Dividend Daddy',
@@ -64,7 +73,7 @@ function initWorker() {
                 console.error('Worker error:', error);
                 document.getElementById('loading-indicator').style.display = 'none';
                 document.querySelector('#ticker-form button[type="submit"]').disabled = false;
-                alert('An error occurred while processing your text. Please try again.');
+                alert(T('error_processing'));
             }
         };
 
@@ -513,16 +522,14 @@ function renderPortfolios(text, words, portfolios) {
     if (Object.values(portfolios).every(p => p.tickers.length === 0)) {
         container.innerHTML = `
             <div class="alert alert-warning">
-                <h5 class="alert-heading">No Tickers Found in Any Strategy</h5>
-                <p>We didn't find any stock tickers in your text that match any of our 5 investment strategies.</p>
+                <h5 class="alert-heading">${T('no_tickers_all')}</h5>
+                <p>${T('no_tickers_all_desc')}</p>
                 <hr>
                 <div class="mb-3">
-                    <h6>Your Input Text:</h6>
+                    <h6>${T('your_input')}</h6>
                     <div class="bg-light p-3 border rounded text-muted" style="font-family: monospace; white-space: pre-wrap;">${escapeHtml(text)}</div>
                 </div>
-                <p class="mb-0"><strong>Why?</strong> Each strategy only includes tickers that match specific criteria (e.g., high dividends, high beta, etc.). 
-                Common tickers like NVDA or TSLA might not appear in dividend-focused strategies. 
-                Try browsing the <a href="/strategy-dividend-daddy/">strategy pages</a> to see which tickers are included.</p>
+                <p class="mb-0"><strong>${T('why')}</strong> ${T('why_desc')}</p>
             </div>`;
         return;
     }
@@ -539,16 +546,16 @@ function renderPortfolios(text, words, portfolios) {
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
                     <h6 class="mb-0">
-                        <a href="/strategy-${strategyKey.toLowerCase().replace(/_/g, '-')}/" class="text-white text-decoration-none" target="_blank">
-                            ${strategy.name}
+                        <a href="${BASE_URL}/strategy-${strategyKey.toLowerCase().replace(/_/g, '-')}/" class="text-white text-decoration-none" target="_blank">
+                            ${TS(strategyKey, 'name') || strategy.name}
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16" style="vertical-align: baseline;">
                                 <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
                                 <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
                             </svg>
                         </a>
-                        <span class="strategy-help" title="${strategy.help}">ℹ️</span>
+                        <span class="strategy-help" title="${TS(strategyKey, 'help') || strategy.help}">ℹ️</span>
                     </h6>
-                    <small>${strategy.description}</small>
+                    <small>${TS(strategyKey, 'description') || strategy.description}</small>
                 </div>
                 <div class="card-body">
         `;
@@ -557,36 +564,36 @@ function renderPortfolios(text, words, portfolios) {
             // Show the input text in muted color with helpful message
             const strategyUrl = `/strategy-${strategyKey.toLowerCase().replace(/_/g, '-')}/`;
             html += '<div class="alert alert-info">';
-            html += '<h6 class="alert-heading">No Tickers Found</h6>';
-            html += '<p>We didn\'t find any stock tickers in your text that match this strategy\'s criteria.</p>';
+            html += `<h6 class="alert-heading">${T('no_tickers')}</h6>`;
+            html += `<p>${T('no_tickers_desc')}</p>`;
             html += '</div>';
 
             html += '<div class="mb-3">';
-            html += '<h6>Your Input Text:</h6>';
+            html += `<h6>${T('your_input')}</h6>`;
             html += '<div class="bg-light p-3 border rounded text-muted" style="font-family: monospace; white-space: pre-wrap;">';
             html += escapeHtml(text);
             html += '</div>';
             html += '</div>';
 
             html += '<p class="mb-0"><small>';
-            html += `<strong>Why?</strong> This strategy only includes tickers that match specific criteria. `;
-            html += `<a href="${strategyUrl}" target="_blank">View all ${Object.keys(strategyData.tickerData).length} tickers in this strategy →</a>`;
+            html += `<strong>${T('why_strategy')}</strong> `;
+            html += `<a href="${strategyUrl}" target="_blank">${T('view_all_tickers').replace('{count}', Object.keys(strategyData.tickerData).length)} →</a>`;
             html += '</small></p>';
         } else {
             // 1. Show highlighted text FIRST
             html += '<div class="mb-4">';
-            html += '<h6>Highlighted Input Text:</h6>';
+            html += `<h6>${T('highlighted_text')}</h6>`;
             html += '<div class="bg-light p-3 border rounded" style="font-family: monospace; white-space: pre-wrap; line-height: 2;">';
             html += renderHighlighted(text, words, portfolio.tickers, tickerData);
             html += '</div>';
             html += '<div class="mt-2"><small class="text-muted">';
-            html += '<span class="token-ticker token-ticker-single">Green</span> = Ticker (hover to see symbol and name)';
+            html += `<span class="token-ticker token-ticker-single">${T('green_ticker')}</span> = ${T('tickers_found')}`;
             html += '</small></div>';
             html += '</div>';
 
             // 2. Show tickers found
             const symbols = portfolio.tickers.map(t => t.symbol.toUpperCase());
-            html += `<p><strong>Tickers found:</strong> ${symbols.join(', ')}</p>`;
+            html += `<p><strong>${T('tickers_found')}:</strong> ${symbols.join(', ')}</p>`;
 
             // 3. Show ticker details table (with pagination for 10+)
             const tickersPerPage = 10;
@@ -607,14 +614,14 @@ function renderPortfolios(text, words, portfolios) {
             if (needsPagination) {
                 const totalPages = Math.ceil(portfolio.tickers.length / tickersPerPage);
                 html += `<div class="pagination-controls" data-table="${tableId}">`;
-                html += `<button class="btn btn-sm btn-outline-secondary" onclick="changePage('${tableId}', -1)">Previous</button> `;
-                html += `<span class="mx-2">Page <span id="${tableId}-page">1</span> of ${totalPages}</span> `;
-                html += `<button class="btn btn-sm btn-outline-secondary" onclick="changePage('${tableId}', 1)">Next</button>`;
+                html += `<button class="btn btn-sm btn-outline-secondary" onclick="changePage('${tableId}', -1)">${T('previous')}</button> `;
+                html += `<span class="mx-2">${T('page')} <span id="${tableId}-page">1</span> ${T('of')} ${totalPages}</span> `;
+                html += `<button class="btn btn-sm btn-outline-secondary" onclick="changePage('${tableId}', 1)">${T('next')}</button>`;
                 html += '</div>';
             }
 
             // Portfolio Visualizer button
-            html += `<div class="mt-3"><button class="btn btn-sm btn-primary" onclick="openPortfolioVisualizer('${symbols.join(',')}')">📊 View in Portfolio Visualizer</button></div>`;
+            html += `<div class="mt-3"><button class="btn btn-sm btn-primary" onclick="openPortfolioVisualizer('${symbols.join(',')}')">📊 ${T('view_portfolio')}</button></div>`;
         }
 
         html += '</div></div>';
@@ -720,7 +727,7 @@ async function handleFormSubmit(e) {
 
     const text = document.getElementById('user-input').value;
     if (!text.trim()) {
-        alert('Please enter some text.');
+        alert(T('please_enter'));
         return;
     }
 
@@ -752,7 +759,7 @@ async function handleFormSubmit(e) {
                 // Show error in the result card instead of alert
                 resultCard.style.display = 'block';
                 document.getElementById('portfolio-strategies').innerHTML =
-                    '<div class="alert alert-danger">Failed to load ticker data. Please refresh the page and try again.</div>';
+                    `<div class="alert alert-danger">${T('failed_load')}</div>`;
                 return;
             }
             console.log('Data loaded successfully, continuing...');

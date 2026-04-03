@@ -1,0 +1,829 @@
+# Navigation
+[nav_brand]
+other = "股市词汇"
+
+[nav_home]
+other = "首页"
+
+[nav_tool]
+other = "🔍 工具"
+
+[nav_data]
+other = "数据"
+
+[nav_data_overview]
+other = "📊 数据概览"
+
+[nav_methodology]
+other = "🧭 方法论"
+
+[nav_raw_ftp_data]
+other = "📥 原始FTP数据"
+
+[nav_filtered_tickers]
+other = "✅ 筛选后的股票"
+
+[nav_browse_tickers]
+other = "🔎 浏览所有股票"
+
+[nav_articles]
+other = "文章"
+
+[nav_strategies]
+other = "策略"
+
+[nav_strategy_overview]
+other = "📈 策略概览"
+
+[nav_glossary]
+other = "术语表"
+
+[nav_about]
+other = "关于"
+
+[nav_qr_code]
+other = "📱 二维码"
+
+[nav_toggle]
+other = "切换导航"
+
+# QR Modal
+[qr_share_title]
+other = "分享 Stock Market Words"
+
+[qr_scan_text]
+other = "扫码访问 stockmarketwords.com"
+
+# Footer
+[footer_source]
+other = "源代码："
+
+[footer_github]
+other = "GitHub"
+
+[footer_show_qr]
+other = "📱 显示二维码"
+
+[footer_scan_mobile]
+other = "扫码在手机上访问"
+
+[footer_privacy]
+other = "隐私政策"
+
+[footer_tool]
+other = "工具"
+
+[footer_methodology]
+other = "方法论"
+
+[footer_articles]
+other = "文章"
+
+[footer_glossary]
+other = "术语表"
+
+[footer_contact]
+other = "联系我们"
+
+[footer_about]
+other = "关于"
+
+[footer_copyright]
+other = "Stock Market Words - © Andrew Allbright 2025-"
+
+# Strategy names (kept in English with Chinese descriptions)
+[strategy_dividend_daddy]
+other = "💰 Dividend Daddy"
+
+[strategy_moon_shot]
+other = "🚀 Moon Shot"
+
+[strategy_falling_knife]
+other = "🔪 Falling Knife"
+
+[strategy_over_hyped]
+other = "📈 Over Hyped"
+
+[strategy_over_hyped_alt]
+other = "🎈 Over-Hyped"
+
+[strategy_institutional_whale]
+other = "🐋 Institutional Whale"
+
+# Strategy descriptions (Chinese)
+[strategy_dividend_daddy_desc]
+other = "高股息 + 低波动"
+
+[strategy_moon_shot_desc]
+other = "高贝塔 + 超卖"
+
+[strategy_falling_knife_desc]
+other = "超卖 + 低于均线"
+
+[strategy_over_hyped_desc]
+other = "超买"
+
+[strategy_institutional_whale_desc]
+other = "大盘股"
+
+# Strategy long descriptions
+[strategy_dividend_daddy_long]
+other = "高股息率 + 低波动性"
+
+[strategy_moon_shot_long]
+other = "高增长潜力（高贝塔 + 超卖）"
+
+[strategy_falling_knife_long]
+other = "逆向投资（超卖 + 低于移动均线）"
+
+[strategy_over_hyped_long]
+other = "超买股票（潜在做空标的）"
+
+[strategy_institutional_whale_long]
+other = "大盘、机构级别股票"
+
+# Home page
+[home_hero_title]
+other = "粘贴任意文本，发现每一个隐藏的股票代码。"
+
+[home_hero_subtitle]
+other = "Stock Market Words 扫描文本中的有效股票代码，然后通过五种投资策略视角进行评分。免费使用，在浏览器中运行。"
+
+[home_try_example]
+other = "试试示例："
+
+[home_example_1]
+other = "The cat sat on the mat…"
+
+[home_example_2]
+other = "My dad works at Ford. Yesterday he drove…"
+
+[home_example_3]
+other = "The tech industry saw major changes…"
+
+[home_your_text]
+other = "您的文本："
+
+[home_textarea_placeholder]
+other = "粘贴新闻文章、财报电话会议记录、Reddit帖子、股东信函或任何其他文本…"
+
+[home_extract_btn]
+other = "提取股票代码 →"
+
+[home_analyzing]
+other = "分析中…"
+
+[home_strategy_portfolios]
+other = "🎯 5种策略投资组合"
+
+[home_strategy_subtitle]
+other = "每种策略使用不同的投资视角从您的文本中选择得分最高的股票代码。单词一旦被匹配就会被消耗。"
+
+[home_lookup_title]
+other = "🔍 查找股票代码"
+
+[home_lookup_subtitle]
+other = "跳转到股票数据页面 — 价格、关键指标和全部五种策略评分。"
+
+[home_lookup_placeholder]
+other = "例如 AAPL, NVDA, TSLA"
+
+[home_go_btn]
+other = "查询 →"
+
+[home_browse_prefix]
+other = "或"
+
+[home_browse_link]
+other = "浏览全部"
+
+[home_browse_suffix]
+other = "只股票 →"
+
+[home_why_title]
+other = "为什么会有这个工具？"
+
+[home_why_p1]
+other = "股票代码隐藏在金融写作的各个角落 — 新闻文章、分析师报告、财报电话会议记录，甚至社交媒体中。看到\"Nvidia\"不会告诉你其代码是<strong>NVDA</strong>。\"Ford\"可能是<strong>F</strong>。一篇关于\"the cat sat on the mat\"的Reddit帖子意外地包含了<strong>CAT</strong>和<strong>MAT</strong>。"
+
+[home_why_p2]
+other = "这个工具解决了这个问题。粘贴任何文本，查看文本中包含的每一个有效股票代码，并立即获得每个代码的策略评分 — 这样您就可以决定进一步研究哪些股票。"
+
+[home_algorithm_link]
+other = "提取算法是如何工作的 →"
+
+[home_scoring_link]
+other = "策略评分是如何计算的 →"
+
+[home_learn_more]
+other = "了解更多"
+
+[home_articles_title]
+other = "📚 文章"
+
+[home_articles_desc]
+other = "关于提取引擎、策略评分以及如何使用网站数据的原创解说。"
+
+[home_articles_link]
+other = "浏览文章 →"
+
+[home_strategies_title]
+other = "📈 策略"
+
+[home_strategies_desc]
+other = "五种投资视角：Dividend Daddy、Moon Shot、Falling Knife、Over-Hyped 和 Institutional Whale。"
+
+[home_strategies_link]
+other = "探索策略 →"
+
+[home_glossary_title]
+other = "📖 术语表"
+
+[home_glossary_desc]
+other = "RSI、贝塔系数、移动均线、市盈率、股息收益率等术语的通俗解释。"
+
+[home_glossary_link]
+other = "浏览术语表 →"
+
+# Tool page
+[tool_title]
+other = "股票代码提取器"
+
+[tool_subtitle]
+other = "粘贴任何文本 — 财经新闻、财报电话会议记录、Reddit帖子、股东信函 — 即刻看到隐藏其中的每一个股票代码。"
+
+[tool_paste_label]
+other = "粘贴您的文本："
+
+[tool_textarea_placeholder]
+other = "在此粘贴新闻文章、财报记录、Reddit帖子、股东信函或任何其他文本…"
+
+[tool_find_btn]
+other = "发现隐藏的股票代码 →"
+
+[tool_analyzing]
+other = "正在分析文本…"
+
+[tool_computing_time]
+other = "计算时间："
+
+[tool_strategy_subtitle]
+other = "每种策略使用不同的投资视角从您的文本中选择得分最高的股票代码。"
+
+[tool_lookup_title]
+other = "🔍 直接查找股票代码"
+
+[tool_lookup_subtitle]
+other = "跳转到股票数据页面 — 价格、指标和全部五种策略评分。"
+
+[tool_use_cases_title]
+other = "您可以粘贴哪些内容"
+
+[tool_news_title]
+other = "财经新闻"
+
+[tool_news_desc]
+other = "粘贴任何CNBC、Bloomberg或Reuters文章。工具会找到每一个被提到的公司 — 包括那些没有被明确提及的。"
+
+[tool_news_link]
+other = "查看实例 →"
+
+[tool_earnings_title]
+other = "财报电话会议记录"
+
+[tool_earnings_desc]
+other = "财报电话会议中会提到竞争对手、合作伙伴和供应商的名称。粘贴一份记录，发现隐藏在其中的每一个股票代码。"
+
+[tool_reddit_title]
+other = "社交媒体和Reddit"
+
+[tool_reddit_desc]
+other = "r/wallstreetbets、r/investing和金融推特上充满了偶然的股票代码引用。工具能捕捉到您手动阅读时会遗漏的内容。"
+
+[tool_reddit_link]
+other = "工作原理 →"
+
+[tool_how_title]
+other = "它是如何工作的？"
+
+[tool_how_desc]
+other = "提取器使用非贪婪回溯算法在任何文本字符串中查找所有有效的股票代码 — 处理重叠匹配、看起来像股票代码的常见英文单词（如\"IT\"、\"A\"或\"ARE\"），以及多词公司名称。"
+
+[tool_how_link]
+other = "完整技术说明 →"
+
+[tool_scoring_link]
+other = "评分计算方式 →"
+
+[tool_strategies_link]
+other = "五种策略 →"
+
+# Strategy filter page
+[strategy_summary]
+other = "概要"
+
+[strategy_description]
+other = "描述"
+
+[strategy_filter_criteria]
+other = "筛选标准"
+
+[strategy_matching_stocks]
+other = "匹配的股票"
+
+[strategy_data_generated]
+other = "数据生成时间："
+
+[strategy_stocks_meet_criteria]
+other = "符合"
+
+[strategy_click_sort]
+other = "标准的股票。点击列标题排序。"
+
+[strategy_no_matching]
+other = "没有匹配的股票"
+
+[strategy_no_stocks_match]
+other = "目前没有股票符合"
+
+[strategy_no_stocks_reason]
+other = "标准。可能的原因："
+
+[strategy_market_conditions]
+other = "当前市场条件不利于此策略"
+
+[strategy_strict_criteria]
+other = "筛选标准非常严格"
+
+[strategy_no_data_collected]
+other = "数据尚未收集（运行 <code>ticker-cli run-all</code>）"
+
+[strategy_sector_distribution]
+other = "行业分布"
+
+[strategy_sector_desc]
+other = "匹配股票在不同行业的分布情况。"
+
+[strategy_explore_other]
+other = "探索其他策略"
+
+[strategy_all_filtered]
+other = "📊 所有筛选数据"
+
+[strategy_no_data]
+other = "暂无数据"
+
+[strategy_no_data_msg]
+other = "策略筛选数据尚未生成。请运行以下命令："
+
+[strategy_sector_chart_title]
+other = "匹配股票的行业分布"
+
+# Table headers
+[th_symbol]
+other = "代码"
+
+[th_name]
+other = "名称"
+
+[th_sector]
+other = "行业"
+
+[th_exchange]
+other = "交易所"
+
+[th_price]
+other = "价格"
+
+[th_volume]
+other = "成交量"
+
+[th_market_cap]
+other = "市值"
+
+[th_pe_ratio]
+other = "市盈率"
+
+[th_dividend_yield]
+other = "股息收益率 %"
+
+[th_beta]
+other = "贝塔系数"
+
+[th_rsi]
+other = "RSI（14日）"
+
+[th_ma200]
+other = "200日均线"
+
+[th_ma50]
+other = "50日均线"
+
+[th_52w_high]
+other = "52周最高"
+
+[th_52w_low]
+other = "52周最低"
+
+[th_strategy_score]
+other = "策略评分"
+
+[th_etf]
+other = "ETF"
+
+[th_first_seen]
+other = "首次出现"
+
+# Common labels
+[label_yes]
+other = "是"
+
+[label_no]
+other = "否"
+
+[label_na]
+other = "N/A"
+
+[label_loading]
+other = "加载中..."
+
+[label_not_available]
+other = "暂不可用"
+
+[label_overbought]
+other = "超买"
+
+[label_oversold]
+other = "超卖"
+
+[label_by]
+other = "作者"
+
+[label_published]
+other = "发布于"
+
+[label_updated]
+other = "更新于"
+
+# Filtered data page
+[filtered_total_tickers]
+other = "✅ 股票总数"
+
+[filtered_common_stocks]
+other = "仅筛选普通股"
+
+[filtered_with_price]
+other = "💹 含价格数据"
+
+[filtered_yahoo_finance]
+other = "成功从Yahoo Finance获取"
+
+[filtered_success_rate]
+other = "📊 成功率"
+
+[filtered_pass1]
+other = "第一轮提取"
+
+[filtered_data_refreshed]
+other = "📅 数据刷新"
+
+[filtered_by_exchange]
+other = "📈 按交易所查看股票（点击切换）"
+
+[filtered_all_exchanges]
+other = "所有交易所"
+
+[filtered_ticker_list]
+other = "筛选后的股票列表"
+
+[filtered_ticker_desc]
+other = "所有通过筛选规则的股票。不包含测试代码、ETF、认股权证、单位、权利或优先股。"
+
+[filtered_no_data]
+other = "暂无数据"
+
+[filtered_no_data_msg]
+other = "筛选后的股票数据尚未生成。请运行以下命令："
+
+# Raw data page
+[raw_nasdaq_data]
+other = "📊 NASDAQ数据"
+
+[raw_other_data]
+other = "📊 其他交易所数据"
+
+[raw_total_rows]
+other = "总行数："
+
+[raw_file]
+other = "文件："
+
+[raw_downloaded]
+other = "下载时间："
+
+[raw_nasdaq_title]
+other = "NASDAQ上市证券"
+
+[raw_nasdaq_desc]
+other = "来自NASDAQ FTP服务器的原始数据"
+
+[raw_nasdaq_includes]
+other = "包含测试代码、ETF、认股权证、单位和所有其他证券。"
+
+[raw_showing_all]
+other = "显示全部"
+
+[raw_rows_sort]
+other = "行。点击列标题排序。"
+
+[raw_other_title]
+other = "其他交易所证券"
+
+[raw_other_desc]
+other = "来自NASDAQ FTP服务器的原始数据"
+
+[raw_other_includes]
+other = "包含NYSE、NYSE MKT、NYSE ARCA和其他交易所。"
+
+[raw_no_data]
+other = "暂无数据"
+
+[raw_no_data_msg]
+other = "原始FTP数据尚未生成。请运行以下命令："
+
+# Ticker detail page
+[ticker_home]
+other = "首页"
+
+[ticker_all_tickers]
+other = "所有股票"
+
+[ticker_market_data]
+other = "�� 市场数据"
+
+[ticker_view_yahoo]
+other = "在Yahoo Finance查看 →"
+
+[ticker_strategy_scores]
+other = "🎯 投资策略评分"
+
+[ticker_scores_desc]
+other = "在各投资策略中的评分。分数越高，越符合该策略目标。"
+
+[ticker_no_scores]
+other = "暂无策略评分"
+
+[ticker_no_scores_reason]
+other = "评分仅为符合至少一种策略筛选标准的股票代码计算。"
+
+[ticker_no_scores_link]
+other = "了解为什么部分股票没有评分 →"
+
+[ticker_interpretation]
+other = "🔍 策略解读"
+
+[ticker_best_fit]
+other = "最佳匹配："
+
+[ticker_this_strategy]
+other = "— 此策略"
+
+[ticker_lowest_fit]
+other = "评分最低的策略："
+
+[ticker_no_single_score]
+other = "单一评分不构成买入或卖出信号 — 请结合多种视角综合判断。"
+
+[ticker_learn_scores]
+other = "了解如何解读这些评分 →"
+
+[ticker_learn_more]
+other = "📚 了解更多"
+
+[ticker_indicators]
+other = "本页指标"
+
+[ticker_educational]
+other = "教育文章"
+
+[ticker_site_resources]
+other = "网站资源"
+
+[ticker_rsi_link]
+other = "RSI — 衡量什么"
+
+[ticker_beta_link]
+other = "贝塔系数 — 市场敏感度"
+
+[ticker_ma50_link]
+other = "50日移动均线"
+
+[ticker_ma200_link]
+other = "200日移动均线"
+
+[ticker_pe_link]
+other = "市盈率解释"
+
+[ticker_fpe_link]
+other = "远期市盈率解释"
+
+[ticker_dy_link]
+other = "股息收益率解释"
+
+[ticker_ptb_link]
+other = "市净率解释"
+
+[ticker_mc_link]
+other = "市值解释"
+
+[ticker_read_scores]
+other = "如何解读策略评分"
+
+[ticker_indicator_guide]
+other = "股票指标指南"
+
+[ticker_why_no_scores]
+other = "为什么部分股票没有评分"
+
+[ticker_all_articles]
+other = "所有文章 →"
+
+[ticker_how_calculated]
+other = "评分计算方式"
+
+[ticker_all_strategies]
+other = "全部五种策略"
+
+[ticker_full_glossary]
+other = "完整术语表"
+
+[ticker_browse_all]
+other = "浏览所有股票"
+
+[ticker_find_in_text]
+other = "在文本中查找"
+
+[ticker_in_your_text]
+other = ""
+
+[ticker_paste_desc]
+other = "粘贴任何文章、记录或帖子 — 工具将提取"
+
+[ticker_and_every_other]
+other = "以及每一个其他隐藏的股票代码。"
+
+[ticker_try_extractor]
+other = "试试股票代码提取器 →"
+
+[ticker_disclaimer]
+other = "<strong>免责声明：</strong>本数据仅供教育和娱乐用途，不构成金融建议。市场数据可能存在延迟。在做出投资决策之前，请始终进行自己的研究。"
+
+[ticker_data_updated]
+other = "数据最后更新："
+
+# Ticker list page
+[ticker_list_title]
+other = "浏览所有股票"
+
+[ticker_list_desc]
+other = "只股票和ETF，包含市场数据和投资策略评分。"
+
+[ticker_list_search]
+other = "🔍 搜索和筛选"
+
+[ticker_list_search_desc]
+other = "使用完整数据表按价格、成交量、市值、股息收益率等排序。"
+
+[ticker_list_open_table]
+other = "打开数据表 →"
+
+[ticker_list_browse_strategy]
+other = "🎯 按策略浏览"
+
+[ticker_list_strategy_desc]
+other = "查看哪些股票在每种投资策略中得分最高。"
+
+[ticker_list_a_to_z]
+other = "所有股票 — 按字母排序"
+
+# Articles
+[article_about_author]
+other = "<strong>关于作者：</strong>Andrew Allbright 是一位软件工程师，他将 Stock Market Words 构建为一个开源项目。该网站源于一个好奇心 — 程序能否可靠地找到隐藏在普通文本中的股票代码？ — 并发展成为一个完整的策略评分和金融教育平台。"
+
+[article_read_more]
+other = "了解更多关于此项目 →"
+
+# Shortcode
+[shortcode_title]
+other = "股票代码提取工具"
+
+[shortcode_desc]
+other = "粘贴任何文本。我们将找到隐藏在您文字中的最佳股票代码，并为您展示5种不同策略优化的投资组合！"
+
+[shortcode_your_text]
+other = "您的文本："
+
+[shortcode_placeholder]
+other = "输入任何文本以提取股票代码..."
+
+[shortcode_extract_btn]
+other = "提取投资组合"
+
+[shortcode_analyzing]
+other = "正在分析文本并查找股票代码..."
+
+[shortcode_portfolios_title]
+other = "🎯 5种不同的投资组合（每种策略一个）"
+
+[shortcode_portfolios_desc]
+other = "每种策略在您的文本中找到得分最高的股票代码。单词一旦被匹配就会被消耗！"
+
+[shortcode_lookup_desc]
+other = "直接跳转到股票详情页面 — 价格、指标和策略评分。"
+
+# Language switcher
+[lang_switch]
+other = "English"
+
+# JS-facing strings
+[js_error_processing]
+other = "处理您的文本时发生错误。请重试。"
+
+[js_no_tickers_all]
+other = "在所有策略中都未找到股票代码"
+
+[js_no_tickers_all_desc]
+other = "我们在您的文本中没有找到与我们5种投资策略匹配的股票代码。"
+
+[js_your_input]
+other = "您的输入文本："
+
+[js_why]
+other = "为什么？"
+
+[js_why_desc]
+other = "每种策略只包含符合特定标准的股票代码（例如高股息、高贝塔等）。常见的股票代码如NVDA或TSLA可能不会出现在以股息为重点的策略中。"
+
+[js_no_tickers]
+other = "未找到股票代码"
+
+[js_no_tickers_desc]
+other = "我们在您的文本中没有找到与此策略标准匹配的股票代码。"
+
+[js_why_strategy]
+other = "此策略只包含符合特定标准的股票代码。"
+
+[js_view_all_tickers]
+other = "查看全部"
+
+[js_tickers_in_strategy]
+other = "个该策略中的股票 →"
+
+[js_highlighted_text]
+other = "高亮显示的输入文本："
+
+[js_green_ticker]
+other = "= 股票代码（悬停查看代码和名称）"
+
+[js_tickers_found]
+other = "找到的股票代码："
+
+[js_previous]
+other = "上一页"
+
+[js_next]
+other = "下一页"
+
+[js_page]
+other = "第"
+
+[js_of]
+other = "页，共"
+
+[js_view_portfolio]
+other = "📊 在Portfolio Visualizer中查看"
+
+[js_please_enter]
+other = "请输入一些文本。"
+
+[js_failed_load]
+other = "加载股票数据失败。请刷新页面重试。"
+
+[js_stocks]
+other = "只股票"
+
+# Strategy help text (for JS)
+[js_help_dividend_daddy]
+other = "寻找高股息收益率和低波动性（贝塔）的股票。最适合追求稳定回报的收入型保守投资者。"
+
+[js_help_moon_shot]
+other = "识别高增长潜力的股票，具有高贝塔（波动性）和超卖条件（低RSI）。适合愿意承担风险的激进增长投资者。"
+
+[js_help_falling_knife]
+other = "逆向策略，寻找跌破200日移动均线的超卖股票。\"接飞刀\" — 高风险但有反弹潜力。"
+
+[js_help_over_hyped]
+other = "寻找RSI值较高的超买股票，暗示动量衰竭。适合做空者或期望回调的均值回归交易者。"
+
+[js_help_institutional_whale]
+other = "瞄准机构投资者可能持有的大盘股。\"跟随聪明的资金\" — 更稳定、流动性更强，被分析师广泛覆盖。"
