@@ -9,7 +9,7 @@ draft: false
 
 Financial news is the richest source of unannounced stock ticker symbols on the internet. A single Reuters article about supply chain disruptions might mention a dozen companies — some by name, some by product, some as passing references. Human readers skip over most of them. The extraction tool doesn't.
 
-This article walks through what happens when you paste a real piece of financial news into [the tool](/tool/), what you'll find, and why some results are more useful than others.
+This article walks through what happens when you paste a real piece of financial news into [the tool](/), what you'll find, and why some results are more useful than others.
 
 ---
 
@@ -107,7 +107,7 @@ A ticker found in a news article is a starting point. The strategy scores tell y
 
 The best way to understand what the tool finds is to use it on something you're actually reading today.
 
-Go to [the ticker extractor](/tool/), paste any financial article, and see what comes out. Then follow a few of the ticker links — you'll have a richer view of the same story in under two minutes.
+Go to [the ticker extractor](/), paste any financial article, and see what comes out. Then follow a few of the ticker links — you'll have a richer view of the same story in under two minutes.
 
 ---
 

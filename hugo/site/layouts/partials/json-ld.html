@@ -35,29 +35,6 @@
 </script>
 {{ end }}
 
-{{ if eq .RelPermalink "/tool/" }}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Stock Ticker Extractor",
-  "url": "{{ .Site.BaseURL }}tool/",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "Any (browser-based)",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "description": "Free browser-based tool that finds every stock ticker symbol hidden in any text — financial news, earnings transcripts, social media posts, or any other written content.",
-  "author": {
-    "@type": "Person",
-    "name": "Andrew Allbright"
-  }
-}
-</script>
-{{ end }}
-
 {{ if eq $type "page" }}
   {{ with .Params.author }}
 <script type="application/ld+json">

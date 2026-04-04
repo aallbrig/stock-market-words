@@ -5,9 +5,6 @@ other = "Stock Market Words"
 [nav_home]
 other = "Home"
 
-[nav_tool]
-other = "🔍 Tool"
-
 [nav_data]
 other = "Data"
 
@@ -69,9 +66,6 @@ other = "Scan to visit on mobile"
 
 [footer_privacy]
 other = "Privacy Policy"
-
-[footer_tool]
-other = "Tool"
 
 [footer_methodology]
 other = "Methodology"
@@ -245,78 +239,9 @@ other = "Plain-English definitions of RSI, beta, moving averages, P/E ratio, div
 [home_glossary_link]
 other = "Browse glossary →"
 
-# Tool page
-[tool_title]
-other = "Stock Ticker Extractor"
-
-[tool_subtitle]
-other = "Paste any text — financial news, earnings call transcripts, Reddit posts, shareholder letters — and instantly see every stock ticker symbol hiding inside it."
-
-[tool_paste_label]
-other = "Paste your text:"
-
-[tool_textarea_placeholder]
-other = "Paste a news article, earnings transcript, Reddit post, shareholder letter, or any other text here…"
-
-[tool_find_btn]
-other = "Find Hidden Tickers →"
-
-[tool_analyzing]
-other = "Analyzing text…"
-
+# Tool page (tool_computing_time kept for shortcode)
 [tool_computing_time]
 other = "Computing time:"
-
-[tool_strategy_subtitle]
-other = "Each strategy picks the highest-scoring tickers from your text using a different investment lens."
-
-[tool_lookup_title]
-other = "🔍 Look Up a Ticker Directly"
-
-[tool_lookup_subtitle]
-other = "Jump to a stock's data page — price, metrics, and all five strategy scores."
-
-[tool_use_cases_title]
-other = "What you can paste into the tool"
-
-[tool_news_title]
-other = "Financial News"
-
-[tool_news_desc]
-other = "Paste any CNBC, Bloomberg, or Reuters article. The tool finds every company mentioned — including ones that aren't named explicitly."
-
-[tool_news_link]
-other = "See it in action →"
-
-[tool_earnings_title]
-other = "Earnings Transcripts"
-
-[tool_earnings_desc]
-other = "Earnings calls mention competitors, partners, and suppliers by name. Paste a transcript and discover every ticker hiding in it."
-
-[tool_reddit_title]
-other = "Social Media & Reddit"
-
-[tool_reddit_desc]
-other = "r/wallstreetbets, r/investing, and financial Twitter are full of accidental ticker references. The tool catches what you'd miss reading manually."
-
-[tool_reddit_link]
-other = "How it works →"
-
-[tool_how_title]
-other = "How does it work?"
-
-[tool_how_desc]
-other = "The extractor uses a non-greedy backtracking algorithm to find all valid ticker symbols within any string of text — handling overlapping matches, common English words that look like tickers (like \"IT\", \"A\", or \"ARE\"), and multi-word company names."
-
-[tool_how_link]
-other = "Full technical explanation →"
-
-[tool_scoring_link]
-other = "How scores are calculated →"
-
-[tool_strategies_link]
-other = "The five strategies →"
 
 # Strategy filter page
 [strategy_summary]

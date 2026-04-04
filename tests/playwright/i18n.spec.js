@@ -28,7 +28,6 @@ const ZH_PAGES = [
   { path: '/zh-cn/strategy-institutional-whale/', name: 'Strategy: Institutional Whale (ZH)' },
   { path: '/zh-cn/filtered-data/', name: 'Filtered Data (ZH)' },
   { path: '/zh-cn/raw-ftp-data/', name: 'Raw FTP Data (ZH)' },
-  { path: '/zh-cn/tool/', name: 'Tool (ZH)' },
   { path: '/zh-cn/privacy-policy/', name: 'Privacy Policy (ZH)' },
   { path: '/zh-cn/data/', name: 'Data (ZH)' },
 ];
@@ -37,7 +36,6 @@ const ZH_PAGES = [
 const EN_PAGES = [
   { path: '/', name: 'Home' },
   { path: '/about/', name: 'About' },
-  { path: '/tool/', name: 'Tool' },
   { path: '/strategy-dividend-daddy/', name: 'Strategy: Dividend Daddy' },
   { path: '/filtered-data/', name: 'Filtered Data' },
 ];
@@ -233,7 +231,6 @@ test.describe('zh-CN No Console Errors', () => {
   const KEY_ZH_PAGES = [
     { path: '/zh-cn/', name: 'Home (ZH)' },
     { path: '/zh-cn/about/', name: 'About (ZH)' },
-    { path: '/zh-cn/tool/', name: 'Tool (ZH)' },
     { path: '/zh-cn/strategy-dividend-daddy/', name: 'Strategy: Dividend Daddy (ZH)' },
   ];
 

@@ -24,7 +24,7 @@ Executives spend an earnings call explaining their business. That explanation in
 
 Each of those references contains tickers. The competitor, the hyperscaler, the foundry partner, the automotive OEM — they're all publicly traded companies with tickers, even if the speaker never says the symbol out loud.
 
-A human reading the transcript might already know who "the foundry partner in Taiwan" is (TSM — Taiwan Semiconductor). But less obvious references get missed. The [ticker extraction tool](/tool/) doesn't miss them.
+A human reading the transcript might already know who "the foundry partner in Taiwan" is (TSM — Taiwan Semiconductor). But less obvious references get missed. The [ticker extraction tool](/) doesn't miss them.
 
 ---
 
@@ -94,7 +94,7 @@ Some companies are almost always referenced by acronym in their industry. "AWS" 
 ## Practical Workflow: Before an Earnings Call
 
 1. Find the previous quarter's transcript for a company you're researching
-2. Paste it into [the ticker extractor](/tool/)
+2. Paste it into [the ticker extractor](/)
 3. Note which competitors, customers, and suppliers were mentioned
 4. Check each extracted ticker's strategy scores
 5. When the new earnings call happens, compare: did the competitive mentions change? Did a supplier that was previously a passing reference become a major focus?
@@ -113,7 +113,7 @@ The tool is a research accelerant, not a research replacement. It surfaces the c
 
 ## Try It with a Real Transcript
 
-Go to any company's investor relations page, find the most recent earnings call transcript, paste a section into [the ticker extractor](/tool/), and see what comes out. Even a single page of transcript often yields 5–10 tickers that weren't the primary subject of the call.
+Go to any company's investor relations page, find the most recent earnings call transcript, paste a section into [the ticker extractor](/), and see what comes out. Even a single page of transcript often yields 5–10 tickers that weren't the primary subject of the call.
 
 ---
 
