@@ -1,6 +1,6 @@
 # zh-CN Ticker Pages
 
-**Status:** Draft (investigation pending)
+**Status:** Done
 **Author:** unassigned
 **Created:** 2026-04-08
 
@@ -79,14 +79,18 @@ Record the findings in this spec under "Root cause" before proceeding.
 
 ### Root cause
 
-**TODO** — fill in after the investigation. One of:
+**Option B confirmed (2026-04-09, Hugo v0.157.0).**
 
-- (A) The content adapter does not auto-iterate languages and must be
-  rewritten to call `$.AddPage` once per language.
-- (B) The data file path or template path resolves only for the default
-  language and needs a `_content.zh-cn.gotmpl` sibling.
-- (C) Something subtler — the gotmpl runs but the resulting pages are
-  filtered out by a `disableKinds` or section config.
+The content adapter `_content.gotmpl` runs only once, in the default-language
+(English) context. `$.AddPage` with `"lang" "zh-cn"` was tried first and
+silently ignored — pages added with that key still landed in the English
+page tree.
+
+The correct fix is a language-specific sibling adapter file:
+`_content.zh-cn.gotmpl`. Hugo's template lookup order picks it up for the
+`zh-cn` language automatically, and `$.AddPage` (without any `lang` key)
+adds pages into that language's tree. The file content is identical to
+`_content.gotmpl`.
 
 ### Recommended fix — Option A (Hugo-only)
 

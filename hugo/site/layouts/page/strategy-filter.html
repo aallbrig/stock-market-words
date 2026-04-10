@@ -357,7 +357,7 @@ $(document).ready(function() {
     const isMobile = window.innerWidth < 768;
     const chartTitle = '{{ i18n "strategy_sector_chart_title" }}';
 
-    // Active sector set — supports single click (exclusive) and shift+click (multi-select)
+    // Active sector set — each click toggles selection on/off (mobile-friendly, no shift key needed)
     const activeSectors = new Set();
 
     const centerTextPlugin = {
@@ -451,7 +451,7 @@ $(document).ready(function() {
               }
             },
             onClick(e, legendItem) {
-              toggleSectorFilter(labels[legendItem.index], sectorChart, e.shiftKey);
+              toggleSectorFilter(labels[legendItem.index], sectorChart);
             }
           },
           tooltip: {
@@ -467,7 +467,7 @@ $(document).ready(function() {
         },
         onClick(e, elements) {
           if (!elements.length) return;
-          toggleSectorFilter(labels[elements[0].index], sectorChart, e.native.shiftKey);
+          toggleSectorFilter(labels[elements[0].index], sectorChart);
         }
       }
     });
@@ -477,29 +477,25 @@ $(document).ready(function() {
         $('#sectorFilterHint').text('Click a sector to filter the table below. Click again to clear.');
       } else if (activeSectors.size === 1) {
         const sector = [...activeSectors][0];
-        $('#sectorFilterHint').html(`Showing <strong>${sector}</strong> — click again to clear, or shift+click another to add.`);
+        $('#sectorFilterHint').html(`Showing <strong>${sector}</strong> — click again to clear, or click another to add.`);
       } else {
         const names = [...activeSectors].map(s => `<strong>${s}</strong>`).join(', ');
-        $('#sectorFilterHint').html(`Showing ${names} — shift+click to add/remove, click any slice to reset.`);
+        $('#sectorFilterHint').html(`Showing ${names} — click to add/remove, or click any slice to reset.`);
       }
     }
 
-    function toggleSectorFilter(sector, chart, shiftKey) {
-      if (shiftKey) {
-        // Multi-select: add or remove from the set
+    function toggleSectorFilter(sector, chart) {
+      // First click or already in multi-select mode: toggle on/off
+      if (activeSectors.size > 0) {
+        // Already filtering: toggle this sector on/off
         if (activeSectors.has(sector)) {
           activeSectors.delete(sector);
         } else {
           activeSectors.add(sector);
         }
       } else {
-        // Single-select: if this is the only active sector, clear; otherwise switch to just this one
-        if (activeSectors.size === 1 && activeSectors.has(sector)) {
-          activeSectors.clear();
-        } else {
-          activeSectors.clear();
-          activeSectors.add(sector);
-        }
+        // First click: select this sector
+        activeSectors.add(sector);
       }
 
       chart.data.datasets[0].backgroundColor = colors.map((c, i) =>
