@@ -103,7 +103,7 @@ def status():
     # Track various issues for exit code
     missing_deps = []
     unreachable_services = []
-    db_issue = False
+    db_issue_reason = None  # None, "schema_missing", "tables_incomplete", "migrations_pending", "connection_error"
     
     # 1. DATA OVERVIEW
     logger.info("1️⃣  DATA OVERVIEW")
@@ -181,7 +181,7 @@ def status():
         logger.warning("   ⚠ Database: NOT FOUND")
         logger.warning(f"   → Database file expected at: {DB_PATH}")
         logger.warning("   → Initialize database with: python -m stock_ticker.cli init")
-        db_issue = True
+        db_issue_reason = "schema_missing"
     else:
         try:
             conn = get_connection()
@@ -201,7 +201,7 @@ def status():
                 logger.warning("   ⚠ Database: Schema not initialized")
                 logger.warning(f"   → Database file exists but has no tables")
                 logger.warning("   → Initialize schema with: python -m stock_ticker.cli init")
-                db_issue = True
+                db_issue_reason = "schema_missing"
             else:
                 # Check if all expected tables exist (dynamically parsed from schema.sql)
                 from .database import get_expected_tables_from_schema
@@ -217,7 +217,7 @@ def status():
                     if missing_tables:
                         logger.warning(f"   ⚠ Database: Missing tables: {', '.join(missing_tables)}")
                         logger.warning("   → Reinitialize schema with: python -m stock_ticker.cli init")
-                        db_issue = True
+                        db_issue_reason = "tables_incomplete"
                     else:
                         logger.info(f"   ✓ Database: Ready ({len(tables)} tables)")
                 
@@ -225,7 +225,7 @@ def status():
                 if check_migrations_needed():
                     logger.warning("   ⚠️  Database migrations pending!")
                     logger.warning("   → Run migrations with: python -m stock_ticker.cli migrate up")
-                    db_issue = True
+                    db_issue_reason = "migrations_pending"
                 else:
                     # Check if schema was recently updated (migrations applied today)
                     cursor.execute("""
@@ -243,7 +243,7 @@ def status():
             logger.warning(f"   ⚠ Database: Error connecting ({e})")
             logger.warning(f"   → Check database file permissions: {DB_PATH}")
             logger.warning("   → Try reinitializing: python -m stock_ticker.cli init")
-            db_issue = True
+            db_issue_reason = "connection_error"
     
     # Python packages
     try:
@@ -364,9 +364,16 @@ def status():
         sys.exit(2)  # Exit code 2: missing dependencies
     
     # Check for database issues
-    if db_issue:
-        logger.warning("   ⚠️  Database not initialized")
-        logger.info("   → Initialize with: python -m stock_ticker.cli init")
+    if db_issue_reason:
+        if db_issue_reason == "migrations_pending":
+            logger.warning("   ⚠️  Database migrations pending")
+            logger.info("   → Run migrations with: python -m stock_ticker.cli migrate up")
+        elif db_issue_reason in ("schema_missing", "tables_incomplete"):
+            logger.warning("   ⚠️  Database schema not initialized")
+            logger.info("   → Initialize with: python -m stock_ticker.cli init")
+        elif db_issue_reason == "connection_error":
+            logger.warning("   ⚠️  Database connection error")
+            logger.info("   → Check database file permissions and connectivity")
         sys.exit(3)  # Exit code 3: database not ready
     
     # Check for unreachable services
