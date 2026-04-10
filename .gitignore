@@ -1,3 +1,5 @@
+data/backups/
+
 .idea
 .DS_Store
 venv

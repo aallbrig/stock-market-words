@@ -421,6 +421,30 @@ def status():
         sys.exit(7)  # Exit code 7: pipeline partial
 
 @cli.command()
+@click.option('--db-path', default='data/market_data.db',
+              help='Path to SQLite database file')
+@log_timing
+def backup(db_path):
+    """Create a backup of the SQLite database."""
+    from .backup import create_backup
+    
+    logger.info("=" * 70)
+    logger.info("=== 💾 DATABASE BACKUP ===")
+    logger.info("=" * 70)
+    logger.info("")
+    
+    try:
+        backup_path = create_backup(db_path=db_path)
+        logger.info(f"✓ Backup created: {backup_path}")
+        sys.exit(0)
+    except FileNotFoundError as e:
+        logger.error(f"✗ Backup failed: {e}")
+        sys.exit(1)
+    except Exception as e:
+        logger.error(f"✗ Backup failed: {e}")
+        sys.exit(1)
+
+@cli.command()
 @click.pass_context
 @log_timing
 def init(ctx):
@@ -471,7 +495,10 @@ def migrate_status_cmd():
 
 
 @migrate.command('up')
-def migrate_up_cmd():
+@click.option('--skip-backup', is_flag=True,
+              help='Skip pre-migration backup creation')
+@log_timing
+def migrate_up_cmd(skip_backup):
     """Apply all pending migrations."""
     logger.info("=" * 70)
     logger.info("=== 🔼 APPLYING MIGRATIONS ===")
@@ -479,7 +506,7 @@ def migrate_up_cmd():
     logger.info("")
     
     try:
-        migrate_up()
+        migrate_up(skip_backup=skip_backup)
         logger.info("")
         logger.info("✓ All migrations applied successfully")
         sys.exit(0)

@@ -188,9 +188,26 @@ def rollback_migration(version, description):
         conn.close()
 
 
-def migrate_up():
-    """Apply all pending migrations."""
+def migrate_up(skip_backup=False):
+    """
+    Apply all pending migrations.
+    
+    Args:
+        skip_backup (bool): If True, skip pre-migration backup creation
+    """
     ensure_migrations_table()
+    
+    # Create pre-migration backup unless skipped
+    if not skip_backup:
+        try:
+            from .backup import create_backup
+            backup_path = create_backup()
+            logger.info(f"Pre-migration backup: {backup_path}")
+        except Exception as e:
+            logger.error(f"CRITICAL: Could not create pre-migration backup: {e}")
+            raise
+    else:
+        logger.warning("⚠️  WARNING: Skipping pre-migration backup (--skip-backup used)")
     
     pending = get_pending_migrations()
     
