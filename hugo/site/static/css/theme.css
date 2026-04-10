@@ -1,3 +1,71 @@
 body {
     background-color: #f8f9fa;
 }
+
+/* Localization banner styling */
+.localization-banner {
+  background: linear-gradient(135deg, #e8f1f8 0%, #f0f6fb 100%);
+  border-bottom: 2px solid #4a90e2;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.localization-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.localization-banner-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.localization-banner-message strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.localization-banner-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+  padding: 4px 8px;
+  line-height: 1;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.localization-banner-close:hover {
+  color: #2c3e50;
+}
+
+.localization-banner.hidden {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .localization-banner {
+    padding: 12px 12px;
+  }
+
+  .localization-banner-content {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .localization-banner-message {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .localization-banner-close {
+    align-self: flex-start;
+  }
+}

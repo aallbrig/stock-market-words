@@ -2,6 +2,17 @@
 <html lang="{{ .Site.Language.Lang }}" class="h-100">
 {{ partial "head.html" . }}
 <body class="d-flex flex-column h-100">
+  <!-- Localization banner at the very top -->
+  <div id="localization-banner" class="localization-banner">
+    <div class="localization-banner-content">
+      <div class="localization-banner-message">
+        <strong>🌍 Working toward full Chinese support</strong> — some pages may still appear in English.
+      </div>
+      <button id="localization-banner-close" class="localization-banner-close" aria-label="Close localization banner">
+        ✕
+      </button>
+    </div>
+  </div>
   {{ partial "navigation.html" . }}
   <main class="flex-shrink-0">
     {{ block "main" . }}{{ end }}
@@ -18,5 +29,6 @@
       <script src="{{ .Params.custom_js }}"></script>
     {{ end }}
   {{ end }}
+  <script src="{{ .Site.BaseURL }}/js/localization-banner.js"></script>
 </body>
 </html>
