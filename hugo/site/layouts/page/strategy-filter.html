@@ -36,11 +36,32 @@
         </div>
       </div>
       
+      <!-- Sector Distribution Chart -->
+      {{ if gt $strategyData.total_matches 0 }}
+      <div class="mb-5">
+        <h2>{{ i18n "strategy_sector_distribution" }}</h2>
+        <p class="text-muted">{{ i18n "strategy_sector_desc" }}</p>
+
+        <div class="row">
+          <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+            <div class="card">
+              <div class="card-body" style="min-height: 400px;">
+                <canvas id="sectorPieChart"></canvas>
+              </div>
+            </div>
+            <p class="text-center text-muted mt-2" id="sectorFilterHint" style="font-size: 0.875rem;">
+              Click a sector to filter the table below. Click again to clear.
+            </p>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+
       <!-- Matching Stocks Table -->
       <div class="mb-5">
         <h2>{{ i18n "strategy_matching_stocks" }}</h2>
         <p class="text-muted">{{ i18n "strategy_stocks_meet_criteria" }} {{ $strategyData.strategy }} {{ i18n "strategy_click_sort" }}</p>
-        
+
         {{ if gt $strategyData.total_matches 0 }}
         <div class="table-responsive">
           <table class="table table-striped table-hover table-sm" id="strategyTable">
@@ -219,24 +240,6 @@
         {{ end }}
       </div>
       
-      <!-- Sector Distribution Chart -->
-      {{ if gt $strategyData.total_matches 0 }}
-      <div class="mb-5">
-        <h2>{{ i18n "strategy_sector_distribution" }}</h2>
-        <p class="text-muted">{{ i18n "strategy_sector_desc" }}</p>
-        
-        <div class="row">
-          <div class="col-12 col-lg-10 col-xl-8 mx-auto">
-            <div class="card">
-              <div class="card-body" style="min-height: 400px;">
-                <canvas id="sectorPieChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{ end }}
-      
       <!-- Strategy Navigation -->
       <div class="card mb-5">
         <div class="card-header">
@@ -329,7 +332,7 @@ $(document).ready(function() {
     });
   }
   
-  // Sector Distribution Pie Chart
+  // Sector Distribution Donut Chart
   if ($('#sectorPieChart').length) {
     // Count stocks by sector
     const sectorCounts = {};
@@ -338,27 +341,72 @@ $(document).ready(function() {
     sectorCounts["{{ .sector }}"] = (sectorCounts["{{ .sector }}"] || 0) + 1;
     {{ end }}
     {{ end }}
-    
+
     // Sort sectors by count (descending) and prepare data
     const sortedSectors = Object.entries(sectorCounts)
       .sort((a, b) => b[1] - a[1]);
-    
+
     const labels = sortedSectors.map(([sector]) => sector);
     const data = sortedSectors.map(([, count]) => count);
-    
+    const total = data.reduce((a, b) => a + b, 0);
+
     // Generate distinct colors for each sector
     const colors = generateColors(labels.length);
-    
-    // Create pie chart
+
     const ctx = document.getElementById('sectorPieChart').getContext('2d');
-    
-    // Determine legend position based on screen size
     const isMobile = window.innerWidth < 768;
-    
     const chartTitle = '{{ i18n "strategy_sector_chart_title" }}';
-    
-    new Chart(ctx, {
-      type: 'pie',
+
+    // Active sector set — supports single click (exclusive) and shift+click (multi-select)
+    const activeSectors = new Set();
+
+    const centerTextPlugin = {
+      id: 'centerText',
+      afterDraw(chart) {
+        const meta = chart.getDatasetMeta(0);
+        if (!meta || !meta.data.length) return;
+
+        const firstArc = meta.data[0];
+        const cx = firstArc.x;
+        const cy = firstArc.y;
+
+        chart.ctx.save();
+        chart.ctx.textAlign = 'center';
+        chart.ctx.textBaseline = 'middle';
+
+        if (activeSectors.size === 1) {
+          const sector = [...activeSectors][0];
+          const idx = labels.indexOf(sector);
+          const count = idx >= 0 ? data[idx] : 0;
+          chart.ctx.font = `bold ${isMobile ? 13 : 15}px sans-serif`;
+          chart.ctx.fillStyle = '#333';
+          chart.ctx.fillText(sector, cx, cy - 10);
+          chart.ctx.font = `${isMobile ? 11 : 13}px sans-serif`;
+          chart.ctx.fillStyle = '#666';
+          chart.ctx.fillText(`${count} stocks`, cx, cy + 12);
+        } else if (activeSectors.size > 1) {
+          const filteredCount = data.reduce((sum, c, i) => activeSectors.has(labels[i]) ? sum + c : sum, 0);
+          chart.ctx.font = `bold ${isMobile ? 18 : 22}px sans-serif`;
+          chart.ctx.fillStyle = '#333';
+          chart.ctx.fillText(filteredCount, cx, cy - 8);
+          chart.ctx.font = `${isMobile ? 10 : 12}px sans-serif`;
+          chart.ctx.fillStyle = '#888';
+          chart.ctx.fillText(`of ${total}`, cx, cy + 12);
+        } else {
+          chart.ctx.font = `bold ${isMobile ? 18 : 22}px sans-serif`;
+          chart.ctx.fillStyle = '#333';
+          chart.ctx.fillText(total, cx, cy - 8);
+          chart.ctx.font = `${isMobile ? 10 : 12}px sans-serif`;
+          chart.ctx.fillStyle = '#888';
+          chart.ctx.fillText('stocks', cx, cy + 12);
+        }
+        chart.ctx.restore();
+      }
+    };
+
+    const sectorChart = new Chart(ctx, {
+      type: 'doughnut',
+      plugins: [centerTextPlugin],
       data: {
         labels: labels,
         datasets: [{
@@ -371,75 +419,123 @@ $(document).ready(function() {
       options: {
         responsive: true,
         maintainAspectRatio: true,
+        cutout: '55%',
         plugins: {
           title: {
             display: true,
             text: chartTitle,
-            font: {
-              size: isMobile ? 14 : 16,
-              weight: 'bold'
-            },
-            padding: {
-              bottom: 20
-            }
+            font: { size: isMobile ? 14 : 16, weight: 'bold' },
+            padding: { bottom: 20 }
           },
           legend: {
             position: isMobile ? 'bottom' : 'right',
             labels: {
               padding: isMobile ? 10 : 15,
-              font: {
-                size: isMobile ? 11 : 12
-              },
-              generateLabels: function(chart) {
-                const data = chart.data;
-                if (data.labels.length && data.datasets.length) {
-                  return data.labels.map((label, i) => {
-                    const value = data.datasets[0].data[i];
-                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
-                    const percentage = ((value / total) * 100).toFixed(1);
+              font: { size: isMobile ? 11 : 12 },
+              generateLabels(chart) {
+                const d = chart.data;
+                if (d.labels.length && d.datasets.length) {
+                  return d.labels.map((label, i) => {
+                    const value = d.datasets[0].data[i];
+                    const pct = ((value / total) * 100).toFixed(1);
                     return {
-                      text: `${label}: ${value} (${percentage}%)`,
-                      fillStyle: data.datasets[0].backgroundColor[i],
+                      text: `${label}: ${value} (${pct}%)`,
+                      fillStyle: d.datasets[0].backgroundColor[i],
                       hidden: false,
-                      index: i
+                      index: i,
+                      fontColor: activeSectors.size > 0 && !activeSectors.has(label) ? '#bbb' : undefined
                     };
                   });
                 }
                 return [];
               }
+            },
+            onClick(e, legendItem) {
+              toggleSectorFilter(labels[legendItem.index], sectorChart, e.shiftKey);
             }
           },
           tooltip: {
             callbacks: {
-              label: function(context) {
+              label(context) {
                 const label = context.label || '';
                 const value = context.parsed || 0;
-                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                const percentage = ((value / total) * 100).toFixed(1);
-                return `${label}: ${value} stocks (${percentage}%)`;
+                const pct = ((value / total) * 100).toFixed(1);
+                return `${label}: ${value} stocks (${pct}%)`;
               }
             }
           }
+        },
+        onClick(e, elements) {
+          if (!elements.length) return;
+          toggleSectorFilter(labels[elements[0].index], sectorChart, e.native.shiftKey);
         }
       }
     });
-    
+
+    function updateHint() {
+      if (activeSectors.size === 0) {
+        $('#sectorFilterHint').text('Click a sector to filter the table below. Click again to clear.');
+      } else if (activeSectors.size === 1) {
+        const sector = [...activeSectors][0];
+        $('#sectorFilterHint').html(`Showing <strong>${sector}</strong> — click again to clear, or shift+click another to add.`);
+      } else {
+        const names = [...activeSectors].map(s => `<strong>${s}</strong>`).join(', ');
+        $('#sectorFilterHint').html(`Showing ${names} — shift+click to add/remove, click any slice to reset.`);
+      }
+    }
+
+    function toggleSectorFilter(sector, chart, shiftKey) {
+      if (shiftKey) {
+        // Multi-select: add or remove from the set
+        if (activeSectors.has(sector)) {
+          activeSectors.delete(sector);
+        } else {
+          activeSectors.add(sector);
+        }
+      } else {
+        // Single-select: if this is the only active sector, clear; otherwise switch to just this one
+        if (activeSectors.size === 1 && activeSectors.has(sector)) {
+          activeSectors.clear();
+        } else {
+          activeSectors.clear();
+          activeSectors.add(sector);
+        }
+      }
+
+      chart.data.datasets[0].backgroundColor = colors.map((c, i) =>
+        activeSectors.size === 0 || activeSectors.has(labels[i])
+          ? c
+          : c.replace(/^hsl\((.+)\)$/, 'hsla($1, 0.25)')
+      );
+      chart.update();
+      updateHint();
+
+      if ($.fn.dataTable.isDataTable('#strategyTable')) {
+        $('#strategyTable').DataTable().draw();
+      }
+    }
+
+    // Custom DataTables search function for sector column
+    $.fn.dataTable.ext.search.push(function(settings, data) {
+      if (settings.nTable.id !== 'strategyTable') return true;
+      if (activeSectors.size === 0) return true;
+      return activeSectors.has(data[2].trim());
+    });
+
     // Generate distinct colors using HSL color space
     function generateColors(count) {
-      const colors = [];
+      const result = [];
       const goldenRatio = 0.618033988749895;
-      let hue = Math.random(); // Start with random hue
-      
+      let hue = 0.1; // Fixed start so colors are consistent across page loads
+
       for (let i = 0; i < count; i++) {
         hue += goldenRatio;
         hue %= 1;
-        // Use varied saturation and lightness for better distinction
         const saturation = 65 + (i % 3) * 10;
         const lightness = 50 + (i % 4) * 5;
-        colors.push(`hsl(${hue * 360}, ${saturation}%, ${lightness}%)`);
+        result.push(`hsl(${(hue * 360).toFixed(0)}, ${saturation}%, ${lightness}%)`);
       }
-      
-      return colors;
+      return result;
     }
   }
 });

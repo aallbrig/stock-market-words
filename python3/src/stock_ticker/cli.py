@@ -32,6 +32,7 @@ from .hugo_generators import (
 )
 from .utils import get_today, check_ftp_server, check_yahoo_finance
 from .retry import get_request_metrics
+from .translate import TranslateConfig, run_translate
 
 logger = setup_logging()
 
@@ -1039,6 +1040,57 @@ def hugo_all(ctx, clean):
         logger.info("")
     
     generate_all_hugo_content(dry_run=ctx.obj.dry_run)
+
+
+@cli.command()
+@click.option("--path", default=None, help="Translate a single file instead of the full inventory.")
+@click.option("--language", "languages", multiple=True, default=["zh-cn"], show_default=True,
+              help="Target language code. Repeatable (e.g. --language zh-cn --language ko).")
+@click.option("--workers", type=int, default=None,
+              help="Parallel translation workers. Default: max(1, floor(cpu_count × 0.75)).")
+@click.option("--utilization", type=float, default=None,
+              help="CPU utilization fraction (0.0–1.0). Computes workers automatically. Mutually exclusive with --workers.")
+@click.option("--timeout-per-file", type=int, default=300, show_default=True,
+              help="Seconds to wait for a single file before marking it failed.")
+@click.option("--retry", type=int, default=1, show_default=True,
+              help="Number of retries on per-file failure.")
+@click.option("--model", default="qwen2.5:7b", show_default=True,
+              help="Ollama model to use.")
+@click.option("--backend", type=click.Choice(["ollama", "huggingface"]), default="ollama", show_default=True,
+              help="Translation backend.")
+@click.option("--force", is_flag=True,
+              help="Re-translate files that already have content.")
+@click.option("--dry-run", is_flag=True,
+              help="Print what would be translated; do not write files.")
+@click.option("--no-heuristics", is_flag=True,
+              help="Skip ETA estimate (useful for first run with no history).")
+def translate(path, languages, workers, utilization, timeout_per_file, retry,
+              model, backend, force, dry_run, no_heuristics):
+    """Translate English content files to Simplified Chinese (or other languages).
+
+    Walks hugo/site/content/ for English .md files without translated siblings,
+    then runs Ollama translations in parallel with SQLite-backed ETA heuristics.
+    """
+    if workers is not None and utilization is not None:
+        raise click.UsageError("--workers and --utilization are mutually exclusive.")
+    if utilization is not None and not (0.0 < utilization <= 1.0):
+        click.echo("Warning: --utilization clamped to 1.0", err=True)
+        utilization = 1.0
+
+    config = TranslateConfig(
+        path=path,
+        languages=list(languages),
+        workers=workers,
+        utilization=utilization,
+        timeout_per_file=timeout_per_file,
+        retry=retry,
+        model=model,
+        backend=backend,
+        force=force,
+        dry_run=dry_run,
+        no_heuristics=no_heuristics,
+    )
+    run_translate(config)
 
 
 def main():

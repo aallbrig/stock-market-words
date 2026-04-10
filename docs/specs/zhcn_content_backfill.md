@@ -4,6 +4,12 @@
 **Author:** unassigned
 **Created:** 2026-04-08
 
+> **Note (2026-04-09):** The `ticker-cli translate` command design (parallelism
+> model, job-tracking schema, CLI flags, ETA heuristics) has been superseded by
+> [`docs/specs/cli_translate.md`](cli_translate.md). The content inventory
+> table and system prompt below remain canonical; refer to `cli_translate.md`
+> for implementation details.
+
 ## Context
 
 The Simplified Chinese version of stockmarketwords.com is structurally

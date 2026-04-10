@@ -45,24 +45,47 @@
         <li class="nav-item">
           <a class="nav-link{{ if eq .RelPermalink "/about/" }} active" aria-current="page{{ end }}" href="{{ "/about/" | relLangURL }}">{{ i18n "nav_about" }}</a>
         </li>
-        {{/* Language switcher */}}
-        {{ if .IsTranslated }}
+        {{/* Language switcher — dropdown, auto-scales to any number of languages */}}
+        {{ $page := . }}
+        {{/* Build a map of lang code → translated permalink for this page */}}
+        {{ $translationURLs := dict }}
         {{ range .Translations }}
-        <li class="nav-item">
-          <a class="nav-link text-warning fw-bold" href="{{ .RelPermalink }}">{{ i18n "lang_switch" }}</a>
+          {{ $translationURLs = merge $translationURLs (dict .Language.Lang .RelPermalink) }}
+        {{ end }}
+        {{/* Find the default language (lowest weight) to know which lang lives at "/" */}}
+        {{ $defaultLang := "" }}
+        {{ $minWeight := 9999 }}
+        {{ range $page.Site.Languages }}
+          {{ if lt .Weight $minWeight }}
+            {{ $defaultLang = .Lang }}
+            {{ $minWeight = .Weight }}
+          {{ end }}
+        {{ end }}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="langSwitcherDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select language">
+            🌐 {{ .Language.LanguageName }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langSwitcherDropdown">
+            {{ range $page.Site.Languages }}
+              {{ $isCurrent := eq .Lang $page.Language.Lang }}
+              {{ $href := index $translationURLs .Lang }}
+              {{ if not $href }}
+                {{ if eq .Lang $defaultLang }}
+                  {{ $href = "/" }}
+                {{ else }}
+                  {{ $href = printf "/%s/" .Lang }}
+                {{ end }}
+              {{ end }}
+              <li>
+                {{ if $isCurrent }}
+                  <span class="dropdown-item active" aria-current="true">✓ {{ .LanguageName }}</span>
+                {{ else }}
+                  <a class="dropdown-item" href="{{ $href }}">{{ .LanguageName }}</a>
+                {{ end }}
+              </li>
+            {{ end }}
+          </ul>
         </li>
-        {{ end }}
-        {{ else }}
-        {{ $sitelangs := .Site.Languages }}
-        {{ $currentLang := .Language.Lang }}
-        {{ range $sitelangs }}
-        {{ if ne .Lang $currentLang }}
-        <li class="nav-item">
-          <a class="nav-link text-warning fw-bold" href="/{{ .Lang }}/">{{ i18n "lang_switch" }}</a>
-        </li>
-        {{ end }}
-        {{ end }}
-        {{ end }}
         <!-- QR Code - visible only on mobile -->
         <li class="nav-item d-lg-none">
           <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#qrModal">
