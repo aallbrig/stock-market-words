@@ -650,8 +650,9 @@ def generate_all_tickers_json(dry_run=False):
     Hugo content adapter (content/tickers/_content.gotmpl) to build 5,000+ ticker pages.
 
     Pulls every ticker with price data from the DB and merges in all strategy scores.
-    Only tickers with price >= $5 and volume >= 100,000 are included (same filter as
-    the strategy pages).
+    Only tickers with price >= $5, market_cap >= $1B, or volume >= 10M are included
+    (minimum volume floor of 100K always applies).  This ensures legitimate large-caps
+    like GRAB or SNAP aren't excluded just because their share price is below $5.
     """
     if dry_run:
         logger.info("DRY RUN: Would generate all_tickers.json")
@@ -704,7 +705,7 @@ def generate_all_tickers_json(dry_run=False):
         JOIN daily_metrics dm ON t.symbol = dm.symbol
         LEFT JOIN strategy_scores ss ON t.symbol = ss.symbol AND ss.date = dm.date
         WHERE dm.date = ?
-        AND dm.price >= 5.0
+        AND (dm.price >= 5.0 OR dm.market_cap >= 1000000000 OR dm.volume >= 10000000)
         AND dm.volume >= 100000
         ORDER BY t.symbol ASC
     """
