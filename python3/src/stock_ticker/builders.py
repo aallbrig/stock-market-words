@@ -21,7 +21,7 @@ def build_assets(dry_run=False):
         cursor = conn.cursor()
         cursor.execute("""
             SELECT COUNT(*) FROM daily_metrics 
-            WHERE date = ? AND price >= 5.0 AND volume >= 100000 AND market_cap IS NOT NULL
+            WHERE date = ? AND (price >= 5.0 OR market_cap >= 1000000000 OR volume >= 10000000) AND volume >= 100000 AND market_cap IS NOT NULL
         """, (today,))
         ticker_count = cursor.fetchone()[0]
         conn.close()
@@ -55,7 +55,7 @@ def build_assets(dry_run=False):
         FROM tickers t
         JOIN daily_metrics dm ON t.symbol = dm.symbol
         WHERE dm.date = ?
-        AND dm.price >= 5.0
+        AND (dm.price >= 5.0 OR dm.market_cap >= 1000000000 OR dm.volume >= 10000000)
         AND dm.volume >= 100000
         AND dm.market_cap IS NOT NULL
     """

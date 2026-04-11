@@ -554,7 +554,7 @@ def generate_strategy_filters(dry_run=False):
             JOIN daily_metrics dm ON t.symbol = dm.symbol
             LEFT JOIN strategy_scores ss ON t.symbol = ss.symbol AND ss.date = dm.date
             WHERE dm.date = ?
-            AND dm.price >= 5.0
+            AND (dm.price >= 5.0 OR dm.market_cap >= 1000000000 OR dm.volume >= 10000000)
             AND dm.volume >= 100000
             AND {strategy_info['sql_filter']}
             ORDER BY {strategy_info['order_by']}
