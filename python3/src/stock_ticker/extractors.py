@@ -238,7 +238,7 @@ def extract_metadata(dry_run=False, limit=None, run_id=None):
         cursor.execute("""
             SELECT COUNT(*) FROM daily_metrics
             WHERE date = ?
-            AND price >= 5.0
+            AND (price >= 5.0 OR volume >= 10000000)
             AND volume >= 100000
             AND market_cap IS NULL
         """, (today,))
@@ -272,11 +272,11 @@ def extract_metadata(dry_run=False, limit=None, run_id=None):
     cursor = conn.cursor()
     today = get_today()
     
-    # Get tickers that passed the filter (price >= $5, volume >= 100k)
+    # Get tickers that passed the filter (price >= $5 or high-volume, min 100k volume)
     cursor.execute("""
         SELECT symbol FROM daily_metrics
         WHERE date = ?
-        AND price >= 5.0
+        AND (price >= 5.0 OR volume >= 10000000)
         AND volume >= 100000
         AND market_cap IS NULL
         ORDER BY symbol
