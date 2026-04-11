@@ -9,7 +9,7 @@ draft: false
 
 Grab is part of Singapore's identity. You use it to get around, order food, send money. It's become as essential to daily life as the MRT and kopi.
 
-But for many Singaporean investors, that familiarity ends at the app. GRAB—the stock trading on Nasdaq—is a different animal. It's listed in USD, trades on a US exchange with US-style metrics, and follows technical patterns that don't always align with how we think about Singapore-headquartered companies like DBS, CapLand, or Singtel.
+But for many Singaporean investors, that familiarity ends at the app. [GRAB](/tickers/)—the stock trading on Nasdaq—is a different animal. It's listed in USD, trades on a US exchange with US-style metrics, and follows technical patterns that don't always align with how we think about Singapore-headquartered companies like DBS, CapLand, or Singtel.
 
 This article bridges that gap. It uses **real market data from April 2026** to show how Grab performs through the lens of data-driven stock analysis—the same framework this site uses to score 5,000+ tickers. We'll look at what the indicators say, what they miss, and how to think about a company you already know intimately but have never analyzed this way.
 
@@ -259,3 +259,7 @@ Watch the company. Watch the data. And make your own call.
 ---
 
 *Data as of April 10, 2026. Article published April 11, 2026. Charts and metrics may shift as new data arrives. See [Methodology](/methodology/) for how strategy scores are calculated.*
+
+---
+
+**Want to explore more tickers?** Browse the full [ticker directory](/tickers/) or paste any financial text into [the extraction tool](/) to instantly find every stock symbol hidden inside it.
