@@ -1,0 +1,95 @@
+<!-- GRAB Price & Volume Chart Shortcode -->
+<div style="width: 100%; height: 500px; margin: 20px 0; position: relative;">
+  <canvas id="grabPriceChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script>
+(function() {
+  // Ensure Chart.js is loaded
+  if (typeof Chart === 'undefined') {
+    console.error('Chart.js not loaded');
+    return;
+  }
+
+  const ctx = document.getElementById('grabPriceChart');
+  if (!ctx) {
+    console.error('Canvas element not found');
+    return;
+  }
+
+  const chartContext = ctx.getContext('2d');
+  
+  const data = {
+    labels: ['Feb 9', 'Feb 13', 'Feb 16', 'Mar 7', 'Mar 9', 'Mar 12', 'Mar 20', 'Mar 30', 'Apr 1', 'Apr 2', 'Apr 4', 'Apr 7', 'Apr 8', 'Apr 9', 'Apr 10'],
+    datasets: [
+      {
+        label: 'GRAB Price (USD)',
+        data: [4.26, 4.13, 4.13, 3.98, 3.96, 3.75, 3.56, 3.53, 3.67, 3.62, 3.62, 3.54, 3.63, 3.68, 3.68],
+        borderColor: '#2563eb',
+        backgroundColor: 'rgba(37, 99, 235, 0.05)',
+        borderWidth: 2.5,
+        tension: 0.3,
+        fill: true,
+        yAxisID: 'y',
+        pointRadius: 3,
+        pointBackgroundColor: '#2563eb',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 1.5
+      },
+      {
+        label: 'Daily Volume (millions)',
+        data: [45.5, 71.8, 76.1, 34.1, 41.2, 55.7, 48.2, 41.4, 42.3, 31.7, 31.8, 56.0, 78.2, 51.8, 47.1],
+        borderColor: '#dc2626',
+        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+        borderWidth: 1,
+        type: 'bar',
+        yAxisID: 'y1',
+        order: 1
+      }
+    ]
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: { font: { size: 13 }, padding: 15 }
+        },
+        title: {
+          display: true,
+          text: 'GRAB: 60-Day Price & Volume (Feb 9 – Apr 10, 2026)',
+          font: { size: 16, weight: 'bold' }
+        }
+      },
+      scales: {
+        y: {
+          type: 'linear',
+          display: true,
+          position: 'left',
+          title: { display: true, text: 'Price (USD)', font: { size: 12, weight: 'bold' } },
+          min: 3.4,
+          max: 4.5
+        },
+        y1: {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          title: { display: true, text: 'Volume (Millions)', font: { size: 12, weight: 'bold' } },
+          grid: { drawOnChartArea: false }
+        }
+      }
+    }
+  };
+
+  new Chart(chartContext, config);
+})();
+</script>

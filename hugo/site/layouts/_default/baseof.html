@@ -13,6 +13,19 @@
       </button>
     </div>
   </div>
+
+  <!-- Article Announcement Banner — same structure as localization banner -->
+  <div id="article-banner" class="article-banner hidden">
+    <div class="article-banner-content">
+      <div class="article-banner-message">
+        <strong>📰 New article:</strong> <a href="#" id="article-banner-link"></a>
+      </div>
+      <button id="article-banner-close" class="article-banner-close" aria-label="Dismiss article announcement">
+        ✕
+      </button>
+    </div>
+  </div>
+
   {{ partial "navigation.html" . }}
   <main class="flex-shrink-0">
     {{ block "main" . }}{{ end }}
@@ -29,6 +42,17 @@
       <script src="{{ .Params.custom_js }}"></script>
     {{ end }}
   {{ end }}
+
+  <!-- Article Banner Configuration -->
+  <script>
+    window.articleBannerConfig = {
+      articleTitle: "{{ .Site.Params.latestArticle.title | default "" }}",
+      articleUrl: "{{ .Site.Params.latestArticle.url | default "" }}",
+      expirationDays: {{ .Site.Params.latestArticle.expirationDays | default 7 }}
+    };
+  </script>
+
   <script src="{{ .Site.BaseURL }}/js/localization-banner.js"></script>
+  <script src="{{ .Site.BaseURL }}/js/article-banner.js"></script>
 </body>
 </html>

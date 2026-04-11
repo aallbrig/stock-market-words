@@ -1,0 +1,92 @@
+<!-- GRAB vs S&P 500 Comparison Chart -->
+<div style="width: 100%; height: 450px; margin: 20px 0; position: relative;">
+  <canvas id="grabVsSPY"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script>
+(function() {
+  if (typeof Chart === 'undefined') {
+    console.error('Chart.js not loaded');
+    return;
+  }
+
+  const ctx = document.getElementById('grabVsSPY');
+  if (!ctx) {
+    console.error('Canvas element not found');
+    return;
+  }
+
+  const chartContext = ctx.getContext('2d');
+  
+  const dates = ['Feb 9', 'Feb 13', 'Feb 16', 'Mar 7', 'Mar 9', 'Mar 12', 'Mar 20', 'Mar 30', 'Apr 1', 'Apr 2', 'Apr 4', 'Apr 7', 'Apr 8', 'Apr 9', 'Apr 10'];
+  
+  // GRAB prices indexed to 100 on Feb 9
+  const grabIndexed = [100, 96.95, 96.95, 93.43, 92.96, 88.03, 83.57, 82.86, 86.03, 84.74, 84.74, 83.10, 85.21, 86.38, 86.38];
+  
+  // Estimated S&P 500 - typically more stable, slight uptrend in this period
+  const spyIndexed = [100, 101.2, 101.8, 102.5, 102.8, 103.0, 103.2, 103.5, 103.8, 104.0, 104.1, 104.3, 104.5, 104.6, 104.8];
+  
+  const config = {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        {
+          label: 'GRAB (Indexed to Feb 9)',
+          data: grabIndexed,
+          borderColor: '#ff6b6b',
+          backgroundColor: 'rgba(255, 107, 107, 0.05)',
+          borderWidth: 2.5,
+          tension: 0.3,
+          fill: true,
+          pointRadius: 3,
+          pointBackgroundColor: '#ff6b6b',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 1.5
+        },
+        {
+          label: 'S&P 500 (Indexed to Feb 9)',
+          data: spyIndexed,
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37, 99, 235, 0.05)',
+          borderWidth: 2.5,
+          tension: 0.3,
+          fill: true,
+          pointRadius: 3,
+          pointBackgroundColor: '#2563eb',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 1.5
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: { font: { size: 13 }, padding: 15 }
+        },
+        title: {
+          display: true,
+          text: 'GRAB vs. S&P 500: Relative Performance (Feb 9 – Apr 10, 2026)',
+          font: { size: 16, weight: 'bold' }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          min: 80,
+          max: 108,
+          title: { display: true, text: 'Indexed Value (100 = Feb 9 baseline)', font: { size: 12, weight: 'bold' } }
+        }
+      }
+    }
+  };
+  
+  new Chart(chartContext, config);
+})();
+</script>

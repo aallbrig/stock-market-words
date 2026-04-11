@@ -69,3 +69,82 @@ body {
     align-self: flex-start;
   }
 }
+
+/* Article announcement banner — same structure as localization banner, warm amber accent */
+.article-banner {
+  background: linear-gradient(135deg, #fef9e7 0%, #fdf2e9 100%);
+  border-bottom: 2px solid #f39c12;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.article-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.article-banner-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.article-banner-message strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.article-banner-message a {
+  color: #e67e22;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.article-banner-message a:hover {
+  color: #d35400;
+  text-decoration: underline;
+}
+
+.article-banner-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+  padding: 4px 8px;
+  line-height: 1;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.article-banner-close:hover {
+  color: #2c3e50;
+}
+
+.article-banner.hidden {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .article-banner {
+    padding: 12px 12px;
+  }
+
+  .article-banner-content {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .article-banner-message {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .article-banner-close {
+    align-self: flex-start;
+  }
+}
