@@ -386,6 +386,53 @@ outside the repo root and `temp/`.
 
 ---
 
+## Behavioral guarantees
+
+These three properties are explicitly tested in `python3/tests/test_translate.py`
+(class `TestIdempotencyAndSkipSemantics`). They are first-class requirements,
+not implementation details.
+
+### Idempotency
+
+Running `ticker-cli translate` N times without `--force` produces the same
+final filesystem state as running it once. Formally:
+
+- After a successful first run, every source file has a non-empty sibling
+  translation file.
+- On subsequent runs, `build_job_list()` marks those siblings as
+  `action = 'skip'`. No translation call is made; no files are overwritten.
+- The content of an already-translated file is **unchanged** by a re-run
+  without `--force`. Specifically, Ollama is never contacted for those files.
+
+### Skip predicate
+
+A target translation file is considered **already-translated** if and only if
+`_has_non_empty_body(target_path)` returns `True`: the file exists **and**
+has non-whitespace content beyond its frontmatter.
+
+A file that exists but contains only frontmatter (or is entirely empty) is
+treated as *not yet translated* and will be included in the job list and in
+`--dry-run` output. This handles stub files that were created but never
+populated.
+
+### Dry-run completeness
+
+`--dry-run` is a read-only pre-flight. It must:
+
+1. **List** every `source_path -> target_path` pair that `build_job_list()`
+   classified as `action = 'translate'`, one per line in stdout.
+2. **Report** the count of already-translated files that would be skipped.
+3. **Write zero files** to disk.
+4. **Insert zero rows** into SQLite (no `translate_runs` or
+   `translate_file_jobs` entries).
+5. **Print an ETA** (size-based or historical) so the operator can decide
+   whether to proceed.
+
+Running `--dry-run` twice in a row must produce identical file listing output
+(subject only to ETA variance if historical data was added in between).
+
+---
+
 ## Affected files
 
 ```

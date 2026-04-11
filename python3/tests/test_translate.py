@@ -548,6 +548,111 @@ class TestFmtDuration:
 # SYSTEM_PROMPT content
 # ──────────────────────────────────────────────────────────────────────────────
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Idempotency, skip semantics, and dry-run completeness
+# (covers the "Behavioral guarantees" section of docs/specs/cli_translate.md)
+# ──────────────────────────────────────────────────────────────────────────────
+
+class TestIdempotencyAndSkipSemantics:
+    def test_dry_run_lists_pending_files(self, tmp_path, temp_db, capsys):
+        """Dry run stdout must list every file that would be translated."""
+        content_dir = tmp_path / "hugo" / "site" / "content"
+        content_dir.mkdir(parents=True)
+        (content_dir / "article.md").write_text(SAMPLE_MD, encoding="utf-8")
+        (content_dir / "guide.md").write_text(SAMPLE_MD, encoding="utf-8")
+
+        cfg = TranslateConfig(languages=["zh-cn"], dry_run=True, no_heuristics=True)
+        with patch("stock_ticker.translate.CONTENT_DIR", content_dir), \
+             patch("stock_ticker.translate.PROJECT_ROOT", tmp_path):
+            run_translate(cfg)
+
+        out = capsys.readouterr().out
+        assert "article.zh-cn.md" in out
+        assert "guide.zh-cn.md" in out
+
+    def test_dry_run_empty_stub_treated_as_untranslated(self, tmp_path, temp_db, capsys):
+        """A target file that exists but has only frontmatter must appear in the dry-run
+        list — it is not considered translated."""
+        content_dir = tmp_path / "hugo" / "site" / "content"
+        content_dir.mkdir(parents=True)
+        (content_dir / "article.md").write_text(SAMPLE_MD, encoding="utf-8")
+        # Stub: exists, but body is blank — must NOT be treated as already-translated
+        (content_dir / "article.zh-cn.md").write_text(
+            SAMPLE_FRONTMATTER + "\n\n   \n", encoding="utf-8"
+        )
+
+        cfg = TranslateConfig(languages=["zh-cn"], dry_run=True, no_heuristics=True)
+        with patch("stock_ticker.translate.CONTENT_DIR", content_dir), \
+             patch("stock_ticker.translate.PROJECT_ROOT", tmp_path):
+            run_translate(cfg)
+
+        out = capsys.readouterr().out
+        assert "article.zh-cn.md" in out, "Empty-body stub should appear as pending in dry run"
+
+    def test_idempotency_ollama_not_called_on_second_run(self, tmp_path, temp_db):
+        """After a successful translate, re-running without --force must never
+        contact Ollama — the translated file must not be touched."""
+        content_dir = tmp_path / "hugo" / "site" / "content"
+        content_dir.mkdir(parents=True)
+        (content_dir / "article.md").write_text(SAMPLE_MD, encoding="utf-8")
+
+        cfg = TranslateConfig(
+            languages=["zh-cn"], workers=1, no_heuristics=True,
+            model="qwen2.5:7b", backend="ollama",
+        )
+
+        # First run — translates
+        with patch("stock_ticker.translate.CONTENT_DIR", content_dir), \
+             patch("stock_ticker.translate.PROJECT_ROOT", tmp_path), \
+             patch("urllib.request.urlopen", return_value=_mock_ollama_response(TRANSLATED_BODY)):
+            run_translate(cfg)
+
+        original_content = (content_dir / "article.zh-cn.md").read_text(encoding="utf-8")
+
+        # Second run — must not call Ollama and must not change the file
+        with patch("stock_ticker.translate.CONTENT_DIR", content_dir), \
+             patch("stock_ticker.translate.PROJECT_ROOT", tmp_path), \
+             patch("urllib.request.urlopen") as mock_urlopen:
+            run_translate(cfg)
+            mock_urlopen.assert_not_called()
+
+        assert (content_dir / "article.zh-cn.md").read_text(encoding="utf-8") == original_content
+
+    def test_dry_run_reports_skip_count(self, tmp_path, temp_db, capsys):
+        """Dry run reports how many files are already translated and will be skipped."""
+        content_dir = tmp_path / "hugo" / "site" / "content"
+        content_dir.mkdir(parents=True)
+        (content_dir / "article.md").write_text(SAMPLE_MD, encoding="utf-8")
+        (content_dir / "done.md").write_text(SAMPLE_MD, encoding="utf-8")
+        (content_dir / "done.zh-cn.md").write_text(SAMPLE_MD, encoding="utf-8")
+
+        cfg = TranslateConfig(languages=["zh-cn"], dry_run=True, no_heuristics=True)
+        with patch("stock_ticker.translate.CONTENT_DIR", content_dir), \
+             patch("stock_ticker.translate.PROJECT_ROOT", tmp_path):
+            run_translate(cfg)
+
+        out = capsys.readouterr().out
+        assert "Skipping 1" in out
+
+    def test_dry_run_repeated_produces_same_listing(self, tmp_path, temp_db, capsys):
+        """Running --dry-run twice without any changes must list the same files both times."""
+        content_dir = tmp_path / "hugo" / "site" / "content"
+        content_dir.mkdir(parents=True)
+        (content_dir / "article.md").write_text(SAMPLE_MD, encoding="utf-8")
+
+        cfg = TranslateConfig(languages=["zh-cn"], dry_run=True, no_heuristics=True)
+
+        def _collect_listing():
+            with patch("stock_ticker.translate.CONTENT_DIR", content_dir), \
+                 patch("stock_ticker.translate.PROJECT_ROOT", tmp_path):
+                run_translate(cfg)
+            return capsys.readouterr().out
+
+        first = _collect_listing()
+        second = _collect_listing()
+        assert first == second
+
+
 class TestSystemPrompt:
     def test_contains_key_rules(self):
         assert "ticker symbols" in SYSTEM_PROMPT
