@@ -66,7 +66,7 @@
   <div class="row justify-content-center mb-5">
     <div class="col-lg-8">
       <h2 class="h5 mb-3">{{ i18n "home_why_title" }}</h2>
-      <p class="text-muted">{{ i18n "home_why_p1" }}</p>
+      <p class="text-muted">{{ i18n "home_why_p1" | safeHTML }}</p>
       <p class="text-muted">{{ i18n "home_why_p2" }}</p>
       <p class="text-muted mb-0">
         <a href="{{ "/articles/how-ticker-extraction-works/" | relLangURL }}">{{ i18n "home_algorithm_link" }}</a> ·

@@ -687,7 +687,7 @@ other = "An error occurred while processing your text. Please try again."
 other = "No Tickers Found in Any Strategy"
 
 [js_no_tickers_all_desc]
-other = "We didn't find any stock tickers in your text that match any of our 5 investment strategies."
+other = "We didn't find any stock tickers in your text that match any of our 6 investment strategies."
 
 [js_your_input]
 other = "Your Input Text:"
