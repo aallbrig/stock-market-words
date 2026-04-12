@@ -177,7 +177,7 @@ other = "提取股票代码 →"
 other = "分析中…"
 
 [home_strategy_portfolios]
-other = "🎯 5种策略投资组合"
+other = "🎯 6种策略投资组合"
 
 [home_strategy_subtitle]
 other = "每种策略使用不同的投资视角从您的文本中选择得分最高的股票代码。单词一旦被匹配就会被消耗。"

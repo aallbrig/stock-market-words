@@ -177,7 +177,7 @@ other = "Extract Tickers →"
 other = "Analyzing…"
 
 [home_strategy_portfolios]
-other = "🎯 5 Strategy Portfolios"
+other = "🎯 6 Strategy Portfolios"
 
 [home_strategy_subtitle]
 other = "Each strategy picks the best-scoring tickers from your text using a different investment lens. Words are consumed once found."

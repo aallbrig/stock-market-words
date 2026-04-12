@@ -36,8 +36,8 @@
         </div>
       </div>
       
-      <!-- Sector Distribution Chart -->
-      {{ if gt $strategyData.total_matches 0 }}
+      <!-- Sector Distribution Chart (hidden for single-sector strategies like REIT Radar) -->
+      {{ if and (gt $strategyData.total_matches 0) (ne $strategyKey "reit_radar") }}
       <div class="mb-5">
         <h2>{{ i18n "strategy_sector_distribution" }}</h2>
         <p class="text-muted">{{ i18n "strategy_sector_desc" }}</p>

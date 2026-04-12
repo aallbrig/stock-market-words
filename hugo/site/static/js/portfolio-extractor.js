@@ -628,7 +628,7 @@ function renderPortfolios(text, words, portfolios) {
             }
 
             // Portfolio Visualizer button
-            html += `<div class="mt-3"><button class="btn btn-sm btn-primary" onclick="openPortfolioVisualizer('${symbols.join(',')}')">📊 ${T('view_portfolio')}</button></div>`;
+            html += `<div class="mt-3"><button class="btn btn-sm btn-primary" onclick="openPortfolioVisualizer('${symbols.join(',')}')"> ${T('view_portfolio')}</button></div>`;
         }
 
         html += '</div></div>';
