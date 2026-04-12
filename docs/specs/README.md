@@ -108,3 +108,6 @@ Helps the next person understand the decision.
 - [zh-CN ticker pages](./zhcn_ticker_pages.md)
 - [Extract Tickers analytics](./extract_tickers_analytics.md)
 - [CLI: ticker-cli translate](./cli_translate.md) — parallel translation job system with SQLite heuristics
+- [Dividend Withholding Tax Calculator](./dividend_withholding_tax.md) — Tax-Smart Yield card for non-US investors
+- [SGX Ticker Support](./sgx_ticker_support.md) — Singapore Exchange tickers in pipeline and extraction engine
+- [REIT Radar Strategy](./reit_radar_strategy.md) — 6th investment strategy purpose-built for REIT investors
