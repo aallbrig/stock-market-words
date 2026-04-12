@@ -518,6 +518,13 @@ def generate_strategy_filters(dry_run=False):
             'icon': '🐋',
             'sql_filter': 'market_cap > 10000000000',
             'order_by': 'market_cap DESC'
+        },
+        'reit_radar': {
+            'name': 'REIT Radar',
+            'description': 'REITs scored by distribution yield, valuation, and leverage',
+            'icon': '📡',
+            'sql_filter': "t.industry LIKE 'REIT%'",
+            'order_by': 'ss.reit_radar_score DESC'
         }
     }
     
@@ -549,7 +556,8 @@ def generate_strategy_filters(dry_run=False):
                 ss.moon_shot_score,
                 ss.falling_knife_score,
                 ss.over_hyped_score,
-                ss.inst_whale_score
+                ss.inst_whale_score,
+                ss.reit_radar_score
             FROM tickers t
             JOIN daily_metrics dm ON t.symbol = dm.symbol
             LEFT JOIN strategy_scores ss ON t.symbol = ss.symbol AND ss.date = dm.date
@@ -604,7 +612,8 @@ def generate_strategy_filters(dry_run=False):
                     'moonShot': int(row[19]) if row[19] else None,
                     'fallingKnife': int(row[20]) if row[20] else None,
                     'overHyped': int(row[21]) if row[21] else None,
-                    'instWhale': int(row[22]) if row[22] else None
+                    'instWhale': int(row[22]) if row[22] else None,
+                    'reitRadar': int(row[23]) if row[23] is not None else None
                 }
             }
             tickers.append(ticker_data)
@@ -700,7 +709,8 @@ def generate_all_tickers_json(dry_run=False):
             ss.moon_shot_score,
             ss.falling_knife_score,
             ss.over_hyped_score,
-            ss.inst_whale_score
+            ss.inst_whale_score,
+            ss.reit_radar_score
         FROM tickers t
         JOIN daily_metrics dm ON t.symbol = dm.symbol
         LEFT JOIN strategy_scores ss ON t.symbol = ss.symbol AND ss.date = dm.date
@@ -752,6 +762,7 @@ def generate_all_tickers_json(dry_run=False):
                 'fallingKnife': int(row[20]) if row[20] is not None else None,
                 'overHyped': int(row[21]) if row[21] is not None else None,
                 'instWhale': int(row[22]) if row[22] is not None else None,
+                'reitRadar': int(row[23]) if row[23] is not None else None,
             }
         })
 

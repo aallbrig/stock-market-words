@@ -19,6 +19,7 @@ const PAGES = [
   { path: '/strategy-falling-knife/', name: 'Strategy: Falling Knife' },
   { path: '/strategy-over-hyped/', name: 'Strategy: Over Hyped' },
   { path: '/strategy-institutional-whale/', name: 'Strategy: Institutional Whale' },
+  { path: '/strategy-reit-radar/', name: 'Strategy: REIT Radar' },
   { path: '/tickers/aapl/', name: 'Ticker: AAPL' },
   { path: '/tickers/msft/', name: 'Ticker: MSFT' },
   { path: '/tickers/tsla/', name: 'Ticker: TSLA' },

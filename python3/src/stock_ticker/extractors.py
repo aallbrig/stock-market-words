@@ -412,13 +412,14 @@ def extract_metadata(dry_run=False, limit=None, run_id=None):
                     rs = gain / loss
                     rsi_14 = float(100 - (100 / (1 + rs.iloc[-1]))) if not pd.isna(rs.iloc[-1]) else None
                 
-                # Update tickers table with sector/industry
+                # Update tickers table with sector/industry and REIT flag
                 if sector or industry:
+                    is_reit = 1 if (industry or '').startswith('REIT') else 0
                     cursor.execute("""
                         UPDATE tickers
-                        SET sector = ?, industry = ?
+                        SET sector = ?, industry = ?, is_reit = ?
                         WHERE symbol = ?
-                    """, (sector, industry, symbol))
+                    """, (sector, industry, is_reit, symbol))
                 
                 # Update database with ALL fields
                 cursor.execute("""

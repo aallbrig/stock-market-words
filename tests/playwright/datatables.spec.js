@@ -43,6 +43,12 @@ const PAGES_WITH_TABLES = [
     columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Dividend Yield %', 'Beta', '200-Day MA', '52W High', '52W Low', 'Strategy Score']
   },
   {
+    path: '/strategy-reit-radar/',
+    name: 'Strategy: REIT Radar',
+    tableId: '#strategyTable',
+    columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Dividend Yield %', 'Beta', '200-Day MA', '52W High', '52W Low', 'Strategy Score']
+  },
+  {
     path: '/filtered-data/',
     name: 'Filtered Data',
     tableId: '#tickerTable',

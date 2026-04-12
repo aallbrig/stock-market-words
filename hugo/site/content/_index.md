@@ -11,7 +11,7 @@ Paste any text below to discover real stock ticker symbols hiding inside it.
 
 ## How it works
 
-Stock Market Words finds valid ticker symbols inside ordinary text, then shows how those symbols look through several market-data lenses — five strategy score views, key financial metrics, and plain-English explanations.
+Stock Market Words finds valid ticker symbols inside ordinary text, then shows how those symbols look through several market-data lenses — six strategy score views, key financial metrics, and plain-English explanations.
 
 If you are new here:
 

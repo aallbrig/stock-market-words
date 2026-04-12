@@ -26,6 +26,7 @@ const ZH_PAGES = [
   { path: '/zh-cn/strategy-falling-knife/', name: 'Strategy: Falling Knife (ZH)' },
   { path: '/zh-cn/strategy-over-hyped/', name: 'Strategy: Over Hyped (ZH)' },
   { path: '/zh-cn/strategy-institutional-whale/', name: 'Strategy: Institutional Whale (ZH)' },
+  { path: '/zh-cn/strategy-reit-radar/', name: 'Strategy: REIT Radar (ZH)' },
   { path: '/zh-cn/filtered-data/', name: 'Filtered Data (ZH)' },
   { path: '/zh-cn/raw-ftp-data/', name: 'Raw FTP Data (ZH)' },
   { path: '/zh-cn/privacy-policy/', name: 'Privacy Policy (ZH)' },

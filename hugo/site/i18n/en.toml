@@ -136,12 +136,21 @@ other = "Overbought stocks (potential short candidates)"
 [strategy_institutional_whale_long]
 other = "Large-cap, institutional-quality stocks"
 
+[strategy_reit_radar]
+other = "📡 REIT Radar"
+
+[strategy_reit_radar_desc]
+other = "Yield + value + leverage"
+
+[strategy_reit_radar_long]
+other = "REITs scored by distribution yield, valuation, and leverage"
+
 # Home page
 [home_hero_title]
 other = "Paste any text. Find every hidden stock ticker."
 
 [home_hero_subtitle]
-other = "Stock Market Words scans text for valid ticker symbols, then scores each one across five investment strategy lenses. Free. Runs in your browser."
+other = "Stock Market Words scans text for valid ticker symbols, then scores each one across six investment strategy lenses. Free. Runs in your browser."
 
 [home_try_example]
 other = "Try an example:"
@@ -177,7 +186,7 @@ other = "Each strategy picks the best-scoring tickers from your text using a dif
 other = "🔍 Look Up a Ticker"
 
 [home_lookup_subtitle]
-other = "Jump to a stock's data page — price, key metrics, and all five strategy scores."
+other = "Jump to a stock's data page — price, key metrics, and all six strategy scores."
 
 [home_lookup_placeholder]
 other = "e.g. AAPL, NVDA, TSLA"
@@ -225,7 +234,7 @@ other = "Browse articles →"
 other = "📈 Strategies"
 
 [home_strategies_desc]
-other = "Five investment lenses: Dividend Daddy, Moon Shot, Falling Knife, Over-Hyped, and Institutional Whale."
+other = "Six investment lenses: Dividend Daddy, Moon Shot, Falling Knife, Over-Hyped, Institutional Whale, and REIT Radar."
 
 [home_strategies_link]
 other = "Explore strategies →"
@@ -577,7 +586,7 @@ other = "All articles →"
 other = "How scores are calculated"
 
 [ticker_all_strategies]
-other = "All five strategies"
+other = "All six strategies"
 
 [ticker_full_glossary]
 other = "Full glossary"
@@ -752,3 +761,6 @@ other = "Finds overbought stocks with high RSI values, suggesting momentum exhau
 
 [js_help_institutional_whale]
 other = "Targets large-cap stocks likely held by institutional investors. \"Follow the smart money\" - more stable, liquid, and widely covered by analysts."
+
+[js_help_reit_radar]
+other = "Scores REITs on dividend yield (40%), price-to-NAV (30%), and gearing (30%). Only Real Estate Investment Trusts are scored — non-REITs are excluded."

@@ -5,7 +5,7 @@ lastmod: 2026-03-13
 ---
 
 
-The strategy pages on Stock Market Words are designed to help readers compare the same ticker universe through five different lenses. They are **research aids**, not portfolio instructions.
+The strategy pages on Stock Market Words are designed to help readers compare the same ticker universe through six different lenses. They are **research aids**, not portfolio instructions.
 
 > **Last updated:** March 13, 2026
 
@@ -59,6 +59,14 @@ This lens identifies names with very hot recent momentum that may deserve closer
 **[Open strategy page →](/strategy-institutional-whale/)**
 
 This lens highlights the part of the market large institutions can realistically own at size.
+
+### 📡 REIT Radar
+
+**Focus:** Distribution yield + valuation + leverage for REITs only  
+**Best use:** REIT-specific income and value screening  
+**[Open strategy page →](/strategy-reit-radar/)**
+
+This lens scores only Real Estate Investment Trusts on the metrics that matter most for real estate investing: yield, price relative to net asset value, and debt levels.
 
 ## What these strategies do well
 

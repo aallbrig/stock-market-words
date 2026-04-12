@@ -52,6 +52,13 @@ const STRATEGIES = {
         help: 'Targets large-cap stocks likely held by institutional investors. "Follow the smart money" - more stable, liquid, and widely covered by analysts.',
         dataFile: 'data/strategy_institutional_whale.json',
         scoreKey: 'instWhale'
+    },
+    REIT_RADAR: {
+        name: '📡 REIT Radar',
+        description: 'REIT yield + value + leverage',
+        help: 'Scores REITs on dividend yield (40%), price-to-NAV (30%), and gearing (30%). Only Real Estate Investment Trusts are scored — non-REITs are excluded.',
+        dataFile: 'data/strategy_reit_radar.json',
+        scoreKey: 'reitRadar'
     }
 };
 

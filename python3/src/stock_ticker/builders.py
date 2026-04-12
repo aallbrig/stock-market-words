@@ -40,7 +40,7 @@ def build_assets(dry_run=False):
     # Load all tickers with complete data for today
     query = """
         SELECT 
-            t.symbol, t.name, t.exchange, t.sector, t.industry,
+            t.symbol, t.name, t.exchange, t.sector, t.industry, t.is_reit,
             dm.price, dm.volume, dm.market_cap, 
             dm.dividend_yield, dm.beta, dm.rsi_14, dm.ma_200, dm.ma_50,
             dm.pe_ratio, dm.forward_pe, dm.price_to_book, dm.peg_ratio,
@@ -114,6 +114,39 @@ def build_assets(dry_run=False):
     # Institutional Whale: Large market cap
     df['inst_whale_raw'] = np.log10(df['market_cap'].fillna(1))
     
+    # REIT Radar: Yield + valuation + low leverage (REITs only)
+    reit_mask = df['is_reit'] == 1
+    reit_count = reit_mask.sum()
+    logger.info(f"REIT Radar: {reit_count} REITs found in universe")
+    
+    if reit_count > 0:
+        # Yield component (40%): higher dividend yield = better
+        yield_component = df.loc[reit_mask, 'dividend_yield'].fillna(0) * 100
+        
+        # Valuation component (30%): lower P/B (proxy for P/NAV) = better
+        pb = df.loc[reit_mask, 'price_to_book']
+        valuation_component = pb.apply(
+            lambda x: max(0, 100 - x * 20) if pd.notna(x) and x > 0 else 50
+        )
+        
+        # Leverage component (30%): lower D/E = safer
+        de = df.loc[reit_mask, 'debt_to_equity']
+        leverage_component = de.apply(
+            lambda x: max(0, 100 - x * 25) if pd.notna(x) and x > 0 else 50
+        )
+        
+        df.loc[reit_mask, 'reit_radar_raw'] = (
+            yield_component * 0.40 +
+            valuation_component * 0.30 +
+            leverage_component * 0.30
+        )
+        
+        # Percentile rank within REITs only (not the full universe)
+        reit_df = df.loc[reit_mask, 'reit_radar_raw']
+        df.loc[reit_mask, 'reit_radar_score'] = (
+            reit_df.rank(pct=True) * 100
+        ).fillna(50).astype(int)
+    
     # Convert to percentile ranks (1-100)
     score_columns = [
         'dividend_daddy_raw', 'moon_shot_raw', 'falling_knife_raw',
@@ -130,20 +163,23 @@ def build_assets(dry_run=False):
     score_data = []
     
     for _, row in df.iterrows():
+        reit_score = int(row['reit_radar_score']) if pd.notna(row.get('reit_radar_score')) else None
         score_data.append((
             row['symbol'], today,
             int(row['dividend_daddy_score']),
             int(row['moon_shot_score']),
             int(row['falling_knife_score']),
             int(row['over_hyped_score']),
-            int(row['inst_whale_score'])
+            int(row['inst_whale_score']),
+            reit_score
         ))
     
     cursor.executemany("""
         INSERT OR REPLACE INTO strategy_scores 
         (symbol, date, dividend_daddy_score, moon_shot_score, 
-         falling_knife_score, over_hyped_score, inst_whale_score)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+         falling_knife_score, over_hyped_score, inst_whale_score,
+         reit_radar_score)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """, score_data)
     conn.commit()
     

@@ -19,7 +19,8 @@ describe('Strategy Data Loading Performance', () => {
       'strategy_moon_shot.json',
       'strategy_falling_knife.json',
       'strategy_over_hyped.json',
-      'strategy_institutional_whale.json'
+      'strategy_institutional_whale.json',
+      'strategy_reit_radar.json'
     ];
     
     strategies.forEach(file => {
@@ -37,7 +38,8 @@ describe('Strategy Data Loading Performance', () => {
       'strategy_moon_shot.json',
       'strategy_falling_knife.json',
       'strategy_over_hyped.json',
-      'strategy_institutional_whale.json'
+      'strategy_institutional_whale.json',
+      'strategy_reit_radar.json'
     ];
     
     strategies.forEach(file => {
@@ -96,7 +98,8 @@ describe('Strategy Data Loading Performance', () => {
       'strategy_moon_shot.json',
       'strategy_falling_knife.json',
       'strategy_over_hyped.json',
-      'strategy_institutional_whale.json'
+      'strategy_institutional_whale.json',
+      'strategy_reit_radar.json'
     ];
     
     const startTime = Date.now();
@@ -136,7 +139,8 @@ describe('Strategy Data Loading Performance', () => {
       { file: 'strategy_moon_shot.json', name: 'Moon Shot' },
       { file: 'strategy_falling_knife.json', name: 'Falling Knife' },
       { file: 'strategy_over_hyped.json', name: 'Over Hyped' },
-      { file: 'strategy_institutional_whale.json', name: 'Institutional Whale' }
+      { file: 'strategy_institutional_whale.json', name: 'Institutional Whale' },
+      { file: 'strategy_reit_radar.json', name: 'REIT Radar' }
     ];
     
     console.log(`\n  Universe reduction (from ${totalTickers} total tickers):`);

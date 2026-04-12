@@ -1,6 +1,6 @@
 # REIT Radar Strategy
 
-**Status:** Draft  
+**Status:** Implemented  
 **Author:** Copilot  
 **Created:** 2026-04-12  
 **Supersedes:** —  
