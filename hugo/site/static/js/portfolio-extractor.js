@@ -553,7 +553,7 @@ function renderPortfolios(text, words, portfolios) {
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
                     <h6 class="mb-0">
-                        <a href="${BASE_URL}/strategy-${strategyKey.toLowerCase().replace(/_/g, '-')}/" class="text-white text-decoration-none" target="_blank">
+                        <a href="${BASE_URL}/strategy/${strategyKey.toLowerCase().replace(/_/g, '-')}/" class="text-white text-decoration-none" target="_blank">
                             ${TS(strategyKey, 'name') || strategy.name}
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16" style="vertical-align: baseline;">
                                 <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
@@ -569,7 +569,7 @@ function renderPortfolios(text, words, portfolios) {
 
         if (portfolio.tickers.length === 0) {
             // Show the input text in muted color with helpful message
-            const strategyUrl = `/strategy-${strategyKey.toLowerCase().replace(/_/g, '-')}/`;
+            const strategyUrl = `/strategy/${strategyKey.toLowerCase().replace(/_/g, '-')}/`;
             html += '<div class="alert alert-info">';
             html += `<h6 class="alert-heading">${T('no_tickers')}</h6>`;
             html += `<p>${T('no_tickers_desc')}</p>`;
