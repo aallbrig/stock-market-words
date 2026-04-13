@@ -62,9 +62,9 @@ For any S&P 500 company, the most recent quarterly earnings transcript is usuall
 
 Once you've run a transcript through the tool and have your ticker list, the strategy scores give you a quick lens on each extracted name:
 
-**Competitor tickers** — Check their [Institutional Whale](/strategy-institutional-whale/) and [Moon Shot](/strategy-moon-shot/) scores. If a competitor has a high Moon Shot score while your target company has a low one, that might reflect relative risk positioning in the sector.
+**Competitor tickers** — Check their [Institutional Whale](/strategy/institutional-whale/) and [Moon Shot](/strategy/moon-shot/) scores. If a competitor has a high Moon Shot score while your target company has a low one, that might reflect relative risk positioning in the sector.
 
-**Supplier tickers** — A named supplier like TSM showing up prominently in a transcript is worth checking against its [Dividend Daddy](/strategy-dividend-daddy/) or [Falling Knife](/strategy-falling-knife/) scores — is the supplier currently distressed or stable?
+**Supplier tickers** — A named supplier like TSM showing up prominently in a transcript is worth checking against its [Dividend Daddy](/strategy/dividend-daddy/) or [Falling Knife](/strategy/falling-knife/) scores — is the supplier currently distressed or stable?
 
 **Customer tickers** — When executives name major customers directly, those customers' health affects your target's forward revenue. Running the customers through the tool gives you a quick cross-check.
 

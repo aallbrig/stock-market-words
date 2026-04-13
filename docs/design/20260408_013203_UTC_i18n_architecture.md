@@ -47,7 +47,7 @@ made.
 |---|---|---|
 | `/zh-cn/articles/<slug>/` (7 pages) | 404 | No `.zh-cn.md` files exist for individual articles. Only `_index.zh-cn.md` exists. |
 | `/zh-cn/glossary/<term>/` (14 pages) | 404 | Same — only `_index.zh-cn.md` exists. |
-| `/zh-cn/strategy-dividend-daddy/`, etc. (5 pages) | Renders empty body | `.zh-cn.md` files exist but contain only frontmatter, no body. |
+| `/zh-cn/strategy/dividend-daddy/`, etc. (5 pages) | Renders empty body | `.zh-cn.md` files exist but contain only frontmatter, no body. |
 | `/zh-cn/raw-ftp-data/`, `/zh-cn/filtered-data/` | Renders empty body | Same — frontmatter-only. |
 | `/zh-cn/tickers/<symbol>/` | 404 | The content adapter `hugo/site/content/tickers/_content.gotmpl` reads `Site.Data.all_tickers.tickers` and calls `$.AddPage`, but does not appear to materialize routes for the zh-cn language site. **Investigation pending — see [zhcn_ticker_pages spec](../specs/20260408_013203_UTC_zhcn_ticker_pages.md).** |
 

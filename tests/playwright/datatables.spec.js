@@ -13,37 +13,37 @@ const TIMEOUT = 30000;
 // Pages with data tables
 const PAGES_WITH_TABLES = [
   {
-    path: '/strategy-dividend-daddy/',
+    path: '/strategy/dividend-daddy/',
     name: 'Strategy: Dividend Daddy',
     tableId: '#strategyTable',
     columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Dividend Yield %', '200-Day MA', '52W High', '52W Low', 'Strategy Score']
   },
   {
-    path: '/strategy-moon-shot/',
+    path: '/strategy/moon-shot/',
     name: 'Strategy: Moon Shot',
     tableId: '#strategyTable',
     columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Beta', 'RSI (14-Day)', '52W High', '52W Low', 'Strategy Score']
   },
   {
-    path: '/strategy-falling-knife/',
+    path: '/strategy/falling-knife/',
     name: 'Strategy: Falling Knife',
     tableId: '#strategyTable',
     columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Beta', 'RSI (14-Day)', '200-Day MA', '52W High', '52W Low', 'Strategy Score']
   },
   {
-    path: '/strategy-over-hyped/',
+    path: '/strategy/over-hyped/',
     name: 'Strategy: Over Hyped',
     tableId: '#strategyTable',
     columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Beta', 'RSI (14-Day)', '52W High', '52W Low', 'Strategy Score']
   },
   {
-    path: '/strategy-institutional-whale/',
+    path: '/strategy/institutional-whale/',
     name: 'Strategy: Institutional Whale',
     tableId: '#strategyTable',
     columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Dividend Yield %', 'Beta', '200-Day MA', '52W High', '52W Low', 'Strategy Score']
   },
   {
-    path: '/strategy-reit-radar/',
+    path: '/strategy/reit-radar/',
     name: 'Strategy: REIT Radar',
     tableId: '#strategyTable',
     columns: ['Symbol', 'Name', 'Sector', 'Exchange', 'Price', 'Volume', 'Market Cap', 'P/E Ratio', 'Dividend Yield %', 'Beta', '200-Day MA', '52W High', '52W Low', 'Strategy Score']

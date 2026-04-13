@@ -1,6 +1,6 @@
 # Strategy URL Migration
 
-**Status:** Draft  
+**Status:** Implemented  
 **Author:** Copilot  
 **Created:** 2026-04-13  
 **Supersedes:** —  

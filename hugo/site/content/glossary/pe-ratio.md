@@ -38,7 +38,7 @@ P/E ratios vary widely by industry. A P/E of 12 is normal for utilities; the sam
 
 P/E ratio appears in the Market Data card on every [ticker page](/filtered-data/). It's shown alongside [Forward P/E](/glossary/forward-pe/) to give both a current and forward-looking picture.
 
-The **[🐋 Institutional Whale](/strategy-institutional-whale/)** strategy targets large, established companies that often have moderate, stable P/E ratios — the kind institutional investors gravitate toward.
+The **[🐋 Institutional Whale](/strategy/institutional-whale/)** strategy targets large, established companies that often have moderate, stable P/E ratios — the kind institutional investors gravitate toward.
 
 ## Related Terms
 
@@ -51,7 +51,7 @@ The **[🐋 Institutional Whale](/strategy-institutional-whale/)** strategy targ
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — P/E ratio explained with context on when it is and isn't useful
 - [Forward P/E](/glossary/forward-pe/) — how analyst earnings estimates change the picture
-- [Institutional Whale Strategy](/strategy-institutional-whale/) — the large-cap names at the top of this strategy have the most complete P/E data
+- [Institutional Whale Strategy](/strategy/institutional-whale/) — the large-cap names at the top of this strategy have the most complete P/E data
 
 ---
 

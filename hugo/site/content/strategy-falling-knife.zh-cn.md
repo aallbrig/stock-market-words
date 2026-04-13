@@ -6,6 +6,8 @@ lastmod: 2026-03-21
 type: "page"
 layout: "strategy-filter"
 strategy_key: "falling_knife"
+url: "/zh-cn/strategy/falling-knife/"
+aliases: ["/strategy-falling-knife/"]
 ---
 
 ## What this strategy is trying to capture

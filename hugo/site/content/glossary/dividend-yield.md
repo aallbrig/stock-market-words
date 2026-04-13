@@ -31,7 +31,7 @@ A very high yield (> 6–8%) can be a warning sign. Yield goes **up** when the s
 
 ## How It's Used on This Site
 
-Dividend yield is the primary metric in the **[💰 Dividend Daddy](/strategy-dividend-daddy/)** strategy, which targets stocks with:
+Dividend yield is the primary metric in the **[💰 Dividend Daddy](/strategy/dividend-daddy/)** strategy, which targets stocks with:
 - Above-average dividend yield
 - Low beta (stable price, less likely to cut dividend)
 
@@ -46,7 +46,7 @@ High-yield stocks score significantly better in Dividend Daddy. Browse [all tick
 ## Further Reading
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — dividend yield explained with real examples and yield-trap warning signs
-- [Dividend Daddy Strategy](/strategy-dividend-daddy/) — this strategy is built around dividend yield as its primary signal
+- [Dividend Daddy Strategy](/strategy/dividend-daddy/) — this strategy is built around dividend yield as its primary signal
 - [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — current top Dividend Daddy scorers and what their yields tell you
 
 ---

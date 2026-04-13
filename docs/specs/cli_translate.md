@@ -470,7 +470,7 @@ docs/specs/zhcn_content_backfill.md       (modified — cross-reference note)
 
 6. Full run: `ticker-cli translate` completes all ~28 files. Run
    `cd hugo/site && hugo server`. Manually verify:
-   - `http://localhost:1313/zh-cn/strategy-dividend-daddy/` → body in Chinese
+   - `http://localhost:1313/zh-cn/strategy/dividend-daddy/` → body in Chinese
    - `http://localhost:1313/zh-cn/articles/how-ticker-extraction-works/` → 200, body in Chinese
    - `http://localhost:1313/zh-cn/glossary/beta/` → 200, body in Chinese
 

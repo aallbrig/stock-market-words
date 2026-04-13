@@ -41,7 +41,7 @@ A $1 stock is not necessarily "cheaper" than a $1,000 stock. What matters is mar
 
 Market cap appears in the Market Data card on every [ticker page](/filtered-data/). On this site it's displayed in human-readable format (T = trillions, B = billions, M = millions).
 
-The **[🐋 Institutional Whale](/strategy-institutional-whale/)** strategy specifically targets large-cap stocks (high market cap), because institutional investors — mutual funds, pension funds, ETFs — are the largest market participants and they can only meaningfully own large, liquid companies.
+The **[🐋 Institutional Whale](/strategy/institutional-whale/)** strategy specifically targets large-cap stocks (high market cap), because institutional investors — mutual funds, pension funds, ETFs — are the largest market participants and they can only meaningfully own large, liquid companies.
 
 ## Related Terms
 
@@ -53,7 +53,7 @@ The **[🐋 Institutional Whale](/strategy-institutional-whale/)** strategy spec
 ## Further Reading
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — market cap in context with other metrics
-- [Institutional Whale Strategy](/strategy-institutional-whale/) — market cap is the primary driver of this strategy's scores
+- [Institutional Whale Strategy](/strategy/institutional-whale/) — market cap is the primary driver of this strategy's scores
 - [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — the largest-cap tickers in the current dataset
 
 ---

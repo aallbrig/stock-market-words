@@ -6,6 +6,8 @@ lastmod: 2026-03-21
 type: "page"
 layout: "strategy-filter"
 strategy_key: "dividend_daddy"
+url: "/zh-cn/strategy/dividend-daddy/"
+aliases: ["/strategy-dividend-daddy/"]
 ---
 
 ## What this strategy is trying to capture

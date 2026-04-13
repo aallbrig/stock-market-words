@@ -36,7 +36,7 @@ These signals have mixed predictive value but are followed by millions of invest
 
 ## How It's Used on This Site
 
-The 200-day MA is a key filter in the **[🔪 Falling Knife](/strategy-falling-knife/)** strategy, which targets stocks trading **below their 200-day MA** that are also oversold by [RSI](/glossary/rsi/). The thesis: a stock that has fallen sharply relative to its long-term trend and is oversold may be due for a bounce.
+The 200-day MA is a key filter in the **[🔪 Falling Knife](/strategy/falling-knife/)** strategy, which targets stocks trading **below their 200-day MA** that are also oversold by [RSI](/glossary/rsi/). The thesis: a stock that has fallen sharply relative to its long-term trend and is oversold may be due for a bounce.
 
 The 200-day MA appears in the Market Data card on every [individual ticker page](/filtered-data/), alongside the current price so you can quickly see if the stock is above or below its long-term trend.
 
@@ -51,7 +51,7 @@ The 200-day MA appears in the Market Data card on every [individual ticker page]
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — moving averages explained alongside RSI and beta
 - [Moving Average (50-Day)](/glossary/moving-average-50/) — the shorter-term trend companion
-- [Falling Knife Strategy](/strategy-falling-knife/) — the 200-day MA is a core input in this strategy's scoring formula
+- [Falling Knife Strategy](/strategy/falling-knife/) — the 200-day MA is a core input in this strategy's scoring formula
 - [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — see which tickers are currently furthest below their moving averages
 
 ---

@@ -33,7 +33,7 @@ However, this is a double-edged sword. Some stocks hit 52-week lows for fundamen
 
 The 52-week low appears alongside the [52-week high](/glossary/52-week-high/) in the Market Data card on every [individual ticker page](/filtered-data/). Together they show the annual trading range.
 
-The **[🔪 Falling Knife](/strategy-falling-knife/)** strategy focuses on stocks that have fallen significantly — often trading near their 52-week lows. The [RSI](/glossary/rsi/) and [200-day moving average](/glossary/moving-average-200/) filters help identify which low-priced stocks might be due for a bounce versus which might keep falling.
+The **[🔪 Falling Knife](/strategy/falling-knife/)** strategy focuses on stocks that have fallen significantly — often trading near their 52-week lows. The [RSI](/glossary/rsi/) and [200-day moving average](/glossary/moving-average-200/) filters help identify which low-priced stocks might be due for a bounce versus which might keep falling.
 
 ## Related Terms
 
@@ -46,7 +46,7 @@ The **[🔪 Falling Knife](/strategy-falling-knife/)** strategy focuses on stock
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — price range in context with momentum indicators
 - [52-Week High](/glossary/52-week-high/) — the upper bound of the annual range
-- [Falling Knife Strategy](/strategy-falling-knife/) — stocks near 52-week lows with low RSI are prime Falling Knife candidates
+- [Falling Knife Strategy](/strategy/falling-knife/) — stocks near 52-week lows with low RSI are prime Falling Knife candidates
 - [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — current Falling Knife leaders include names at or near annual lows
 
 ---

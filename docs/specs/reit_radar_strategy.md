@@ -206,7 +206,7 @@ only when the ticker is a REIT (when `reitRadar` score is non-null):
 {{- with index $scores "reitRadar" -}}
   {{- $scoresList = $scoresList | append (dict 
       "label" (i18n "strategy_reit_radar") 
-      "url" "/strategy-reit-radar/" 
+      "url" "/strategy/reit-radar/" 
       "score" . 
       "desc" (i18n "strategy_reit_radar_long")
   ) -}}
@@ -252,7 +252,7 @@ strategy_scores.reit_radar_score (NULL for non-REITs)
 strategy_reit_radar.json (REITs only, ~200-300 tickers)
 all_tickers.json (reitRadar field, null for non-REITs)
     ↓ Hugo build
-/strategy-reit-radar/ page (DataTable of REITs)
+/strategy/reit-radar/ page (DataTable of REITs)
 /tickers/<symbol>/ pages (6th strategy bar if REIT)
 Home page extraction tool (6th tab)
 ```
@@ -272,7 +272,7 @@ Home page extraction tool (6th tab)
 | `hugo/site/static/js/portfolio-extractor.js` | Add 6th strategy tab |
 | `hugo/site/i18n/en.toml` | New i18n keys |
 | `hugo/site/i18n/zh-cn.toml` | New i18n keys |
-| `tests/puppeteer/website-pages.e2e.test.js` | Add `/strategy-reit-radar/` to PAGES |
+| `tests/puppeteer/website-pages.e2e.test.js` | Add `/strategy/reit-radar/` to PAGES |
 
 ## Verification
 
@@ -282,7 +282,7 @@ Home page extraction tool (6th tab)
   populated for REIT tickers, NULL for others.
 - **Pipeline:** Verify `strategy_reit_radar.json` contains only REIT tickers
   with scores.
-- **Hugo:** Confirm `/strategy-reit-radar/` renders with a DataTable of
+- **Hugo:** Confirm `/strategy/reit-radar/` renders with a DataTable of
   REITs.
 - **Hugo:** Open a known REIT ticker page (e.g., `/tickers/o/` for Realty
   Income). Confirm 6 strategy bars including REIT Radar.
@@ -291,7 +291,7 @@ Home page extraction tool (6th tab)
 - **Extraction:** Paste "I'm considering O, VNQ, and AAPL" into the
   extraction tool. Select REIT Radar tab. Confirm only O and VNQ (REITs)
   appear in results.
-- **Automated:** Add `/strategy-reit-radar/` to the PAGES array in
+- **Automated:** Add `/strategy/reit-radar/` to the PAGES array in
   `tests/puppeteer/website-pages.e2e.test.js`.
 
 ## Open questions

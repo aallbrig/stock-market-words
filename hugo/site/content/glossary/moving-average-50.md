@@ -40,7 +40,7 @@ The **Death Cross** — when the 50-day MA crosses *below* the 200-day MA — is
 
 The 50-day MA appears in the Market Data card on every [individual ticker page](/filtered-data/). Comparing it to the current stock price shows whether the stock is trading above or below its recent trend.
 
-See also the [200-day moving average](/glossary/moving-average-200/) which is used as a primary filter in the [🔪 Falling Knife](/strategy-falling-knife/) strategy.
+See also the [200-day moving average](/glossary/moving-average-200/) which is used as a primary filter in the [🔪 Falling Knife](/strategy/falling-knife/) strategy.
 
 ## Related Terms
 
@@ -53,7 +53,7 @@ See also the [200-day moving average](/glossary/moving-average-200/) which is us
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — 50-day and 200-day moving averages explained with real examples
 - [Moving Average (200-Day)](/glossary/moving-average-200/) — the longer-term trend companion to the 50-day
-- [Falling Knife Strategy](/strategy-falling-knife/) — uses both moving averages alongside RSI to score contrarian setups
+- [Falling Knife Strategy](/strategy/falling-knife/) — uses both moving averages alongside RSI to score contrarian setups
 - [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — current top Falling Knife scorers are trading well below their moving averages
 
 ---

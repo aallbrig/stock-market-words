@@ -15,7 +15,7 @@ As always: **these are scores, not recommendations.** High scores mean a ticker 
 
 ## 💰 Dividend Daddy — Top Yields, Elevated Risk
 
-The [Dividend Daddy](/strategy-dividend-daddy/) strategy surfaces tickers with exceptional dividend yield and relatively low volatility. March's top scorers are dominated by closed-end funds and mortgage REITs — a recurring pattern that's worth understanding before acting on.
+The [Dividend Daddy](/strategy/dividend-daddy/) strategy surfaces tickers with exceptional dividend yield and relatively low volatility. March's top scorers are dominated by closed-end funds and mortgage REITs — a recurring pattern that's worth understanding before acting on.
 
 | Ticker | Score | Dividend Yield | Beta | Sector |
 |---|---|---|---|---|
@@ -37,7 +37,7 @@ The mortgage REITs (ARR, ABR) follow a similar pattern: high headline yields dri
 
 ## 🚀 Moon Shot — High Beta, Volatile Momentum
 
-The [Moon Shot](/strategy-moon-shot/) strategy targets tickers with high beta and signs of oversold momentum — the profile of a volatile name that has pulled back and might have room to run. March 2026's top scorers are concentrated in technology, fintech, and healthcare.
+The [Moon Shot](/strategy/moon-shot/) strategy targets tickers with high beta and signs of oversold momentum — the profile of a volatile name that has pulled back and might have room to run. March 2026's top scorers are concentrated in technology, fintech, and healthcare.
 
 | Ticker | Score | Beta | RSI | Sector |
 |---|---|---|---|---|
@@ -59,7 +59,7 @@ The more established names here are more interesting from a research standpoint.
 
 ## 🔪 Falling Knife — Oversold Below Moving Averages
 
-The [Falling Knife](/strategy-falling-knife/) strategy identifies tickers whose price has declined sharply below both moving averages, with oversold RSI — the setup sometimes called a "catch the falling knife" play in trading parlance. It's a contrarian lens, not a value-investing one.
+The [Falling Knife](/strategy/falling-knife/) strategy identifies tickers whose price has declined sharply below both moving averages, with oversold RSI — the setup sometimes called a "catch the falling knife" play in trading parlance. It's a contrarian lens, not a value-investing one.
 
 | Ticker | Score | Beta | RSI | Sector |
 |---|---|---|---|---|
@@ -83,7 +83,7 @@ Whether a Falling Knife turns into a value recovery or a continued decline depen
 
 ## 🎈 Over-Hyped — Momentum at Its Most Extended
 
-The [Over-Hyped](/strategy-over-hyped/) strategy flags tickers with very high RSI — stocks that have run hard and may be overbought by recent momentum standards. Unlike the other strategies, this one is sometimes used as a potential *short-side* research tool: where is momentum most extended?
+The [Over-Hyped](/strategy/over-hyped/) strategy flags tickers with very high RSI — stocks that have run hard and may be overbought by recent momentum standards. Unlike the other strategies, this one is sometimes used as a potential *short-side* research tool: where is momentum most extended?
 
 | Ticker | Score | Beta | RSI | Sector |
 |---|---|---|---|---|
@@ -103,7 +103,7 @@ Amprius Technologies (AMPX) shows the opposite pattern: high beta (3.07) *and* h
 
 ## 🐋 Institutional Whale — The Institutional-Quality Names
 
-The [Institutional Whale](/strategy-institutional-whale/) strategy identifies large-cap, high-volume stocks that meet the scale and liquidity requirements institutional investors need. March 2026's top scorers are exactly what you'd expect: the largest and most liquid names in the market.
+The [Institutional Whale](/strategy/institutional-whale/) strategy identifies large-cap, high-volume stocks that meet the scale and liquidity requirements institutional investors need. March 2026's top scorers are exactly what you'd expect: the largest and most liquid names in the market.
 
 | Ticker | Score | Market Cap | RSI | Sector |
 |---|---|---|---|---|

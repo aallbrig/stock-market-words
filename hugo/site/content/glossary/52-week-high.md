@@ -27,7 +27,7 @@ The 52-week high acts as a significant **psychological resistance level**. Many 
 
 A stock trading significantly below its 52-week high has "fallen" — but that doesn't automatically make it cheap or a buy. The market may be pricing in deteriorating fundamentals, sector headwinds, or broader economic concerns.
 
-The **[🔪 Falling Knife](/strategy-falling-knife/)** strategy on this site specifically looks for stocks well below their 52-week high that are also oversold by [RSI](/glossary/rsi/) and trading below their [200-day moving average](/glossary/moving-average-200/). The thesis is that some of these stocks will recover — but catching a falling knife is inherently risky.
+The **[🔪 Falling Knife](/strategy/falling-knife/)** strategy on this site specifically looks for stocks well below their 52-week high that are also oversold by [RSI](/glossary/rsi/) and trading below their [200-day moving average](/glossary/moving-average-200/). The thesis is that some of these stocks will recover — but catching a falling knife is inherently risky.
 
 ## How It's Used on This Site
 
@@ -44,7 +44,7 @@ The 52-week high appears in the Market Data card on every [individual ticker pag
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — how 52-week range interacts with RSI and moving averages
 - [52-Week Low](/glossary/52-week-low/) — the other end of the annual range
-- [Over-Hyped Strategy](/strategy-over-hyped/) — stocks near 52-week highs often have elevated RSI, a key Over-Hyped signal
+- [Over-Hyped Strategy](/strategy/over-hyped/) — stocks near 52-week highs often have elevated RSI, a key Over-Hyped signal
 
 ---
 

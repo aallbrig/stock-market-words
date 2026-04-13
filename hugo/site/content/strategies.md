@@ -24,7 +24,7 @@ For the editorial guide to using these pages responsibly, read **[How to Read th
 
 **Focus:** Yield + lower volatility  
 **Best use:** Income-oriented screening  
-**[Open strategy page →](/strategy-dividend-daddy/)**
+**[Open strategy page →](/strategy/dividend-daddy/)**
 
 This lens favors dividend-paying companies and gives higher scores to names that combine meaningful income with comparatively steadier behavior.
 
@@ -32,7 +32,7 @@ This lens favors dividend-paying companies and gives higher scores to names that
 
 **Focus:** High beta + room for momentum  
 **Best use:** Aggressive growth exploration  
-**[Open strategy page →](/strategy-moon-shot/)**
+**[Open strategy page →](/strategy/moon-shot/)**
 
 This lens surfaces volatile names that are not yet deeply overbought, making it a fast way to inspect higher-risk growth candidates.
 
@@ -40,7 +40,7 @@ This lens surfaces volatile names that are not yet deeply overbought, making it 
 
 **Focus:** Oversold + below long-term trend  
 **Best use:** Contrarian bounce research  
-**[Open strategy page →](/strategy-falling-knife/)**
+**[Open strategy page →](/strategy/falling-knife/)**
 
 This lens looks for deeply sold-off names that may attract rebound interest, while also carrying the obvious risk that the decline is justified.
 
@@ -48,7 +48,7 @@ This lens looks for deeply sold-off names that may attract rebound interest, whi
 
 **Focus:** Extended momentum / overbought conditions  
 **Best use:** Mean-reversion watchlists  
-**[Open strategy page →](/strategy-over-hyped/)**
+**[Open strategy page →](/strategy/over-hyped/)**
 
 This lens identifies names with very hot recent momentum that may deserve closer scrutiny for pullback risk.
 
@@ -56,7 +56,7 @@ This lens identifies names with very hot recent momentum that may deserve closer
 
 **Focus:** Large market capitalization and liquidity  
 **Best use:** Screening for established market leaders  
-**[Open strategy page →](/strategy-institutional-whale/)**
+**[Open strategy page →](/strategy/institutional-whale/)**
 
 This lens highlights the part of the market large institutions can realistically own at size.
 
@@ -64,7 +64,7 @@ This lens highlights the part of the market large institutions can realistically
 
 **Focus:** Distribution yield + valuation + leverage for REITs only  
 **Best use:** REIT-specific income and value screening  
-**[Open strategy page →](/strategy-reit-radar/)**
+**[Open strategy page →](/strategy/reit-radar/)**
 
 This lens scores only Real Estate Investment Trusts on the metrics that matter most for real estate investing: yield, price relative to net asset value, and debt levels.
 

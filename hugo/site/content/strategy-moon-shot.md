@@ -6,6 +6,8 @@ lastmod: 2026-03-13
 type: "page"
 layout: "strategy-filter"
 strategy_key: "moon_shot"
+url: "/strategy/moon-shot/"
+aliases: ["/strategy-moon-shot/"]
 ---
 
 ## What this strategy is trying to capture

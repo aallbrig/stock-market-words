@@ -21,12 +21,12 @@ const ZH_PAGES = [
   { path: '/zh-cn/contact/', name: 'Contact (ZH)' },
   { path: '/zh-cn/methodology/', name: 'Methodology (ZH)' },
   { path: '/zh-cn/strategies/', name: 'Strategies (ZH)' },
-  { path: '/zh-cn/strategy-dividend-daddy/', name: 'Strategy: Dividend Daddy (ZH)' },
-  { path: '/zh-cn/strategy-moon-shot/', name: 'Strategy: Moon Shot (ZH)' },
-  { path: '/zh-cn/strategy-falling-knife/', name: 'Strategy: Falling Knife (ZH)' },
-  { path: '/zh-cn/strategy-over-hyped/', name: 'Strategy: Over Hyped (ZH)' },
-  { path: '/zh-cn/strategy-institutional-whale/', name: 'Strategy: Institutional Whale (ZH)' },
-  { path: '/zh-cn/strategy-reit-radar/', name: 'Strategy: REIT Radar (ZH)' },
+  { path: '/zh-cn/strategy/dividend-daddy/', name: 'Strategy: Dividend Daddy (ZH)' },
+  { path: '/zh-cn/strategy/moon-shot/', name: 'Strategy: Moon Shot (ZH)' },
+  { path: '/zh-cn/strategy/falling-knife/', name: 'Strategy: Falling Knife (ZH)' },
+  { path: '/zh-cn/strategy/over-hyped/', name: 'Strategy: Over Hyped (ZH)' },
+  { path: '/zh-cn/strategy/institutional-whale/', name: 'Strategy: Institutional Whale (ZH)' },
+  { path: '/zh-cn/strategy/reit-radar/', name: 'Strategy: REIT Radar (ZH)' },
   { path: '/zh-cn/filtered-data/', name: 'Filtered Data (ZH)' },
   { path: '/zh-cn/raw-ftp-data/', name: 'Raw FTP Data (ZH)' },
   { path: '/zh-cn/privacy-policy/', name: 'Privacy Policy (ZH)' },
@@ -37,7 +37,7 @@ const ZH_PAGES = [
 const EN_PAGES = [
   { path: '/', name: 'Home' },
   { path: '/about/', name: 'About' },
-  { path: '/strategy-dividend-daddy/', name: 'Strategy: Dividend Daddy' },
+  { path: '/strategy/dividend-daddy/', name: 'Strategy: Dividend Daddy' },
   { path: '/filtered-data/', name: 'Filtered Data' },
 ];
 
@@ -232,7 +232,7 @@ test.describe('zh-CN No Console Errors', () => {
   const KEY_ZH_PAGES = [
     { path: '/zh-cn/', name: 'Home (ZH)' },
     { path: '/zh-cn/about/', name: 'About (ZH)' },
-    { path: '/zh-cn/strategy-dividend-daddy/', name: 'Strategy: Dividend Daddy (ZH)' },
+    { path: '/zh-cn/strategy/dividend-daddy/', name: 'Strategy: Dividend Daddy (ZH)' },
   ];
 
   for (const { path, name } of KEY_ZH_PAGES) {

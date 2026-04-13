@@ -31,9 +31,9 @@ RSI compares the average gains to average losses over a 14-day period:
 
 RSI is a key filter in three of our strategies:
 
-- **[🚀 Moon Shot](/strategy-moon-shot/)** — Looks for stocks with **RSI < 70** and high beta. The idea: volatile stocks that aren't yet overbought have room to run.
-- **[🔪 Falling Knife](/strategy-falling-knife/)** — Actively seeks **low RSI** (oversold) stocks below their 200-day moving average. Contrarian bet on a bounce.
-- **[🎈 Over-Hyped](/strategy-over-hyped/)** — Targets stocks with **high RSI** (overbought). These are potential candidates for mean reversion or short positions.
+- **[🚀 Moon Shot](/strategy/moon-shot/)** — Looks for stocks with **RSI < 70** and high beta. The idea: volatile stocks that aren't yet overbought have room to run.
+- **[🔪 Falling Knife](/strategy/falling-knife/)** — Actively seeks **low RSI** (oversold) stocks below their 200-day moving average. Contrarian bet on a bounce.
+- **[🎈 Over-Hyped](/strategy/over-hyped/)** — Targets stocks with **high RSI** (overbought). These are potential candidates for mean reversion or short positions.
 
 On individual [ticker pages](/filtered-data/), the RSI badge is color-coded:
 - 🔴 **Red** = RSI ≥ 70 (overbought)
@@ -53,9 +53,9 @@ RSI is a leading indicator — it's designed to signal potential reversals *befo
 ## Further Reading
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — RSI explained with real examples from this site's ticker universe
-- [Moon Shot Strategy](/strategy-moon-shot/) — uses high beta + oversold RSI to surface growth candidates
-- [Falling Knife Strategy](/strategy-falling-knife/) — looks for stocks with very low RSI trading below moving averages
-- [Over-Hyped Strategy](/strategy-over-hyped/) — flags stocks with very high RSI as potential momentum extremes
+- [Moon Shot Strategy](/strategy/moon-shot/) — uses high beta + oversold RSI to surface growth candidates
+- [Falling Knife Strategy](/strategy/falling-knife/) — looks for stocks with very low RSI trading below moving averages
+- [Over-Hyped Strategy](/strategy/over-hyped/) — flags stocks with very high RSI as potential momentum extremes
 - [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — which tickers have the most extreme RSI values right now
 
 ---

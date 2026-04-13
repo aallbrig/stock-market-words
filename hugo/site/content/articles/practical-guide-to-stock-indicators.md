@@ -28,7 +28,7 @@ All examples are drawn from real tickers in the current dataset (data as of Marc
 
 **Where it breaks:** RSI is a momentum indicator, not a valuation one. A biotech in a clinical trial can stay "overbought" for months if the news keeps coming. A blue chip can stay "oversold" for quarters during a prolonged sector rotation. RSI tells you *where the recent move has gone*, not *where the price will go next*.
 
-**How it's used on this site:** RSI is a primary input for the [Moon Shot](/strategy-moon-shot/), [Falling Knife](/strategy-falling-knife/), and [Over-Hyped](/strategy-over-hyped/) strategies. See the [RSI glossary entry](/glossary/rsi/) for the full formula.
+**How it's used on this site:** RSI is a primary input for the [Moon Shot](/strategy/moon-shot/), [Falling Knife](/strategy/falling-knife/), and [Over-Hyped](/strategy/over-hyped/) strategies. See the [RSI glossary entry](/glossary/rsi/) for the full formula.
 
 ---
 
@@ -47,7 +47,7 @@ All examples are drawn from real tickers in the current dataset (data as of Marc
 
 **Where it breaks:** Beta is calculated from historical price data, usually over 3–5 years. It reflects past behavior, not future behavior. A stock that was low-beta for years can become high-beta after a major business change. Beta also doesn't distinguish between upside and downside volatility — a stock that only goes up still has high beta.
 
-**How it's used on this site:** Beta is central to [Dividend Daddy](/strategy-dividend-daddy/) (rewards low beta) and [Moon Shot](/strategy-moon-shot/) (rewards high beta). See the [beta glossary entry](/glossary/beta/).
+**How it's used on this site:** Beta is central to [Dividend Daddy](/strategy/dividend-daddy/) (rewards low beta) and [Moon Shot](/strategy/moon-shot/) (rewards high beta). See the [beta glossary entry](/glossary/beta/).
 
 ---
 
@@ -59,7 +59,7 @@ All examples are drawn from real tickers in the current dataset (data as of Marc
 - **Price above both MAs** — bullish trend. The stock is in an established uptrend at both timeframes.
 - **Price below both MAs** — bearish trend. The stock is in a sustained downtrend.
 - **Price below 50-day but above 200-day** — short-term weakness within a longer-term uptrend. A common setup for contrarian plays.
-- **Price below both, RSI also low** — the setup that [Falling Knife](/strategy-falling-knife/) looks for specifically.
+- **Price below both, RSI also low** — the setup that [Falling Knife](/strategy/falling-knife/) looks for specifically.
 
 **Real example:** **WGO** (Winnebago Industries) has an RSI of 1.7 — one of the lowest in the dataset — and scores 90/100 on Falling Knife. A name like this has declined sharply and is trading well below its moving averages, which is exactly the profile the Falling Knife strategy surfaces.
 
@@ -67,7 +67,7 @@ All examples are drawn from real tickers in the current dataset (data as of Marc
 
 **Where it breaks:** Moving averages are lagging indicators. They confirm a trend that already happened, they don't predict future direction. A stock can be "above its 200-day MA" while in the middle of a breakdown — it just takes time for the average to reflect the new reality.
 
-**How it's used on this site:** Both MAs appear in the [Falling Knife](/strategy-falling-knife/) scoring algorithm. See glossary entries for [50-Day MA](/glossary/moving-average-50/) and [200-Day MA](/glossary/moving-average-200/).
+**How it's used on this site:** Both MAs appear in the [Falling Knife](/strategy/falling-knife/) scoring algorithm. See glossary entries for [50-Day MA](/glossary/moving-average-50/) and [200-Day MA](/glossary/moving-average-200/).
 
 ---
 
@@ -106,7 +106,7 @@ All examples are drawn from real tickers in the current dataset (data as of Marc
 
 **The yield trap:** Yield rises when stock price falls (if the dividend stays constant). A stock yielding 15% might have been a 4% yielder a year ago — and the high yield might be the market's way of saying it expects the dividend to be cut. Always check whether the dividend has been maintained or grown, not just the current headline number.
 
-**How it's used on this site:** Dividend yield is the primary driver of the [Dividend Daddy](/strategy-dividend-daddy/) score. See the [dividend yield glossary entry](/glossary/dividend-yield/).
+**How it's used on this site:** Dividend yield is the primary driver of the [Dividend Daddy](/strategy/dividend-daddy/) score. See the [dividend yield glossary entry](/glossary/dividend-yield/).
 
 ---
 

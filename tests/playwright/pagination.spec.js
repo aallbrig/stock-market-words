@@ -8,9 +8,9 @@ import { test, expect } from '@playwright/test';
 test.describe('Portfolio Pagination', () => {
   test('strategy pages have paginated tables', async ({ page }) => {
     const strategyPages = [
-      '/strategy-dividend-daddy/',
-      '/strategy-moon-shot/',
-      '/strategy-falling-knife/'
+      '/strategy/dividend-daddy/',
+      '/strategy/moon-shot/',
+      '/strategy/falling-knife/'
     ];
 
     for (const path of strategyPages) {
@@ -28,7 +28,7 @@ test.describe('Portfolio Pagination', () => {
   });
 
   test('can navigate between pages', async ({ page }) => {
-    await page.goto('/strategy-dividend-daddy/');
+    await page.goto('/strategy/dividend-daddy/');
     
     // Wait for table to load
     await expect(page.locator('#strategyTable')).toBeVisible();

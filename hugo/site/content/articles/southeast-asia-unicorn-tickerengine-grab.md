@@ -238,9 +238,9 @@ The five strategies on this site are **lenses**. Each highlights a different ang
 ## Further Reading
 
 - [GRAB on stockmarketwords.com](/tickers/grab/) — Real-time strategy scores and metrics
-- [Moon Shot strategy](/strategy-moon-shot/) — How oversold momentum plays are identified
-- [Falling Knife strategy](/strategy-falling-knife/) — Technical extremes explained
-- [Institutional Whale strategy](/strategy-institutional-whale/) — Why liquidity matters
+- [Moon Shot strategy](/strategy/moon-shot/) — How oversold momentum plays are identified
+- [Falling Knife strategy](/strategy/falling-knife/) — Technical extremes explained
+- [Institutional Whale strategy](/strategy/institutional-whale/) — Why liquidity matters
 - [How to Read the Five Strategies](/articles/how-to-read-the-five-strategies/) — Full framework explained
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — RSI, beta, moving averages explained
 

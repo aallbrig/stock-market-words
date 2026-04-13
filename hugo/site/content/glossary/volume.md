@@ -37,7 +37,7 @@ Because volume varies day to day, analysts usually compare today's volume to the
 
 High-volume stocks are easy to buy and sell without moving the price. Low-volume (thinly traded) stocks have wide bid-ask spreads and can be difficult to exit quickly — this is especially important for large investors.
 
-The **[🐋 Institutional Whale](/strategy-institutional-whale/)** strategy specifically targets high-volume, large-cap stocks, because institutional investors (managing billions) *need* liquidity — they can't meaningfully own thinly traded stocks.
+The **[🐋 Institutional Whale](/strategy/institutional-whale/)** strategy specifically targets high-volume, large-cap stocks, because institutional investors (managing billions) *need* liquidity — they can't meaningfully own thinly traded stocks.
 
 ## How It's Used on This Site
 
@@ -53,7 +53,7 @@ Volume appears in the Market Data card on every [individual ticker page](/filter
 ## Further Reading
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — volume in context with price and momentum
-- [Institutional Whale Strategy](/strategy-institutional-whale/) — volume is one of the two primary inputs alongside market cap
+- [Institutional Whale Strategy](/strategy/institutional-whale/) — volume is one of the two primary inputs alongside market cap
 - [Why Some Tickers Have No Scores](/articles/why-some-tickers-have-no-scores/) — volume is one of the filters that determines whether a ticker makes it into the dataset at all
 - [Methodology](/methodology/) — the minimum volume threshold used in this site's pipeline
 

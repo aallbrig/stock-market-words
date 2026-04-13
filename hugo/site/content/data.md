@@ -15,11 +15,11 @@ View the different data sets used by the Stock Market Words ticker extraction to
 
 Each strategy uses pre-filtered tickers that match specific investment criteria:
 
-- **[💰 Dividend Daddy](/strategy-dividend-daddy/)** - High yield dividend stocks
-- **[🚀 Moon Shot](/strategy-moon-shot/)** - High beta growth stocks
-- **[🔪 Falling Knife](/strategy-falling-knife/)** - Oversold value opportunities  
-- **[🎈 Over-Hyped](/strategy-over-hyped/)** - Overbought momentum plays
-- **[🐋 Institutional Whale](/strategy-institutional-whale/)** - Large cap institutional favorites
+- **[💰 Dividend Daddy](/strategy/dividend-daddy/)** - High yield dividend stocks
+- **[🚀 Moon Shot](/strategy/moon-shot/)** - High beta growth stocks
+- **[🔪 Falling Knife](/strategy/falling-knife/)** - Oversold value opportunities  
+- **[🎈 Over-Hyped](/strategy/over-hyped/)** - Overbought momentum plays
+- **[🐋 Institutional Whale](/strategy/institutional-whale/)** - Large cap institutional favorites
 
 ## Data Pipeline
 

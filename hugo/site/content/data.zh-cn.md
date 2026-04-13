@@ -13,11 +13,11 @@ Stock Market Words 提供多层次的数据视图：
 
 每种策略的详细数据：
 
-- [Dividend Daddy 策略数据](/zh-cn/strategy-dividend-daddy/)
-- [Moon Shot 策略数据](/zh-cn/strategy-moon-shot/)
-- [Falling Knife 策略数据](/zh-cn/strategy-falling-knife/)
-- [Over-Hyped 策略数据](/zh-cn/strategy-over-hyped/)
-- [Institutional Whale 策略数据](/zh-cn/strategy-institutional-whale/)
+- [Dividend Daddy 策略数据](/zh-cn/strategy/dividend-daddy/)
+- [Moon Shot 策略数据](/zh-cn/strategy/moon-shot/)
+- [Falling Knife 策略数据](/zh-cn/strategy/falling-knife/)
+- [Over-Hyped 策略数据](/zh-cn/strategy/over-hyped/)
+- [Institutional Whale 策略数据](/zh-cn/strategy/institutional-whale/)
 
 ---
 

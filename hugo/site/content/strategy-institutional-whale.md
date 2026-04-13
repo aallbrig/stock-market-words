@@ -6,6 +6,8 @@ lastmod: 2026-03-13
 type: "page"
 layout: "strategy-filter"
 strategy_key: "institutional_whale"
+url: "/strategy/institutional-whale/"
+aliases: ["/strategy-institutional-whale/"]
 ---
 
 ## What this strategy is trying to capture

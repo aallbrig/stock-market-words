@@ -6,6 +6,8 @@ lastmod: 2026-04-12
 type: "page"
 layout: "strategy-filter"
 strategy_key: "reit_radar"
+url: "/zh-cn/strategy/reit-radar/"
+aliases: ["/strategy-reit-radar/"]
 ---
 
 ## 该策略的捕捉目标

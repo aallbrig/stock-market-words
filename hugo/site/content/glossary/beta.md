@@ -24,9 +24,9 @@ If a stock has a beta of **1.8** and the S&P 500 drops 10%, that stock would be 
 
 Beta is a key input in three of our investment strategies:
 
-- **[🚀 Moon Shot](/strategy-moon-shot/)** — Targets stocks with **high beta** (≥ 1.5) that are oversold. High volatility + recent dip = potential for explosive recovery.
-- **[🔪 Falling Knife](/strategy-falling-knife/)** — Also favors high-beta stocks that have fallen sharply, on the theory that they'll bounce back hard.
-- **[💰 Dividend Daddy](/strategy-dividend-daddy/)** — Prefers **low beta** stocks. Stable, low-volatility dividend payers are less likely to cut their dividend during downturns.
+- **[🚀 Moon Shot](/strategy/moon-shot/)** — Targets stocks with **high beta** (≥ 1.5) that are oversold. High volatility + recent dip = potential for explosive recovery.
+- **[🔪 Falling Knife](/strategy/falling-knife/)** — Also favors high-beta stocks that have fallen sharply, on the theory that they'll bounce back hard.
+- **[💰 Dividend Daddy](/strategy/dividend-daddy/)** — Prefers **low beta** stocks. Stable, low-volatility dividend payers are less likely to cut their dividend during downturns.
 
 ## What's a "Good" Beta?
 
@@ -45,8 +45,8 @@ It depends entirely on your investing style:
 ## Further Reading
 
 - [Practical Guide to Stock Indicators](/articles/practical-guide-to-stock-indicators/) — beta explained with real examples, including how NVDA and OXLC differ
-- [Dividend Daddy Strategy](/strategy-dividend-daddy/) — rewards low beta alongside high yield
-- [Moon Shot Strategy](/strategy-moon-shot/) — rewards high beta as a growth signal
+- [Dividend Daddy Strategy](/strategy/dividend-daddy/) — rewards low beta alongside high yield
+- [Moon Shot Strategy](/strategy/moon-shot/) — rewards high beta as a growth signal
 - [Top Stocks by Strategy — March 2026](/articles/top-stocks-by-strategy-march-2026/) — beta profiles of the current top scorers
 
 ---

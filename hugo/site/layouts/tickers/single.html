@@ -6,12 +6,12 @@
 {{/* Build scored strategies list for interpretation */}}
 {{- $scoresList := slice -}}
 {{- if $scores -}}
-  {{- with index $scores "dividendDaddy" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_dividend_daddy") "url" "/strategy-dividend-daddy/" "score" . "desc" (i18n "strategy_dividend_daddy_long")) -}}{{- end -}}
-  {{- with index $scores "moonShot" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_moon_shot") "url" "/strategy-moon-shot/" "score" . "desc" (i18n "strategy_moon_shot_long")) -}}{{- end -}}
-  {{- with index $scores "fallingKnife" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_falling_knife") "url" "/strategy-falling-knife/" "score" . "desc" (i18n "strategy_falling_knife_long")) -}}{{- end -}}
-  {{- with index $scores "overHyped" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_over_hyped_alt") "url" "/strategy-over-hyped/" "score" . "desc" (i18n "strategy_over_hyped_long")) -}}{{- end -}}
-  {{- with index $scores "instWhale" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_institutional_whale") "url" "/strategy-institutional-whale/" "score" . "desc" (i18n "strategy_institutional_whale_long")) -}}{{- end -}}
-  {{- with index $scores "reitRadar" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_reit_radar") "url" "/strategy-reit-radar/" "score" . "desc" (i18n "strategy_reit_radar_long")) -}}{{- end -}}
+  {{- with index $scores "dividendDaddy" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_dividend_daddy") "url" "/strategy/dividend-daddy/" "score" . "desc" (i18n "strategy_dividend_daddy_long")) -}}{{- end -}}
+  {{- with index $scores "moonShot" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_moon_shot") "url" "/strategy/moon-shot/" "score" . "desc" (i18n "strategy_moon_shot_long")) -}}{{- end -}}
+  {{- with index $scores "fallingKnife" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_falling_knife") "url" "/strategy/falling-knife/" "score" . "desc" (i18n "strategy_falling_knife_long")) -}}{{- end -}}
+  {{- with index $scores "overHyped" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_over_hyped_alt") "url" "/strategy/over-hyped/" "score" . "desc" (i18n "strategy_over_hyped_long")) -}}{{- end -}}
+  {{- with index $scores "instWhale" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_institutional_whale") "url" "/strategy/institutional-whale/" "score" . "desc" (i18n "strategy_institutional_whale_long")) -}}{{- end -}}
+  {{- with index $scores "reitRadar" -}}{{- $scoresList = $scoresList | append (dict "label" (i18n "strategy_reit_radar") "url" "/strategy/reit-radar/" "score" . "desc" (i18n "strategy_reit_radar_long")) -}}{{- end -}}
 {{- end -}}
 
 <div class="container mt-5">
@@ -122,7 +122,7 @@
             {{ with index $scores "dividendDaddy" }}
             <div>
               <div class="d-flex justify-content-between mb-1">
-                <a href="{{ "/strategy-dividend-daddy/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_dividend_daddy" }}</a>
+                <a href="{{ "/strategy/dividend-daddy/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_dividend_daddy" }}</a>
                 <strong>{{ . }}/100</strong>
               </div>
               <div class="progress" style="height:10px">
@@ -135,7 +135,7 @@
             {{ with index $scores "moonShot" }}
             <div>
               <div class="d-flex justify-content-between mb-1">
-                <a href="{{ "/strategy-moon-shot/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_moon_shot" }}</a>
+                <a href="{{ "/strategy/moon-shot/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_moon_shot" }}</a>
                 <strong>{{ . }}/100</strong>
               </div>
               <div class="progress" style="height:10px">
@@ -148,7 +148,7 @@
             {{ with index $scores "fallingKnife" }}
             <div>
               <div class="d-flex justify-content-between mb-1">
-                <a href="{{ "/strategy-falling-knife/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_falling_knife" }}</a>
+                <a href="{{ "/strategy/falling-knife/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_falling_knife" }}</a>
                 <strong>{{ . }}/100</strong>
               </div>
               <div class="progress" style="height:10px">
@@ -161,7 +161,7 @@
             {{ with index $scores "overHyped" }}
             <div>
               <div class="d-flex justify-content-between mb-1">
-                <a href="{{ "/strategy-over-hyped/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_over_hyped_alt" }}</a>
+                <a href="{{ "/strategy/over-hyped/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_over_hyped_alt" }}</a>
                 <strong>{{ . }}/100</strong>
               </div>
               <div class="progress" style="height:10px">
@@ -174,7 +174,7 @@
             {{ with index $scores "instWhale" }}
             <div>
               <div class="d-flex justify-content-between mb-1">
-                <a href="{{ "/strategy-institutional-whale/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_institutional_whale" }}</a>
+                <a href="{{ "/strategy/institutional-whale/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_institutional_whale" }}</a>
                 <strong>{{ . }}/100</strong>
               </div>
               <div class="progress" style="height:10px">
@@ -187,7 +187,7 @@
             {{ with index $scores "reitRadar" }}
             <div>
               <div class="d-flex justify-content-between mb-1">
-                <a href="{{ "/strategy-reit-radar/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_reit_radar" }}</a>
+                <a href="{{ "/strategy/reit-radar/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_reit_radar" }}</a>
                 <strong>{{ . }}/100</strong>
               </div>
               <div class="progress" style="height:10px">

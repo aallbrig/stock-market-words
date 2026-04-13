@@ -6,6 +6,8 @@ lastmod: 2026-03-13
 type: "page"
 layout: "strategy-filter"
 strategy_key: "over_hyped"
+url: "/strategy/over-hyped/"
+aliases: ["/strategy-over-hyped/"]
 ---
 
 ## What this strategy is trying to capture

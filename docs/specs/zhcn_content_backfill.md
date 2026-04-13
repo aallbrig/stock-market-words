@@ -193,7 +193,7 @@ auto-commit. The expected loop:
 4. `cd hugo/site && hugo server` starts cleanly. Manually visit:
    - `http://localhost:1313/zh-cn/articles/how-ticker-extraction-works/` → 200, Chinese body
    - `http://localhost:1313/zh-cn/glossary/beta/` → 200, Chinese body
-   - `http://localhost:1313/zh-cn/strategy-dividend-daddy/` → 200, Chinese body
+   - `http://localhost:1313/zh-cn/strategy/dividend-daddy/` → 200, Chinese body
    - `http://localhost:1313/zh-cn/raw-ftp-data/` → 200, Chinese body
 5. The Playwright `website-pages.e2e.test.js` PAGES array includes `/zh-cn/`
    variants and they all pass.
