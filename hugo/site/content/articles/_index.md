@@ -1,14 +1,18 @@
 ---
 title: "Articles"
-lastmod: 2026-04-11
+lastmod: 2026-04-14
 ---
 
 
 Original articles about the extraction engine, strategy logic, and how to use the site's data.
 
-> **Last updated:** April 11, 2026
+> **Last updated:** April 14, 2026
 
-## Latest: Regional Stock Analysis
+## Latest: Global Trade & Shipping
+
+- [The Strait of Malacca: 53 Stock Tickers Behind the World's Busiest Shipping Lane](/articles/strait-of-malacca-trade-and-tickers/) — April 2026
+
+## Regional Stock Analysis
 
 - [Southeast Asia's Unicorn Through an American Lens: Using TickerEngine to Analyze GRAB](/articles/southeast-asia-unicorn-tickerengine-grab/) — April 2026
 

@@ -54,6 +54,6 @@ adSlotStrategy = ""
 # To update: change the URL and title, then use browser console to clear previous dismissals
 # clearAllArticleBannerDismissals() or refresh localStorage manually
 [params.latestArticle]
-title = "Southeast Asia's Unicorn Through an American Lens: Using TickerEngine to Analyze GRAB"
-url = "/articles/southeast-asia-unicorn-tickerengine-grab/"
+title = "The Strait of Malacca: 53 Stock Tickers Behind the World's Busiest Shipping Lane"
+url = "/articles/strait-of-malacca-trade-and-tickers/"
 expirationDays = 7

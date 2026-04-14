@@ -38,7 +38,7 @@ educational experience and a powerful internal linking structure.
 
 - **Not a live-data article** — unlike the GRAB article, this does not embed
   real-time charts or TickerEngine analysis. It is editorial/educational with
-  static ticker links.
+  static ticker links. The one interactive element is an OpenStreetMap embed.
 - **Not a buy/sell recommendation** — article is informational, not advisory.
 - **Not covering Singapore-listed stocks in depth** — we mention DBS, OCBC,
   Keppel, etc. for context but cannot link them (not in our US-ticker database).
@@ -56,10 +56,39 @@ educational experience and a powerful internal linking structure.
   mentioned.
 - As a **returning user**, I want the article banner to notify me about this new
   content so that I don't miss it.
+- As a **curious reader**, I want an interactive map of the strait so that I can
+  visualize the geography and key ports.
 
 ## Design
 
-### Article structure (proposed sections)
+### Interactive map
+
+The article includes an interactive OpenStreetMap embed via a Hugo shortcode
+(`strait-map.html`). Implementation:
+
+- **Library:** Leaflet.js v1.9.4 from jsDelivr CDN (with SRI hashes)
+- **Tiles:** OpenStreetMap standard tiles
+- **Features:**
+  - Dashed polyline showing the primary shipping lane (~800 km)
+  - Shaded polygon overlay for the strait area
+  - Red port markers: Singapore, Port Klang, Penang, Tanjung Pelepas, Belawan, Batam
+  - Orange marker at the narrowest point with depth annotation
+  - Trade flow direction labels ("← Middle East oil & LNG" / "→ China, Japan, S. Korea")
+  - Click popups with port statistics
+  - Scroll-wheel zoom disabled (prevents accidental map hijacking)
+
+### Ad placement
+
+Per the [Article Ad Placement ADR](../design/20260414_230800_UTC_article_ad_placement.md):
+
+- **Mid-article ad:** Placed via `{{</* article-ad */>}}` shortcode after the
+  tanker fleet section (~45% through the article). This is after the reader has
+  received substantial value (map, oil majors, full tanker breakdown) but before
+  the container shipping and summary sections.
+- **End-of-article ad:** Automatic via the article layout template. No author
+  action needed.
+
+### Article structure (implemented)
 
 ```
 1. Introduction — "The Strait That Moves the World"
@@ -158,9 +187,13 @@ should link every ticker.
 
 ## Affected files
 
-- [ ] `hugo/site/content/articles/strait-of-malacca-trade-and-tickers.md` — **new**
-- [ ] `hugo/site/hugo.toml` — update `[params.latestArticle]` (per ADR)
-- [ ] `hugo/site/content/articles/_index.md` — may need article list update (verify)
+- [x] `hugo/site/content/articles/strait-of-malacca-trade-and-tickers.md` — **new** article
+- [x] `hugo/site/layouts/shortcodes/strait-map.html` — **new** Leaflet.js map shortcode
+- [x] `hugo/site/layouts/shortcodes/article-ad.html` — **new** inline ad shortcode
+- [x] `hugo/site/hugo.toml` — updated `[params.latestArticle]` for banner
+- [x] `hugo/site/content/articles/_index.md` — added article to listing
+- [x] `docs/design/20260414_230800_UTC_article_ad_placement.md` — **new** ADR for article ads
+- [ ] `tests/puppeteer/website-pages.e2e.test.js` — add article URL to PAGES array
 
 ## Verification
 

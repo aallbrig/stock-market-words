@@ -1,0 +1,17 @@
+{{/*
+  article-ad.html — Inline ad unit for placement within article content.
+  Usage in markdown: place the article-ad shortcode at a section break.
+  Renders the same AdSense ad unit used at end-of-article, but positioned
+  mid-content for better viewability.
+*/}}
+{{- if and .Page.Site.Params.googleAdSenseId .Page.Site.Params.adSlotArticle -}}
+<div class="my-4 text-center">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="{{ .Page.Site.Params.googleAdSenseId }}"
+       data-ad-slot="{{ .Page.Site.Params.adSlotArticle }}"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+{{- end -}}
