@@ -1,0 +1,78 @@
+{{ define "main" }}
+<div class="container mt-5">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="mb-4">{{ . }}</div>{{ end }}
+
+  {{/* Tag display names and ordering */}}
+  {{ $tagNames := dict
+    "global-trade" "Global Trade & Shipping"
+    "regional-analysis" "Regional Analysis"
+    "using-the-tool" "Using the Tool"
+    "extraction-engine" "The Extraction Engine"
+    "strategy" "Strategy & Scoring"
+    "indicators" "Understanding Indicators"
+  }}
+  {{ $tagOrder := slice "global-trade" "regional-analysis" "using-the-tool" "extraction-engine" "strategy" "indicators" }}
+
+  {{/* Fall back to default language articles when current language has none */}}
+  {{ $articles := .Pages.ByDate.Reverse }}
+  {{ if eq (len $articles) 0 }}
+    {{ $defaultSite := index .Sites 0 }}
+    {{ $defaultSection := $defaultSite.GetPage "articles" }}
+    {{ with $defaultSection }}
+      {{ $articles = .Pages.ByDate.Reverse }}
+    {{ end }}
+  {{ end }}
+
+  {{ if gt (len $articles) 0 }}
+  {{ $featured := index $articles 0 }}
+
+  {{/* Featured article card */}}
+  {{ with $featured }}
+  <div class="card bg-light border mb-5">
+    <div class="card-body p-4">
+      <div class="d-flex align-items-center mb-2">
+        <span class="badge bg-primary me-2">Latest</span>
+        <small class="text-muted">{{ .Date.Format "January 2, 2006" }}</small>
+      </div>
+      <h2 class="card-title h3 mb-2">
+        <a href="{{ .RelPermalink }}" class="text-decoration-none">{{ .Title }}</a>
+      </h2>
+      {{ with .Params.description }}
+      <p class="card-text text-muted mb-3">{{ . }}</p>
+      {{ end }}
+      <a href="{{ .RelPermalink }}" class="btn btn-primary btn-sm">Read article →</a>
+    </div>
+  </div>
+  {{ end }}
+
+  {{/* Remaining articles grouped by tag */}}
+  {{ $remaining := after 1 $articles }}
+
+  {{ range $tag := $tagOrder }}
+    {{ $displayName := index $tagNames $tag }}
+    {{ $tagged := where $remaining "Params.tags" "intersect" (slice $tag) }}
+    {{ if $tagged }}
+    <h2 class="h4 mt-4 mb-3 border-bottom pb-2">{{ $displayName }}</h2>
+    <div class="row mb-4">
+      {{ range $tagged }}
+      <div class="col-md-6 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title h6 mb-1">
+              <a href="{{ .RelPermalink }}" class="text-decoration-none">{{ .Title }}</a>
+            </h3>
+            <small class="text-muted d-block mb-2">{{ .Date.Format "January 2, 2006" }}</small>
+            {{ with .Params.description }}
+            <p class="card-text small text-muted mb-0">{{ . }}</p>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+  {{ end }}
+  {{ end }}
+</div>
+{{ end }}

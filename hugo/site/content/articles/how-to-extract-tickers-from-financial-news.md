@@ -5,6 +5,7 @@ author: "Andrew Allbright"
 date: 2026-03-21
 lastmod: 2026-03-21
 draft: false
+tags: ["using-the-tool"]
 ---
 
 Financial news is the richest source of unannounced stock ticker symbols on the internet. A single Reuters article about supply chain disruptions might mention a dozen companies — some by name, some by product, some as passing references. Human readers skip over most of them. The extraction tool doesn't.

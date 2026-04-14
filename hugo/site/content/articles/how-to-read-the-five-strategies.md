@@ -3,6 +3,9 @@ title: "How to Read the Five Strategies"
 author: "Andrew Allbright"
 date: 2026-03-20
 lastmod: 2026-03-13
+description: "What each of the five investment strategies on this site captures, where each one breaks down, and how to combine scores responsibly."
+draft: false
+tags: ["strategy"]
 ---
 
 

@@ -3,6 +3,9 @@ title: "How Ticker Extraction Works"
 author: "Andrew Allbright"
 date: 2026-03-20
 lastmod: 2026-03-13
+description: "How the tool finds stock ticker symbols in natural language text — the matching algorithm, false-positive filtering, and the edge cases that make it harder than it looks."
+draft: false
+tags: ["extraction-engine"]
 ---
 
 

@@ -5,6 +5,7 @@ date: 2026-04-14
 description: "The Strait of Malacca carries 25% of global maritime trade — $3.5 trillion in goods annually. Here are 53 publicly traded companies whose business flows through this critical chokepoint, and what investors should know about the logistics network that keeps the world moving."
 lastmod: 2026-04-14
 draft: false
+tags: ["global-trade"]
 ---
 
 Every day, roughly 330 ships pass through a narrow corridor of water between Malaysia and Indonesia. They carry crude oil from the Persian Gulf, liquefied natural gas from Qatar, iron ore from Australia, and container ships stacked high with electronics, textiles, and consumer goods. This is the **Strait of Malacca** — the second-busiest shipping lane on Earth, and one of the most strategically important waterways in the history of global commerce.
@@ -194,7 +195,7 @@ For Singaporean investors, the companies in this article are the American-listed
 
 The most important companies in Singapore's maritime economy — **DBS**, **OCBC**, **UOB** (banks financing shipping), **Keppel Corporation** (offshore rigs and shipyards), **Sembcorp Marine** (ship repair), **Singapore Exchange (SGX)**, **Singapore Airlines**, **Wilmar International** (palm oil trading) — are all listed on the Singapore Exchange (SGX), not on US exchanges.
 
-This is a gap we're aware of. Our [SGX Ticker Support spec](/docs/specs/sgx_ticker_support/) outlines plans to bring Singapore-listed tickers into our data pipeline. Until then, these companies exist in the context of this article but can't be explored on our ticker pages.
+This is a gap we're aware of. Our [SGX Ticker Support spec](https://github.com/aallbrig/stock-market-words/blob/main/docs/specs/sgx_ticker_support.md) outlines plans to bring Singapore-listed tickers into our data pipeline. Until then, these companies exist in the context of this article but can't be explored on our ticker pages.
 
 The one Singapore-headquartered company we **can** link:
 
@@ -338,7 +339,7 @@ This article links to 53 US-listed tickers. But the Strait of Malacca's full eco
 - **Asian shipping giants**: Maersk (Denmark), COSCO (China), Evergreen (Taiwan), Yang Ming (Taiwan) — the largest container lines transiting the strait
 - **Middle Eastern national oil companies**: Saudi Aramco, ADNOC, QatarEnergy — the source of much of the crude
 
-These gaps reflect our current focus on US-listed securities. Expanding to SGX-listed tickers is [in our roadmap](/docs/specs/sgx_ticker_support/).
+These gaps reflect our current focus on US-listed securities. Expanding to SGX-listed tickers is [in our roadmap](https://github.com/aallbrig/stock-market-words/blob/main/docs/specs/sgx_ticker_support.md).
 
 ---
 

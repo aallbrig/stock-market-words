@@ -5,6 +5,7 @@ author: "Andrew Allbright"
 date: 2026-03-21
 lastmod: 2026-03-21
 draft: false
+tags: ["using-the-tool"]
 ---
 
 When a company reports earnings, the headline numbers get all the attention. Revenue beat or miss. EPS versus estimates. Guidance raised or lowered.

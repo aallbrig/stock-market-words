@@ -112,3 +112,4 @@ Helps the next person understand the decision.
 - [SGX Ticker Support](./sgx_ticker_support.md) — Singapore Exchange tickers in pipeline and extraction engine
 - [REIT Radar Strategy](./reit_radar_strategy.md) — 6th investment strategy purpose-built for REIT investors
 - [Strait of Malacca Article](./strait_of_malacca_article.md) — editorial article linking 53 tickers to Malacca Strait trade flows
+- [Articles Index Redesign](./articles_index_redesign.md) — auto-generated articles page from frontmatter, replacing hand-curated listing

@@ -5,6 +5,7 @@ date: 2026-03-20
 description: "A data-driven monthly roundup of which tickers score highest across each of the five investment strategies on this site, with commentary on what the numbers reveal."
 lastmod: 2026-03-20
 draft: false
+tags: ["strategy"]
 ---
 
 Every month this site's data pipeline pulls fresh market data from Yahoo Finance and recalculates strategy scores across more than 3,000 tickers. This roundup looks at who landed at the top of each strategy in the March 2026 dataset — and what that actually tells us.

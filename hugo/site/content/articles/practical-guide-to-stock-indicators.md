@@ -5,6 +5,7 @@ date: 2026-03-20
 description: "RSI, beta, moving averages, P/E ratio, and dividend yield explained clearly — with real examples drawn from this site's own ticker universe."
 lastmod: 2026-03-20
 draft: false
+tags: ["indicators"]
 ---
 
 The market data section on every ticker page on this site shows up to nine different indicators. If you've ever stared at a number like *RSI: 14.3* and wondered what to actually do with that, this guide is for you. Each section below explains what the metric measures, why it matters, and — crucially — where it breaks down.
