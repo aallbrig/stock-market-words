@@ -50,6 +50,9 @@ jobs:
         env:
           HUGO_PARAMS_GOOGLEANALYTICSID: G-RQCDXSWTLG
           HUGO_PARAMS_GOOGLEADSENSEID: ca-pub-2847616693333026
+          # Create ad unit at AdSense console → Ads → By ad unit → Display ads
+          # Then paste the numeric data-ad-slot value here
+          HUGO_PARAMS_ADSLOTTICKER: ""
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

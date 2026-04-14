@@ -52,4 +52,14 @@ test.describe('Google Analytics', () => {
     expect(hasAdSense).toBe(true);
     console.log('✓ Google AdSense detected on production');
   });
+
+  test('ads.txt is accessible at site root', async ({ page }) => {
+    const response = await page.goto('/ads.txt');
+    expect(response.status()).toBe(200);
+
+    const body = await page.innerText('body');
+    expect(body).toContain('pub-2847616693333026');
+    expect(body).toContain('DIRECT');
+    console.log('✓ ads.txt is accessible and contains publisher ID');
+  });
 });

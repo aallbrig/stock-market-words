@@ -233,6 +233,9 @@
   </div>
   {{- end -}}
 
+  {{/* Ad unit — between interpretation and learn-more */}}
+  {{ partial "ad-unit.html" (dict "Site" .Site "slot" .Site.Params.adSlotTicker) }}
+
   {{/* Learn More links */}}
   <div class="card mt-4 bg-light border-0">
     <div class="card-header bg-light border-bottom"><h5 class="mb-0">{{ i18n "ticker_learn_more" }}</h5></div>
