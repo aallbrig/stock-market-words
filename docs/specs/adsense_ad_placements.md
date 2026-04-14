@@ -42,9 +42,13 @@ Create `hugo/site/layouts/partials/ad-unit.html` that:
 
 Place the ad unit in `hugo/site/layouts/tickers/single.html` after the two-column data cards row (Market Data + Strategy Scores) and before the Strategy Interpretation card — Option A positioning for highest viewability (~85%) and estimated $8–15 RPM in the finance niche.
 
+### 3b. Homepage Placement
+
+Place the ad unit in `hugo/site/layouts/index.html` after the tool area (extractor + results + ticker lookup) and before the "Why this site exists" section — Option A for ~70% viewability. Wrapped in `col-lg-8` to match the page's content column width.
+
 ### 4. Hugo Config
 
-Add `adSlotTicker = ""` to `hugo.toml` params, injectable at build time via `HUGO_PARAMS_ADSLOTTICKER`.
+Add `adSlotTicker = ""` and `adSlotHome = ""` to `hugo.toml` params, injectable at build time via `HUGO_PARAMS_ADSLOTTICKER` and `HUGO_PARAMS_ADSLOTHOME`.
 
 ### 5. Ad-Slot ID Provisioning (Manual Step)
 
@@ -66,7 +70,8 @@ Until this step is completed, the partial will gracefully no-op (no ad rendered)
 | `hugo/site/static/ads.txt` | Create |
 | `hugo/site/layouts/partials/ad-unit.html` | Create |
 | `hugo/site/layouts/tickers/single.html` | Edit — insert partial call |
-| `hugo/site/hugo.toml` | Edit — add `adSlotTicker` param |
+| `hugo/site/layouts/index.html` | Edit — insert homepage ad partial call |
+| `hugo/site/hugo.toml` | Edit — add `adSlotTicker` and `adSlotHome` params |
 | `.github/workflows/website-qa-deploy.yml` | Edit — add env var placeholder |
 | `tests/playwright/analytics.spec.js` | Edit — add `ads.txt` test |
 

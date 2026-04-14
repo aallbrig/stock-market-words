@@ -36,6 +36,10 @@ googleAdSenseId = ""
 # Set via environment variable HUGO_PARAMS_ADSLOTTICKER in production
 adSlotTicker = ""
 
+# AdSense ad-slot ID for homepage (leave empty for local development)
+# Set via environment variable HUGO_PARAMS_ADSLOTHOME in production
+adSlotHome = ""
+
 # Latest Article Banner Configuration
 # Set this to announce a new article to all visitors
 # Banner is dismissable (expires in 7 days per user)

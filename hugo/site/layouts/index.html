@@ -62,6 +62,13 @@
     </div>
   </div>
 
+  {{/* Ad unit — after tool area, before "Why this site exists" */}}
+  <div class="row justify-content-center mb-5">
+    <div class="col-lg-8">
+      {{ partial "ad-unit.html" (dict "Site" .Site "slot" .Site.Params.adSlotHome) }}
+    </div>
+  </div>
+
   <!-- Why this site exists -->
   <div class="row justify-content-center mb-5">
     <div class="col-lg-8">
