@@ -44,6 +44,10 @@ adSlotHome = ""
 # Set via environment variable HUGO_PARAMS_ADSLOTARTICLE in production
 adSlotArticle = ""
 
+# AdSense ad-slot ID for strategy filter pages (leave empty for local development)
+# Set via environment variable HUGO_PARAMS_ADSLOTSTRATEGY in production
+adSlotStrategy = ""
+
 # Latest Article Banner Configuration
 # Set this to announce a new article to all visitors
 # Banner is dismissable (expires in 7 days per user)

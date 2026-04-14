@@ -240,6 +240,9 @@
         {{ end }}
       </div>
       
+      {{/* Ad unit — after stocks table, before strategy navigation */}}
+      {{ partial "ad-unit.html" (dict "Site" .Site "slot" .Site.Params.adSlotStrategy) }}
+
       <!-- Strategy Navigation -->
       <div class="card mb-5">
         <div class="card-header">

@@ -55,6 +55,7 @@ jobs:
           HUGO_PARAMS_ADSLOTTICKER: "4937671520"
           HUGO_PARAMS_ADSLOTHOME: "5479550822"
           HUGO_PARAMS_ADSLOTARTICLE: "7424234063"
+          HUGO_PARAMS_ADSLOTSTRATEGY: "2853387485"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

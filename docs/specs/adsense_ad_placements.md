@@ -58,9 +58,15 @@ Place the ad unit in `hugo/site/layouts/articles/single.html` after the `.articl
 
 Estimated RPM: $10–20 (finance editorial, indexed, organic traffic potential).
 
+### 3d. Strategy Filter Page Placement
+
+Place the ad unit in `hugo/site/layouts/page/strategy-filter.html` after the matching stocks table and before the "Explore other strategies" navigation card — "Post-Table" position (Option B). Key layout consideration: the pie chart and table are interactively linked (clicking a sector filters the table), so placing an ad between them (Option A) would break that interaction. A horizontal/responsive ad format was chosen to match the full-width column layout.
+
+Estimated RPM: $8–15 (6 strategy pages, high-intent finance users, indexed).
+
 ### 4. Hugo Config
 
-Add `adSlotTicker = ""`, `adSlotHome = ""`, and `adSlotArticle = ""` to `hugo.toml` params, injectable at build time via `HUGO_PARAMS_ADSLOTTICKER`, `HUGO_PARAMS_ADSLOTHOME`, and `HUGO_PARAMS_ADSLOTARTICLE`.
+Add `adSlotTicker = ""`, `adSlotHome = ""`, `adSlotArticle = ""`, and `adSlotStrategy = ""` to `hugo.toml` params, injectable at build time via `HUGO_PARAMS_ADSLOTTICKER`, `HUGO_PARAMS_ADSLOTHOME`, `HUGO_PARAMS_ADSLOTARTICLE`, and `HUGO_PARAMS_ADSLOTSTRATEGY`.
 
 ### 5. Ad-Slot ID Provisioning (Manual Step)
 
@@ -83,8 +89,9 @@ Until this step is completed, the partial will gracefully no-op (no ad rendered)
 | `hugo/site/layouts/partials/ad-unit.html` | Create |
 | `hugo/site/layouts/tickers/single.html` | Edit — insert partial call |
 | `hugo/site/layouts/articles/single.html` | Edit — insert article ad partial call |
+| `hugo/site/layouts/page/strategy-filter.html` | Edit — insert strategy ad partial call |
 | `hugo/site/layouts/index.html` | Edit — insert homepage ad partial call |
-| `hugo/site/hugo.toml` | Edit — add `adSlotTicker`, `adSlotHome`, and `adSlotArticle` params |
+| `hugo/site/hugo.toml` | Edit — add `adSlotTicker`, `adSlotHome`, `adSlotArticle`, and `adSlotStrategy` params |
 | `.github/workflows/website-qa-deploy.yml` | Edit — add env var placeholder |
 | `tests/playwright/analytics.spec.js` | Edit — add `ads.txt` test |
 
@@ -95,6 +102,7 @@ Until this step is completed, the partial will gracefully no-op (no ad rendered)
 | Ticker Detail - In-Content | `4937671520` | `adSlotTicker` | `/tickers/*` | After data cards, before interpretation | Responsive | $8–15 |
 | Homepage - Mid-Content | `5479550822` | `adSlotHome` | `/` | After tool area, before "Why this site exists" | Responsive | $5–10 |
 | Article - Post-Content | `7424234063` | `adSlotArticle` | `/articles/*` | After article body, before footer | Horizontal/Responsive | $10–20 |
+| Strategy - Post-Table | `2853387485` | `adSlotStrategy` | `/strategy/*` | After stocks table, before strategy nav | Horizontal/Responsive | $8–15 |
 
 ### Pages intentionally without ads
 
@@ -103,7 +111,6 @@ Until this step is completed, the partial will gracefully no-op (no ad rendered)
 | Glossary entries | Too short — ad would dominate the page, AdSense policy risk |
 | Data tables (filtered, raw) | Utility pages — low dwell time, poor ad performance |
 | Static pages (about, contact, privacy, methodology) | Informational/trust pages — ads undermine credibility |
-| Strategy filter pages | Future candidate (see Open Questions) |
 
 ## Testing
 
@@ -113,4 +120,4 @@ Until this step is completed, the partial will gracefully no-op (no ad rendered)
 
 ## Open Questions
 
-- **Strategy filter pages:** 6 pages with high-intent finance users (e.g., "top dividend stocks"). Good candidate for a 4th ad unit once article ad performance is validated. Revisit after 30 days of AdSense data.
+- **Additional placements:** The current 4-unit inventory covers the primary page types. Monitor AdSense RPM data for 30 days before considering additional placements. Diminishing returns set in quickly beyond 4 well-placed units.
