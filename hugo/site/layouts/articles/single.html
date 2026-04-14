@@ -20,6 +20,9 @@
           {{ .Content }}
         </div>
 
+        {{/* Ad unit — after article content, before footer */}}
+        {{ partial "ad-unit.html" (dict "Site" .Site "slot" .Site.Params.adSlotArticle) }}
+
         <footer class="mt-5 pt-4 border-top">
           <div class="row align-items-center">
             <div class="col-md-8">

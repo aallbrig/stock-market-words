@@ -54,6 +54,7 @@ jobs:
           # Then paste the numeric data-ad-slot value here
           HUGO_PARAMS_ADSLOTTICKER: "4937671520"
           HUGO_PARAMS_ADSLOTHOME: "5479550822"
+          HUGO_PARAMS_ADSLOTARTICLE: "7424234063"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

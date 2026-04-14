@@ -15,8 +15,8 @@ The site loads the AdSense library script (`adsbygoogle.js`) on every page, but:
 
 ## Scope
 
-- **In scope:** `ads.txt`, one ad placement on ticker detail pages, Hugo config for ad-slot IDs, reusable partial.
-- **Out of scope:** Auto-ads (full-page AdSense auto-placement), ad placements on non-ticker pages, A/B testing, consent management / GDPR banner.
+- **In scope:** `ads.txt`, ad placements on ticker detail pages, homepage, and article pages, Hugo config for ad-slot IDs, reusable partial.
+- **Out of scope:** Auto-ads (full-page AdSense auto-placement), A/B testing, consent management / GDPR banner.
 
 ## Design
 
@@ -47,9 +47,20 @@ Place the ad unit in `hugo/site/layouts/tickers/single.html` after the two-colum
 
 Place the ad unit in `hugo/site/layouts/index.html` after the tool area (extractor + results + ticker lookup) and before the "Why this site exists" section — Option A for ~70% viewability. Wrapped in `col-lg-8` to match the page's content column width.
 
+### 3c. Article Page Placement
+
+Place the ad unit in `hugo/site/layouts/articles/single.html` after the `.article-content` div and before the `<footer>` — "Post-Content" position. Articles are 1,200–3,400 words of editorial content in a `col-md-8` single column. A horizontal/responsive ad format was chosen because:
+
+- Horizontal fills the content column width cleanly, matching reading flow.
+- Square ads are better suited to sidebars (this layout has none).
+- Vertical ads disrupt reading flow in single-column layouts.
+- Responsive lets Google auto-optimize between formats for best RPM.
+
+Estimated RPM: $10–20 (finance editorial, indexed, organic traffic potential).
+
 ### 4. Hugo Config
 
-Add `adSlotTicker = ""` and `adSlotHome = ""` to `hugo.toml` params, injectable at build time via `HUGO_PARAMS_ADSLOTTICKER` and `HUGO_PARAMS_ADSLOTHOME`.
+Add `adSlotTicker = ""`, `adSlotHome = ""`, and `adSlotArticle = ""` to `hugo.toml` params, injectable at build time via `HUGO_PARAMS_ADSLOTTICKER`, `HUGO_PARAMS_ADSLOTHOME`, and `HUGO_PARAMS_ADSLOTARTICLE`.
 
 ### 5. Ad-Slot ID Provisioning (Manual Step)
 
@@ -71,13 +82,35 @@ Until this step is completed, the partial will gracefully no-op (no ad rendered)
 | `hugo/site/static/ads.txt` | Create |
 | `hugo/site/layouts/partials/ad-unit.html` | Create |
 | `hugo/site/layouts/tickers/single.html` | Edit — insert partial call |
+| `hugo/site/layouts/articles/single.html` | Edit — insert article ad partial call |
 | `hugo/site/layouts/index.html` | Edit — insert homepage ad partial call |
-| `hugo/site/hugo.toml` | Edit — add `adSlotTicker` and `adSlotHome` params |
+| `hugo/site/hugo.toml` | Edit — add `adSlotTicker`, `adSlotHome`, and `adSlotArticle` params |
 | `.github/workflows/website-qa-deploy.yml` | Edit — add env var placeholder |
 | `tests/playwright/analytics.spec.js` | Edit — add `ads.txt` test |
+
+## Ad Unit Inventory
+
+| AdSense Name | Slot ID | Hugo Param | Page Type | Position | Format | Est. RPM |
+|---|---|---|---|---|---|---|
+| Ticker Detail - In-Content | `4937671520` | `adSlotTicker` | `/tickers/*` | After data cards, before interpretation | Responsive | $8–15 |
+| Homepage - Mid-Content | `5479550822` | `adSlotHome` | `/` | After tool area, before "Why this site exists" | Responsive | $5–10 |
+| Article - Post-Content | `7424234063` | `adSlotArticle` | `/articles/*` | After article body, before footer | Horizontal/Responsive | $10–20 |
+
+### Pages intentionally without ads
+
+| Page Type | Reason |
+|---|---|
+| Glossary entries | Too short — ad would dominate the page, AdSense policy risk |
+| Data tables (filtered, raw) | Utility pages — low dwell time, poor ad performance |
+| Static pages (about, contact, privacy, methodology) | Informational/trust pages — ads undermine credibility |
+| Strategy filter pages | Future candidate (see Open Questions) |
 
 ## Testing
 
 - Local: `hugo server` — no ads render (params empty), no errors.
 - Production: after slot ID is set, Playwright test confirms `adsbygoogle` element exists on a ticker page.
 - `ads.txt` is fetchable at root.
+
+## Open Questions
+
+- **Strategy filter pages:** 6 pages with high-intent finance users (e.g., "top dividend stocks"). Good candidate for a 4th ad unit once article ad performance is validated. Revisit after 30 days of AdSense data.
