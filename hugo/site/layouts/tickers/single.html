@@ -210,6 +210,9 @@
 
   </div><!-- /row -->
 
+  {{/* Ad unit — after data cards, before interpretation */}}
+  {{ partial "ad-unit.html" (dict "Site" .Site "slot" .Site.Params.adSlotTicker) }}
+
   {{/* Strategy interpretation — only if we have scored strategies */}}
   {{- if $scoresList -}}
   {{- $sorted := sort $scoresList "score" "desc" -}}
@@ -232,9 +235,6 @@
     </div>
   </div>
   {{- end -}}
-
-  {{/* Ad unit — between interpretation and learn-more */}}
-  {{ partial "ad-unit.html" (dict "Site" .Site "slot" .Site.Params.adSlotTicker) }}
 
   {{/* Learn More links */}}
   <div class="card mt-4 bg-light border-0">

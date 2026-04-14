@@ -40,7 +40,7 @@ Create `hugo/site/layouts/partials/ad-unit.html` that:
 
 ### 3. Ticker Detail Page Placement
 
-Place the ad unit in `hugo/site/layouts/tickers/single.html` between the strategy-interpretation card and the "Learn More" card — a natural content break where the user has finished consuming the primary data.
+Place the ad unit in `hugo/site/layouts/tickers/single.html` after the two-column data cards row (Market Data + Strategy Scores) and before the Strategy Interpretation card — Option A positioning for highest viewability (~85%) and estimated $8–15 RPM in the finance niche.
 
 ### 4. Hugo Config
 
