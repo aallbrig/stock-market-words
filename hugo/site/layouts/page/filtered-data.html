@@ -7,6 +7,14 @@
       
       {{ $filtered := .Site.Data.filtered_tickers }}
       {{ $pass1 := .Site.Data.pass1_results }}
+
+      {{/* Build lookup set of symbols that have ticker pages */}}
+      {{ $tickerSymbols := dict }}
+      {{ with .Site.Data.all_tickers }}
+        {{ range .tickers }}
+          {{ $tickerSymbols = merge $tickerSymbols (dict .symbol true) }}
+        {{ end }}
+      {{ end }}
       
       {{ if $filtered }}
       
@@ -103,7 +111,7 @@
             <tbody>
               {{ range $filtered.tickers }}
               <tr data-exchange="{{ .exchange }}">
-                <td><strong><a href="{{ "/tickers/" | relLangURL }}{{ .symbol | lower }}/" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a></strong></td>
+                <td><strong>{{ if index $tickerSymbols .symbol }}<a href="{{ "/tickers/" | relLangURL }}{{ .symbol | lower }}/" title="{{ .symbol }} - {{ .name }}">{{ .symbol }}</a>{{ else }}{{ .symbol }}{{ end }}</strong></td>
                 <td>{{ .name }}</td>
                 <td><span class="badge bg-secondary">{{ .exchange }}</span></td>
                 <td>{{ if .is_etf }}{{ i18n "label_yes" }}{{ else }}{{ i18n "label_no" }}{{ end }}</td>

@@ -9,24 +9,14 @@
         <li class="nav-item">
           <a class="nav-link{{ if .IsHome }} active" aria-current="page{{ end }}" href="{{ "/" | relLangURL }}">{{ i18n "nav_home" }}</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDataDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ i18n "nav_data" }}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDataDropdown">
-            <li><a class="dropdown-item" href="{{ "/data/" | relLangURL }}">{{ i18n "nav_data_overview" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/methodology/" | relLangURL }}">{{ i18n "nav_methodology" }}</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{ "/raw-ftp-data/" | relLangURL }}">{{ i18n "nav_raw_ftp_data" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/filtered-data/" | relLangURL }}">{{ i18n "nav_filtered_tickers" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/tickers/" | relLangURL }}">{{ i18n "nav_browse_tickers" }}</a></li>
-          </ul>
-        </li>
         <li class="nav-item">
           <a class="nav-link{{ if hasPrefix .RelPermalink "/articles" }} active" aria-current="page{{ end }}" href="{{ "/articles/" | relLangURL }}">{{ i18n "nav_articles" }}</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link{{ if hasPrefix .RelPermalink "/tickers" }} active" aria-current="page{{ end }}" href="{{ "/tickers/" | relLangURL }}">{{ i18n "nav_tickers" }}</a>
+        </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarStrategyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle{{ if or (hasPrefix .RelPermalink "/strateg") (hasPrefix .RelPermalink "/strategy") }} active{{ end }}" href="#" id="navbarStrategyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{ i18n "nav_strategies" }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarStrategyDropdown">
@@ -40,11 +30,21 @@
             <li><a class="dropdown-item" href="{{ "/strategy/reit-radar/" | relLangURL }}">{{ i18n "strategy_reit_radar" }}</a></li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link{{ if hasPrefix .RelPermalink "/glossary" }} active" aria-current="page{{ end }}" href="{{ "/glossary/" | relLangURL }}">{{ i18n "nav_glossary" }}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link{{ if eq .RelPermalink "/about/" }} active" aria-current="page{{ end }}" href="{{ "/about/" | relLangURL }}">{{ i18n "nav_about" }}</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle{{ if or (eq .RelPermalink "/data/") (eq .RelPermalink "/methodology/") (eq .RelPermalink "/raw-ftp-data/") (eq .RelPermalink "/filtered-data/") (eq .RelPermalink "/glossary/") (eq .RelPermalink "/about/") (eq .RelPermalink "/contact/") }} active{{ end }}" href="#" id="navbarMoreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ i18n "nav_more" }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarMoreDropdown">
+            <li><a class="dropdown-item" href="{{ "/data/" | relLangURL }}">{{ i18n "nav_data_overview" }}</a></li>
+            <li><a class="dropdown-item" href="{{ "/methodology/" | relLangURL }}">{{ i18n "nav_methodology" }}</a></li>
+            <li><a class="dropdown-item" href="{{ "/glossary/" | relLangURL }}">{{ i18n "nav_glossary" }}</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ "/raw-ftp-data/" | relLangURL }}">{{ i18n "nav_raw_ftp_data" }}</a></li>
+            <li><a class="dropdown-item" href="{{ "/filtered-data/" | relLangURL }}">{{ i18n "nav_filtered_tickers" }}</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ "/about/" | relLangURL }}">{{ i18n "nav_about" }}</a></li>
+            <li><a class="dropdown-item" href="{{ "/contact/" | relLangURL }}">{{ i18n "nav_contact" }}</a></li>
+          </ul>
         </li>
         {{/* Language switcher — dropdown, auto-scales to any number of languages */}}
         {{ $page := . }}
@@ -87,29 +87,7 @@
             {{ end }}
           </ul>
         </li>
-        <!-- QR Code - visible only on mobile -->
-        <li class="nav-item d-lg-none">
-          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#qrModal">
-            {{ i18n "nav_qr_code" }}
-          </a>
-        </li>
       </ul>
     </div>
   </div>
 </nav>
-
-<!-- QR Code Modal -->
-<div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="qrModalLabel">{{ i18n "qr_share_title" }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center">
-        <img src="{{ "/media/stockmarketwords.com.qr.png" | relURL }}" alt="QR Code for Stock Market Words" class="img-fluid" style="max-width: 300px;">
-        <p class="mt-3 text-muted">{{ i18n "qr_scan_text" }}</p>
-      </div>
-    </div>
-  </div>
-</div>

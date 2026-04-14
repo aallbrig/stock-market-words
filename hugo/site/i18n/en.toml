@@ -764,3 +764,12 @@ other = "Targets large-cap stocks likely held by institutional investors. \"Foll
 
 [js_help_reit_radar]
 other = "Scores REITs on dividend yield (40%), price-to-NAV (30%), and gearing (30%). Only Real Estate Investment Trusts are scored — non-REITs are excluded."
+
+[nav_more]
+other = "More"
+
+[nav_contact]
+other = "Contact"
+
+[nav_tickers]
+other = "Tickers"

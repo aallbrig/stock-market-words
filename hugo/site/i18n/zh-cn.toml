@@ -764,3 +764,12 @@ other = "瞄准机构投资者可能持有的大盘股。\"跟随聪明的资金
 
 [js_help_reit_radar]
 other = "按股息收益率（40%）、市净率/NAV（30%）和杠杆率（30%）对REIT评分。仅对房地产投资信托基金评分，非REIT不参与。"
+
+[nav_more]
+other = "更多"
+
+[nav_contact]
+other = "联系我们"
+
+[nav_tickers]
+other = "股票代码"
