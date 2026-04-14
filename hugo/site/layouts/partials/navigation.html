@@ -64,7 +64,7 @@
         {{ end }}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="langSwitcherDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select language">
-            🌐 {{ .Language.LanguageName }}
+            🌐 {{ .Language.LanguageName }}{{ if ne .Language.Lang $defaultLang }} 🚧{{ end }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langSwitcherDropdown">
             {{ range $page.Site.Languages }}
@@ -79,9 +79,9 @@
               {{ end }}
               <li>
                 {{ if $isCurrent }}
-                  <span class="dropdown-item active" aria-current="true">✓ {{ .LanguageName }}</span>
+                  <span class="dropdown-item active" aria-current="true">✓ {{ .LanguageName }}{{ if ne .Lang $defaultLang }} 🚧{{ end }}</span>
                 {{ else }}
-                  <a class="dropdown-item" href="{{ $href }}">{{ .LanguageName }}</a>
+                  <a class="dropdown-item" href="{{ $href }}">{{ .LanguageName }}{{ if ne .Lang $defaultLang }} 🚧{{ end }}</a>
                 {{ end }}
               </li>
             {{ end }}
