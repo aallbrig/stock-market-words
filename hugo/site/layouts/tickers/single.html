@@ -291,7 +291,7 @@
   <!-- Disclaimer -->
   {{- $dataDate := site.Data.all_tickers._meta.data_date -}}
   <p class="text-muted small mt-4">
-    {{ i18n "ticker_disclaimer" }}
+    {{ i18n "ticker_disclaimer" | safeHTML }}
     {{ if $dataDate }}<br>{{ i18n "ticker_data_updated" }} {{ $dataDate }}.{{ end }}
   </p>
 
