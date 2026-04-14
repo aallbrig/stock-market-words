@@ -1,6 +1,7 @@
 # Localization Efforts Banner
 
 **Status:** Done
+**Superseded by:** [`welcome_banner.md`](welcome_banner.md)
 **Author:** Copilot
 **Created:** 2026-04-09
 **Completed:** 2026-04-09

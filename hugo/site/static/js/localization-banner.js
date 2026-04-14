@@ -1,16 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const banner = document.getElementById('localization-banner');
-  const closeBtn = document.getElementById('localization-banner-close');
+  var BANNER_VERSION = 'v2-welcome';
+  var STORAGE_KEY = 'bannerDismissed_' + BANNER_VERSION;
 
-  // Check if user has dismissed the banner
-  if (localStorage.getItem('localizationBannerDismissed') === 'true') {
+  var banner = document.getElementById('localization-banner');
+  var closeBtn = document.getElementById('localization-banner-close');
+
+  if (localStorage.getItem(STORAGE_KEY) === 'true') {
     banner.classList.add('hidden');
   }
 
-  // Handle close button click
   if (closeBtn) {
     closeBtn.addEventListener('click', function() {
-      localStorage.setItem('localizationBannerDismissed', 'true');
+      localStorage.setItem(STORAGE_KEY, 'true');
       banner.classList.add('hidden');
     });
   }
