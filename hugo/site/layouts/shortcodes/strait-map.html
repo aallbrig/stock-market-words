@@ -62,12 +62,13 @@
     opacity: 0.3
   }).addTo(map);
 
-  // Port markers
+  // Port markers — 18px for visibility and easy clicking
   var portIcon = L.divIcon({
     className: '',
-    html: '<div style="background:#dc3545;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,.4);"></div>',
-    iconSize: [10, 10],
-    iconAnchor: [5, 5]
+    html: '<div style="background:#dc3545;width:18px;height:18px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 6px rgba(0,0,0,.5);cursor:pointer;"></div>',
+    iconSize: [18, 18],
+    iconAnchor: [9, 9],
+    popupAnchor: [0, -10]
   });
 
   var ports = [
@@ -77,8 +78,12 @@
       info: 'Malaysia\'s busiest port · Gateway to Kuala Lumpur' },
     { lat: 5.415, lng: 100.35, name: 'Port of Penang (Malaysia)',
       info: 'Historic Straits Settlement port · Northern strait access' },
+    { lat: 2.19, lng: 102.25, name: 'Port of Malacca (Malaysia)',
+      info: 'The city that names the strait · Historic spice trade hub since the 15th century · Now handles regional cargo and tankers' },
     { lat: 1.797, lng: 102.048, name: 'Port of Tanjung Pelepas (Malaysia)',
       info: 'Major transshipment hub · Competes with Singapore' },
+    { lat: 1.67, lng: 101.45, name: 'Dumai (Indonesia)',
+      info: 'Indonesia\'s main oil export terminal · Key tanker loading port for Sumatran crude · On the Riau coast' },
     { lat: 3.79, lng: 98.68, name: 'Belawan (Indonesia)',
       info: 'Sumatra\'s main port · Serves Medan metro area' },
     { lat: 1.087, lng: 104.05, name: 'Batam (Indonesia)',
@@ -88,15 +93,16 @@
   ports.forEach(function(p) {
     L.marker([p.lat, p.lng], { icon: portIcon })
       .addTo(map)
-      .bindPopup('<strong>' + p.name + '</strong><br>' + p.info);
+      .bindPopup('<strong>' + p.name + '</strong><br>' + p.info, { maxWidth: 260 });
   });
 
-  // Narrowest point annotation
+  // Narrowest point annotation — 14px orange marker
   var narrowIcon = L.divIcon({
     className: '',
-    html: '<div style="background:#fd7e14;width:8px;height:8px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,.4);"></div>',
-    iconSize: [8, 8],
-    iconAnchor: [4, 4]
+    html: '<div style="background:#fd7e14;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 6px rgba(0,0,0,.5);cursor:pointer;"></div>',
+    iconSize: [14, 14],
+    iconAnchor: [7, 7],
+    popupAnchor: [0, -8]
   });
 
   L.marker([1.35, 103.5], { icon: narrowIcon })
