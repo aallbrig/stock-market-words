@@ -47,6 +47,8 @@ The Strait of Malacca is the **world's largest oil chokepoint by volume**. In 20
 
 This makes the strait the critical link between Middle Eastern oil producers and East Asian refineries. When tanker rates spike or piracy incidents surge, the effects ripple through global energy markets.
 
+{{< malacca-trade-chart >}}
+
 ### The oil majors
 
 These are the integrated producers and explorers whose product physically transits the strait en route to Asian refineries:

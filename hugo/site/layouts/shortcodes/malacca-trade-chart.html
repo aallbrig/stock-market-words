@@ -1,0 +1,92 @@
+<!-- Malacca Oil Flow Chart — Chart.js 4.4.1 -->
+<div style="width: 100%; margin: 1.5rem 0; position: relative;">
+  <canvas id="malaccaTradeChart" style="max-height: 320px;"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script>
+(function() {
+  if (typeof Chart === 'undefined') { return; }
+  const ctx = document.getElementById('malaccaTradeChart');
+  if (!ctx) { return; }
+
+  new Chart(ctx.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['2019', '2020', '2021', '2022', '2023'],
+      datasets: [
+        {
+          label: 'Oil & Petroleum (million bbl/day)',
+          data: [21.0, 18.4, 20.3, 22.5, 23.7],
+          backgroundColor: [
+            'rgba(13, 110, 253, 0.75)',
+            'rgba(220, 53, 69, 0.75)',
+            'rgba(13, 110, 253, 0.75)',
+            'rgba(13, 110, 253, 0.75)',
+            'rgba(13, 110, 253, 0.75)'
+          ],
+          borderColor: [
+            'rgba(13, 110, 253, 1)',
+            'rgba(220, 53, 69, 1)',
+            'rgba(13, 110, 253, 1)',
+            'rgba(13, 110, 253, 1)',
+            'rgba(13, 110, 253, 1)'
+          ],
+          borderWidth: 1,
+          borderRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Strait of Malacca: Oil & Petroleum Flow (Million Barrels/Day)',
+          font: { size: 14, weight: 'bold' },
+          padding: { bottom: 10 }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.parsed.y.toFixed(1) + ' million bbl/day';
+            },
+            afterLabel: function(context) {
+              if (context.dataIndex === 1) return '⬇ COVID-19 demand crash';
+              if (context.dataIndex === 4) return '↑ New record high';
+              return '';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          min: 16,
+          max: 26,
+          title: {
+            display: true,
+            text: 'Million Barrels/Day',
+            font: { size: 12 }
+          },
+          ticks: { stepSize: 2 }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Year',
+            font: { size: 12 }
+          }
+        }
+      }
+    }
+  });
+})();
+</script>
+<p class="text-muted small text-center mt-1 mb-3">
+  Source: EIA World Oil Transit Chokepoints report (2024). Red bar = COVID-19 disruption year.
+  Figures represent combined crude oil and petroleum products transit volume.
+</p>

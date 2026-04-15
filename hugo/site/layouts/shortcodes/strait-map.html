@@ -107,8 +107,9 @@
       'Depth as shallow as 25 m — limits supertankers'
     );
 
-  // Direction arrows — label for trade flow
-  L.marker([4.5, 97.5], {
+  // Direction labels — positioned near terminus points, clear of markers and shipping lane
+  // NW entrance label (Andaman Sea side, west of the strait polygon)
+  L.marker([6.5, 94.0], {
     icon: L.divIcon({
       className: '',
       html: '<div style="background:rgba(255,255,255,0.92);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;color:#333;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.2);">← Middle East oil &amp; LNG</div>',
@@ -117,7 +118,8 @@
     })
   }).addTo(map);
 
-  L.marker([2.0, 103.8], {
+  // SE exit label (South China Sea side, east of Singapore Strait exit)
+  L.marker([0.6, 105.2], {
     icon: L.divIcon({
       className: '',
       html: '<div style="background:rgba(255,255,255,0.92);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;color:#333;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.2);">→ China, Japan, S. Korea</div>',
