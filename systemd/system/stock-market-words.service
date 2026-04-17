@@ -14,11 +14,15 @@ WorkingDirectory=/opt/stock-market-words/python3
 Environment="PATH=/opt/stock-market-words/python3/venv/bin:/usr/local/bin:/usr/bin:/bin"
 Environment="PYTHONUNBUFFERED=1"
 
-# Run the pipeline
-ExecStart=/opt/stock-market-words/python3/venv/bin/python -m stock_ticker.cli run-all
+# Run the pipeline (ticker-cli entry point installed by pip install -e .)
+ExecStart=/opt/stock-market-words/python3/venv/bin/ticker-cli run-all
 
 # Git commit and push changes (if configured)
 ExecStartPost=/opt/stock-market-words/systemd/scripts/git-commit-and-push.sh
+
+# Back up database to S3 (optional — requires aws CLI + credentials)
+# Uncomment after completing AWS setup per docs/design/20260417_015817_UTC_s3_database_backup.md
+# ExecStartPost=/opt/stock-market-words/systemd/scripts/backup-db-s3.sh
 
 # Logging
 StandardOutput=journal

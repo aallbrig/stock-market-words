@@ -1,58 +1,72 @@
 #!/bin/bash
 #
 # Git commit and push script for Stock Market Words pipeline
-# This runs after the pipeline completes to commit generated data
+# Commits daily pipeline output as stockmarketwords-bot
+#
+# Called via ExecStartPost in stock-market-words.service
 #
 
 set -euo pipefail
 
-# Configuration
+# ── Configuration ────────────────────────────────────────────────────
 REPO_DIR="/opt/stock-market-words"
-COMMIT_MESSAGE="Auto-update: Daily pipeline run $(date +%Y-%m-%d)"
+BOT_NAME="stockmarketwords-bot"
+BOT_EMAIL="stockmarketwords-bot@users.noreply.github.com"
+TODAY=$(date +%Y-%m-%d)
+HOSTNAME=$(hostname)
 
-# Change to repository directory
+# ── Change to repo ──────────────────────────────────────────────────
 cd "$REPO_DIR" || exit 1
 
-# Check if we have any changes to commit
+# ── Check for changes ───────────────────────────────────────────────
 if git diff --quiet && git diff --cached --quiet; then
-    echo "No changes to commit"
+    echo "[bot] No changes to commit for $TODAY"
     exit 0
 fi
 
-# Configure git if not already done
-if ! git config user.name > /dev/null 2>&1; then
-    git config user.name "Stock Market Words Bot"
-    git config user.email "bot@stockmarketwords.local"
-fi
+# ── Stage pipeline output ───────────────────────────────────────────
+git add \
+    data/ \
+    hugo/site/static/data/ \
+    hugo/site/data/ \
+    hugo/site/content/ \
+    2>/dev/null || true
 
-# Stage all changes in data and hugo directories
-git add data/ hugo/site/static/data/ hugo/site/content/ 2>/dev/null || true
-
-# Check if there are staged changes
+# Bail if nothing was staged
 if git diff --cached --quiet; then
-    echo "No staged changes to commit"
+    echo "[bot] No staged changes to commit for $TODAY"
     exit 0
 fi
 
-# Commit changes
-git commit -m "$COMMIT_MESSAGE" || {
-    echo "Commit failed"
+# ── Count what changed ──────────────────────────────────────────────
+CHANGED_FILES=$(git diff --cached --numstat | wc -l)
+
+# ── Commit with bot identity ────────────────────────────────────────
+export GIT_AUTHOR_NAME="$BOT_NAME"
+export GIT_AUTHOR_EMAIL="$BOT_EMAIL"
+export GIT_COMMITTER_NAME="$BOT_NAME"
+export GIT_COMMITTER_EMAIL="$BOT_EMAIL"
+
+git commit -m "Daily data update: $TODAY" -m "Pipeline: ticker-cli run-all
+Host: $HOSTNAME
+Files changed: $CHANGED_FILES" || {
+    echo "[bot] ERROR: commit failed"
     exit 1
 }
 
-# Push to remote (if configured)
-# This will fail gracefully if no SSH key is set up or remote is not accessible
+echo "[bot] Committed as $BOT_NAME <$BOT_EMAIL>"
+
+# ── Push to remote ──────────────────────────────────────────────────
 if git remote get-url origin > /dev/null 2>&1; then
     if git push origin main 2>&1; then
-        echo "Successfully pushed changes to remote"
+        echo "[bot] Pushed to origin/main"
     else
-        echo "WARNING: Failed to push changes - may need SSH key configuration"
-        echo "Run: systemctl status stock-market-words.service for details"
-        # Don't fail the service if push fails
+        echo "[bot] WARNING: push failed (SSH key or network issue)"
+        # Don't fail the service — data is committed locally
         exit 0
     fi
 else
-    echo "No git remote configured - skipping push"
+    echo "[bot] No git remote configured — skipping push"
 fi
 
 exit 0

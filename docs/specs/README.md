@@ -113,3 +113,4 @@ Helps the next person understand the decision.
 - [REIT Radar Strategy](./reit_radar_strategy.md) — 6th investment strategy purpose-built for REIT investors
 - [Strait of Malacca Article](./strait_of_malacca_article.md) — editorial article linking 53 tickers to Malacca Strait trade flows
 - [Articles Index Redesign](./articles_index_redesign.md) — auto-generated articles page from frontmatter, replacing hand-curated listing
+- [Daily Automation](./daily_automation.md) — systemd timer, bot commits, install/verify scripts, S3 backup

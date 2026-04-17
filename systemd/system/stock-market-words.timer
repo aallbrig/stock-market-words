@@ -4,10 +4,11 @@ Documentation=https://github.com/aallbright/stock-market-words
 Requires=stock-market-words.service
 
 [Timer]
-# Run at 6PM EST (23:00 UTC) every day
-# Note: This is 23:00 UTC for EST (winter), 22:00 UTC for EDT (summer)
-# Using 23:00 UTC to ensure it runs after market close (4PM EST)
-OnCalendar=*-*-* 23:00:00
+# Run at 23:00 UTC on weekdays only (Mon-Fri)
+# - During EST (Nov-Mar): 23:00 UTC = 6:00 PM ET — 2h after market close
+# - During EDT (Mar-Nov): 23:00 UTC = 7:00 PM ET — 3h after market close
+# US market holidays are harmless: pipeline is idempotent, produces no new data
+OnCalendar=Mon..Fri *-*-* 23:00:00
 
 # If system was down, run on next boot (but wait 5 minutes)
 Persistent=true
