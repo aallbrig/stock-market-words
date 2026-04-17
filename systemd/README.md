@@ -7,9 +7,12 @@ Runs the data pipeline on weekday evenings and commits results as
 
 - `system/stock-market-words.service` — oneshot service: `ticker-cli run-all` → git commit → (optional) S3 backup
 - `system/stock-market-words.timer` — fires Mon–Fri at 23:00 UTC (~6–7 PM ET)
+- `system/pia-rotate.service` — rotates PIA VPN IP before pipeline (graceful if PIA absent)
+- `system/pia-rotate.timer` — fires Mon–Fri at 22:30 UTC (30 min before pipeline)
 - `scripts/install.sh` — automated setup on a fresh Ubuntu host
 - `scripts/verify.sh` — non-destructive health checks (run any time)
 - `scripts/git-commit-and-push.sh` — commits as `stockmarketwords-bot`
+- `scripts/pia-rotate.sh` — VPN rotation wrapper (logs, verifies, degrades gracefully)
 - `scripts/backup-db-s3.sh` — optional S3 backup (see [ADR](../docs/design/20260417_015817_UTC_s3_database_backup.md))
 
 ## Quick Start
@@ -64,6 +67,7 @@ Files changed: 42
 | Setting | Value |
 |---------|-------|
 | **When** | Mon–Fri 23:00 UTC |
+| **VPN rotation** | Mon–Fri 22:30 UTC (30 min before pipeline) |
 | **EST/EDT** | 6 PM EST (winter) / 7 PM EDT (summer) |
 | **On boot** | 5 min after startup if a run was missed |
 | **Jitter** | ±5 min (`RandomizedDelaySec`) |
@@ -129,6 +133,31 @@ curl -sI https://query1.finance.yahoo.com | head -1
 sudo chown -R smw:smw /opt/stock-market-words
 ```
 
+## VPN IP Rotation (PIA)
+
+The pipeline uses PIA VPN to rotate IP addresses for Yahoo Finance rate-limit
+mitigation. Two layers:
+
+1. **Proactive:** `pia-rotate.timer` fires at 22:30 UTC (30 min before pipeline),
+   runs `pia-rotate.sh` to disconnect/reconnect with a fresh IP.
+2. **Reactive:** `vpn_rotator.py` in the Python CLI attempts VPN rotation when
+   a 429 rate limit is hit mid-run (up to 5 rotations per run).
+
+Both layers degrade gracefully — if `piactl` is not installed or PIA is not
+connected, warnings appear in the logs and the pipeline falls back to
+exponential backoff only.
+
+### One-time PIA setup
+
+```bash
+piactl background enable          # Allow headless operation
+piactl set killswitch on          # Prevent DNS leaks during rotation
+sudo systemctl enable --now pia-rotate.timer
+```
+
+See [VPN rotation spec](../docs/specs/vpn_ip_rotation.md) and
+[research](../docs/research/20260417_023220_UTC_vpn_ip_rotation.md).
+
 ## S3 Backup (Optional)
 
 See the full ADR: [`docs/design/20260417_015817_UTC_s3_database_backup.md`](../docs/design/20260417_015817_UTC_s3_database_backup.md)
@@ -141,6 +170,7 @@ the service file and configure AWS credentials for the `smw` user.
 | Item | Path |
 |------|------|
 | Service/Timer | `/etc/systemd/system/stock-market-words.*` |
+| PIA rotation | `/etc/systemd/system/pia-rotate.*` |
 | Repository | `/opt/stock-market-words/` |
 | Python venv | `/opt/stock-market-words/python3/venv/` |
 | Database | `/opt/stock-market-words/data/market_data.db` |
@@ -151,7 +181,10 @@ the service file and configure AWS credentials for the `smw` user.
 ```bash
 sudo systemctl stop stock-market-words.timer
 sudo systemctl disable stock-market-words.timer
+sudo systemctl stop pia-rotate.timer
+sudo systemctl disable pia-rotate.timer
 sudo rm /etc/systemd/system/stock-market-words.{service,timer}
+sudo rm -f /etc/systemd/system/pia-rotate.{service,timer}
 sudo systemctl daemon-reload
 # Optionally: sudo rm -rf /opt/stock-market-words && sudo userdel -r smw
 ```
@@ -161,4 +194,6 @@ sudo systemctl daemon-reload
 - [Architecture overview](../docs/design/20260408_013203_UTC_architecture_overview.md)
 - [Data pipeline](../docs/design/20260408_013203_UTC_data_pipeline.md)
 - [S3 backup ADR](../docs/design/20260417_015817_UTC_s3_database_backup.md)
+- [VPN rotation spec](../docs/specs/vpn_ip_rotation.md)
+- [VPN rotation research](../docs/research/20260417_023220_UTC_vpn_ip_rotation.md)
 - [Daily automation spec](../docs/specs/daily_automation.md)

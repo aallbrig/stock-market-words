@@ -1,0 +1,16 @@
+[Unit]
+Description=Rotate PIA VPN IP before stock pipeline
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/stock-market-words/systemd/scripts/pia-rotate.sh
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=pia-rotate
+
+# Don't fail the pipeline if rotation fails
+TimeoutStartSec=60

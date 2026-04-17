@@ -9,6 +9,7 @@ from .utils import get_today
 from .database import get_connection, record_pipeline_step
 from .logging_setup import setup_logging
 from .retry import get_retry_tracker, get_request_metrics, BackoffLimitExceeded
+from .vpn_rotator import get_vpn_rotator
 
 logger = setup_logging()
 
@@ -175,6 +176,20 @@ def extract_prices(dry_run=False, limit=None, run_id=None):
                 time.sleep(1)
         
         except BackoffLimitExceeded as e:
+            # Attempt VPN rotation before giving up
+            vpn = get_vpn_rotator()
+            if vpn.should_rotate():
+                logger.info("Rate limit exceeded — attempting VPN IP rotation...")
+                if vpn.rotate_ip():
+                    logger.info("VPN rotated successfully. Resetting backoff and continuing.")
+                    retry_tracker.reset('yahoo_finance_batch')
+                    time.sleep(3)  # let new IP propagate
+                    continue
+                else:
+                    logger.error("VPN rotation failed. Halting price extraction.")
+            else:
+                logger.error("VPN rotation unavailable. Halting price extraction.")
+
             logger.error(f"CRITICAL: {e}")
             logger.error(f"Processed {processed:,} of {total:,} tickers before hitting rate limit threshold")
             logger.error("Pipeline is idempotent - re-run 'run-all' later to resume from this point")
@@ -464,6 +479,20 @@ def extract_metadata(dry_run=False, limit=None, run_id=None):
                     record_pipeline_step('extract-metadata', processed, 'in_progress', dry_run=False)
             
             except BackoffLimitExceeded as e:
+                # Attempt VPN rotation before giving up
+                vpn = get_vpn_rotator()
+                if vpn.should_rotate():
+                    logger.info("Rate limit exceeded — attempting VPN IP rotation...")
+                    if vpn.rotate_ip():
+                        logger.info("VPN rotated successfully. Resetting backoff and continuing.")
+                        retry_tracker.reset()  # reset all topics
+                        time.sleep(3)  # let new IP propagate
+                        continue  # retry next symbol in batch
+                    else:
+                        logger.error("VPN rotation failed. Halting metadata extraction.")
+                else:
+                    logger.error("VPN rotation unavailable. Halting metadata extraction.")
+
                 logger.error(f"CRITICAL: {e}")
                 logger.error(f"Processed {processed:,} of {total:,} tickers before hitting rate limit threshold")
                 logger.error("Pipeline is idempotent - re-run 'run-all' later to resume from this point")

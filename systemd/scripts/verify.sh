@@ -144,27 +144,48 @@ else
 fi
 
 # ── 7. Systemd timer ────────────────────────────────────────────────
-echo "── Systemd Timer ──"
+echo "── Systemd Timers ──"
 if systemctl is-enabled stock-market-words.timer &>/dev/null; then
-    check_pass "Timer is enabled"
+    check_pass "Pipeline timer is enabled"
 else
-    check_fail "Timer is not enabled — run: systemctl enable stock-market-words.timer"
+    check_fail "Pipeline timer is not enabled — run: systemctl enable stock-market-words.timer"
 fi
 
 if systemctl is-active stock-market-words.timer &>/dev/null; then
-    check_pass "Timer is active"
+    check_pass "Pipeline timer is active"
 else
-    check_fail "Timer is not active — run: systemctl start stock-market-words.timer"
+    check_fail "Pipeline timer is not active — run: systemctl start stock-market-words.timer"
 fi
 
 NEXT_FIRE=$(systemctl show stock-market-words.timer -p NextElapseUSecRealtime --value 2>/dev/null || echo "")
 if [[ -n "$NEXT_FIRE" && "$NEXT_FIRE" != "n/a" ]]; then
-    check_pass "Next fire: $NEXT_FIRE"
+    check_pass "Pipeline next fire: $NEXT_FIRE"
 else
-    check_warn "Could not determine next fire time"
+    check_warn "Could not determine pipeline next fire time"
 fi
 
-# ── 8. ticker-cli status ────────────────────────────────────────────
+if systemctl is-enabled pia-rotate.timer &>/dev/null; then
+    check_pass "PIA rotation timer is enabled"
+else
+    check_warn "PIA rotation timer is not enabled (optional — run: systemctl enable pia-rotate.timer)"
+fi
+
+# ── 8. PIA VPN ──────────────────────────────────────────────────────
+echo "── PIA VPN (Optional) ──"
+if command -v piactl &>/dev/null; then
+    check_pass "piactl is installed"
+    PIA_STATE=$(piactl get connectionstate 2>/dev/null || echo "Unknown")
+    if [[ "$PIA_STATE" == *"Connected"* ]]; then
+        PIA_IP=$(piactl get vpnip 2>/dev/null || echo "unknown")
+        check_pass "VPN connected (IP: $PIA_IP)"
+    else
+        check_warn "VPN not connected (state: $PIA_STATE) — rotation will be skipped"
+    fi
+else
+    check_warn "piactl not installed — VPN rotation disabled (pipeline still works via backoff)"
+fi
+
+# ── 9. ticker-cli status ────────────────────────────────────────────
 echo "── Pipeline Status ──"
 STATUS_OUTPUT=$(sudo -u "$SERVICE_USER" bash -c "cd '$REPO_DIR/python3' && source venv/bin/activate && ticker-cli status" 2>&1) || true
 if echo "$STATUS_OUTPUT" | grep -qi "error\|traceback"; then

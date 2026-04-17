@@ -84,12 +84,21 @@ info "Scripts marked executable"
 # ── Step 6: Install systemd units ───────────────────────────────────
 cp "$REPO_DIR/systemd/system/stock-market-words.service" /etc/systemd/system/
 cp "$REPO_DIR/systemd/system/stock-market-words.timer" /etc/systemd/system/
+cp "$REPO_DIR/systemd/system/pia-rotate.service" /etc/systemd/system/
+cp "$REPO_DIR/systemd/system/pia-rotate.timer" /etc/systemd/system/
 systemctl daemon-reload
 info "Systemd units installed and daemon reloaded"
 
-# ── Step 7: Enable and start timer ──────────────────────────────────
+# ── Step 7: Enable and start timers ─────────────────────────────────
 systemctl enable --now stock-market-words.timer
-info "Timer enabled and started"
+info "Pipeline timer enabled and started"
+
+if command -v piactl &>/dev/null; then
+    systemctl enable --now pia-rotate.timer
+    info "PIA rotation timer enabled and started"
+else
+    warn "piactl not found — PIA rotation timer not enabled (install PIA to enable)"
+fi
 
 # ── Summary ──────────────────────────────────────────────────────────
 echo ""

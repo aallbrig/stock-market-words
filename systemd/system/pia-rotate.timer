@@ -1,0 +1,13 @@
+[Unit]
+Description=Rotate PIA VPN IP 30min before stock pipeline (Mon-Fri)
+Documentation=https://github.com/aallbright/stock-market-words
+
+[Timer]
+# Run at 22:30 UTC on weekdays — 30 minutes before pipeline at 23:00 UTC
+OnCalendar=Mon..Fri *-*-* 22:30:00
+
+# If system was down, rotate on next boot
+Persistent=true
+
+[Install]
+WantedBy=timers.target

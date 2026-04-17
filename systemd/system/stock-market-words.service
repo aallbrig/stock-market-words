@@ -1,7 +1,7 @@
 [Unit]
 Description=Stock Market Words Data Pipeline
 Documentation=https://github.com/aallbright/stock-market-words
-After=network-online.target
+After=network-online.target pia-rotate.service
 Wants=network-online.target
 
 [Service]

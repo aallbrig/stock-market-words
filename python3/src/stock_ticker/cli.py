@@ -759,6 +759,11 @@ def run_all(ctx, limit, force, clean):
     nasdaq_ftp_reachable = check_ftp_server(FTP_HOST)
     yahoo_finance_reachable = check_yahoo_finance(YAHOO_API_HOST)
     
+    # Check VPN availability for rate-limit mitigation
+    from .vpn_rotator import get_vpn_rotator
+    vpn = get_vpn_rotator()
+    vpn.is_available()  # logs availability status
+    
     # Create pipeline run record
     from .database import create_pipeline_run, update_pipeline_run
     run_id = create_pipeline_run(today, nasdaq_ftp_reachable, yahoo_finance_reachable)
