@@ -363,6 +363,7 @@ def extract_metadata(dry_run=False, limit=None, run_id=None):
                 # NEW: Extract sector/industry (for tickers table)
                 sector = info.get('sector')
                 industry = info.get('industry')
+                business_summary = info.get('longBusinessSummary')
                 
                 # NEW: Valuation metrics
                 pe_ratio = info.get('trailingPE')
@@ -427,14 +428,14 @@ def extract_metadata(dry_run=False, limit=None, run_id=None):
                     rs = gain / loss
                     rsi_14 = float(100 - (100 / (1 + rs.iloc[-1]))) if not pd.isna(rs.iloc[-1]) else None
                 
-                # Update tickers table with sector/industry and REIT flag
-                if sector or industry:
+                # Update tickers table with sector/industry, REIT flag, and business summary
+                if sector or industry or business_summary:
                     is_reit = 1 if (industry or '').startswith('REIT') else 0
                     cursor.execute("""
                         UPDATE tickers
-                        SET sector = ?, industry = ?, is_reit = ?
+                        SET sector = ?, industry = ?, is_reit = ?, business_summary = ?
                         WHERE symbol = ?
-                    """, (sector, industry, is_reit, symbol))
+                    """, (sector, industry, is_reit, business_summary, symbol))
                 
                 # Update database with ALL fields
                 cursor.execute("""

@@ -719,7 +719,8 @@ def generate_all_tickers_json(dry_run=False):
             ss.falling_knife_score,
             ss.over_hyped_score,
             ss.inst_whale_score,
-            ss.reit_radar_score
+            ss.reit_radar_score,
+            t.business_summary
         FROM tickers t
         JOIN daily_metrics dm ON t.symbol = dm.symbol
         LEFT JOIN strategy_scores ss ON t.symbol = ss.symbol AND ss.date = dm.date
@@ -811,6 +812,7 @@ def generate_all_tickers_json(dry_run=False):
                 'reitRadar': int(row[23]) if row[23] is not None else None,
             },
             'scoresHistory': scores_history,
+            'businessSummary': row[24] if row[24] else None,
         })
 
     output = {

@@ -39,6 +39,7 @@
   </div>
   <p class="lead text-muted">{{ $name }}</p>
   {{ if .Params.industry }}<p class="text-muted">{{ .Params.industry }}</p>{{ end }}
+  {{ if .Params.businessSummary }}<p class="business-summary">{{ .Params.businessSummary }}</p>{{ end }}
 
   <div class="row g-4">
 
