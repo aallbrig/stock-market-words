@@ -1,7 +1,13 @@
 {{ define "main" }}
-{{- $sym    := .Params.symbol }}
-{{- $name   := .Params.name }}
-{{- $scores := .Params.scores }}
+{{- $sym           := .Params.symbol }}
+{{- $name          := .Params.name }}
+{{- $scores        := .Params.scores }}
+{{- $sparkOn       := and site.Params.enableStrategyHistoryChart .Params.scoresHistory }}
+{{- $sparkHistory  := "" }}
+{{- if $sparkOn }}{{ $sparkHistory = .Params.scoresHistory | jsonify }}{{ end }}
+{{- $progressOn    := site.Params.enableStrategyProgressBar }}
+{{- $deltaOn       := and site.Params.enableStrategyDeltaChip .Params.scoresHistory }}
+{{- $deltaHistory  := .Params.scoresHistory }}
 
 {{/* Build scored strategies list for interpretation */}}
 {{- $scoresList := slice -}}
@@ -123,11 +129,14 @@
             <div>
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/dividend-daddy/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_dividend_daddy" }}</a>
-                <strong>{{ . }}/100</strong>
+                <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "dividendDaddy" "current" . "history" $deltaHistory) }}{{ end }}</span>
               </div>
+              {{ if $progressOn }}
               <div class="progress" style="height:10px">
                 <div class="progress-bar bg-success" style="width:{{ . }}%"></div>
               </div>
+              {{ end }}
+              {{ if $sparkOn }}<div class="sparkline-wrap" style="position:relative;height:56px;width:100%;margin-top:0.25rem"><canvas class="strategy-sparkline" data-window="{{ site.Params.strategySparklineWindow | default 5 }}" data-strategy="dividendDaddy" data-color="#198754" data-history='{{ $sparkHistory }}'></canvas></div>{{ end }}
               <small class="text-muted">{{ i18n "strategy_dividend_daddy_long" }}</small>
             </div>
             {{ end }}
@@ -136,11 +145,14 @@
             <div>
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/moon-shot/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_moon_shot" }}</a>
-                <strong>{{ . }}/100</strong>
+                <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "moonShot" "current" . "history" $deltaHistory) }}{{ end }}</span>
               </div>
+              {{ if $progressOn }}
               <div class="progress" style="height:10px">
                 <div class="progress-bar bg-warning" style="width:{{ . }}%"></div>
               </div>
+              {{ end }}
+              {{ if $sparkOn }}<div class="sparkline-wrap" style="position:relative;height:56px;width:100%;margin-top:0.25rem"><canvas class="strategy-sparkline" data-window="{{ site.Params.strategySparklineWindow | default 5 }}" data-strategy="moonShot" data-color="#ffc107" data-history='{{ $sparkHistory }}'></canvas></div>{{ end }}
               <small class="text-muted">{{ i18n "strategy_moon_shot_long" }}</small>
             </div>
             {{ end }}
@@ -149,11 +161,14 @@
             <div>
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/falling-knife/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_falling_knife" }}</a>
-                <strong>{{ . }}/100</strong>
+                <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "fallingKnife" "current" . "history" $deltaHistory) }}{{ end }}</span>
               </div>
+              {{ if $progressOn }}
               <div class="progress" style="height:10px">
                 <div class="progress-bar bg-danger" style="width:{{ . }}%"></div>
               </div>
+              {{ end }}
+              {{ if $sparkOn }}<div class="sparkline-wrap" style="position:relative;height:56px;width:100%;margin-top:0.25rem"><canvas class="strategy-sparkline" data-window="{{ site.Params.strategySparklineWindow | default 5 }}" data-strategy="fallingKnife" data-color="#dc3545" data-history='{{ $sparkHistory }}'></canvas></div>{{ end }}
               <small class="text-muted">{{ i18n "strategy_falling_knife_long" }}</small>
             </div>
             {{ end }}
@@ -162,11 +177,14 @@
             <div>
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/over-hyped/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_over_hyped_alt" }}</a>
-                <strong>{{ . }}/100</strong>
+                <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "overHyped" "current" . "history" $deltaHistory) }}{{ end }}</span>
               </div>
+              {{ if $progressOn }}
               <div class="progress" style="height:10px">
                 <div class="progress-bar bg-info" style="width:{{ . }}%"></div>
               </div>
+              {{ end }}
+              {{ if $sparkOn }}<div class="sparkline-wrap" style="position:relative;height:56px;width:100%;margin-top:0.25rem"><canvas class="strategy-sparkline" data-window="{{ site.Params.strategySparklineWindow | default 5 }}" data-strategy="overHyped" data-color="#0dcaf0" data-history='{{ $sparkHistory }}'></canvas></div>{{ end }}
               <small class="text-muted">{{ i18n "strategy_over_hyped_long" }}</small>
             </div>
             {{ end }}
@@ -175,11 +193,14 @@
             <div>
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/institutional-whale/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_institutional_whale" }}</a>
-                <strong>{{ . }}/100</strong>
+                <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "instWhale" "current" . "history" $deltaHistory) }}{{ end }}</span>
               </div>
+              {{ if $progressOn }}
               <div class="progress" style="height:10px">
                 <div class="progress-bar bg-primary" style="width:{{ . }}%"></div>
               </div>
+              {{ end }}
+              {{ if $sparkOn }}<div class="sparkline-wrap" style="position:relative;height:56px;width:100%;margin-top:0.25rem"><canvas class="strategy-sparkline" data-window="{{ site.Params.strategySparklineWindow | default 5 }}" data-strategy="instWhale" data-color="#0d6efd" data-history='{{ $sparkHistory }}'></canvas></div>{{ end }}
               <small class="text-muted">{{ i18n "strategy_institutional_whale_long" }}</small>
             </div>
             {{ end }}
@@ -188,11 +209,14 @@
             <div>
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/reit-radar/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_reit_radar" }}</a>
-                <strong>{{ . }}/100</strong>
+                <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "reitRadar" "current" . "history" $deltaHistory) }}{{ end }}</span>
               </div>
+              {{ if $progressOn }}
               <div class="progress" style="height:10px">
                 <div class="progress-bar" style="width:{{ . }}%;background-color:#20c997"></div>
               </div>
+              {{ end }}
+              {{ if $sparkOn }}<div class="sparkline-wrap" style="position:relative;height:56px;width:100%;margin-top:0.25rem"><canvas class="strategy-sparkline" data-window="{{ site.Params.strategySparklineWindow | default 5 }}" data-strategy="reitRadar" data-color="#20c997" data-history='{{ $sparkHistory }}'></canvas></div>{{ end }}
               <small class="text-muted">{{ i18n "strategy_reit_radar_long" }}</small>
             </div>
             {{ end }}
@@ -296,4 +320,8 @@
   </p>
 
 </div>
+{{ if $sparkOn }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+<script src="{{ "js/strategy-sparklines.js" | relURL }}" defer></script>
+{{ end }}
 {{ end }}

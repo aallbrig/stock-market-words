@@ -5,6 +5,7 @@ Generate data files and markdown pages for the Hugo site based on SQLite databas
 import json
 import csv
 import pandas as pd
+from collections import defaultdict
 from pathlib import Path
 from datetime import datetime
 from .config import DB_PATH, BASE_DIR, TMP_DIR
@@ -674,11 +675,19 @@ def generate_all_tickers_json(dry_run=False):
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Get the most recent date with price data
-    cursor.execute("SELECT MAX(date) FROM daily_metrics WHERE price IS NOT NULL")
+    # Use the most recent date where BOTH daily_metrics and strategy_scores
+    # have data. If only daily_metrics has today's row (e.g., extract-prices
+    # ran but build hasn't yet), the LEFT JOIN would return NULL scores for
+    # every ticker, silently breaking the strategy card on every page.
+    cursor.execute("""
+        SELECT MAX(dm.date)
+        FROM daily_metrics dm
+        WHERE dm.price IS NOT NULL
+          AND EXISTS (SELECT 1 FROM strategy_scores ss WHERE ss.date = dm.date)
+    """)
     result = cursor.fetchone()
     if not result or not result[0]:
-        logger.warning("No data found in daily_metrics. Run 'ticker-cli run-all' first.")
+        logger.warning("No date has both daily_metrics and strategy_scores. Run 'ticker-cli run-all' first.")
         conn.close()
         return
 
@@ -722,7 +731,31 @@ def generate_all_tickers_json(dry_run=False):
 
     cursor.execute(query, (latest_date,))
     rows = cursor.fetchall()
+
+    # Fetch last 10 distinct trading days of strategy scores for the sparklines
+    # on the ticker detail page. Single batched query rather than per-symbol.
+    cursor.execute("""
+        SELECT DISTINCT date FROM strategy_scores
+        ORDER BY date DESC LIMIT 10
+    """)
+    history_dates = sorted(r[0] for r in cursor.fetchall())  # ascending
+    history_by_symbol = defaultdict(list)
+    if history_dates:
+        placeholders = ','.join('?' * len(history_dates))
+        cursor.execute(f"""
+            SELECT symbol, date,
+                   dividend_daddy_score, moon_shot_score, falling_knife_score,
+                   over_hyped_score, inst_whale_score, reit_radar_score
+            FROM strategy_scores
+            WHERE date IN ({placeholders})
+        """, history_dates)
+        for h in cursor.fetchall():
+            history_by_symbol[h[0]].append(h[1:])
+
     conn.close()
+
+    def _int_or_none(v):
+        return int(v) if v is not None else None
 
     def safe_float(value, decimals=2):
         if value is None:
@@ -737,6 +770,19 @@ def generate_all_tickers_json(dry_run=False):
 
     tickers = []
     for row in rows:
+        raw_history = sorted(history_by_symbol.get(row[0], []), key=lambda r: r[0])
+        scores_history = [
+            {
+                'date': d,
+                'dividendDaddy': _int_or_none(dd),
+                'moonShot':      _int_or_none(ms),
+                'fallingKnife':  _int_or_none(fk),
+                'overHyped':     _int_or_none(oh),
+                'instWhale':     _int_or_none(iw),
+                'reitRadar':     _int_or_none(rr),
+            }
+            for (d, dd, ms, fk, oh, iw, rr) in raw_history
+        ]
         tickers.append({
             'symbol': row[0],
             'name': row[1],
@@ -763,7 +809,8 @@ def generate_all_tickers_json(dry_run=False):
                 'overHyped': int(row[21]) if row[21] is not None else None,
                 'instWhale': int(row[22]) if row[22] is not None else None,
                 'reitRadar': int(row[23]) if row[23] is not None else None,
-            }
+            },
+            'scoresHistory': scores_history,
         })
 
     output = {

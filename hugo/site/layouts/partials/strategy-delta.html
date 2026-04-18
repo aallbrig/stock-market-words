@@ -1,0 +1,38 @@
+{{- /*
+  Renders a 1-day delta chip next to a strategy score, comparing the
+  current score to the most recent *prior* day in scoresHistory (i.e.
+  yesterday's trading session). Emits nothing if no prior value exists.
+
+  Context: { "key": "dividendDaddy", "current": 30, "history": [...] }
+*/ -}}
+{{- $key := .key -}}
+{{- $current := .current -}}
+{{- $history := .history -}}
+{{- $len := len $history -}}
+{{- $prior := 0 -}}
+{{- $priorDate := "" -}}
+{{- $found := false -}}
+{{- /* Walk the history in reverse, skipping the last row (today) and
+     stopping at the first non-null prior value. */ -}}
+{{- range $i, $row := $history -}}
+  {{- $idx := sub (sub $len 2) $i -}}
+  {{- if and (not $found) (ge $idx 0) -}}
+    {{- $candidate := index $history $idx -}}
+    {{- $v := index $candidate $key -}}
+    {{- if ne $v nil -}}
+      {{- $prior = $v -}}
+      {{- $priorDate = $candidate.date -}}
+      {{- $found = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if and $found (ne $current nil) -}}
+  {{- $delta := sub (int $current) (int $prior) -}}
+  {{- if gt $delta 0 -}}
+    <span class="badge rounded-pill bg-success-subtle text-success-emphasis ms-2 align-middle" title="vs {{ $priorDate }}" style="font-size:0.7em;font-weight:500">▲ +{{ $delta }}</span>
+  {{- else if lt $delta 0 -}}
+    <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis ms-2 align-middle" title="vs {{ $priorDate }}" style="font-size:0.7em;font-weight:500">▼ {{ $delta }}</span>
+  {{- else -}}
+    <span class="badge rounded-pill bg-secondary-subtle text-muted ms-2 align-middle" title="vs {{ $priorDate }}" style="font-size:0.7em;font-weight:500">— 0</span>
+  {{- end -}}
+{{- end -}}

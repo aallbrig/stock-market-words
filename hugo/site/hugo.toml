@@ -48,6 +48,25 @@ adSlotArticle = ""
 # Set via environment variable HUGO_PARAMS_ADSLOTSTRATEGY in production
 adSlotStrategy = ""
 
+# Feature flag: 10-day strategy score sparklines on ticker detail pages.
+# When true, a full-width sparkline renders per strategy. Pairs with
+# enableStrategyProgressBar=false to replace the bar with the chart.
+enableStrategyHistoryChart = true
+
+# Number of most recent trading days to plot in each sparkline. The
+# underlying data pipeline fetches up to 10 days; this slices the tail.
+strategySparklineWindow = 5
+
+# Feature flag: classic 10px progress bars per strategy. Set to false
+# when enableStrategyHistoryChart is true to swap the bar for the spark.
+enableStrategyProgressBar = false
+
+# Feature flag: per-strategy delta chip on ticker detail pages (e.g.
+# "▲+3" next to each strategy score, comparing today's score to the
+# earliest score in the 10-day history window). When false, ticker
+# pages render exactly as they did before the feature was added.
+enableStrategyDeltaChip = true
+
 # Latest Article Banner Configuration
 # Set this to announce a new article to all visitors
 # Banner is dismissable (expires in 7 days per user)
