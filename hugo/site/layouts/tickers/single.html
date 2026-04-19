@@ -127,7 +127,7 @@
           <div class="d-flex flex-column gap-3">
 
             {{ with index $scores "dividendDaddy" }}
-            <div>
+            <div class="strategy-row" data-strategy="dividendDaddy">
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/dividend-daddy/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_dividend_daddy" }}</a>
                 <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "dividendDaddy" "current" . "history" $deltaHistory) }}{{ end }}</span>
@@ -143,7 +143,7 @@
             {{ end }}
 
             {{ with index $scores "moonShot" }}
-            <div>
+            <div class="strategy-row" data-strategy="moonShot">
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/moon-shot/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_moon_shot" }}</a>
                 <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "moonShot" "current" . "history" $deltaHistory) }}{{ end }}</span>
@@ -159,7 +159,7 @@
             {{ end }}
 
             {{ with index $scores "fallingKnife" }}
-            <div>
+            <div class="strategy-row" data-strategy="fallingKnife">
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/falling-knife/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_falling_knife" }}</a>
                 <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "fallingKnife" "current" . "history" $deltaHistory) }}{{ end }}</span>
@@ -175,7 +175,7 @@
             {{ end }}
 
             {{ with index $scores "overHyped" }}
-            <div>
+            <div class="strategy-row" data-strategy="overHyped">
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/over-hyped/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_over_hyped_alt" }}</a>
                 <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "overHyped" "current" . "history" $deltaHistory) }}{{ end }}</span>
@@ -191,7 +191,7 @@
             {{ end }}
 
             {{ with index $scores "instWhale" }}
-            <div>
+            <div class="strategy-row" data-strategy="instWhale">
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/institutional-whale/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_institutional_whale" }}</a>
                 <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "instWhale" "current" . "history" $deltaHistory) }}{{ end }}</span>
@@ -207,7 +207,7 @@
             {{ end }}
 
             {{ with index $scores "reitRadar" }}
-            <div>
+            <div class="strategy-row" data-strategy="reitRadar">
               <div class="d-flex justify-content-between mb-1">
                 <a href="{{ "/strategy/reit-radar/" | relLangURL }}" class="text-decoration-none">{{ i18n "strategy_reit_radar" }}</a>
                 <span><strong>{{ . }}/100</strong>{{ if $deltaOn }}{{ partial "strategy-delta.html" (dict "key" "reitRadar" "current" . "history" $deltaHistory) }}{{ end }}</span>
@@ -324,5 +324,8 @@
 {{ if $sparkOn }}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
 <script src="{{ "js/strategy-sparklines.js" | relURL }}" defer></script>
+{{ end }}
+{{ if $deltaOn }}
+<script src="{{ "js/strategy-delta-live.js" | relURL }}" defer></script>
 {{ end }}
 {{ end }}

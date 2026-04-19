@@ -29,10 +29,10 @@
 {{- if and $found (ne $current nil) -}}
   {{- $delta := sub (int $current) (int $prior) -}}
   {{- if gt $delta 0 -}}
-    <span class="badge rounded-pill bg-success-subtle text-success-emphasis ms-2 align-middle" title="vs {{ $priorDate }}" style="font-size:0.7em;font-weight:500">▲ +{{ $delta }}</span>
+    <span class="strategy-delta badge rounded-pill bg-success-subtle text-success-emphasis ms-2 align-middle" data-strategy="{{ $key }}" data-latest-score="{{ $current }}" title="vs {{ $priorDate }}" style="font-size:0.7em;font-weight:500">▲ +{{ $delta }}</span>
   {{- else if lt $delta 0 -}}
-    <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis ms-2 align-middle" title="vs {{ $priorDate }}" style="font-size:0.7em;font-weight:500">▼ {{ $delta }}</span>
+    <span class="strategy-delta badge rounded-pill bg-danger-subtle text-danger-emphasis ms-2 align-middle" data-strategy="{{ $key }}" data-latest-score="{{ $current }}" title="vs {{ $priorDate }}" style="font-size:0.7em;font-weight:500">▼ {{ $delta }}</span>
   {{- else -}}
-    <span class="badge rounded-pill bg-secondary-subtle text-muted ms-2 align-middle" title="vs {{ $priorDate }}" style="font-size:0.7em;font-weight:500">— 0</span>
+    <span class="strategy-delta badge rounded-pill bg-secondary-subtle text-muted ms-2 align-middle" data-strategy="{{ $key }}" data-latest-score="{{ $current }}" title="vs {{ $priorDate }}" style="font-size:0.7em;font-weight:500">— 0</span>
   {{- end -}}
 {{- end -}}

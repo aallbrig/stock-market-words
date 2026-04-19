@@ -100,6 +100,8 @@
       return;
     }
 
+    var row = el.closest('.strategy-row');
+
     new Chart(el, {
       type: 'line',
       data: {
@@ -147,7 +149,36 @@
           y: { display: false },
         },
         interaction: { mode: 'nearest', intersect: false, axis: 'x' },
+        onHover: function (_event, elements) {
+          if (!row) return;
+          if (elements.length > 0) {
+            var idx = elements[0].index;
+            var score = scores[idx];
+            var date = labels[idx];
+            if (score !== null && score !== undefined) {
+              row.dispatchEvent(new CustomEvent('strategy-spark:hover', {
+                bubbles: false,
+                detail: { strategy: strategy, score: score, date: date }
+              }));
+            }
+          } else {
+            row.dispatchEvent(new CustomEvent('strategy-spark:leave', {
+              bubbles: false,
+              detail: { strategy: strategy }
+            }));
+          }
+        },
       },
+    });
+
+    // Fallback: Chart.js onHover with empty elements can be unreliable
+    // on fast mouse exits, so also listen for mouseleave on the canvas.
+    el.addEventListener('mouseleave', function () {
+      if (!row) return;
+      row.dispatchEvent(new CustomEvent('strategy-spark:leave', {
+        bubbles: false,
+        detail: { strategy: strategy }
+      }));
     });
   }
 

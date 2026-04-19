@@ -58,7 +58,7 @@ test.describe('Strategy delta chip — ticker page', () => {
       const response = await route.fetch();
       let body = await response.text();
       body = body.replace(
-        /<span class="badge rounded-pill[\s\S]*?<\/span>/g,
+        /<span class="strategy-delta badge rounded-pill[\s\S]*?<\/span>/g,
         ''
       );
       await route.fulfill({ response, body, headers: response.headers() });
