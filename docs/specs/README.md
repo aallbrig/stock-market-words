@@ -116,3 +116,4 @@ Helps the next person understand the decision.
 - [Daily Automation](./daily_automation.md) — systemd timer, bot commits, install/verify scripts, S3 backup
 - [VPN IP Rotation](./vpn_ip_rotation.md) — PIA VPN rotation for Yahoo Finance rate-limit mitigation
 - [Ticker Strategy History Chart](./ticker_strategy_history_chart.md) — 10-day strategy score line chart on ticker pages, Hugo-flag gated
+- [Sparkline ↔ Delta Chip Sync](./sparkline_delta_sync.md) — hover a sparkline point to update the delta chip dynamically, event-driven and decoupled
