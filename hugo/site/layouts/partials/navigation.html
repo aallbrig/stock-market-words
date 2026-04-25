@@ -6,7 +6,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       {{/* Ticker lookup — compact widget, centered in the navbar */}}
-      <form id="nav-ticker-lookup-form" class="d-flex gap-2 mx-auto"
+      <form id="nav-ticker-lookup-form" class="d-flex gap-2"
             role="search" aria-label="{{ i18n "nav_lookup_placeholder" }}">
         <div class="position-relative" style="width:14rem;">
           <input type="text"
@@ -21,7 +21,7 @@
         </button>
       </form>
 
-      <ul class="navbar-nav">
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a class="nav-link{{ if hasPrefix .RelPermalink "/articles" }} active" aria-current="page{{ end }}" href="{{ "/articles/" | relLangURL }}">{{ i18n "nav_articles" }}</a>
         </li>

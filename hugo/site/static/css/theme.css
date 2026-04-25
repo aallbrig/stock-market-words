@@ -148,3 +148,17 @@ body {
     align-self: flex-start;
   }
 }
+
+/* Truly center the nav search bar within the full navbar width.
+   mx-auto alone can't do this because #navbarNav starts after the brand.
+   Absolute positioning relative to the container achieves true centering. */
+@media (min-width: 992px) {
+  .navbar > .container {
+    position: relative;
+  }
+  #nav-ticker-lookup-form {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
