@@ -5,23 +5,23 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      {{/* Ticker lookup — compact widget, sits before nav links on desktop */}}
-      <form id="nav-ticker-lookup-form" class="d-flex gap-1 me-lg-2"
+      {{/* Ticker lookup — compact widget, centered in the navbar */}}
+      <form id="nav-ticker-lookup-form" class="d-flex gap-2 mx-auto"
             role="search" aria-label="{{ i18n "nav_lookup_placeholder" }}">
-        <div class="position-relative" style="width:8rem;">
+        <div class="position-relative" style="width:14rem;">
           <input type="text"
                  id="nav-ticker-lookup-input"
-                 class="form-control form-control-sm"
+                 class="form-control"
                  placeholder="{{ i18n "nav_lookup_placeholder" }}"
                  autocomplete="off"
                  autocapitalize="characters">
         </div>
-        <button type="submit" class="btn btn-outline-light btn-sm">
+        <button type="submit" class="btn btn-outline-light">
           {{ i18n "nav_lookup_btn" }}
         </button>
       </form>
 
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link{{ if hasPrefix .RelPermalink "/articles" }} active" aria-current="page{{ end }}" href="{{ "/articles/" | relLangURL }}">{{ i18n "nav_articles" }}</a>
         </li>
