@@ -149,16 +149,13 @@ body {
   }
 }
 
-/* Truly center the nav search bar within the full navbar width.
-   mx-auto alone can't do this because #navbarNav starts after the brand.
-   Absolute positioning relative to the container achieves true centering. */
-@media (min-width: 992px) {
-  .navbar > .container {
-    position: relative;
-  }
-  #nav-ticker-lookup-form {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+/* Sub-nav ticker search bar — sits below the main navbar */
+.ticker-search-bar {
+  background-color: #1a77a9; /* darker than Cerulean primary (#2fa4e7) */
+  padding: 0.6rem 0;
+}
+
+.ticker-search-bar__input-wrap {
+  width: 28rem;
+  max-width: 100%;
 }

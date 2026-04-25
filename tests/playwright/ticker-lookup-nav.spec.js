@@ -91,20 +91,17 @@ test.describe('Nav Bar Ticker Lookup Widget', () => {
     await expect(dropdown).toContainText('TSLA');
   });
 
-  test('nav widget visible inside mobile hamburger menu', async ({ page }) => {
+  test('nav search bar is always visible on mobile (below the navbar)', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
 
-    // On mobile the nav collapses — the input is hidden inside the hamburger.
+    // The search bar lives in a persistent strip below the navbar, so it is
+    // always visible on mobile — no hamburger interaction needed.
     const input = page.locator(NAV_INPUT);
-    await expect(input).not.toBeVisible();
+    await expect(input).toBeVisible({ timeout: 5000 });
 
-    // Open the hamburger.
+    // The nav links are still hidden behind the hamburger toggler.
     const toggler = page.locator('.navbar-toggler');
     await expect(toggler).toBeVisible({ timeout: 5000 });
-    await toggler.click();
-
-    // The input should now be visible inside the expanded nav.
-    await expect(input).toBeVisible({ timeout: 5000 });
   });
 });

@@ -5,22 +5,6 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      {{/* Ticker lookup — compact widget, centered in the navbar */}}
-      <form id="nav-ticker-lookup-form" class="d-flex gap-2"
-            role="search" aria-label="{{ i18n "nav_lookup_placeholder" }}">
-        <div class="position-relative" style="width:14rem;">
-          <input type="text"
-                 id="nav-ticker-lookup-input"
-                 class="form-control"
-                 placeholder="{{ i18n "nav_lookup_placeholder" }}"
-                 autocomplete="off"
-                 autocapitalize="characters">
-        </div>
-        <button type="submit" class="btn btn-outline-light">
-          {{ i18n "nav_lookup_btn" }}
-        </button>
-      </form>
-
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a class="nav-link{{ if hasPrefix .RelPermalink "/articles" }} active" aria-current="page{{ end }}" href="{{ "/articles/" | relLangURL }}">{{ i18n "nav_articles" }}</a>
@@ -104,3 +88,23 @@
     </div>
   </div>
 </nav>
+
+{{/* Ticker search bar — full-width strip below the main nav */}}
+<div class="ticker-search-bar">
+  <div class="container">
+    <form id="nav-ticker-lookup-form" class="d-flex justify-content-center gap-3"
+          role="search" aria-label="{{ i18n "nav_lookup_placeholder" }}">
+      <div class="position-relative ticker-search-bar__input-wrap">
+        <input type="text"
+               id="nav-ticker-lookup-input"
+               class="form-control form-control-lg"
+               placeholder="{{ i18n "nav_lookup_placeholder" }}"
+               autocomplete="off"
+               autocapitalize="characters">
+      </div>
+      <button type="submit" class="btn btn-light btn-lg">
+        {{ i18n "nav_lookup_btn" }}
+      </button>
+    </form>
+  </div>
+</div>
