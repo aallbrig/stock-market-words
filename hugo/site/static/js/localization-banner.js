@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var banner = document.getElementById('localization-banner');
   var closeBtn = document.getElementById('localization-banner-close');
 
-  if (localStorage.getItem(STORAGE_KEY) === 'true') {
-    banner.classList.add('hidden');
+  if (localStorage.getItem(STORAGE_KEY) !== 'true') {
+    banner.classList.remove('hidden');
   }
 
   if (closeBtn) {
