@@ -152,7 +152,7 @@ body {
 /* Sub-nav ticker search bar — sits below the main navbar */
 .ticker-search-bar {
   background-color: #1a77a9; /* darker than Cerulean primary (#2fa4e7) */
-  padding: 0.4rem 0;
+  padding: 0.6rem 0;
 }
 
 .ticker-search-bar__input-wrap {
