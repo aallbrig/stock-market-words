@@ -54,5 +54,12 @@
 
   <script src="{{ .Site.BaseURL }}/js/localization-banner.js"></script>
   <script src="{{ .Site.BaseURL }}/js/article-banner.js"></script>
+
+  {{/* Ticker lookup — loaded on all pages to power the nav bar widget */}}
+  <script>
+    window.SITE_BASE_URL = window.SITE_BASE_URL || '{{ .Site.BaseURL }}';
+    window.SITE_LANG    = window.SITE_LANG    || '{{ .Site.Language.Lang }}';
+  </script>
+  <script src="{{ .Site.BaseURL }}js/ticker-lookup.js" defer></script>
 </body>
 </html>

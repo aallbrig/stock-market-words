@@ -773,3 +773,9 @@ other = "Contact"
 
 [nav_tickers]
 other = "Tickers"
+
+[nav_lookup_placeholder]
+other = "Ticker symbol…"
+
+[nav_lookup_btn]
+other = "Go"

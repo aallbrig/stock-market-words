@@ -68,10 +68,14 @@
       <div class="card-body">
         <h5 class="card-title">{{ i18n "home_lookup_title" }}</h5>
         <p class="card-text text-muted">{{ i18n "shortcode_lookup_desc" }}</p>
-        <form id="ticker-lookup-form" class="d-flex gap-2" onsubmit="return tickerLookup(event)">
-          <input type="text" id="ticker-lookup-input" class="form-control" placeholder="{{ i18n "home_lookup_placeholder" }}" maxlength="10" style="max-width: 200px;" autocomplete="off" autocapitalize="characters">
+        <form id="ticker-lookup-form" class="d-flex gap-2">
+          <div style="position:relative;max-width:200px;flex:1 1 auto;">
+            <input type="text" id="ticker-lookup-input" class="form-control" placeholder="{{ i18n "home_lookup_placeholder" }}" autocomplete="off" autocapitalize="characters">
+          </div>
           <button type="submit" class="btn btn-outline-primary">{{ i18n "home_go_btn" }}</button>
         </form>
+        <div id="ticker-lookup-error" style="display:none;"></div>
+        <div id="ticker-recent-lookups" style="display:none;" class="mt-2"></div>
         <small class="text-muted mt-2 d-block">
           {{ i18n "home_browse_prefix" }} <a href="{{ "/filtered-data/" | relLangURL }}">{{ i18n "home_browse_link" }} {{ len .Site.Data.all_tickers.tickers }} {{ i18n "home_browse_suffix" }}</a>
         </small>
@@ -79,11 +83,3 @@
     </div>
   </div>
 </div>
-<script>
-function tickerLookup(e) {
-  e.preventDefault();
-  const sym = document.getElementById('ticker-lookup-input').value.trim().toLowerCase();
-  if (sym) window.location.href = '{{ "/" | relLangURL }}tickers/' + sym + '/';
-  return false;
-}
-</script>

@@ -117,3 +117,5 @@ Helps the next person understand the decision.
 - [VPN IP Rotation](./vpn_ip_rotation.md) — PIA VPN rotation for Yahoo Finance rate-limit mitigation
 - [Ticker Strategy History Chart](./ticker_strategy_history_chart.md) — 10-day strategy score line chart on ticker pages, Hugo-flag gated
 - [Sparkline ↔ Delta Chip Sync](./sparkline_delta_sync.md) — hover a sparkline point to update the delta chip dynamically, event-driven and decoupled
+- [Ticker Lookup Enhancements](./ticker_lookup_enhancements.md) — autocomplete by symbol/name, not-found feedback, recent lookups chips
+- [Ticker Lookup in Navigation Bar](./ticker_lookup_nav.md) — compact nav-bar widget on all pages, multi-instance refactor of ticker-lookup.js

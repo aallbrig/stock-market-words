@@ -88,6 +88,22 @@
           </ul>
         </li>
       </ul>
+
+      {{/* Ticker lookup — compact widget available on every page via the nav bar */}}
+      <form id="nav-ticker-lookup-form" class="d-flex gap-1 ms-lg-2"
+            role="search" aria-label="{{ i18n "nav_lookup_placeholder" }}">
+        <div class="position-relative" style="width:8rem;">
+          <input type="text"
+                 id="nav-ticker-lookup-input"
+                 class="form-control form-control-sm"
+                 placeholder="{{ i18n "nav_lookup_placeholder" }}"
+                 autocomplete="off"
+                 autocapitalize="characters">
+        </div>
+        <button type="submit" class="btn btn-outline-light btn-sm">
+          {{ i18n "nav_lookup_btn" }}
+        </button>
+      </form>
     </div>
   </div>
 </nav>

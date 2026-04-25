@@ -773,3 +773,9 @@ other = "联系我们"
 
 [nav_tickers]
 other = "股票代码"
+
+[nav_lookup_placeholder]
+other = "股票代码…"
+
+[nav_lookup_btn]
+other = "查找"
