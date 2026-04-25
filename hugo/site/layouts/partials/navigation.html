@@ -90,21 +90,19 @@
 </nav>
 
 {{/* Ticker search bar — full-width strip below the main nav */}}
-<div class="ticker-search-bar" style="background-color:#1a77a9;padding:.6rem 0;">
-  <div class="container">
-    <form id="nav-ticker-lookup-form" class="d-flex justify-content-center gap-3"
-          role="search" aria-label="{{ i18n "nav_lookup_placeholder" }}">
-      <div class="position-relative" style="width:28rem;max-width:100%;">
-        <input type="text"
-               id="nav-ticker-lookup-input"
-               class="form-control"
-               placeholder="{{ i18n "nav_lookup_placeholder" }}"
-               autocomplete="off"
-               autocapitalize="characters">
-      </div>
-      <button type="submit" class="btn btn-light">
-        {{ i18n "nav_lookup_btn" }}
-      </button>
-    </form>
-  </div>
+<div style="background-color:#1a77a9;padding:.5rem 1rem;display:flex;justify-content:center;">
+  <form id="nav-ticker-lookup-form" class="d-flex gap-3"
+        role="search" aria-label="{{ i18n "nav_lookup_placeholder" }}">
+    <div class="position-relative" style="width:28rem;max-width:80vw;">
+      <input type="text"
+             id="nav-ticker-lookup-input"
+             class="form-control"
+             placeholder="{{ i18n "nav_lookup_placeholder" }}"
+             autocomplete="off"
+             autocapitalize="characters">
+    </div>
+    <button type="submit" class="btn btn-light">
+      {{ i18n "nav_lookup_btn" }}
+    </button>
+  </form>
 </div>
