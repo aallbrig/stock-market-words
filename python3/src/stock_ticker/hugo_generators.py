@@ -840,10 +840,11 @@ def generate_ticker_lookup_json(dry_run=False):
     list consumed by ticker-lookup.js for client-side autocomplete and
     not-found validation.
 
-    Only tickers that have at least one daily_metrics row with a non-null price
-    are included (same universe as the main site pages).  Uses compact JSON
-    serialisation and short keys ('s', 'n') to keep the payload small
-    (~200–250 KB uncompressed, ~55–70 KB gzipped).
+    Uses the exact same date and quality filters as generate_all_tickers_json so
+    that the autocomplete universe matches the set of pages that Hugo actually
+    generates.  Suggesting a ticker that has no page would lead to a 404 on
+    selection.  Uses compact JSON serialisation and short keys ('s', 'n') to keep
+    the payload small (~100–150 KB uncompressed, ~35–50 KB gzipped).
     """
     if dry_run:
         logger.info("DRY RUN: Would generate ticker-lookup.json")
@@ -856,13 +857,34 @@ def generate_ticker_lookup_json(dry_run=False):
     conn = get_connection()
     cursor = conn.cursor()
 
+    # Resolve the same "latest date" used by generate_all_tickers_json: the most
+    # recent date that has BOTH daily_metrics prices AND strategy_scores rows.
+    cursor.execute("""
+        SELECT MAX(dm.date)
+        FROM daily_metrics dm
+        WHERE dm.price IS NOT NULL
+          AND EXISTS (SELECT 1 FROM strategy_scores ss WHERE ss.date = dm.date)
+    """)
+    result = cursor.fetchone()
+    if not result or not result[0]:
+        logger.warning("No date has both daily_metrics and strategy_scores — skipping ticker-lookup.json generation.")
+        conn.close()
+        return
+
+    latest_date = result[0]
+    logger.info(f"Using latest data from: {latest_date}")
+
+    # Apply the same quality filters as generate_all_tickers_json so every entry
+    # in the autocomplete corresponds to a page the site actually generates.
     cursor.execute("""
         SELECT DISTINCT t.symbol, t.name
         FROM tickers t
         INNER JOIN daily_metrics dm ON t.symbol = dm.symbol
-        WHERE dm.price IS NOT NULL
+        WHERE dm.date = ?
+          AND (dm.price >= 5.0 OR dm.market_cap >= 1000000000 OR dm.volume >= 10000000)
+          AND dm.volume >= 100000
         ORDER BY t.symbol
-    """)
+    """, (latest_date,))
     rows = cursor.fetchall()
     conn.close()
 
