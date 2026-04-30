@@ -1,108 +1,24 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container">
-    <a class="navbar-brand" href="{{ "/" | relLangURL }}">{{ i18n "nav_brand" }}</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="{{ i18n "nav_toggle" }}">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link{{ if hasPrefix .RelPermalink "/articles" }} active" aria-current="page{{ end }}" href="{{ "/articles/" | relLangURL }}">{{ i18n "nav_articles" }}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link{{ if hasPrefix .RelPermalink "/tickers" }} active" aria-current="page{{ end }}" href="{{ "/tickers/" | relLangURL }}">{{ i18n "nav_tickers" }}</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle{{ if or (hasPrefix .RelPermalink "/strateg") (hasPrefix .RelPermalink "/strategy") }} active{{ end }}" href="#" id="navbarStrategyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ i18n "nav_strategies" }}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarStrategyDropdown">
-            <li><a class="dropdown-item" href="{{ "/strategies/" | relLangURL }}">{{ i18n "nav_strategy_overview" }}</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{ "/strategy/dividend-daddy/" | relLangURL }}">{{ i18n "strategy_dividend_daddy" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/strategy/moon-shot/" | relLangURL }}">{{ i18n "strategy_moon_shot" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/strategy/falling-knife/" | relLangURL }}">{{ i18n "strategy_falling_knife" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/strategy/over-hyped/" | relLangURL }}">{{ i18n "strategy_over_hyped" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/strategy/institutional-whale/" | relLangURL }}">{{ i18n "strategy_institutional_whale" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/strategy/reit-radar/" | relLangURL }}">{{ i18n "strategy_reit_radar" }}</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle{{ if or (eq .RelPermalink "/data/") (eq .RelPermalink "/methodology/") (eq .RelPermalink "/raw-ftp-data/") (eq .RelPermalink "/filtered-data/") (eq .RelPermalink "/glossary/") (eq .RelPermalink "/about/") (eq .RelPermalink "/contact/") }} active{{ end }}" href="#" id="navbarMoreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ i18n "nav_more" }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarMoreDropdown">
-            <li><a class="dropdown-item" href="{{ "/data/" | relLangURL }}">{{ i18n "nav_data_overview" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/methodology/" | relLangURL }}">{{ i18n "nav_methodology" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/glossary/" | relLangURL }}">{{ i18n "nav_glossary" }}</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{ "/raw-ftp-data/" | relLangURL }}">{{ i18n "nav_raw_ftp_data" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/filtered-data/" | relLangURL }}">{{ i18n "nav_filtered_tickers" }}</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{ "/about/" | relLangURL }}">{{ i18n "nav_about" }}</a></li>
-            <li><a class="dropdown-item" href="{{ "/contact/" | relLangURL }}">{{ i18n "nav_contact" }}</a></li>
-          </ul>
-        </li>
-        {{/* Language switcher — dropdown, auto-scales to any number of languages */}}
-        {{ $page := . }}
-        {{/* Build a map of lang code → translated permalink for this page */}}
-        {{ $translationURLs := dict }}
-        {{ range .Translations }}
-          {{ $translationURLs = merge $translationURLs (dict .Language.Lang .RelPermalink) }}
-        {{ end }}
-        {{/* Find the default language (lowest weight) to know which lang lives at "/" */}}
-        {{ $defaultLang := "" }}
-        {{ $minWeight := 9999 }}
-        {{ range $page.Site.Languages }}
-          {{ if lt .Weight $minWeight }}
-            {{ $defaultLang = .Lang }}
-            {{ $minWeight = .Weight }}
-          {{ end }}
-        {{ end }}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="langSwitcherDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select language">
-            🌐 {{ .Language.LanguageName }}{{ if ne .Language.Lang $defaultLang }} 🚧{{ end }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langSwitcherDropdown">
-            {{ range $page.Site.Languages }}
-              {{ $isCurrent := eq .Lang $page.Language.Lang }}
-              {{ $href := index $translationURLs .Lang }}
-              {{ if not $href }}
-                {{ if eq .Lang $defaultLang }}
-                  {{ $href = "/" }}
-                {{ else }}
-                  {{ $href = printf "/%s/" .Lang }}
-                {{ end }}
-              {{ end }}
-              <li>
-                {{ if $isCurrent }}
-                  <span class="dropdown-item active" aria-current="true">✓ {{ .LanguageName }}{{ if ne .Lang $defaultLang }} 🚧{{ end }}</span>
-                {{ else }}
-                  <a class="dropdown-item" href="{{ $href }}">{{ .LanguageName }}{{ if ne .Lang $defaultLang }} 🚧{{ end }}</a>
-                {{ end }}
-              </li>
-            {{ end }}
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+{{/*
+  navigation.html — feature-flag router
+  Reads navStyle from site params and delegates to the appropriate variant.
+  Also inlines the navigation data as JSON for client-side schema validation.
 
-{{/* Ticker search bar — full-width strip below the main nav */}}
-<div style="background-color:#1a77a9;padding:.5rem 1rem;display:flex;justify-content:center;">
-  <form id="nav-ticker-lookup-form" class="d-flex gap-3"
-        role="search" aria-label="{{ i18n "nav_lookup_placeholder" }}">
-    <div class="position-relative" style="width:28rem;max-width:80vw;">
-      <input type="text"
-             id="nav-ticker-lookup-input"
-             class="form-control"
-             placeholder="{{ i18n "nav_lookup_placeholder" }}"
-             autocomplete="off"
-             autocapitalize="characters">
-    </div>
-    <button type="submit" class="btn btn-light">
-      {{ i18n "nav_lookup_btn" }}
-    </button>
-  </form>
-</div>
+  navStyle = "classic"   → navigation-classic.html   (collapsible, default)
+  navStyle = "offcanvas" → navigation-offcanvas.html  (Bootstrap 5.3 offcanvas)
+
+  To switch variants, change [params] navStyle in hugo.toml.
+*/}}
+
+{{/* Inline navigation data for runtime schema validation.
+     Use a JS global (not application/json script tag) so Hugo's minifier
+     does not double-encode the JSON object into a JSON string. */}}
+<script>window.__navigationData__ = {{ .Site.Data.navigation | jsonify | safeJS }};</script>
+
+{{ if eq site.Params.navStyle "offcanvas" }}
+  {{ partial "navigation-offcanvas.html" . }}
+{{ else }}
+  {{ partial "navigation-classic.html" . }}
+{{ end }}
+
+{{/* Runtime schema validation — ES module, auto-deferred by the browser */}}
+<script type="module" src="{{ "js/nav-schema-validate.js" | relURL }}"></script>

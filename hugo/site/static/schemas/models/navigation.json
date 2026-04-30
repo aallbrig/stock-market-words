@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stockmarketwords.com/schemas/models/navigation.json",
+  "title": "Navigation",
+  "description": "Site navigation data structure — drives both classic and offcanvas navbar variants.",
+  "type": "object",
+  "required": ["brand", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "brand": {
+      "description": "The navbar brand/logo link.",
+      "type": "object",
+      "required": ["i18nKey", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "i18nKey": { "type": "string", "description": "Hugo i18n key for the brand label." },
+        "url":     { "type": "string", "description": "Root-relative URL for the brand link." }
+      }
+    },
+    "items": {
+      "description": "Top-level navigation items. Language switcher is always auto-generated and not included here.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          { "$ref": "#/$defs/navLink" },
+          { "$ref": "#/$defs/navDropdown" }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "navLink": {
+      "title": "NavLink",
+      "description": "A simple top-level navigation link.",
+      "type": "object",
+      "required": ["type", "i18nKey", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "type":         { "const": "link" },
+        "i18nKey":      { "type": "string", "description": "Hugo i18n key for the link label." },
+        "url":          { "type": "string", "description": "Root-relative URL." },
+        "activePrefix": { "type": "string", "description": "If the current page's RelPermalink starts with this value, the link is marked active." }
+      }
+    },
+    "navDropdown": {
+      "title": "NavDropdown",
+      "description": "A top-level dropdown menu.",
+      "type": "object",
+      "required": ["type", "i18nKey", "id", "items"],
+      "additionalProperties": false,
+      "properties": {
+        "type":            { "const": "dropdown" },
+        "i18nKey":         { "type": "string", "description": "Hugo i18n key for the dropdown toggle label." },
+        "id":              { "type": "string",  "description": "HTML id for the toggle button (used by aria-labelledby)." },
+        "alignEnd":        { "type": "boolean", "description": "When true, applies dropdown-menu-end to right-align the menu." },
+        "activePrefixes":  {
+          "type": "array",
+          "description": "The dropdown toggle is marked active when any of these strings is a prefix of the current page's RelPermalink.",
+          "items": { "type": "string" }
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Dropdown menu entries.",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/$defs/dropdownLink" },
+              { "$ref": "#/$defs/dropdownDivider" }
+            ]
+          }
+        }
+      }
+    },
+    "dropdownLink": {
+      "title": "DropdownLink",
+      "description": "A link inside a dropdown menu.",
+      "type": "object",
+      "required": ["type", "i18nKey", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "type":    { "const": "link" },
+        "i18nKey": { "type": "string", "description": "Hugo i18n key for the link label." },
+        "url":     { "type": "string", "description": "Root-relative URL." }
+      }
+    },
+    "dropdownDivider": {
+      "title": "DropdownDivider",
+      "description": "A horizontal rule divider inside a dropdown menu.",
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "divider" }
+      }
+    }
+  }
+}

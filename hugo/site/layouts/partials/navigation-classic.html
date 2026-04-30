@@ -1,0 +1,81 @@
+{{/*
+  navigation-classic.html
+  Collapsible navbar (Bootstrap 5.3 navbar-expand-lg).
+  Driven by .Site.Data.navigation — do not hardcode links here.
+  Language switcher is auto-generated via nav-language-switcher.html.
+*/}}
+{{ $nav := .Site.Data.navigation }}
+{{ $page := . }}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="{{ $nav.brand.url | relLangURL }}">{{ i18n $nav.brand.i18nKey }}</a>
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false"
+            aria-label="{{ i18n "nav_toggle" }}">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        {{ range $nav.items }}
+          {{ if eq .type "link" }}
+            {{/* Simple top-level link */}}
+            {{ $active := and .activePrefix (hasPrefix $page.RelPermalink .activePrefix) }}
+            <li class="nav-item">
+              <a class="nav-link{{ if $active }} active" aria-current="page{{ end }}"
+                 href="{{ .url | relLangURL }}">{{ i18n .i18nKey }}</a>
+            </li>
+
+          {{ else if eq .type "dropdown" }}
+            {{/* Dropdown — check activePrefixes */}}
+            {{ $isActive := false }}
+            {{ range .activePrefixes }}
+              {{ if hasPrefix $page.RelPermalink . }}{{ $isActive = true }}{{ end }}
+            {{ end }}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle{{ if $isActive }} active{{ end }}"
+                 href="#" id="{{ .id }}" role="button"
+                 data-bs-toggle="dropdown" aria-expanded="false">
+                {{ i18n .i18nKey }}
+              </a>
+              <ul class="dropdown-menu{{ if .alignEnd }} dropdown-menu-end{{ end }}"
+                  aria-labelledby="{{ .id }}">
+                {{ range .items }}
+                  {{ if eq .type "link" }}
+                    <li><a class="dropdown-item" href="{{ .url | relLangURL }}">{{ i18n .i18nKey }}</a></li>
+                  {{ else if eq .type "divider" }}
+                    <li><hr class="dropdown-divider"></li>
+                  {{ end }}
+                {{ end }}
+              </ul>
+            </li>
+          {{ end }}
+        {{ end }}
+
+        {{/* Language switcher — auto-generated from site config */}}
+        {{ partial "nav-language-switcher.html" $page }}
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{{/* Ticker search bar — full-width strip below the main nav */}}
+<div style="background-color:#1a77a9;padding:.5rem 1rem;display:flex;justify-content:center;">
+  <form id="nav-ticker-lookup-form" class="d-flex gap-3"
+        role="search" aria-label="{{ i18n "nav_lookup_placeholder" }}">
+    <div class="position-relative" style="width:28rem;max-width:80vw;">
+      <input type="text"
+             id="nav-ticker-lookup-input"
+             class="form-control"
+             placeholder="{{ i18n "nav_lookup_placeholder" }}"
+             autocomplete="off"
+             autocapitalize="characters">
+    </div>
+    <button type="submit" class="btn btn-light">
+      {{ i18n "nav_lookup_btn" }}
+    </button>
+  </form>
+</div>

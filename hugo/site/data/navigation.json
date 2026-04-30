@@ -1,0 +1,54 @@
+{
+  "brand": {
+    "i18nKey": "nav_brand",
+    "url": "/"
+  },
+  "items": [
+    {
+      "type": "link",
+      "i18nKey": "nav_articles",
+      "url": "/articles/",
+      "activePrefix": "/articles"
+    },
+    {
+      "type": "link",
+      "i18nKey": "nav_tickers",
+      "url": "/tickers/",
+      "activePrefix": "/tickers"
+    },
+    {
+      "type": "dropdown",
+      "i18nKey": "nav_strategies",
+      "id": "navbarStrategyDropdown",
+      "activePrefixes": ["/strateg"],
+      "items": [
+        { "type": "link", "i18nKey": "nav_strategy_overview", "url": "/strategies/" },
+        { "type": "divider" },
+        { "type": "link", "i18nKey": "strategy_dividend_daddy",      "url": "/strategy/dividend-daddy/" },
+        { "type": "link", "i18nKey": "strategy_moon_shot",           "url": "/strategy/moon-shot/" },
+        { "type": "link", "i18nKey": "strategy_falling_knife",       "url": "/strategy/falling-knife/" },
+        { "type": "link", "i18nKey": "strategy_over_hyped",          "url": "/strategy/over-hyped/" },
+        { "type": "link", "i18nKey": "strategy_institutional_whale", "url": "/strategy/institutional-whale/" },
+        { "type": "link", "i18nKey": "strategy_reit_radar",          "url": "/strategy/reit-radar/" }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "i18nKey": "nav_more",
+      "id": "navbarMoreDropdown",
+      "alignEnd": true,
+      "activePrefixes": ["/data/", "/methodology/", "/raw-ftp-data/", "/filtered-data/", "/glossary/", "/about/", "/contact/"],
+      "items": [
+        { "type": "link", "i18nKey": "nav_data_overview",    "url": "/data/" },
+        { "type": "link", "i18nKey": "nav_methodology",      "url": "/methodology/" },
+        { "type": "link", "i18nKey": "nav_glossary",         "url": "/glossary/" },
+        { "type": "divider" },
+        { "type": "link", "i18nKey": "nav_raw_ftp_data",     "url": "/raw-ftp-data/" },
+        { "type": "link", "i18nKey": "nav_filtered_tickers", "url": "/filtered-data/" },
+        { "type": "divider" },
+        { "type": "link", "i18nKey": "nav_about",    "url": "/about/" },
+        { "type": "link", "i18nKey": "nav_contact",  "url": "/contact/" }
+      ]
+    }
+  ]
+}

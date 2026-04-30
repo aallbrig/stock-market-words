@@ -67,6 +67,11 @@ enableStrategyProgressBar = false
 # pages render exactly as they did before the feature was added.
 enableStrategyDeltaChip = true
 
+# Navbar style. Controls which navbar variant is rendered.
+#   "classic"   — collapsible navbar (original style)
+#   "offcanvas" — Bootstrap 5.3 offcanvas slide-in menu
+navStyle = "offcanvas"
+
 # Latest Article Banner Configuration
 # Set this to announce a new article to all visitors
 # Banner is dismissable (expires in 7 days per user)

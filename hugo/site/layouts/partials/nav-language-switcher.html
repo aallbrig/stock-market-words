@@ -1,0 +1,50 @@
+{{/*
+  nav-language-switcher.html
+  Renders the language-switcher dropdown as a <li> nav item.
+  Auto-generated from site.Languages — not driven by navigation.json.
+  Expects the page as context (.).
+*/}}
+{{ $page := . }}
+
+{{/* Build lang → translated permalink map for the current page */}}
+{{ $translationURLs := dict }}
+{{ range .Translations }}
+  {{ $translationURLs = merge $translationURLs (dict .Language.Lang .RelPermalink) }}
+{{ end }}
+
+{{/* Determine the default language (lowest weight) */}}
+{{ $defaultLang := "" }}
+{{ $minWeight := 9999 }}
+{{ range $page.Site.Languages }}
+  {{ if lt .Weight $minWeight }}
+    {{ $defaultLang = .Lang }}
+    {{ $minWeight = .Weight }}
+  {{ end }}
+{{ end }}
+
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="langSwitcherDropdown" role="button"
+     data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select language">
+    🌐 {{ .Language.LanguageName }}{{ if ne .Language.Lang $defaultLang }} 🚧{{ end }}
+  </a>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langSwitcherDropdown">
+    {{ range $page.Site.Languages }}
+      {{ $isCurrent := eq .Lang $page.Language.Lang }}
+      {{ $href := index $translationURLs .Lang }}
+      {{ if not $href }}
+        {{ if eq .Lang $defaultLang }}
+          {{ $href = "/" }}
+        {{ else }}
+          {{ $href = printf "/%s/" .Lang }}
+        {{ end }}
+      {{ end }}
+      <li>
+        {{ if $isCurrent }}
+          <span class="dropdown-item active" aria-current="true">✓ {{ .LanguageName }}{{ if ne .Lang $defaultLang }} 🚧{{ end }}</span>
+        {{ else }}
+          <a class="dropdown-item" href="{{ $href }}">{{ .LanguageName }}{{ if ne .Lang $defaultLang }} 🚧{{ end }}</a>
+        {{ end }}
+      </li>
+    {{ end }}
+  </ul>
+</li>
