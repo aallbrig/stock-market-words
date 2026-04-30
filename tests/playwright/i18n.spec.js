@@ -96,10 +96,18 @@ test.describe('zh-CN Content Rendering', () => {
 // ─── 3. Language switcher ────────────────────────────────────────────────────
 
 test.describe('Language Switcher', () => {
+  // Helper: open the offcanvas nav then expand the language dropdown
+  async function openLangDropdown(page) {
+    await page.locator('button[data-bs-toggle="offcanvas"]').click();
+    await expect(page.locator('#offcanvasNavbar')).toBeVisible();
+    await page.locator('#langSwitcherDropdown').click();
+  }
+
   test('English page shows Chinese switcher link', async ({ page }) => {
     await page.goto('/about/');
-    // Should have a link with 中文 text pointing to /zh-cn/about/
-    const zhLink = page.locator('a.nav-link', { hasText: '中文' });
+    await openLangDropdown(page);
+    // dropdown-item link to the Chinese translation
+    const zhLink = page.locator('a.dropdown-item[href="/zh-cn/about/"]');
     await expect(zhLink).toBeVisible();
     const href = await zhLink.getAttribute('href');
     expect(href).toBe('/zh-cn/about/');
@@ -107,7 +115,9 @@ test.describe('Language Switcher', () => {
 
   test('Chinese page shows English switcher link', async ({ page }) => {
     await page.goto('/zh-cn/about/');
-    const enLink = page.locator('a.nav-link', { hasText: 'English' });
+    await openLangDropdown(page);
+    // dropdown-item link back to the English page
+    const enLink = page.locator('a.dropdown-item[href="/about/"]');
     await expect(enLink).toBeVisible();
     const href = await enLink.getAttribute('href');
     expect(href).toBe('/about/');
@@ -115,8 +125,8 @@ test.describe('Language Switcher', () => {
 
   test('Language switcher navigates to correct page', async ({ page }) => {
     await page.goto('/about/');
-    const zhLink = page.locator('a.nav-link', { hasText: '中文' });
-    await zhLink.click();
+    await openLangDropdown(page);
+    await page.locator('a.dropdown-item[href="/zh-cn/about/"]').click();
     await expect(page).toHaveURL(/\/zh-cn\/about\//);
     // Verify we landed on a Chinese page
     const lang = await page.locator('html').getAttribute('lang');

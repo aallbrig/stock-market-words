@@ -151,16 +151,23 @@ test.describe('Website Page Load Tests', () => {
 
     test('Navigation links are accessible', async ({ page }) => {
       await page.goto('/');
-      
-      // Check Home link
-      await expect(page.locator('a.nav-link[href="/"]')).toBeVisible();
-      
-      // Check About link
-      await expect(page.locator('a.nav-link[href="/about/"]')).toBeVisible();
-      
-      // Check Data dropdown
-      await expect(page.locator('#navbarDataDropdown')).toBeVisible();
-      
+
+      // Brand link (home) is always visible outside the offcanvas
+      await expect(page.locator('a.navbar-brand')).toBeVisible();
+
+      // Open the offcanvas navigation panel
+      const toggler = page.locator('button[data-bs-toggle="offcanvas"]');
+      await expect(toggler).toBeVisible();
+      await toggler.click();
+      await expect(page.locator('#offcanvasNavbar')).toBeVisible();
+
+      // Top-level nav links visible inside the open panel
+      await expect(page.locator('a.nav-link[href="/articles/"]')).toBeVisible();
+      await expect(page.locator('a.nav-link[href="/tickers/"]')).toBeVisible();
+
+      // Strategies dropdown toggle is present
+      await expect(page.locator('a[href="#offcanvasCollapse-navbarStrategyDropdown"]')).toBeVisible();
+
       console.log('✓ All navigation links present');
     });
   });
