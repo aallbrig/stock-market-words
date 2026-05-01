@@ -159,3 +159,10 @@ body {
   width: 28rem;
   max-width: 100%;
 }
+
+/* Offcanvas navbar: background only when collapsed (< md); transparent when expanded inline */
+@media (max-width: 767.98px) {
+  .offcanvas-navbar-panel {
+    background-color: var(--bs-primary);
+  }
+}
