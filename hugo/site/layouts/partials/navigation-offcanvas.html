@@ -1,16 +1,17 @@
 {{/*
   navigation-offcanvas.html
-  Bootstrap 5.3 offcanvas navbar.
+  Responsive Bootstrap 5.3 offcanvas navbar — offcanvas below md, expanded inline at md+.
   Driven by .Site.Data.navigation — do not hardcode links here.
   Language switcher is auto-generated via nav-language-switcher.html.
-  Reference: https://getbootstrap.com/docs/5.3/examples/navbars-offcanvas/
+  Reference: https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas
 */}}
 {{ $nav := .Site.Data.navigation }}
 {{ $page := . }}
 
-<nav class="navbar navbar-dark bg-primary">
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
   <div class="container">
     <a class="navbar-brand" href="{{ $nav.brand.url | relLangURL }}">{{ i18n $nav.brand.i18nKey }}</a>
+    {{/* Toggler hidden at md+ by navbar-expand-md */}}
     <button class="navbar-toggler" type="button"
             data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
             aria-controls="offcanvasNavbar"
@@ -19,16 +20,16 @@
     </button>
 
     {{/*
-      The offcanvas panel gets bg-primary so that navbar-dark's white link
-      colours (inherited from the outer <nav>) remain readable against the
-      same blue background used in the navbar bar itself.
+      offcanvas-md: renders as a slide-in panel below md, expands inline at md+.
+      bg-primary keeps the panel readable (white text) when in offcanvas mode.
     */}}
-    <div class="offcanvas offcanvas-end bg-primary" tabindex="-1"
+    <div class="offcanvas-md offcanvas-end bg-primary" tabindex="-1"
          id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header border-bottom border-white border-opacity-25">
         <h5 class="offcanvas-title text-white" id="offcanvasNavbarLabel">{{ i18n $nav.brand.i18nKey }}</h5>
         <button type="button" class="btn-close btn-close-white"
-                data-bs-dismiss="offcanvas" aria-label="{{ i18n "nav_toggle" }}"></button>
+                data-bs-dismiss="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-label="{{ i18n "nav_toggle" }}"></button>
       </div>
 
       <div class="offcanvas-body">
@@ -36,7 +37,6 @@
 
           {{ range $nav.items }}
             {{ if eq .type "link" }}
-              {{/* Simple link */}}
               {{ $active := and .activePrefix (hasPrefix $page.RelPermalink .activePrefix) }}
               <li class="nav-item">
                 <a class="nav-link{{ if $active }} active" aria-current="page{{ end }}"
@@ -44,32 +44,27 @@
               </li>
 
             {{ else if eq .type "dropdown" }}
-              {{/* Accordion-style sub-menu inside the offcanvas panel */}}
+              {{/* Bootstrap dropdown — renders inline inside offcanvas, as overlay when expanded */}}
               {{ $isActive := false }}
               {{ range .activePrefixes }}
                 {{ if hasPrefix $page.RelPermalink . }}{{ $isActive = true }}{{ end }}
               {{ end }}
-              {{ $collapseId := printf "offcanvasCollapse-%s" .id }}
-              <li class="nav-item">
+              <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle{{ if $isActive }} active{{ end }}"
-                   data-bs-toggle="collapse" href="#{{ $collapseId }}"
-                   role="button" aria-expanded="{{ if $isActive }}true{{ else }}false{{ end }}"
-                   aria-controls="{{ $collapseId }}">
+                   href="#" id="{{ .id }}" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
                   {{ i18n .i18nKey }}
                 </a>
-                <div class="collapse{{ if $isActive }} show{{ end }}" id="{{ $collapseId }}">
-                  <ul class="list-unstyled ps-3 mb-0">
-                    {{ range .items }}
-                      {{ if eq .type "link" }}
-                        <li>
-                          <a class="nav-link py-1" href="{{ .url | relLangURL }}">{{ i18n .i18nKey }}</a>
-                        </li>
-                      {{ else if eq .type "divider" }}
-                        <li><hr class="border-white border-opacity-25 my-1"></li>
-                      {{ end }}
+                <ul class="dropdown-menu{{ if .alignEnd }} dropdown-menu-end{{ end }}"
+                    aria-labelledby="{{ .id }}">
+                  {{ range .items }}
+                    {{ if eq .type "link" }}
+                      <li><a class="dropdown-item" href="{{ .url | relLangURL }}">{{ i18n .i18nKey }}</a></li>
+                    {{ else if eq .type "divider" }}
+                      <li><hr class="dropdown-divider"></li>
                     {{ end }}
-                  </ul>
-                </div>
+                  {{ end }}
+                </ul>
               </li>
             {{ end }}
           {{ end }}

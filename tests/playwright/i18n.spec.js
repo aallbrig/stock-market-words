@@ -98,6 +98,8 @@ test.describe('zh-CN Content Rendering', () => {
 test.describe('Language Switcher', () => {
   // Helper: open the offcanvas nav then expand the language dropdown
   async function openLangDropdown(page) {
+    // Use mobile viewport so the offcanvas toggler is visible (it's hidden at md+)
+    await page.setViewportSize({ width: 375, height: 812 });
     await page.locator('button[data-bs-toggle="offcanvas"]').click();
     await expect(page.locator('#offcanvasNavbar')).toBeVisible();
     await page.locator('#langSwitcherDropdown').click();

@@ -150,6 +150,8 @@ test.describe('Website Page Load Tests', () => {
     });
 
     test('Navigation links are accessible', async ({ page }) => {
+      // Use mobile viewport so the offcanvas toggler is visible (it's hidden at md+)
+      await page.setViewportSize({ width: 375, height: 812 });
       await page.goto('/');
 
       // Brand link (home) is always visible outside the offcanvas
@@ -166,7 +168,7 @@ test.describe('Website Page Load Tests', () => {
       await expect(page.locator('a.nav-link[href="/tickers/"]')).toBeVisible();
 
       // Strategies dropdown toggle is present
-      await expect(page.locator('a[href="#offcanvasCollapse-navbarStrategyDropdown"]')).toBeVisible();
+      await expect(page.locator('#navbarStrategyDropdown')).toBeVisible();
 
       console.log('✓ All navigation links present');
     });
