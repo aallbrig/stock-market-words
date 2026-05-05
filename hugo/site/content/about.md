@@ -89,6 +89,8 @@ If you want to understand how the extraction engine works, start with **[How Tic
 
 If you want to understand the tradeoffs in the strategy pages, start with **[How to Read the Five Strategies](/articles/how-to-read-the-five-strategies/)**.
 
+{{< feedback_cta >}}
+
 ## Contact
 
 Questions, bug reports, and corrections are welcome. Visit the **[Contact](/contact/)** page.

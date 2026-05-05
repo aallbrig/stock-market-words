@@ -1,0 +1,15 @@
+{{ if .Site.Params.feedbackForm.enableFeedbackForm }}
+<div class="feedback-cta my-5 p-4 border rounded shadow-sm bg-white">
+  <div class="row align-items-center">
+    <div class="col-md-8">
+      <h3 class="h4 mb-2">Help us build the best ticker tool</h3>
+      <p class="text-muted mb-0">What data points are we missing? How can we make the site easier to use? We're building for you and would love to hear your feature wishlist.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+      <a href="{{ .Site.Params.feedbackForm.url }}" class="btn btn-success btn-lg px-4" target="_blank" rel="noopener">
+        Take the Survey
+      </a>
+    </div>
+  </div>
+</div>
+{{ end }}

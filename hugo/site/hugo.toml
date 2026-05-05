@@ -67,6 +67,15 @@ enableStrategyProgressBar = false
 # pages render exactly as they did before the feature was added.
 enableStrategyDeltaChip = true
 
+# Feedback Form Configuration
+# Used for collecting user feedback and feature requests
+[params.feedbackForm]
+enableFeedbackForm = true
+enableFeedbackBanner = true
+url = "https://forms.gle/U6Ex6EkWFbdQDJLX9"
+bannerText = "Help us improve Stock Market Words! Share your feedback and feature wishlist."
+bannerExpirationDays = 14
+
 # Navbar style. Controls which navbar variant is rendered.
 #   "classic"   — collapsible navbar (original style)
 #   "offcanvas" — Bootstrap 5.3 offcanvas slide-in menu

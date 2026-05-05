@@ -26,6 +26,20 @@
     </div>
   </div>
 
+  <!-- Feedback Survey Banner -->
+  {{ if .Site.Params.feedbackForm.enableFeedbackBanner }}
+  <div id="feedback-banner" class="feedback-banner hidden">
+    <div class="feedback-banner-content">
+      <div class="feedback-banner-message">
+        <strong>💡 Feedback:</strong> <a href="{{ .Site.Params.feedbackForm.url }}" target="_blank" rel="noopener">{{ .Site.Params.feedbackForm.bannerText }}</a>
+      </div>
+      <button id="feedback-banner-close" class="feedback-banner-close" aria-label="Dismiss feedback banner">
+        ✕
+      </button>
+    </div>
+  </div>
+  {{ end }}
+
   {{ partial "navigation.html" . }}
   <main class="flex-shrink-0">
     {{ block "main" . }}{{ end }}
@@ -50,10 +64,17 @@
       articleUrl: "{{ .Site.Params.latestArticle.url | default "" }}",
       expirationDays: {{ .Site.Params.latestArticle.expirationDays | default 7 }}
     };
+
+    window.feedbackBannerConfig = {
+      enabled: {{ .Site.Params.feedbackForm.enableFeedbackBanner | default false }},
+      url: "{{ .Site.Params.feedbackForm.url | default "" }}",
+      expirationDays: {{ .Site.Params.feedbackForm.bannerExpirationDays | default 14 }}
+    };
   </script>
 
   <script src="{{ .Site.BaseURL }}/js/localization-banner.js"></script>
   <script src="{{ .Site.BaseURL }}/js/article-banner.js"></script>
+  <script src="{{ .Site.BaseURL }}/js/feedback-banner.js"></script>
 
   {{/* Ticker lookup — loaded on all pages to power the nav bar widget */}}
   <script>

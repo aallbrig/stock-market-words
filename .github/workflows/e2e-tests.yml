@@ -61,6 +61,8 @@ jobs:
         START_SERVER: 'true'
         SERVER_PORT: '8668'
         SERVER_HOST: '127.0.0.1'
+        HUGO_PARAMS_FEEDBACKFORM_ENABLEFEEDBACKFORM: true
+        HUGO_PARAMS_FEEDBACKFORM_ENABLEFEEDBACKBANNER: true
       
     - name: Upload test reports
       if: always()

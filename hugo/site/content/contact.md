@@ -5,6 +5,8 @@ title: "Contact"
 
 Have a question, found a bug, or want to suggest a feature? We'd love to hear from you.
 
+{{< feedback_cta >}}
+
 ## Get in Touch
 
 **GitHub Issues** (preferred) — The best way to report bugs or suggest features:
