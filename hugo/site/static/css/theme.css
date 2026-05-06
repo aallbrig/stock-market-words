@@ -50,9 +50,9 @@ body {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .localization-banner {
-    padding: 12px 12px;
+    padding: 12px;
   }
 
   .localization-banner-content {
@@ -129,9 +129,9 @@ body {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .article-banner {
-    padding: 12px 12px;
+    padding: 12px;
   }
 
   .article-banner-content {
@@ -208,9 +208,9 @@ body {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .feedback-banner {
-    padding: 12px 12px;
+    padding: 12px;
   }
 
   .feedback-banner-content {
@@ -240,7 +240,7 @@ body {
 }
 
 /* Offcanvas navbar: background only when collapsed (< md); transparent when expanded inline */
-@media (max-width: 767.98px) {
+@media (width <= 767.98px) {
   .offcanvas-navbar-panel {
     background-color: var(--bs-primary);
   }

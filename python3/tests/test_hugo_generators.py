@@ -5,7 +5,6 @@ Validates that generated JSON files are valid and have correct structure.
 """
 import json
 import pytest
-from pathlib import Path
 from stock_ticker.hugo_generators import (
     generate_raw_ftp_data,
     generate_filtered_data,
@@ -29,7 +28,6 @@ class TestHugoDataGeneration:
         
         # Check for generated files
         nasdaq_file = output_dir / "raw_nasdaq.json"
-        other_file = output_dir / "raw_otherlisted.json"
         
         if nasdaq_file.exists():
             data = assert_valid_json_file(nasdaq_file)

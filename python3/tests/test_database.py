@@ -3,9 +3,7 @@ Tests for the database module.
 """
 import sqlite3
 import pytest
-from pathlib import Path
 from stock_ticker.database import (
-    get_connection,
     init_db,
     ensure_initialized,
     get_pipeline_state,

@@ -1,11 +1,8 @@
 """
 Database migration management.
 """
-import sqlite3
 import re
-from pathlib import Path
-from datetime import datetime
-from .config import DB_PATH, PROJECT_ROOT, PYTHON_DIR
+from .config import DB_PATH, PYTHON_DIR
 from .database import get_connection
 from .logging_setup import setup_logging
 

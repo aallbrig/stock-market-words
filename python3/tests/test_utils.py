@@ -1,7 +1,6 @@
 """
 Tests for utility functions.
 """
-import pytest
 from stock_ticker.utils import get_today, is_valid_symbol
 
 

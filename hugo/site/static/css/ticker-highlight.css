@@ -18,7 +18,7 @@
     color: #155724;
     font-weight: bold;
     background-color: #d4edda;
-    padding: 2px 0px;
+    padding: 2px 0;
     text-transform: uppercase;
     transition: background-color 0.2s;
 }
@@ -65,7 +65,7 @@
 .token-in-between,
 .token-outside-ticker {
     background-color: transparent;
-    padding: 2px 0px;
+    padding: 2px 0;
     opacity: 0.4;
     color: #6c757d;
 }

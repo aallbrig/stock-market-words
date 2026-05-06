@@ -8,7 +8,6 @@ so all get_connection() calls resolve to the temp file).
 
 import json
 import sqlite3
-import tempfile
 import time
 from pathlib import Path
 from unittest.mock import MagicMock, patch

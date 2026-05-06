@@ -1,0 +1,141 @@
+version: '3'
+
+tasks:
+
+  # ─── Development ────────────────────────────────────────────────────────────
+
+  dev:
+    desc: Start local development environment
+    cmds:
+      - task: hugo-server
+
+  hugo-server:
+    desc: Start Hugo dev server on port 1313 (increments if busy)
+    dir: hugo/site
+    cmds:
+      - |
+        PORT=1313
+        while lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; do
+          PORT=$((PORT+1))
+        done
+        echo "Starting Hugo server on http://localhost:$PORT"
+        hugo server --port $PORT
+
+  # ─── Pipeline ───────────────────────────────────────────────────────────────
+
+  run-all:
+    desc: Run the full data pipeline (sync → extract → build → hugo)
+    cmds:
+      - bash -c "source python3/venv/bin/activate && python -m stock_ticker.cli run-all; deactivate"
+
+  # ─── Status ─────────────────────────────────────────────────────────────────
+
+  status:
+    desc: Show CLI pipeline, dev server, and production status
+    cmds:
+      - task: status-cli
+      - task: status-dev
+      - task: status-prod
+
+  status-cli:
+    desc: Show ticker-cli pipeline status
+    cmds:
+      - python3/venv/bin/python -m stock_ticker.cli status
+
+  status-dev:
+    desc: Check whether a local Hugo server is running
+    cmds:
+      - |
+        PORT=1313
+        if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
+          echo "✓ Hugo server is running on http://localhost:$PORT"
+        else
+          echo "✗ No Hugo server detected on :$PORT  (run: task dev)"
+        fi
+
+  status-prod:
+    desc: Check whether stockmarketwords.com is reachable
+    cmds:
+      - |
+        STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 https://stockmarketwords.com/)
+        if [ "$STATUS" = "200" ]; then
+          echo "✓ stockmarketwords.com is up  (HTTP $STATUS)"
+        else
+          echo "✗ stockmarketwords.com returned HTTP $STATUS"
+          exit 1
+        fi
+
+  # ─── Lint ───────────────────────────────────────────────────────────────────
+
+  lint:
+    desc: Run all linters in parallel
+    deps: [lint-py, lint-js, lint-css, lint-hugo]
+
+  lint-py:
+    desc: Lint Python source (ruff preferred, falls back to flake8)
+    dir: python3
+    cmds:
+      - |
+        if [ -f venv/bin/ruff ]; then
+          venv/bin/ruff check src/ tests/
+        elif [ -f venv/bin/flake8 ]; then
+          venv/bin/flake8 src/ tests/
+        else
+          echo "⚠  No Python linter found. Install ruff into the venv:"
+          echo "   python3/venv/bin/pip install ruff"
+        fi
+
+  lint-js:
+    desc: Lint JavaScript source with ESLint
+    cmds:
+      - |
+        if [ -f node_modules/.bin/eslint ]; then
+          node_modules/.bin/eslint hugo/site/static/js/
+        else
+          echo "⚠  ESLint not installed. To enable:"
+          echo "   npm install --save-dev eslint"
+        fi
+
+  lint-css:
+    desc: Lint CSS with Stylelint
+    cmds:
+      - |
+        if [ -f node_modules/.bin/stylelint ]; then
+          node_modules/.bin/stylelint "hugo/site/static/css/**/*.css"
+        else
+          echo "⚠  Stylelint not installed. To enable:"
+          echo "   npm install --save-dev stylelint stylelint-config-standard"
+        fi
+
+  lint-hugo:
+    desc: Validate Hugo templates via a dry-run build (writes to /tmp)
+    dir: hugo/site
+    cmds:
+      - hugo --quiet --destination /tmp/hugo-lint-check
+    env:
+      HUGO_ENVIRONMENT: development
+
+  # ─── Test ───────────────────────────────────────────────────────────────────
+
+  test:
+    desc: Run all test suites (Python, JavaScript, end-to-end)
+    cmds:
+      - task: test-py
+      - task: test-js
+      - task: test-e2e
+
+  test-py:
+    desc: Run Python tests with pytest (from python3/)
+    dir: python3
+    cmds:
+      - venv/bin/python -m pytest
+
+  test-js:
+    desc: Run JavaScript unit tests with Jest
+    cmds:
+      - npm test
+
+  test-e2e:
+    desc: Run Playwright end-to-end tests (requires a running Hugo server)
+    cmds:
+      - npx playwright test

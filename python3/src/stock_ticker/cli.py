@@ -4,15 +4,12 @@ Click-based CLI for the stock ticker application.
 import sys
 import click
 import time
-from datetime import datetime, timezone
-from pathlib import Path
 from functools import wraps
 
 from .logging_setup import setup_logging
 from .config import DB_PATH, API_DIR, ERROR_LOG_PATH, FTP_HOST, YAHOO_API_HOST
 from .database import (
     init_db, ensure_initialized, get_connection, 
-    get_all_steps_today, get_last_pipeline_run, recommend_next_step,
     clean_today_data
 )
 from .migrations import (
@@ -61,7 +58,7 @@ def log_timing(func):
             logger.info("")
             logger.info(f"⏱️  Command completed in {format_duration(elapsed)}")
             return result
-        except Exception as e:
+        except Exception:
             elapsed = time.time() - start_time
             logger.error("")
             logger.error(f"⏱️  Command failed after {format_duration(elapsed)}")
@@ -199,7 +196,7 @@ def status():
             
             if not tables:
                 logger.warning("   ⚠ Database: Schema not initialized")
-                logger.warning(f"   → Database file exists but has no tables")
+                logger.warning("   → Database file exists but has no tables")
                 logger.warning("   → Initialize schema with: python -m stock_ticker.cli init")
                 db_issue_reason = "schema_missing"
             else:
@@ -298,12 +295,12 @@ def status():
     if state['status'] == 'idle':
         if last_run_date:
             if last_run_date == today:
-                logger.info(f"   Pipeline state: IDLE (completed earlier today)")
+                logger.info("   Pipeline state: IDLE (completed earlier today)")
             else:
-                logger.warning(f"   ⚠️  Pipeline state: IDLE - NO RUN TODAY")
+                logger.warning("   ⚠️  Pipeline state: IDLE - NO RUN TODAY")
                 logger.warning(f"   ⚠️  Last successful run: {last_run_date}")
         else:
-            logger.warning(f"   ⚠️  Pipeline state: IDLE - NEVER RUN")
+            logger.warning("   ⚠️  Pipeline state: IDLE - NEVER RUN")
     else:
         logger.info(f"   Pipeline state: {state['status'].upper()}")
         if last_run_date and last_run_date != today:
@@ -359,7 +356,7 @@ def status():
     # Check for missing dependencies first
     if missing_deps:
         logger.error("   ❌ Missing Python dependencies")
-        logger.error(f"   → Install with: pip install -r requirements.txt")
+        logger.error("   → Install with: pip install -r requirements.txt")
         logger.error(f"   → Missing: {', '.join(missing_deps)}")
         sys.exit(2)  # Exit code 2: missing dependencies
     
@@ -379,7 +376,7 @@ def status():
     # Check for unreachable services
     if unreachable_services:
         logger.warning("   ⚠️  External services unreachable")
-        logger.warning(f"   → Check network connectivity")
+        logger.warning("   → Check network connectivity")
         logger.warning(f"   → Unreachable: {', '.join(unreachable_services)}")
         if not ftp_reachable:
             logger.warning(f"   → Test FTP: telnet {FTP_HOST} 21")
@@ -681,10 +678,10 @@ def run_all(ctx, limit, force, clean):
         logger.info(f"⚠️  LIMIT MODE: Processing limited to {limit} tickers for testing")
     
     if force:
-        logger.info(f"⚠️  FORCE MODE: Will ignore completion status")
+        logger.info("⚠️  FORCE MODE: Will ignore completion status")
     
     if clean:
-        logger.info(f"🧹 CLEAN MODE: Resetting today's pipeline data...")
+        logger.info("🧹 CLEAN MODE: Resetting today's pipeline data...")
     
     if limit or force or clean:
         logger.info("")
@@ -697,7 +694,7 @@ def run_all(ctx, limit, force, clean):
     logger.info(f"Pipeline state: {state['status'].upper()}")
     
     if state['status'] == 'in_progress':
-        logger.info(f"⚠️  Found interrupted pipeline from today")
+        logger.info("⚠️  Found interrupted pipeline from today")
         logger.info(f"   Step: {state['current_step']}")
         if state['progress']:
             current, total = state['progress']
@@ -724,7 +721,7 @@ def run_all(ctx, limit, force, clean):
             state['completed_steps'] = []
     
     elif state['completed_steps']:
-        logger.info(f"🔄 Resuming partial pipeline")
+        logger.info("🔄 Resuming partial pipeline")
         logger.info(f"   Already completed: {', '.join(state['completed_steps'])}")
         logger.info("")
     
@@ -955,6 +952,11 @@ def reset(ctx, force):
         SELECT COUNT(*) FROM pipeline_steps WHERE run_date = ?
     """, (today,))
     steps_count = cursor.fetchone()[0]
+
+    cursor.execute("""
+        SELECT COUNT(*) FROM pipeline_steps WHERE run_date = ? AND step_name = 'sync-ftp'
+    """, (today,))
+    ftp_synced = cursor.fetchone()[0] > 0
     
     # Check if there's anything to reset
     if daily_metrics_count == 0 and scores_count == 0 and steps_count == 0:
@@ -972,24 +974,24 @@ def reset(ctx, force):
     logger.info("")
     
     if ftp_synced:
-        logger.warning(f"  ⚠ FTP Sync History: 1 record")
+        logger.warning("  ⚠ FTP Sync History: 1 record")
     else:
-        logger.info(f"  • FTP Sync History: 0 records (none to delete)")
+        logger.info("  • FTP Sync History: 0 records (none to delete)")
     
     if daily_metrics_count > 0:
         logger.warning(f"  ⚠ Daily Metrics: {daily_metrics_count} tickers")
     else:
-        logger.info(f"  • Daily Metrics: 0 records (none to delete)")
+        logger.info("  • Daily Metrics: 0 records (none to delete)")
     
     if scores_count > 0:
         logger.warning(f"  ⚠ Strategy Scores: {scores_count} tickers")
     else:
-        logger.info(f"  • Strategy Scores: 0 records (none to delete)")
+        logger.info("  • Strategy Scores: 0 records (none to delete)")
     
     if steps_count > 0:
         logger.warning(f"  ⚠ Pipeline Steps: {steps_count} step records")
     else:
-        logger.info(f"  • Pipeline Steps: 0 records (none to delete)")
+        logger.info("  • Pipeline Steps: 0 records (none to delete)")
     
     # Check for output files
     trie_path = API_DIR / "trie.json"
@@ -1023,7 +1025,7 @@ def reset(ctx, force):
     conn.close()
     
     logger.info("✓ Data reset complete.")
-    logger.info(f"   You can now run 'ticker-cli run-all' to start fresh.")
+    logger.info("   You can now run 'ticker-cli run-all' to start fresh.")
 
 
 @cli.group()

@@ -3,11 +3,10 @@ FTP synchronization for downloading ticker lists from NASDAQ.
 """
 import sys
 from ftplib import FTP
-from pathlib import Path
 import pandas as pd
 import re
-from .config import FTP_HOST, FTP_PATH, FTP_FILES, TMP_DIR
-from .utils import get_today, is_valid_symbol
+from .config import FTP_HOST, TMP_DIR
+from .utils import is_valid_symbol
 from .database import get_connection, record_pipeline_step, get_step_info
 from .logging_setup import setup_logging
 from .retry import get_request_metrics
@@ -69,15 +68,13 @@ def sync_ftp(dry_run=False):
         conn.close()
         
         tickers_count = step_info[1]  # tickers_processed
-        logger.info(f"✓ FTP already synced today. Skipping.")
+        logger.info("✓ FTP already synced today. Skipping.")
         logger.info(f"  • Tickers in database: {total_tickers:,}")
         logger.info(f"  • New tickers added during sync: {tickers_count}")
         return
     
     conn = get_connection()
     cursor = conn.cursor()
-    today = get_today()
-    
     tickers_added = 0
     
     # Download files

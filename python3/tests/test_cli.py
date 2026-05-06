@@ -3,12 +3,9 @@ Tests for CLI commands.
 
 Tests the behavior of each CLI command using mocked external dependencies.
 """
-import json
 import pytest
-from pathlib import Path
 from click.testing import CliRunner
 from stock_ticker.cli import cli
-from stock_ticker.utils import get_today
 from tests.conftest import assert_valid_json_file, assert_json_structure
 
 

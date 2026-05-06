@@ -23,12 +23,12 @@
     
     /* Better table printing */
     table {
-        page-break-inside: auto;
+        break-inside: auto;
     }
     
     tr {
-        page-break-inside: avoid;
-        page-break-after: auto;
+        break-inside: avoid;
+        break-after: auto;
     }
     
     thead {
@@ -37,7 +37,7 @@
     
     /* Card styles for print */
     .card {
-        page-break-inside: avoid;
+        break-inside: avoid;
         border: 1px solid #000 !important;
         margin-bottom: 1rem;
     }
@@ -78,11 +78,11 @@
     
     /* Page breaks between strategies */
     .card.mb-4 {
-        page-break-after: auto;
+        break-after: auto;
     }
     
     /* First strategy starts fresh */
     .card.mb-4:first-of-type {
-        page-break-before: avoid;
+        break-before: avoid;
     }
 }

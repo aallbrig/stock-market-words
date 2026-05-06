@@ -532,7 +532,7 @@ def run_translate(config: TranslateConfig) -> None:
             f"      GPU-accelerated or API backends scale better with {workers} workers."
         )
 
-    print(f"Starting...\n")
+    print("Starting...\n")
 
     # ── DB setup ─────────────────────────────────────────────────────────────
     run_id = str(uuid.uuid4())
@@ -630,7 +630,7 @@ def run_translate(config: TranslateConfig) -> None:
                 f.write(f"SKIP {j['source_path']}\n")
 
     # ── Summary ──────────────────────────────────────────────────────────────
-    print(f"\nTranslation run complete.")
+    print("\nTranslation run complete.")
     print(f"  Completed: {len(completed)}/{len(pending)}")
     failed_line = f"  Failed:    {len(failed)}/{len(pending)}"
     if failed:

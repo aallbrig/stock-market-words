@@ -3,14 +3,11 @@ Hugo site content generators.
 Generate data files and markdown pages for the Hugo site based on SQLite database.
 """
 import json
-import csv
 import pandas as pd
 from collections import defaultdict
-from pathlib import Path
 from datetime import datetime
-from .config import DB_PATH, BASE_DIR, TMP_DIR
+from .config import BASE_DIR, TMP_DIR
 from .database import get_connection
-from .utils import get_today
 from .logging_setup import setup_logging
 
 logger = setup_logging()

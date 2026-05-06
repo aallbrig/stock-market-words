@@ -262,7 +262,7 @@ def extract_metadata(dry_run=False, limit=None, run_id=None):
             pending = min(pending, limit)
         conn.close()
         logger.info(f"DRY RUN: Would fetch metadata for {pending} filtered tickers")
-        logger.info(f"DRY RUN: Would collect: market cap, dividend yield, beta, RSI, MA200")
+        logger.info("DRY RUN: Would collect: market cap, dividend yield, beta, RSI, MA200")
         logger.info(f"DRY RUN: Estimated time: ~{pending * 1.5 / METADATA_BATCH_SIZE:.0f} minutes")
         return
     

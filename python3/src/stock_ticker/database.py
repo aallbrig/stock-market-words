@@ -3,7 +3,6 @@ Database operations for the stock ticker CLI.
 """
 import sqlite3
 import re
-from datetime import datetime, timezone
 from pathlib import Path
 from .config import DB_PATH, SCHEMA_PATH
 from .utils import get_today
@@ -459,8 +458,6 @@ def get_last_successful_run():
         cursor = conn.cursor()
         
         # A successful run has all required steps completed on the same date
-        all_steps = ['sync-ftp', 'extract-prices', 'extract-metadata', 'build', 'generate-hugo']
-        
         cursor.execute("""
             SELECT run_date
             FROM pipeline_steps

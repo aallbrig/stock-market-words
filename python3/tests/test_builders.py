@@ -3,7 +3,6 @@ Tests for data builders (strategy scoring and JSON generation).
 """
 import json
 import pytest
-from pathlib import Path
 from stock_ticker.builders import build_assets
 from tests.conftest import assert_valid_json_file
 

@@ -26,9 +26,9 @@ def build_assets(dry_run=False):
         ticker_count = cursor.fetchone()[0]
         conn.close()
         logger.info(f"DRY RUN: Would build from {ticker_count} tickers")
-        logger.info(f"DRY RUN: Would calculate 5 strategy scores via percentile ranking")
-        logger.info(f"DRY RUN: Would generate trie.json (autocomplete prefix tree)")
-        logger.info(f"DRY RUN: Would generate metadata.json (full ticker data + scores)")
+        logger.info("DRY RUN: Would calculate 5 strategy scores via percentile ranking")
+        logger.info("DRY RUN: Would generate trie.json (autocomplete prefix tree)")
+        logger.info("DRY RUN: Would generate metadata.json (full ticker data + scores)")
         logger.info(f"DRY RUN: Output directory: {API_DIR}")
         return
     
@@ -77,7 +77,7 @@ def build_assets(dry_run=False):
                     ticker_count = len(metadata)
                     logger.info(f"  • trie.json: {trie_path}")
                     logger.info(f"  • metadata.json: {metadata_path} ({ticker_count:,} tickers)")
-            except:
+            except Exception:
                 logger.info(f"  • Assets exist at {API_DIR}")
         else:
             logger.warning("No tickers found with complete data for today.")
