@@ -119,3 +119,4 @@ Helps the next person understand the decision.
 - [Sparkline ↔ Delta Chip Sync](./sparkline_delta_sync.md) — hover a sparkline point to update the delta chip dynamically, event-driven and decoupled
 - [Ticker Lookup Enhancements](./ticker_lookup_enhancements.md) — autocomplete by symbol/name, not-found feedback, recent lookups chips
 - [Ticker Lookup in Navigation Bar](./ticker_lookup_nav.md) — compact nav-bar widget on all pages, multi-instance refactor of ticker-lookup.js
+- [CLI: JSON Output Validation](./cli_json_validation.md) — `ticker-cli validate` command; enforces ADR schema requirement in CI and run-all
