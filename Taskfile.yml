@@ -28,6 +28,28 @@ tasks:
     cmds:
       - bash -c "source python3/venv/bin/activate && python -m stock_ticker.cli run-all; deactivate"
 
+  run-all-commit:
+    desc: Run the full data pipeline then commit and push generated output (used by systemd timer)
+    cmds:
+      - task: run-all
+      - |
+        TODAY=$(date +%Y-%m-%d)
+        git add \
+          hugo/site/data/ \
+          hugo/site/static/data/ \
+          hugo/site/content/ \
+          hugo/static/api/
+        if git diff --cached --quiet; then
+          echo "[pipeline] No changes to commit for $TODAY"
+          exit 0
+        fi
+        CHANGED=$(git diff --cached --numstat | wc -l)
+        git commit -m "data: market data refresh $TODAY" \
+          -m "Pipeline: task run-all-commit
+Files changed: $CHANGED"
+        git push origin main
+        echo "[pipeline] Committed and pushed $CHANGED file(s) for $TODAY"
+
   # ─── Database ────────────────────────────────────────────────────────────────
 
   db-backup:
