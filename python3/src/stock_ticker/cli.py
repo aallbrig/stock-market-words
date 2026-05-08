@@ -422,14 +422,14 @@ def status():
               help='Path to SQLite database file')
 @log_timing
 def backup(db_path):
-    """Create a backup of the SQLite database."""
+    """Create a gzipped backup of the SQLite database."""
     from .backup import create_backup
-    
+
     logger.info("=" * 70)
     logger.info("=== 💾 DATABASE BACKUP ===")
     logger.info("=" * 70)
     logger.info("")
-    
+
     try:
         backup_path = create_backup(db_path=db_path)
         logger.info(f"✓ Backup created: {backup_path}")
@@ -439,6 +439,190 @@ def backup(db_path):
         sys.exit(1)
     except Exception as e:
         logger.error(f"✗ Backup failed: {e}")
+        sys.exit(1)
+
+
+@cli.command('backup-list')
+def backup_list():
+    """List available database backups."""
+    from .backup import list_backups, get_backup_dir
+
+    logger.info("=" * 70)
+    logger.info("=== 📋 DATABASE BACKUPS ===")
+    logger.info("=" * 70)
+    logger.info(f"Backup dir: {get_backup_dir()}")
+    logger.info("")
+
+    entries = list_backups()
+    if not entries:
+        logger.info("No backups found.")
+        return
+
+    for e in entries:
+        tag = " [prerestore]" if e["type"] == "prerestore" else ""
+        legacy = " [uncompressed-legacy]" if e["legacy"] else ""
+        logger.info(f"  {e['filename']:<55} {e['size_mb']:>6.1f} MB{tag}{legacy}")
+
+    logger.info("")
+    total_mb = sum(e["size_mb"] for e in entries)
+    daily = sum(1 for e in entries if e["type"] == "daily")
+    pre = sum(1 for e in entries if e["type"] == "prerestore")
+    logger.info(f"  {daily} daily, {pre} prerestore  —  {total_mb:.0f} MB total")
+
+
+@cli.command('backup-prune')
+@click.option('--dry-run', is_flag=True, help='Show what would be deleted without deleting')
+def backup_prune(dry_run):
+    """Remove backup files older than the retention window (default 14 days)."""
+    import os
+    from .backup import prune_backups
+
+    retention = int(os.environ.get("STOCK_TICKER_BACKUP_RETENTION_DAYS", 14))
+    label = "DRY RUN: Would remove" if dry_run else "Removing"
+
+    logger.info("=" * 70)
+    logger.info("=== 🗑️  PRUNE OLD BACKUPS ===")
+    logger.info("=" * 70)
+    logger.info(f"Retention: {retention} days")
+    logger.info("")
+
+    removed = prune_backups(dry_run=dry_run)
+    if removed:
+        for path in removed:
+            logger.info(f"  {label}: {path}")
+        logger.info(f"\n  Total: {len(removed)} file(s)")
+    else:
+        logger.info("  Nothing to prune.")
+
+
+@cli.command()
+@click.option('--run-ids', required=True,
+              help='Comma-separated pipeline run IDs to remove (e.g. 51,52,54)')
+@click.option('--dry-run', is_flag=True, help='Preview what would be removed without deleting')
+@click.option('--force', is_flag=True, help='Skip confirmation prompt')
+@click.option('--db-path', default='data/market_data.db')
+@click.pass_context
+def rollback(ctx, run_ids, dry_run, force, db_path):
+    """Remove specific pipeline_runs and their ticker_sync_history rows.
+
+    daily_metrics and strategy_scores are intentionally preserved — on the
+    same trading day the data is effectively identical across runs.
+    Back up the database first with 'ticker-cli backup'.
+    """
+    import json
+    from .config import SQL_DIR
+
+    try:
+        ids = [int(x.strip()) for x in run_ids.split(",")]
+    except ValueError:
+        logger.error("--run-ids must be a comma-separated list of integers")
+        sys.exit(1)
+
+    ids_json = json.dumps(ids)
+
+    logger.info("=" * 70)
+    logger.info("=== ⏪ PIPELINE RUN ROLLBACK ===")
+    logger.info("=" * 70)
+    logger.info(f"Run IDs: {ids}")
+    logger.info("")
+
+    preview_sql = (SQL_DIR / "rollback_by_run_id_preview.sql").read_text()
+    execute_sql = (SQL_DIR / "rollback_by_run_id_execute.sql").read_text()
+
+    import sqlite3 as _sqlite3
+    conn = _sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    # Always show preview
+    logger.info("Records that would be removed:")
+    cursor.execute(preview_sql, (ids_json, ids_json))
+    rows = cursor.fetchall()
+    if not rows:
+        logger.info("  (nothing found for those run IDs)")
+        conn.close()
+        return
+
+    counts: dict[str, int] = {}
+    for tbl, *_ in rows:
+        counts[tbl] = counts.get(tbl, 0) + 1
+
+    for tbl, count in counts.items():
+        logger.info(f"  • {tbl}: {count} rows")
+
+    logger.info("")
+
+    if dry_run or ctx.obj.dry_run:
+        logger.info("DRY RUN — no changes made.")
+        conn.close()
+        return
+
+    if not force:
+        if not click.confirm("⚠️  Delete these records?"):
+            logger.info("Rollback cancelled.")
+            conn.close()
+            return
+
+    stmts = [s.strip() for s in execute_sql.split(";") if s.strip() and not s.strip().startswith("--")]
+    for stmt in stmts:
+        cursor.execute(stmt, (ids_json,))
+    conn.commit()
+    conn.close()
+
+    logger.info("✓ Rollback complete.")
+
+
+@cli.command()
+@click.option('--backup', 'backup_file',
+              help='Path to the .sql.gz (or legacy .sql) backup to restore from')
+@click.option('--db-path', default='data/market_data.db')
+@click.option('--force', is_flag=True, help='Skip confirmation prompt')
+@click.pass_context
+def restore(ctx, backup_file, db_path, force):
+    """Restore the database from a backup.
+
+    If --backup is omitted, lists available backups and exits.
+    Always creates a prerestore backup before writing.
+    """
+    from .backup import list_backups, restore_backup
+
+    logger.info("=" * 70)
+    logger.info("=== 🔄 DATABASE RESTORE ===")
+    logger.info("=" * 70)
+    logger.info("")
+
+    if not backup_file:
+        entries = list_backups()
+        if not entries:
+            logger.info("No backups found. Run 'ticker-cli backup' first.")
+        else:
+            logger.info("Available backups (pass --backup <path> to restore):")
+            for e in entries:
+                tag = " [prerestore]" if e["type"] == "prerestore" else ""
+                logger.info(f"  {e['path']}  ({e['size_mb']} MB){tag}")
+        return
+
+    logger.info(f"Source:   {backup_file}")
+    logger.info(f"Target:   {db_path}")
+    logger.info("")
+    logger.warning("⚠️  This will OVERWRITE the current database.")
+    logger.info("   A prerestore backup will be created first.")
+    logger.info("")
+
+    if not force and not ctx.obj.dry_run:
+        if not click.confirm("Proceed?"):
+            logger.info("Restore cancelled.")
+            return
+
+    if ctx.obj.dry_run:
+        logger.info("DRY RUN — no changes made.")
+        return
+
+    try:
+        pre = restore_backup(backup_file=backup_file, db_path=db_path)
+        logger.info(f"✓ Prerestore backup: {pre}")
+        logger.info(f"✓ Restore complete from: {backup_file}")
+    except FileNotFoundError as e:
+        logger.error(f"✗ {e}")
         sys.exit(1)
 
 @cli.command()

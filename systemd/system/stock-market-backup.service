@@ -1,0 +1,27 @@
+[Unit]
+Description=Stock Market Words Database Backup
+Documentation=https://github.com/aallbright/stock-market-words
+After=local-fs.target
+
+[Service]
+Type=oneshot
+
+# Resolve the project root from this file's install location.
+# Override STOCK_TICKER_BACKUP_DIR to store backups elsewhere (e.g. an external drive).
+WorkingDirectory=%h/src/stock-market-words
+Environment="PATH=%h/src/stock-market-words/python3/venv/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="PYTHONUNBUFFERED=1"
+Environment="STOCK_TICKER_BACKUP_RETENTION_DAYS=14"
+# Environment="STOCK_TICKER_BACKUP_DIR=/mnt/external/stock-market-backups"
+
+ExecStart=%h/src/stock-market-words/python3/venv/bin/ticker-cli backup
+ExecStartPost=%h/src/stock-market-words/python3/venv/bin/ticker-cli backup-prune
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=stock-market-backup
+
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target

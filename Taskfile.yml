@@ -28,6 +28,50 @@ tasks:
     cmds:
       - bash -c "source python3/venv/bin/activate && python -m stock_ticker.cli run-all; deactivate"
 
+  # ─── Database ────────────────────────────────────────────────────────────────
+
+  db-backup:
+    desc: Back up the database to data/backups/ (gzipped, ~16 MB)
+    cmds:
+      - python3/venv/bin/python -m stock_ticker.cli backup
+
+  db-backup-list:
+    desc: List available database backups with sizes and types
+    cmds:
+      - python3/venv/bin/python -m stock_ticker.cli backup-list
+
+  db-backup-prune:
+    desc: Remove backup files older than STOCK_TICKER_BACKUP_RETENTION_DAYS (default 14)
+    cmds:
+      - python3/venv/bin/python -m stock_ticker.cli backup-prune
+
+  db-rollback:
+    desc: "Remove specific pipeline run(s) by ID — usage: task db-rollback RUN_IDS=51,52,54"
+    cmds:
+      - python3/venv/bin/python -m stock_ticker.cli backup
+      - python3/venv/bin/python -m stock_ticker.cli rollback --run-ids {{.RUN_IDS}}
+    requires:
+      vars: [RUN_IDS]
+
+  db-restore:
+    desc: "Restore the database from a backup — usage: task db-restore FILE=data/backups/market_data_*.sql.gz"
+    cmds:
+      - python3/venv/bin/python -m stock_ticker.cli restore --backup {{.FILE}}
+    requires:
+      vars: [FILE]
+
+  db-install-backup-timer:
+    desc: Install the systemd user timer that backs up the database daily
+    cmds:
+      - |
+        mkdir -p ~/.config/systemd/user
+        cp systemd/system/stock-market-backup.service ~/.config/systemd/user/
+        cp systemd/system/stock-market-backup.timer   ~/.config/systemd/user/
+        systemctl --user daemon-reload
+        systemctl --user enable --now stock-market-backup.timer
+        echo "✓ Backup timer installed and started"
+        systemctl --user list-timers stock-market-backup.timer
+
   # ─── Status ─────────────────────────────────────────────────────────────────
 
   status:
@@ -69,7 +113,7 @@ tasks:
 
   lint:
     desc: Run all linters in parallel
-    deps: [lint-py, lint-js, lint-css, lint-hugo]
+    deps: [lint-py, lint-js, lint-css, lint-hugo, lint-sqlite]
 
   lint-py:
     desc: Lint Python source (ruff preferred, falls back to flake8)
@@ -114,6 +158,11 @@ tasks:
       - hugo --quiet --destination /tmp/hugo-lint-check
     env:
       HUGO_ENVIRONMENT: development
+
+  lint-sqlite:
+    desc: Syntax-check all .sql files in python3/sql/ against the live schema
+    cmds:
+      - python3/venv/bin/python python3/scripts/lint_sql.py
 
   # ─── Test ───────────────────────────────────────────────────────────────────
 

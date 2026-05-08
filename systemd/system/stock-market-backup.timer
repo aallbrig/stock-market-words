@@ -1,0 +1,14 @@
+[Unit]
+Description=Stock Market Words Daily Database Backup
+Documentation=https://github.com/aallbright/stock-market-words
+Requires=stock-market-backup.service
+
+[Timer]
+# Run at 02:00 local time every day, 2h after the nightly pipeline timer.
+# Persistent=true means: if the laptop was asleep at 2am, run on next wake.
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

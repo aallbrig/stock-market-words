@@ -9,11 +9,25 @@ Runs the data pipeline on weekday evenings and commits results as
 - `system/stock-market-words.timer` — fires Mon–Fri at 23:00 UTC (~6–7 PM ET)
 - `system/pia-rotate.service` — rotates PIA VPN IP before pipeline (graceful if PIA absent)
 - `system/pia-rotate.timer` — fires Mon–Fri at 22:30 UTC (30 min before pipeline)
+- `system/stock-market-backup.service` — oneshot service: `ticker-cli backup` → `ticker-cli backup-prune` (14-day window)
+- `system/stock-market-backup.timer` — fires daily at 02:00 local time (runs on next wake if laptop was asleep)
 - `scripts/install.sh` — automated setup on a fresh Ubuntu host
 - `scripts/verify.sh` — non-destructive health checks (run any time)
 - `scripts/git-commit-and-push.sh` — commits as `stockmarketwords-bot`
 - `scripts/pia-rotate.sh` — VPN rotation wrapper (logs, verifies, degrades gracefully)
 - `scripts/backup-db-s3.sh` — optional S3 backup (see [ADR](../docs/design/20260417_015817_UTC_s3_database_backup.md))
+
+### Backup timer (local laptop)
+
+Install as a systemd **user** service (no sudo required):
+
+```bash
+task db-install-backup-timer
+```
+
+Space: ~16 MB gzipped per backup × 14 days ≈ **~227 MB total**.
+Override the backup directory: `STOCK_TICKER_BACKUP_DIR=/mnt/external/backups`
+Override the retention window: `STOCK_TICKER_BACKUP_RETENTION_DAYS=7`
 
 ## Quick Start
 

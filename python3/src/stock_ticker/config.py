@@ -9,6 +9,7 @@ PROJECT_ROOT = BASE_DIR  # Alias for compatibility
 PYTHON_DIR = Path(__file__).parent.parent.parent
 DB_PATH = BASE_DIR / "data" / "market_data.db"
 SCHEMA_PATH = PYTHON_DIR / "schema.sql"
+SQL_DIR = PYTHON_DIR / "sql"
 TMP_DIR = BASE_DIR / "data" / "tmp"
 API_DIR = BASE_DIR / "hugo" / "static" / "api"
 ERROR_LOG_PATH = BASE_DIR / "data" / "error.log"
