@@ -1,0 +1,24 @@
+{{ define "main" }}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+      <div class="spinner-border text-success mb-3" role="status" id="welcome-spinner">
+        <span class="visually-hidden">Setting up your account…</span>
+      </div>
+      <h1 class="h4 mb-2">Setting up your account…</h1>
+      <p id="pro-welcome-status" class="text-muted"></p>
+      <p class="mt-3 small text-muted">
+        Taking too long? <a href="/pro/login/">Sign in →</a>
+      </p>
+    </div>
+  </div>
+</div>
+{{ end }}
+
+{{ define "page-scripts" }}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    ProAuth.handleCheckoutSuccess();
+  });
+</script>
+{{ end }}

@@ -1,0 +1,175 @@
+{{ define "main" }}
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar py-3 border-end" id="dashboard-sidebar">
+      <div class="position-sticky">
+
+        <!-- Add ticker input -->
+        <div class="px-3 mb-3">
+          <label for="add-ticker-input" class="form-label small text-muted text-uppercase">Add Ticker</label>
+          <div class="input-group input-group-sm">
+            <input type="text" id="add-ticker-input" class="form-control text-uppercase"
+                   placeholder="e.g. AAPL" autocomplete="off" autocapitalize="characters"
+                   list="ticker-datalist">
+            <button class="btn btn-primary" id="add-ticker-btn" type="button">+</button>
+          </div>
+          <datalist id="ticker-datalist"></datalist>
+          <div id="add-ticker-error" class="text-danger small mt-1" style="display:none"></div>
+        </div>
+
+        <!-- Nav links -->
+        <ul class="nav flex-column px-3">
+          <li class="nav-item"><a class="nav-link active" href="/pro/dashboard/">Overview</a></li>
+          <li class="nav-item"><a class="nav-link" href="/pro/account/">Account</a></li>
+          <li class="nav-item mt-auto">
+            <a class="nav-link text-danger" href="#" id="signout-link">Sign out</a>
+          </li>
+        </ul>
+
+        <!-- User email -->
+        <div class="px-3 mt-3 small text-muted" id="pro-email"></div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="col-md-9 col-lg-10 ms-sm-auto px-md-4 py-4">
+
+      <!-- Error -->
+      <div id="dashboard-error" class="alert alert-danger" style="display:none"></div>
+
+      <!-- Loading spinner -->
+      <div id="dashboard-spinner" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading…</span>
+        </div>
+      </div>
+
+      <!-- Data freshness badge -->
+      <div id="data-freshness" class="badge mb-3" style="display:none"></div>
+
+      <!-- Stat cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-xl-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <p class="text-muted small mb-1">Avg Div Yield</p>
+              <h3 id="stat-yield" class="mb-0">—</h3>
+              <p id="stat-yield-sub" class="text-muted small mb-0"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <p class="text-muted small mb-1">Portfolio YTD</p>
+              <h3 id="stat-ytd" class="mb-0">—</h3>
+              <p id="stat-ytd-sub" class="text-muted small mb-0"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <p class="text-muted small mb-1">vs S&amp;P 500</p>
+              <h3 id="stat-sp500" class="mb-0">—</h3>
+              <p id="stat-sp500-sub" class="text-muted small mb-0"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <p class="text-muted small mb-1">Biggest Drag</p>
+              <h3 id="stat-drag" class="mb-0">—</h3>
+              <p id="stat-drag-sub" class="text-muted small mb-0"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Portfolio table -->
+      <div class="card mb-4">
+        <div class="card-header"><h5 class="mb-0">My Portfolio</h5></div>
+        <div class="table-responsive">
+          <table class="table table-hover table-sm mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Ticker</th>
+                <th>Filings</th>
+                <th>Price</th>
+                <th>Div Yield</th>
+                <th>Div/yr</th>
+                <th>YTD</th>
+              </tr>
+            </thead>
+            <tbody id="portfolio-tbody">
+              <tr><td colspan="6" class="text-center text-muted py-3">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Benchmark comparison -->
+      <div class="card mb-4">
+        <div class="card-header"><h5 class="mb-0">Benchmark Comparison</h5></div>
+        <div class="table-responsive">
+          <table class="table table-sm mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Benchmark</th>
+                <th>YTD Return</th>
+              </tr>
+            </thead>
+            <tbody id="benchmark-rows">
+              <tr><td colspan="2" class="text-muted small py-2">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Watchlist -->
+      <div class="card mb-4">
+        <div class="card-header"><h5 class="mb-0">Watch List</h5></div>
+        <div class="table-responsive">
+          <table class="table table-hover table-sm mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Ticker</th>
+                <th>Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="watchlist-tbody">
+              <tr><td colspan="3" class="text-center text-muted py-3">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Footer links -->
+      <div class="text-muted small">
+        <a href="/pro/account/">Account &amp; data →</a>
+      </div>
+
+    </main>
+  </div>
+</div>
+{{ end }}
+
+{{ define "page-scripts" }}
+<script src="{{ .Site.BaseURL }}js/pro-dashboard.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    ProDashboard.init();
+    var signout = document.getElementById('signout-link');
+    if (signout) {
+      signout.addEventListener('click', function (e) {
+        e.preventDefault();
+        ProAuth.logout();
+      });
+    }
+  });
+</script>
+{{ end }}

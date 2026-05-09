@@ -1,0 +1,38 @@
+{{ define "main" }}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h1 class="h4 mb-1">Sign in to Pro</h1>
+          <p class="text-muted mb-4">Enter your email to receive a magic sign-in link.</p>
+
+          <form id="magic-link-form">
+            <div class="mb-3">
+              <label for="magic-email" class="form-label">Email address</label>
+              <input type="email" id="magic-email" class="form-control" placeholder="you@example.com" required autocomplete="email">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Send Magic Link</button>
+          </form>
+
+          <div id="pro-login-status" class="alert mt-3 mb-0" style="display:none"></div>
+
+          <hr class="my-4">
+          <p class="text-center text-muted small mb-0">
+            No Pro account yet? <a href="/pro/">Subscribe for SGD $29.99/month →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}
+
+{{ define "page-scripts" }}
+<script src="{{ .Site.BaseURL }}js/pro-magic-link.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    ProMagicLink.initMagicLinkForm('magic-link-form');
+  });
+</script>
+{{ end }}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}" class="h-100">
+{{ partial "head.html" . }}
+<body class="d-flex flex-column h-100">
+  {{ partial "navigation.html" . }}
+  <main class="flex-shrink-0">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+
+  <script>
+    window.SMW_PRO_API_BASE = "{{ .Site.Params.proApiBase }}";
+    window.SITE_BASE_URL = window.SITE_BASE_URL || '{{ .Site.BaseURL }}';
+    window.SITE_LANG    = window.SITE_LANG    || '{{ .Site.Language.Lang }}';
+  </script>
+  <script src="{{ .Site.BaseURL }}js/pro-auth.js"></script>
+  {{ block "page-scripts" . }}{{ end }}
+  {{/* Ticker lookup — loaded on all pages to power the nav bar widget */}}
+  <script src="{{ .Site.BaseURL }}js/ticker-lookup.js" defer></script>
+</body>
+</html>

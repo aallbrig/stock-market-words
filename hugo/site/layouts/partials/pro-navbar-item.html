@@ -1,0 +1,25 @@
+{{/*
+  pro-navbar-item.html
+  Renders a "Pro" nav item. Auth state is checked client-side via localStorage.
+  Shows "Dashboard" if logged in, "Go Pro" if not.
+  Wrapped in proEnabled flag — renders nothing when Pro is not released.
+*/}}
+{{ if .Site.Params.proEnabled }}
+<li class="nav-item" id="pro-nav-item">
+  <a class="nav-link" href="/pro/" id="pro-nav-link">Go Pro</a>
+</li>
+<script>
+(function () {
+  var token = localStorage.getItem('smw_pro_token');
+  if (token) {
+    try {
+      var payload = JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+      if (payload && payload.exp && payload.exp * 1000 > Date.now()) {
+        var link = document.getElementById('pro-nav-link');
+        if (link) { link.textContent = 'Dashboard'; link.href = '/pro/dashboard/'; }
+      }
+    } catch (_) {}
+  }
+})();
+</script>
+{{ end }}

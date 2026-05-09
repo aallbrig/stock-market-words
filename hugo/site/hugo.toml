@@ -23,6 +23,12 @@ defaultContentLanguageInSubdir = false
       description = "免费工具：粘贴任何文本，即刻提取隐藏其中的每一个股票代码。为3,000+股票提供策略评分、关键指标和教育背景。"
 
 [params]
+# Pro subscription API base URL. Override at build time via HUGO_PARAMS_PROAPIBASE.
+proApiBase = "http://localhost:3000"
+# Feature flag: set true only at release to enable the /pro/* section.
+# Override at build time via HUGO_PARAMS_PROENABLED=true.
+proEnabled = false
+
 # Google Analytics tracking ID (leave empty for local development)
 # Set via environment variable HUGO_PARAMS_GOOGLEANALYTICSID in production
 googleAnalyticsId = ""

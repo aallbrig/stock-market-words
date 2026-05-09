@@ -1,0 +1,74 @@
+{{ define "main" }}
+<div class="container py-5">
+
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold">Stock Market Words Pro</h1>
+    <p class="lead text-muted">For serious Singaporean retail investors.</p>
+  </div>
+
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-8">
+      <ul class="list-unstyled">
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>Stop copying numbers between Yahoo Finance tabs and a spreadsheet</strong> — your portfolio updates automatically
+        </li>
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>Know exactly how much dividend income your portfolio paid out</strong> — in SGD, at a glance
+        </li>
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>Find out which stock is dragging your portfolio down the most YTD</strong> — with a single glance
+        </li>
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>Mix SGX and US tickers in the same portfolio</strong> — DBS, OCBC, and Apple side by side
+        </li>
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>Quick links to each company's latest public filings</strong> — no more searching SGX or SEC separately
+        </li>
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>See your total annual dividend income in SGD</strong> across your whole portfolio (USD/SGD conversion handled)
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-4">
+      <div class="card border-primary shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+          <h4 class="mb-0">Pro</h4>
+        </div>
+        <div class="card-body text-center">
+          <p class="display-6 fw-bold mb-1">SGD $29.99</p>
+          <p class="text-muted mb-4">per month</p>
+          <button id="subscribe-btn" class="btn btn-primary btn-lg w-100 mb-2">Subscribe Now</button>
+          <p id="subscribe-error" class="text-danger small mb-0" style="display:none"></p>
+          <p class="text-muted small mt-3 mb-0">Powered by Stripe. Cancel anytime.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-center text-muted">
+    Already subscribed? <a href="/pro/login/">Sign in →</a>
+  </p>
+
+</div>
+{{ end }}
+
+{{ define "page-scripts" }}
+<script src="{{ .Site.BaseURL }}js/pro-subscribe.js"></script>
+<script>
+  if (typeof ProAuth !== 'undefined' && ProAuth.isLoggedIn()) {
+    window.location.href = '/pro/dashboard/';
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    ProSubscribe.initSubscribeButton('subscribe-btn', 'subscribe-error');
+  });
+</script>
+{{ end }}

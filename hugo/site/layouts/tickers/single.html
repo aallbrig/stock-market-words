@@ -302,6 +302,43 @@
     </div>
   </div>
 
+  <!-- Pro: Add to Watch List button -->
+  {{ if .Site.Params.proEnabled }}
+  <div class="mt-4 d-flex align-items-center gap-2">
+    <button id="watchlist-btn" class="btn btn-outline-primary" data-ticker="{{ $sym }}">Add to Watch List 🔒</button>
+    <span id="watchlist-error" class="text-danger small" style="display:none"></span>
+  </div>
+
+  <!-- Pro subscribe modal -->
+  <div id="pro-subscribe-modal" role="dialog" aria-modal="true" aria-hidden="true"
+       style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+    <div class="card shadow-lg" style="max-width:440px; width:90%;">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <h5 class="mb-0">This is a Pro feature</h5>
+          <button class="btn-close" data-modal-close aria-label="Close"></button>
+        </div>
+        <p class="text-muted mb-1">
+          Track <strong><span data-modal-ticker>{{ $sym }}</span></strong> and get dividend analysis for <strong>SGD $29.99/month</strong>.
+        </p>
+        <div class="d-grid mb-3 mt-3">
+          <a href="/pro/" class="btn btn-primary">Subscribe for SGD $29.99/month →</a>
+        </div>
+        <p class="text-center text-muted small mb-3">Already subscribed? <a href="/pro/login/">Sign in →</a></p>
+        <hr>
+        <form data-modal-email-form class="mb-0">
+          <label class="form-label small text-muted">Get notified when Pro launches:</label>
+          <div class="input-group input-group-sm">
+            <input type="email" data-modal-email class="form-control" placeholder="your@email.com" autocomplete="email">
+            <button type="submit" class="btn btn-outline-secondary">Notify me</button>
+          </div>
+          <div data-modal-status class="alert mt-2 py-1 small" style="display:none"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{ end }}
+
   <!-- Try in the tool -->
   <div class="card mt-4 border-primary">
     <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-3">
@@ -327,5 +364,17 @@
 {{ end }}
 {{ if $deltaOn }}
 <script src="{{ "js/strategy-delta-live.js" | relURL }}" defer></script>
+{{ end }}
+{{ if .Site.Params.proEnabled }}
+<script>
+  window.SMW_PRO_API_BASE = "{{ .Site.Params.proApiBase }}";
+</script>
+<script src="{{ "js/pro-auth.js" | relURL }}" defer></script>
+<script src="{{ "js/pro-watchlist.js" | relURL }}" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    ProWatchlist.init('{{ $sym }}');
+  });
+</script>
 {{ end }}
 {{ end }}

@@ -1,0 +1,24 @@
+{{ define "main" }}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+      <div class="spinner-border text-primary mb-3" role="status" id="callback-spinner">
+        <span class="visually-hidden">Signing you in…</span>
+      </div>
+      <p class="text-muted">Signing you in…</p>
+      <p id="pro-callback-status" class="alert" style="display:none"></p>
+      <p class="mt-3 small text-muted">
+        Having trouble? <a href="/pro/login/">Request a new link →</a>
+      </p>
+    </div>
+  </div>
+</div>
+{{ end }}
+
+{{ define "page-scripts" }}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    ProAuth.handleMagicCallback();
+  });
+</script>
+{{ end }}

@@ -54,6 +54,9 @@
           {{ end }}
         {{ end }}
 
+        {{/* Pro nav item — client-side auth state determines "Go Pro" vs "Dashboard" */}}
+        {{ partial "pro-navbar-item.html" $page }}
+
         {{/* Language switcher — auto-generated from site config */}}
         {{ partial "nav-language-switcher.html" $page }}
 
