@@ -1,0 +1,65 @@
+{{ define "main" }}
+<div class="container py-5">
+
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold">Know your dividends.</h1>
+    <p class="lead text-muted">Stop guessing. Start tracking.</p>
+    <p class="col-md-7 mx-auto text-muted">
+      Serious Singaporean investors use Stock Market Words Pro to get a clear picture
+      of their portfolio income — in SGD, across both SGX and US stocks.
+    </p>
+  </div>
+
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-7">
+      <ul class="list-unstyled">
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>One place for your DBS, OCBC, Apple, and SPY tickers</strong> — SGX and US stocks side by side
+        </li>
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>Stop copying numbers between Yahoo Finance tabs and a spreadsheet</strong> — your portfolio updates automatically
+        </li>
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>Know your annual dividend income in SGD</strong> — USD/SGD conversion handled automatically
+        </li>
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>See which stock is dragging your portfolio YTD</strong> with a single glance
+        </li>
+        <li class="mb-3">
+          <span class="text-success fw-bold me-2">✅</span>
+          <strong>Add any stock to your watchlist with one click</strong> from any ticker page
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="text-center mb-3">
+    <button id="subscribe-btn" class="btn btn-primary btn-lg px-5">Get Pro Access</button>
+    <p id="subscribe-error" class="text-danger small mt-2" style="display:none"></p>
+    <p class="text-muted small mt-2">Powered by Stripe. Cancel anytime. SGD $29.99/month.</p>
+  </div>
+
+  <p class="text-center text-muted small">
+    Already subscribed? <a href="/pro/login/">Sign in →</a>
+  </p>
+
+</div>
+{{ end }}
+
+{{ define "page-scripts" }}
+<script src="{{ .Site.BaseURL }}js/pro-subscribe.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof ProAuth !== 'undefined' && ProAuth.isLoggedIn()) {
+      var btn = document.getElementById('subscribe-btn');
+      if (btn) { btn.textContent = 'Access your dashboard →'; btn.onclick = function () { window.location.href = '/pro/dashboard/'; }; }
+    } else {
+      ProSubscribe.initSubscribeButton('subscribe-btn', 'subscribe-error');
+    }
+  });
+</script>
+{{ end }}

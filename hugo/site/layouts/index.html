@@ -120,4 +120,18 @@
 
 </div>
 
+{{ if .Site.Params.proEnabled }}
+<div class="container mt-5 mb-4">
+  <div class="card border-primary">
+    <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div>
+        <h5 class="mb-1">Unlock professional portfolio analytics</h5>
+        <p class="mb-0 text-muted">Track your SGX and US stocks, see dividend income in SGD, and compare against benchmarks.</p>
+      </div>
+      <a href="/pro/" class="btn btn-primary">Go Pro — SGD $29.99/month →</a>
+    </div>
+  </div>
+</div>
+{{ end }}
+
 {{ end }}

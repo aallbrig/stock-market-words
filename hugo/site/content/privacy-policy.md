@@ -58,6 +58,37 @@ This Site is not directed at children under the age of 13 and we do not knowingl
 
 We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated "Last updated" date.
 
+## Stock Market Words Pro — Subscriber Data
+
+If you subscribe to Stock Market Words Pro, we collect and store:
+
+- Your **email address** (provided via Stripe Checkout)
+- Your **subscription status** and Stripe subscription ID
+- Your **portfolio ticker list** (stocks you add to your watchlist)
+- **Magic link tokens** used for passwordless sign-in (expire after 10 minutes)
+
+This data is stored in **Amazon DynamoDB in the AWS ap-southeast-1 (Singapore) region**.
+
+### Your Rights (PDPA)
+
+Under Singapore's Personal Data Protection Act (PDPA), you have the right to:
+
+- **Access** your personal data held by us
+- **Correct** inaccurate personal data
+- **Delete** your account and all associated data at any time
+
+To delete your account and all your data, sign in to your dashboard and visit **Account → Delete my account and data**. Deletion is permanent and immediate. Your Stripe subscription will be cancelled at the same time.
+
+For other data requests, please [contact us](/contact/).
+
+### Third-Party Processors (Pro)
+
+| Service | Purpose | Privacy Policy |
+|---|---|---|
+| Stripe | Subscription billing | [stripe.com/privacy](https://stripe.com/privacy) |
+| Amazon Web Services | Data storage (ap-southeast-1, Singapore) | [aws.amazon.com/privacy](https://aws.amazon.com/privacy/) |
+| Amazon SES | Magic link emails | [aws.amazon.com/privacy](https://aws.amazon.com/privacy/) |
+
 ## Contact
 
 If you have questions about this Privacy Policy, please [contact us](/contact/).
