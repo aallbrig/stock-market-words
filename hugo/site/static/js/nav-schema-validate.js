@@ -8,7 +8,7 @@
  *
  * The schema is published at: /schemas/models/navigation.json
  */
-import Ajv2020 from 'https://cdn.jsdelivr.net/npm/ajv@8/dist/ajv2020.min.js';
+import Ajv2020 from 'https://esm.sh/ajv@8/dist/2020';
 
 (async function validateNavigationData() {
   const tag = '[Navigation Schema]';
