@@ -150,18 +150,18 @@ test.describe('Website Page Load Tests', () => {
     });
 
     test('Navigation links are accessible', async ({ page }) => {
-      // Use mobile viewport so the offcanvas toggler is visible (it's hidden at md+)
+      // Use mobile viewport so the collapse toggler is visible (it's hidden at lg+)
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto('/');
 
-      // Brand link (home) is always visible outside the offcanvas
+      // Brand link (home) is always visible outside the collapsed nav
       await expect(page.locator('a.navbar-brand')).toBeVisible();
 
-      // Open the offcanvas navigation panel
-      const toggler = page.locator('button[data-bs-toggle="offcanvas"]');
+      // Open the collapsed navigation panel
+      const toggler = page.locator('button.navbar-toggler');
       await expect(toggler).toBeVisible();
       await toggler.click();
-      await expect(page.locator('#offcanvasNavbar')).toBeVisible();
+      await expect(page.locator('#navbarNav')).toBeVisible();
 
       // Top-level nav links visible inside the open panel
       await expect(page.locator('a.nav-link[href="/articles/"]')).toBeVisible();
