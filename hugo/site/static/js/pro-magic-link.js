@@ -42,7 +42,7 @@
             statusEl.textContent = 'A magic link was recently sent. Please check your email.';
           } else if (result.status === 403) {
             statusEl.className = 'alert alert-warning';
-            statusEl.innerHTML = 'We don\'t have a Pro subscription for that email. <a href="/pro/">Subscribe for SGD $29.99/month →</a>';
+            statusEl.innerHTML = 'We don\'t have a Pro subscription for that email. <a href="/pro/">Subscribe for USD $29.99/month →</a>';
           } else {
             statusEl.className = 'alert alert-danger';
             statusEl.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';

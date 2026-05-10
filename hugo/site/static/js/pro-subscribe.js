@@ -23,7 +23,7 @@
       fetch(apiBase + '/checkout/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ price_lookup_key: 'pro-monthly-sgd-2999' })
+        body: JSON.stringify({ price_lookup_key: 'pro-monthly-usd-2999' })
       })
         .then(function (res) {
           if (!res.ok) throw new Error('checkout failed');
