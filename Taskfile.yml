@@ -44,9 +44,7 @@ tasks:
           exit 0
         fi
         CHANGED=$(git diff --cached --numstat | wc -l)
-        git commit -m "data: market data refresh $TODAY" \
-          -m "Pipeline: task run-all-commit
-Files changed: $CHANGED"
+        git commit -m "data: market data refresh $TODAY" -m "Pipeline: task run-all-commit | Files changed: $CHANGED"
         git push origin main
         echo "[pipeline] Committed and pushed $CHANGED file(s) for $TODAY"
 
