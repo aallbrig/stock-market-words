@@ -3,62 +3,60 @@
 
   <div class="text-center mb-5">
     <h1 class="display-5 fw-bold">Stock Market Words Pro</h1>
-    <p class="lead text-muted">For serious retail investors.</p>
+    <p class="col-lg-6 mx-auto fs-5 text-body-secondary">
+      Stop juggling spreadsheets. Your portfolio — automatically updated, clearly analyzed.
+    </p>
   </div>
 
-  <div class="row justify-content-center mb-5">
-    <div class="col-md-8">
-      <ul class="list-unstyled">
-        <li class="mb-3">
-          <span class="text-success fw-bold me-2">✅</span>
-          <strong>Stop copying numbers between Yahoo Finance tabs and a spreadsheet</strong> — your portfolio updates automatically
-        </li>
-        <li class="mb-3">
-          <span class="text-success fw-bold me-2">✅</span>
-          <strong>Know exactly how much dividend income your portfolio paid out</strong> — in USD, at a glance
-        </li>
-        <li class="mb-3">
-          <span class="text-success fw-bold me-2">✅</span>
-          <strong>Find out which stock is dragging your portfolio down the most YTD</strong> — with a single glance
-        </li>
-        <li class="mb-3">
-          <span class="text-success fw-bold me-2">✅</span>
-          <strong>Mix SGX and US tickers in the same portfolio</strong> — DBS, OCBC, and Apple side by side
-        </li>
-        <li class="mb-3">
-          <span class="text-success fw-bold me-2">✅</span>
-          <strong>Quick links to each company's latest public filings</strong> — no more searching SGX or SEC separately
-        </li>
-        <li class="mb-3">
-          <span class="text-success fw-bold me-2">✅</span>
-          <strong>See your total annual dividend income in USD</strong> across your whole portfolio 
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="row justify-content-center mb-4">
-    <div class="col-md-4">
-      <div class="card border-primary shadow-sm">
-        <div class="card-header bg-primary text-white text-center">
-          <h4 class="mb-0">Pro</h4>
+  <div class="row row-cols-1 row-cols-md-3 mb-4 text-center justify-content-center">
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow border-primary">
+        <div class="card-header py-3 text-bg-primary border-primary">
+          <h4 class="my-0 fw-normal">Pro</h4>
         </div>
-        <div class="card-body text-center">
-          <p class="display-6 fw-bold mb-1">USD $29.99</p>
-          <p class="text-muted mb-4">per month</p>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">$29.99 <small class="text-body-secondary fw-light fs-5">/mo</small></h1>
+          <ul class="list-unstyled mt-3 mb-4 text-start">
+            <li class="d-flex gap-2 mb-2">
+              <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
+              <strong>Auto-updating portfolio tracker</strong> — no more copying numbers
+            </li>
+            <li class="d-flex gap-2 mb-2">
+              <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
+              <strong>Dividend income dashboard</strong> — total annual income in USD at a glance
+            </li>
+            <li class="d-flex gap-2 mb-2">
+              <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
+              <strong>YTD performance by ticker</strong> — instantly spot what's dragging you down
+            </li>
+            <li class="d-flex gap-2 mb-2">
+              <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
+              <strong>US + SGX tickers side by side</strong> — DBS, OCBC, and Apple together
+            </li>
+            <li class="d-flex gap-2 mb-2">
+              <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
+              <strong>Quick links to SEC &amp; SGX filings</strong> — no separate searching
+            </li>
+          </ul>
           <button id="subscribe-btn" class="btn btn-primary btn-lg w-100 mb-2">Subscribe Now</button>
           <p id="subscribe-error" class="text-danger small mb-0" style="display:none"></p>
-          <p class="text-muted small mt-3 mb-0">Powered by Stripe. Cancel anytime.</p>
+          <small class="text-body-secondary d-block mt-3">Powered by Stripe &middot; Cancel anytime</small>
         </div>
       </div>
     </div>
   </div>
 
-  <p class="text-center text-muted">
-    Already subscribed? <a href="/pro/login/">Sign in →</a>
+  <p class="text-center text-body-secondary">
+    Already subscribed? <a href="/pro/login/">Sign in &rarr;</a>
   </p>
 
 </div>
+
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+  <symbol id="check2" viewBox="0 0 16 16">
+    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+  </symbol>
+</svg>
 {{ end }}
 
 {{ define "page-scripts" }}
