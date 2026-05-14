@@ -1,54 +1,138 @@
 {{ define "main" }}
 <div class="container py-5">
 
+  {{/* ── Hero ── */}}
   <div class="text-center mb-5">
-    <h1 class="display-5 fw-bold">Stock Market Words Pro</h1>
+    <h1 class="display-5 fw-bold">Stop guessing. Start knowing.</h1>
     <p class="col-lg-6 mx-auto fs-5 text-body-secondary">
-      Stop juggling spreadsheets. Your portfolio — automatically updated, clearly analyzed.
+      Stock Market Words Pro gives you the tools to understand your portfolio
+      clearly — not just track it.
     </p>
   </div>
 
-  <div class="row row-cols-1 row-cols-md-3 mb-4 text-center justify-content-center">
-    <div class="col">
-      <div class="card mb-4 rounded-3 shadow border-primary">
-        <div class="card-header py-3 text-bg-primary border-primary">
-          <h4 class="my-0 fw-normal">Pro</h4>
+  {{/* ── Pricing card ── */}}
+  <div class="row justify-content-center mb-2">
+    <div class="col-sm-10 col-md-7 col-lg-5">
+      <div class="card rounded-3 shadow border-primary">
+        <div class="card-header py-3 text-bg-primary text-center">
+          <h2 class="fw-bold mb-0 text-white">Pro Plan</h2>
         </div>
-        <div class="card-body">
-          <h1 class="card-title pricing-card-title">$29.99 <small class="text-body-secondary fw-light fs-5">/mo</small></h1>
-          <ul class="list-unstyled mt-3 mb-4 text-start">
-            <li class="d-flex gap-2 mb-2">
+        <div class="card-body px-4 pt-4">
+
+          <div class="text-center mb-4">
+            <p class="text-body-secondary mb-2">Everything you need to understand your portfolio</p>
+            <span class="display-6 fw-bold">$29.99</span>
+            <span class="text-body-secondary fs-5"> / month</span>
+            <div class="mt-2">
+              <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle px-3 py-2">
+                30-day money-back guarantee
+              </span>
+            </div>
+          </div>
+
+          <ul class="list-unstyled mb-4">
+            <li class="d-flex align-items-start gap-2 mb-3">
               <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
-              <strong>Auto-updating portfolio tracker</strong> — no more copying numbers
+              <span><strong>Unlimited AI-powered ticker discovery</strong> — describe any investing thesis in plain English and get a curated list of matching tickers instantly</span>
             </li>
-            <li class="d-flex gap-2 mb-2">
+            <li class="d-flex align-items-start gap-2 mb-3">
               <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
-              <strong>Dividend income dashboard</strong> — total annual income in USD at a glance
+              <span><strong>Sankey chart analysis</strong> — visualize how revenue, expenses, and profit flow through any company at a glance</span>
             </li>
-            <li class="d-flex gap-2 mb-2">
+            <li class="d-flex align-items-start gap-2 mb-3">
               <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
-              <strong>YTD performance by ticker</strong> — instantly spot what's dragging you down
+              <span><strong>Watchlists with aggregate stats</strong> — group any set of tickers and see combined metrics like total yield, average P/E, and sector exposure in one view</span>
             </li>
-            <li class="d-flex gap-2 mb-2">
+            <li class="d-flex align-items-start gap-2 mb-3">
               <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
-              <strong>US + SGX tickers side by side</strong> — DBS, OCBC, and Apple together
-            </li>
-            <li class="d-flex gap-2 mb-2">
-              <svg class="bi text-success flex-shrink-0 mt-1" width="16" height="16" aria-hidden="true"><use href="#check2"/></svg>
-              <strong>Quick links to SEC &amp; SGX filings</strong> — no separate searching
+              <span><strong>Quick links to SEC filings</strong> — jump straight to 10-K, 10-Q, and 8-K documents without leaving the page</span>
             </li>
           </ul>
-          <button id="subscribe-btn" class="btn btn-primary btn-lg w-100 mb-2">Subscribe Now</button>
+
+          <button id="subscribe-btn" class="btn btn-primary btn-lg w-100 mb-2">Get Pro Access</button>
           <p id="subscribe-error" class="text-danger small mb-0" style="display:none"></p>
-          <small class="text-body-secondary d-block mt-3">Powered by Stripe &middot; Cancel anytime</small>
+          <p class="text-center text-body-secondary small mt-3 mb-0">
+            Powered by Stripe &middot; Cancel anytime &middot; Billed monthly
+          </p>
         </div>
       </div>
     </div>
   </div>
 
-  <p class="text-center text-body-secondary">
+  <p class="text-center text-body-secondary mb-5">
     Already subscribed? <a href="/pro/login/">Sign in &rarr;</a>
   </p>
+
+  {{/* ── FAQ ── */}}
+  <div class="row justify-content-center">
+    <div class="col-sm-10 col-md-8 col-lg-6">
+      <h3 class="fw-bold text-center mb-4">Common questions</h3>
+
+      <div class="accordion" id="proFaq">
+
+        <div class="accordion-item border-0 border-bottom">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed px-0 fw-semibold" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#faq1">
+              What does the money-back guarantee cover?
+            </button>
+          </h2>
+          <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#proFaq">
+            <div class="accordion-body px-0 text-body-secondary">
+              If you're not happy for any reason within 30 days of your first payment,
+              email us and we'll issue a full refund — no questions asked.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 border-bottom">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed px-0 fw-semibold" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#faq2">
+              Can I cancel anytime?
+            </button>
+          </h2>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#proFaq">
+            <div class="accordion-body px-0 text-body-secondary">
+              Yes. Cancel from your account page and you won't be charged again.
+              You keep access until the end of your current billing period.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 border-bottom">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed px-0 fw-semibold" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#faq3">
+              Which exchanges and tickers are supported?
+            </button>
+          </h2>
+          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#proFaq">
+            <div class="accordion-body px-0 text-body-secondary">
+              Pro currently covers US-listed equities (NYSE, NASDAQ, AMEX) with
+              SEC filing data. Additional exchanges are on the roadmap.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed px-0 fw-semibold" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#faq4">
+              Is my payment information secure?
+            </button>
+          </h2>
+          <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#proFaq">
+            <div class="accordion-body px-0 text-body-secondary">
+              All payments are handled by Stripe. Your card number never touches
+              our servers — Stripe processes and stores it under PCI DSS compliance.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 </div>
 
