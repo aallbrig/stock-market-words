@@ -43,12 +43,12 @@
       "required": ["dividendDaddy", "moonShot", "fallingKnife", "overHyped", "instWhale", "reitRadar"],
       "additionalProperties": false,
       "properties": {
-        "dividendDaddy": { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
-        "moonShot":      { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
-        "fallingKnife":  { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
-        "overHyped":     { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
-        "instWhale":     { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
-        "reitRadar":     { "type": ["integer", "null"], "minimum": 1, "maximum": 100 }
+        "dividendDaddy": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "moonShot":      { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "fallingKnife":  { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "overHyped":     { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "instWhale":     { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "reitRadar":     { "type": ["integer", "null"], "minimum": 0, "maximum": 100 }
       }
     },
     "ticker": {

@@ -15,13 +15,13 @@
       "type": "object",
       "required": ["dividendDaddy", "moonShot", "fallingKnife", "overHyped", "instWhale"],
       "additionalProperties": false,
-      "description": "Percentile ranks 1–100. Always integers (never null). reitRadar is excluded — it is only computed for REITs and stored in strategy_reit_radar.json.",
+      "description": "Percentile ranks 0–100. Always integers (never null). reitRadar is excluded — it is only computed for REITs and stored in strategy_reit_radar.json.",
       "properties": {
-        "dividendDaddy": { "type": "integer", "minimum": 1, "maximum": 100 },
-        "moonShot":      { "type": "integer", "minimum": 1, "maximum": 100 },
-        "fallingKnife":  { "type": "integer", "minimum": 1, "maximum": 100 },
-        "overHyped":     { "type": "integer", "minimum": 1, "maximum": 100 },
-        "instWhale":     { "type": "integer", "minimum": 1, "maximum": 100 }
+        "dividendDaddy": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "moonShot":      { "type": "integer", "minimum": 0, "maximum": 100 },
+        "fallingKnife":  { "type": "integer", "minimum": 0, "maximum": 100 },
+        "overHyped":     { "type": "integer", "minimum": 0, "maximum": 100 },
+        "instWhale":     { "type": "integer", "minimum": 0, "maximum": 100 }
       }
     },
     "tickerMetadata": {
@@ -62,7 +62,7 @@
         "forwardPE":       { "type": ["number", "null"] },
         "priceToBook":     { "type": ["number", "null"] },
         "pegRatio":        { "type": ["number", "null"] },
-        "enterpriseValue": { "type": ["integer", "null"], "minimum": 0 },
+        "enterpriseValue": { "type": ["integer", "null"] },
 
         "week52High": { "type": ["number", "null"], "minimum": 0 },
         "week52Low":  { "type": ["number", "null"], "minimum": 0 },
@@ -85,7 +85,7 @@
         "earningsGrowth": { "type": ["number", "null"], "description": "Percentage (db decimal * 100)" },
 
         "targetMeanPrice":    { "type": ["number", "null"], "minimum": 0 },
-        "recommendationMean": { "type": ["number", "null"], "minimum": 1, "maximum": 5 },
+        "recommendationMean": { "type": ["number", "null"], "maximum": 5, "description": "Analyst consensus 1 (Strong Buy) to 5 (Strong Sell). yfinance occasionally returns 0.0 for edge cases." },
         "numAnalystOpinions": { "type": ["integer", "null"], "minimum": 0 },
 
         "sharesOutstanding": { "type": ["integer", "null"], "minimum": 0 },

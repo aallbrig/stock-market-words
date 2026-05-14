@@ -28,6 +28,11 @@ tasks:
     cmds:
       - bash -c "source python3/venv/bin/activate && python -m stock_ticker.cli run-all; deactivate"
 
+  run-all-commit-push:
+    desc: Run the full data pipeline then commit and push generated output
+    cmds:
+      - task: run-all-commit
+
   run-all-commit:
     desc: Run the full data pipeline then commit and push generated output (used by systemd timer)
     cmds:
@@ -47,6 +52,14 @@ tasks:
         git commit -m "data: market data refresh $TODAY" -m "Pipeline: task run-all-commit | Files changed: $CHANGED"
         git push origin main
         echo "[pipeline] Committed and pushed $CHANGED file(s) for $TODAY"
+
+  # ─── Database ────────────────────────────────────────────────────────────────
+
+  install-hooks:
+    desc: Install git hooks from .githooks/ (run once after cloning)
+    cmds:
+      - git config core.hooksPath .githooks
+      - echo "✓ git hooks installed from .githooks/"
 
   # ─── Database ────────────────────────────────────────────────────────────────
 

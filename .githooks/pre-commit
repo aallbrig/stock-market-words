@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Validate staged generated-JSON files against their JSON Schema definitions.
+# Install with: task install-hooks
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+VENV="$REPO_ROOT/python3/venv/bin/activate"
+
+if [ -f "$VENV" ]; then
+    # shellcheck disable=SC1090
+    source "$VENV"
+fi
+
+python3 "$REPO_ROOT/scripts/validate-json-schemas.py"
