@@ -19,7 +19,7 @@ tasks:
           PORT=$((PORT+1))
         done
         echo "Starting Hugo server on http://localhost:$PORT"
-        hugo server --port $PORT
+        HUGO_PARAMS_DEMOSENABLED=true hugo server --port $PORT
 
   # ─── Pipeline ───────────────────────────────────────────────────────────────
 

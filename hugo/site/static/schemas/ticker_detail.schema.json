@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stockmarketwords.com/schemas/ticker_detail.schema.json",
+  "title": "TickerDetail",
+  "description": "Full enriched ticker detail page payload. Combines daily_metrics, tickers, strategy_scores, and 1-year price history into a single response suitable for rendering the ticker detail page.",
+  "type": "object",
+  "required": ["symbol", "name", "date"],
+  "properties": {
+
+    "symbol":   { "type": "string", "description": "Exchange ticker symbol", "example": "NVDA" },
+    "name":     { "type": "string", "description": "Company full name" },
+    "exchange": { "type": "string", "description": "Listing exchange", "example": "NASDAQ" },
+    "date":     { "type": "string", "format": "date", "description": "Data snapshot date" },
+
+    "identity": {
+      "description": "Slowly-changing company attributes (from tickers table)",
+      "type": "object",
+      "properties": {
+        "sector":              { "type": ["string", "null"] },
+        "industry":            { "type": ["string", "null"] },
+        "country":             { "type": ["string", "null"] },
+        "full_time_employees": { "type": ["integer", "null"] },
+        "is_etf":              { "type": "boolean" },
+        "is_reit":             { "type": "boolean" },
+        "business_summary":    { "type": ["string", "null"] }
+      }
+    },
+
+    "price": {
+      "description": "Daily OHLCV snapshot",
+      "type": "object",
+      "properties": {
+        "close":     { "type": "number" },
+        "open":      { "type": ["number", "null"] },
+        "high":      { "type": ["number", "null"] },
+        "low":       { "type": ["number", "null"] },
+        "adj_close": { "type": ["number", "null"], "description": "Dividend/split-adjusted close" },
+        "volume":    { "type": ["integer", "null"] }
+      },
+      "required": ["close"]
+    },
+
+    "technicals": {
+      "description": "Computed technical indicators from 1-year price history",
+      "type": "object",
+      "properties": {
+        "rsi_14":         { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+        "ma_50":          { "type": ["number", "null"] },
+        "ma_200":         { "type": ["number", "null"] },
+        "week_52_high":   { "type": ["number", "null"] },
+        "week_52_low":    { "type": ["number", "null"] },
+        "week_52_change": { "type": ["number", "null"], "description": "52-week price return as decimal (0.74 = +74%)" },
+        "hist_volatility":{ "type": ["number", "null"], "description": "20-day annualized log-return std, expressed as % (e.g. 45.2)" },
+        "atr_14":         { "type": ["number", "null"], "description": "14-day Average True Range in price units" },
+        "beta":           { "type": ["number", "null"] }
+      }
+    },
+
+    "valuation": {
+      "description": "Valuation multiples and per-share metrics from Yahoo Finance .info",
+      "type": "object",
+      "properties": {
+        "market_cap":       { "type": ["number", "null"] },
+        "enterprise_value": { "type": ["number", "null"] },
+        "pe_ratio":         { "type": ["number", "null"] },
+        "forward_pe":       { "type": ["number", "null"] },
+        "price_to_book":    { "type": ["number", "null"] },
+        "price_to_sales":   { "type": ["number", "null"] },
+        "peg_ratio":        { "type": ["number", "null"] },
+        "trailing_eps":     { "type": ["number", "null"] },
+        "forward_eps":      { "type": ["number", "null"] },
+        "book_value":       { "type": ["number", "null"] }
+      }
+    },
+
+    "profitability": {
+      "description": "TTM margin stack and return metrics",
+      "type": "object",
+      "properties": {
+        "gross_margins":     { "type": ["number", "null"], "description": "Decimal (0.71 = 71%)" },
+        "ebitda_margins":    { "type": ["number", "null"] },
+        "operating_margin":  { "type": ["number", "null"] },
+        "profit_margin":     { "type": ["number", "null"] },
+        "return_on_equity":  { "type": ["number", "null"] },
+        "return_on_assets":  { "type": ["number", "null"] },
+        "revenue_growth":    { "type": ["number", "null"], "description": "YoY revenue growth, decimal" },
+        "earnings_growth":   { "type": ["number", "null"] }
+      }
+    },
+
+    "balance_sheet": {
+      "description": "Point-in-time balance sheet figures (TTM from .info)",
+      "type": "object",
+      "properties": {
+        "total_cash":         { "type": ["number", "null"] },
+        "total_debt":         { "type": ["number", "null"] },
+        "free_cashflow":      { "type": ["number", "null"] },
+        "operating_cashflow": { "type": ["number", "null"] },
+        "ebitda":             { "type": ["number", "null"] },
+        "total_revenue":      { "type": ["number", "null"], "description": "TTM total revenue (absolute $)" },
+        "gross_profit":       { "type": ["number", "null"] },
+        "debt_to_equity":     { "type": ["number", "null"] },
+        "current_ratio":      { "type": ["number", "null"] },
+        "quick_ratio":        { "type": ["number", "null"] }
+      }
+    },
+
+    "ownership": {
+      "description": "Shareholder structure",
+      "type": "object",
+      "properties": {
+        "held_percent_insiders":     { "type": ["number", "null"], "description": "Decimal (0.04 = 4%)" },
+        "held_percent_institutions": { "type": ["number", "null"] },
+        "shares_outstanding":        { "type": ["integer", "null"] },
+        "float_shares":              { "type": ["integer", "null"] },
+        "shares_short":              { "type": ["integer", "null"] },
+        "short_ratio":               { "type": ["number", "null"] },
+        "short_percent_float":       { "type": ["number", "null"] }
+      }
+    },
+
+    "dividends": {
+      "description": "Dividend details",
+      "type": "object",
+      "properties": {
+        "dividend_yield":              { "type": ["number", "null"] },
+        "dividend_rate":               { "type": ["number", "null"], "description": "Annual dividend per share ($)" },
+        "payout_ratio":                { "type": ["number", "null"] },
+        "five_year_avg_dividend_yield":{ "type": ["number", "null"] }
+      }
+    },
+
+    "analyst": {
+      "description": "Sell-side consensus",
+      "type": "object",
+      "properties": {
+        "target_mean_price":    { "type": ["number", "null"] },
+        "recommendation_mean":  { "type": ["number", "null"], "description": "1.0=Strong Buy … 5.0=Strong Sell" },
+        "num_analyst_opinions": { "type": ["integer", "null"] }
+      }
+    },
+
+    "scores": {
+      "description": "Strategy scores 1–100 (null if ticker did not qualify)",
+      "type": "object",
+      "properties": {
+        "dividend_daddy":      { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
+        "moon_shot":           { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
+        "falling_knife":       { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
+        "over_hyped":          { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
+        "inst_whale":          { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
+        "reit_radar":          { "type": ["integer", "null"], "minimum": 1, "maximum": 100 }
+      }
+    },
+
+    "income_statements": {
+      "description": "Multi-year annual income statement history (from yf.Ticker.income_stmt). Array ordered newest-first.",
+      "$ref": "income_statement.schema.json#/definitions/IncomeStatementHistory"
+    },
+
+    "price_history": {
+      "description": "1-year daily OHLCV for the price chart. Array ordered oldest-first.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["date", "close"],
+        "properties": {
+          "date":   { "type": "string", "format": "date" },
+          "open":   { "type": ["number", "null"] },
+          "high":   { "type": ["number", "null"] },
+          "low":    { "type": ["number", "null"] },
+          "close":  { "type": "number" },
+          "volume": { "type": ["integer", "null"] }
+        }
+      }
+    }
+  },
+
+  "x-api-design": {
+    "note": "Proposed API endpoints to serve this payload",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/api/v1/ticker/{symbol}",
+        "description": "Full ticker detail — all sections above",
+        "query_params": {
+          "include": "Comma-separated sections to include. Default: all. Options: identity,price,technicals,valuation,profitability,balance_sheet,ownership,dividends,analyst,scores,income_statements,price_history",
+          "date": "Snapshot date (YYYY-MM-DD). Default: latest available."
+        },
+        "response": "TickerDetail"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/ticker/{symbol}/history",
+        "description": "Price history only — for chart rendering",
+        "query_params": {
+          "period": "1d | 5d | 1mo | 3mo | 6mo | 1y | 2y | 5y. Default: 1y.",
+          "interval": "1d | 1wk | 1mo. Default: 1d."
+        },
+        "response": "Array of PriceBar (date, open, high, low, close, volume)"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/ticker/{symbol}/financials",
+        "description": "Multi-year income statement for the Sankey diagram",
+        "query_params": {
+          "years": "Number of fiscal years to return. Default: 4."
+        },
+        "response": "IncomeStatementHistory"
+      }
+    ]
+  }
+}

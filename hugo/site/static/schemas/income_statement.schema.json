@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stockmarketwords.com/schemas/income_statement.schema.json",
+  "title": "IncomeStatement",
+  "description": "Annual income statement data sourced from yf.Ticker.income_stmt. Row names snake_cased from Yahoo Finance's index labels.",
+
+  "definitions": {
+
+    "IncomeStatementYear": {
+      "type": "object",
+      "description": "One fiscal year's income statement. All monetary values in USD (not scaled — raw dollars).",
+      "required": ["fiscal_year_end", "total_revenue"],
+      "properties": {
+        "fiscal_year_end":  { "type": "string", "format": "date", "description": "Last day of the fiscal year, e.g. 2025-01-31 for NVDA FY2025" },
+        "fiscal_year_label":{ "type": "string", "description": "Human label, e.g. 'FY2025'" },
+
+        "total_revenue":    { "type": ["number", "null"] },
+        "cost_of_revenue":  { "type": ["number", "null"] },
+        "gross_profit":     { "type": ["number", "null"] },
+
+        "research_and_development":       { "type": ["number", "null"] },
+        "selling_general_and_admin":      { "type": ["number", "null"] },
+        "operating_expense":              { "type": ["number", "null"], "description": "R&D + SG&A total" },
+
+        "operating_income": { "type": ["number", "null"] },
+
+        "interest_income":  { "type": ["number", "null"] },
+        "interest_expense": { "type": ["number", "null"] },
+        "net_interest_income": { "type": ["number", "null"], "description": "interest_income - interest_expense" },
+        "other_income_expense": { "type": ["number", "null"] },
+
+        "pretax_income":    { "type": ["number", "null"] },
+        "tax_provision":    { "type": ["number", "null"] },
+        "net_income":       { "type": ["number", "null"] },
+
+        "ebitda":           { "type": ["number", "null"] },
+        "ebit":             { "type": ["number", "null"] },
+        "reconciled_depreciation": { "type": ["number", "null"] },
+
+        "diluted_eps":       { "type": ["number", "null"] },
+        "basic_eps":         { "type": ["number", "null"] },
+        "diluted_avg_shares":{ "type": ["integer", "null"] },
+        "basic_avg_shares":  { "type": ["integer", "null"] },
+
+        "derived": {
+          "description": "Ratios computed server-side from the raw figures — no extra fetch needed",
+          "type": "object",
+          "properties": {
+            "gross_margin":    { "type": ["number", "null"], "description": "gross_profit / total_revenue" },
+            "operating_margin":{ "type": ["number", "null"] },
+            "net_margin":      { "type": ["number", "null"] },
+            "rd_as_pct_revenue":{ "type": ["number", "null"] }
+          }
+        },
+
+        "sankey": {
+          "description": "Pre-computed node values for the D3 Sankey diagram. All values guaranteed to sum correctly at each intermediate node.",
+          "type": "object",
+          "properties": {
+            "revenue":       { "type": "number" },
+            "cost_of_revenue":{ "type": "number" },
+            "gross_profit":  { "type": "number" },
+            "rd":            { "type": "number" },
+            "sga":           { "type": "number" },
+            "operating_income":{ "type": "number" },
+            "tax_and_other": { "type": "number", "description": "operating_income - net_income; includes tax, interest, and non-operating items" },
+            "net_income":    { "type": "number" }
+          }
+        }
+      }
+    },
+
+    "IncomeStatementHistory": {
+      "type": "array",
+      "description": "Array of annual income statements, newest fiscal year first.",
+      "items": { "$ref": "#/definitions/IncomeStatementYear" },
+      "minItems": 1,
+      "maxItems": 5
+    }
+
+  },
+
+  "x-source-mapping": {
+    "note": "How yf.income_stmt DataFrame rows map to this schema",
+    "mappings": {
+      "Total Revenue":                    "total_revenue",
+      "Cost Of Revenue":                  "cost_of_revenue",
+      "Gross Profit":                     "gross_profit",
+      "Research And Development":         "research_and_development",
+      "Selling General And Administration":"selling_general_and_admin",
+      "Operating Expense":                "operating_expense",
+      "Operating Income":                 "operating_income",
+      "Interest Income Non Operating":    "interest_income",
+      "Interest Expense Non Operating":   "interest_expense",
+      "Other Income Expense":             "other_income_expense",
+      "Pretax Income":                    "pretax_income",
+      "Tax Provision":                    "tax_provision",
+      "Net Income":                       "net_income",
+      "EBITDA":                           "ebitda",
+      "EBIT":                             "ebit",
+      "Reconciled Depreciation":          "reconciled_depreciation",
+      "Diluted EPS":                      "diluted_eps",
+      "Basic EPS":                        "basic_eps",
+      "Diluted Average Shares":           "diluted_avg_shares",
+      "Basic Average Shares":             "basic_avg_shares"
+    }
+  }
+}

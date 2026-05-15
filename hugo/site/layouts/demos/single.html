@@ -1,0 +1,362 @@
+{{ define "main" }}
+{{ if not .Site.Params.demosEnabled }}
+  <div class="container mt-5">
+    <div class="alert alert-secondary">Demos are not enabled in this build.</div>
+  </div>
+{{ else }}
+
+<style>
+.ticker-hero{background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);color:#e6edf3;padding:2rem 0 1.5rem}
+.ticker-hero .price{font-size:2.4rem;font-weight:700}
+.stat-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:#6c757d}
+.stat-value{font-size:1.05rem;font-weight:600}
+.card{box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card-header{font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;background:#fff;border-bottom:2px solid #f0f0f0}
+.sankey-link{fill:none;opacity:.35;transition:opacity .2s}
+.sankey-link:hover{opacity:.65}
+.metric-row{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid #f5f5f5;font-size:.9rem}
+.metric-row:last-child{border-bottom:none}
+.metric-key{color:#6c757d}
+.metric-val{font-weight:500}
+.gauge-bar{height:6px;border-radius:3px;background:#e9ecef}
+.gauge-fill{height:100%;border-radius:3px}
+.year-tab{cursor:pointer}
+.year-tab.active{font-weight:700;border-bottom:2px solid #0d6efd}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+</style>
+
+<!-- ── Demo banner ──────────────────────────────────────────────────── -->
+<div class="alert alert-warning mb-0 rounded-0 py-2 text-center" style="font-size:.82rem">
+  <strong>Demo prototype</strong> — live Yahoo Finance data as of 2026-05-14 ·
+  <a href="/demos/" class="alert-link">← All demos</a>
+  {{ with .Params.schemas }}
+  · Schemas:
+  {{ range . }}<a href="{{ .url }}" class="alert-link me-1" target="_blank">{{ .label }}</a>{{ end }}
+  {{ end }}
+</div>
+
+<!-- ── Hero ────────────────────────────────────────────────────────── -->
+<div class="ticker-hero">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-2">
+      <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider-color:#6c757d">
+        <li class="breadcrumb-item"><a href="/" class="text-secondary">Home</a></li>
+        <li class="breadcrumb-item"><a href="/demos/" class="text-secondary">Demos</a></li>
+        <li class="breadcrumb-item active text-light">{{ .Title }}</li>
+      </ol>
+    </nav>
+    <div class="d-flex align-items-baseline gap-3 flex-wrap mb-1">
+      <h1 class="mb-0 text-white" style="font-size:2rem">NVDA</h1>
+      <span class="price text-white">$235.74</span>
+      <span class="text-success fs-5">+74.4% 52W</span>
+    </div>
+    <div class="d-flex align-items-center gap-2 flex-wrap mb-3">
+      <span class="text-secondary">NVIDIA Corporation</span>
+      <span class="badge bg-secondary">NASDAQ</span>
+      <span class="badge bg-primary">Technology</span>
+      <span class="badge bg-info text-dark">Semiconductors</span>
+      <span class="badge bg-danger" title="RSI-14 overbought">RSI 70.3 ↑</span>
+      <span class="badge" style="background:#6f42c1">★ Strong Buy (1.28)</span>
+    </div>
+    <div class="row g-3 text-center">
+      <div class="col-6 col-md-2"><div class="stat-label">Market Cap</div><div class="stat-value text-white">$5.71T</div></div>
+      <div class="col-6 col-md-2"><div class="stat-label">P/E (TTM)</div><div class="stat-value text-white">48.1×</div></div>
+      <div class="col-6 col-md-2"><div class="stat-label">Forward P/E</div><div class="stat-value text-white">20.7×</div></div>
+      <div class="col-6 col-md-2"><div class="stat-label">EPS (TTM)</div><div class="stat-value text-white">$4.90</div></div>
+      <div class="col-6 col-md-2"><div class="stat-label">52W Range</div><div class="stat-value text-white">$129–$237</div></div>
+      <div class="col-6 col-md-2"><div class="stat-label">Beta</div><div class="stat-value text-white">2.24</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-4">
+
+  <!-- Price chart -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span>Price History — 1 Year</span>
+      <span class="text-muted fw-normal" style="font-size:.78rem">Daily close · MA50 · MA200 · 52W markers</span>
+    </div>
+    <div class="card-body p-2" id="price-chart-container">
+      <svg id="price-chart" style="width:100%;height:280px;display:block"></svg>
+    </div>
+  </div>
+
+  <!-- Fundamentals row -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card h-100">
+        <div class="card-header">Valuation</div>
+        <div class="card-body py-2 px-3">
+          <div class="metric-row"><span class="metric-key">P/E (TTM)</span><span class="metric-val">48.1×</span></div>
+          <div class="metric-row"><span class="metric-key">Forward P/E</span><span class="metric-val">20.7×</span></div>
+          <div class="metric-row"><span class="metric-key">P/S</span><span class="metric-val">26.4×</span></div>
+          <div class="metric-row"><span class="metric-key">P/B</span><span class="metric-val">36.4×</span></div>
+          <div class="metric-row"><span class="metric-key">EPS (TTM)</span><span class="metric-val">$4.90</span></div>
+          <div class="metric-row"><span class="metric-key">Forward EPS</span><span class="metric-val">$11.37</span></div>
+          <div class="metric-row"><span class="metric-key">Analyst Target</span><span class="metric-val text-success">$269.95</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100">
+        <div class="card-header">Profitability — FY2025</div>
+        <div class="card-body py-2 px-3">
+          <div class="mb-2"><div class="d-flex justify-content-between mb-1"><span class="text-muted" style="font-size:.8rem">Gross Margin</span><span>71.1%</span></div><div class="gauge-bar"><div class="gauge-fill" style="width:71.1%;background:#198754"></div></div></div>
+          <div class="mb-2"><div class="d-flex justify-content-between mb-1"><span class="text-muted" style="font-size:.8rem">Operating Margin</span><span>65.0%</span></div><div class="gauge-bar"><div class="gauge-fill" style="width:65%;background:#0d6efd"></div></div></div>
+          <div class="mb-3"><div class="d-flex justify-content-between mb-1"><span class="text-muted" style="font-size:.8rem">Net Margin</span><span>55.6%</span></div><div class="gauge-bar"><div class="gauge-fill" style="width:55.6%;background:#6f42c1"></div></div></div>
+          <div class="metric-row"><span class="metric-key">ROE</span><span class="metric-val text-success">101.5%</span></div>
+          <div class="metric-row"><span class="metric-key">ROA</span><span class="metric-val text-success">51.2%</span></div>
+          <div class="metric-row"><span class="metric-key">Revenue Growth YoY</span><span class="metric-val text-success">+73.2%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100">
+        <div class="card-header">Balance Sheet &amp; Ownership</div>
+        <div class="card-body py-2 px-3">
+          <div class="metric-row"><span class="metric-key">Total Cash</span><span class="metric-val">$62.6B</span></div>
+          <div class="metric-row"><span class="metric-key">Total Debt</span><span class="metric-val">$11.4B</span></div>
+          <div class="metric-row"><span class="metric-key">Net Cash</span><span class="metric-val text-success">+$51.2B</span></div>
+          <div class="metric-row"><span class="metric-key">Free Cash Flow</span><span class="metric-val">$58.1B</span></div>
+          <div class="metric-row" style="margin-top:.5rem"><span class="metric-key">Institutions</span><span class="metric-val">70.2%</span></div>
+          <div class="metric-row"><span class="metric-key">Insiders</span><span class="metric-val">4.0%</span></div>
+          <div class="metric-row"><span class="metric-key">Short % Float</span><span class="metric-val">1.2%</span></div>
+          <div class="metric-row" style="margin-top:.5rem;border-top:1px solid #f0f0f0;padding-top:.4rem">
+            <span class="metric-key" style="font-size:.78rem;color:#6c757d">Revenue / Employee</span>
+            <span class="metric-val text-success" style="font-size:.82rem">$3.11M</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-key" style="font-size:.78rem;color:#6c757d">Net Income / Employee</span>
+            <span class="metric-val text-success" style="font-size:.82rem">$1.74M</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-key" style="font-size:.78rem;color:#6c757d">FCF / Employee</span>
+            <span class="metric-val text-success" style="font-size:.82rem">$1.38M</span>
+          </div>
+          <div style="margin-top:.75rem">
+            <svg id="ownership-donut" style="width:100%;height:110px"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sankey + Scores -->
+  <div class="row g-3 mb-4">
+    <div class="col-lg-7">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>Income Statement Flow</span>
+          <div class="d-flex gap-2" id="sankey-year-tabs" style="font-size:.8rem">
+            <span class="year-tab active px-1" data-year="2025">FY2025</span>
+            <span class="year-tab px-1 text-muted" data-year="2024">FY2024</span>
+            <span class="year-tab px-1 text-muted" data-year="2023">FY2023</span>
+          </div>
+        </div>
+        <div class="card-body p-2">
+          <svg id="sankey-chart" style="width:100%;height:360px;display:block"></svg>
+        </div>
+        <div class="card-footer text-muted" style="font-size:.75rem">USD billions · NVDA fiscal year ends Jan 31</div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card h-100">
+        <div class="card-header">Strategy Scores</div>
+        <div class="card-body py-3 px-3">
+          <p class="text-muted small mb-3">Normalized 1–100 scores across all strategies.</p>
+          <div class="mb-3"><div class="d-flex justify-content-between mb-1"><a href="/strategy/dividend-daddy/" class="text-decoration-none small">Dividend Daddy</a><strong class="small">12/100</strong></div><div class="progress" style="height:8px"><div class="progress-bar bg-success" style="width:12%"></div></div><small class="text-muted" style="font-size:.72rem">Low yield — not a dividend play</small></div>
+          <div class="mb-3"><div class="d-flex justify-content-between mb-1"><a href="/strategy/moon-shot/" class="text-decoration-none small">Moon Shot</a><strong class="small">91/100</strong></div><div class="progress" style="height:8px"><div class="progress-bar bg-warning" style="width:91%"></div></div><small class="text-muted" style="font-size:.72rem">Explosive revenue/EPS growth, AI tailwind</small></div>
+          <div class="mb-3"><div class="d-flex justify-content-between mb-1"><a href="/strategy/falling-knife/" class="text-decoration-none small">Falling Knife</a><strong class="small">8/100</strong></div><div class="progress" style="height:8px"><div class="progress-bar bg-danger" style="width:8%"></div></div><small class="text-muted" style="font-size:.72rem">Near 52W high — not falling</small></div>
+          <div class="mb-3"><div class="d-flex justify-content-between mb-1"><a href="/strategy/over-hyped/" class="text-decoration-none small">Over-Hyped</a><strong class="small">78/100</strong></div><div class="progress" style="height:8px"><div class="progress-bar bg-info" style="width:78%"></div></div><small class="text-muted" style="font-size:.72rem">P/S 26×, P/B 36×, RSI overbought</small></div>
+          <div class="mb-3"><div class="d-flex justify-content-between mb-1"><a href="/strategy/institutional-whale/" class="text-decoration-none small">Inst. Whale</a><strong class="small">85/100</strong></div><div class="progress" style="height:8px"><div class="progress-bar bg-primary" style="width:85%"></div></div><small class="text-muted" style="font-size:.72rem">70% institutional ownership</small></div>
+          <div class="alert alert-warning py-2 mb-0 mt-2" style="font-size:.8rem"><strong>Best fit:</strong> Moon Shot (91) — offset by stretched valuation (Over-Hyped: 78).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-year income table -->
+  <div class="card mb-4">
+    <div class="card-header">Income Statement — 4-Year Trend (USD billions)</div>
+    <div class="table-responsive">
+      <table class="table table-sm table-hover mb-0" style="font-size:.88rem">
+        <thead class="table-dark">
+          <tr><th class="ps-3">Line Item</th><th class="text-end">FY2025</th><th class="text-end">FY2024</th><th class="text-end">FY2023</th><th class="text-end pe-3">YoY Δ</th></tr>
+        </thead>
+        <tbody>
+          <tr class="fw-semibold"><td class="ps-3">Total Revenue</td><td class="text-end">$130.5B</td><td class="text-end">$60.9B</td><td class="text-end">$27.0B</td><td class="text-end text-success pe-3">+114%</td></tr>
+          <tr class="text-muted"><td class="ps-3 ps-4">Cost of Revenue</td><td class="text-end">$32.6B</td><td class="text-end">$16.6B</td><td class="text-end">$11.6B</td><td class="text-end text-danger pe-3">+97%</td></tr>
+          <tr class="fw-semibold table-light"><td class="ps-3">Gross Profit</td><td class="text-end">$97.9B</td><td class="text-end">$44.3B</td><td class="text-end">$15.4B</td><td class="text-end text-success pe-3">+121%</td></tr>
+          <tr class="text-muted"><td class="ps-3 ps-4">R&amp;D</td><td class="text-end">$12.9B</td><td class="text-end">$8.7B</td><td class="text-end">$7.3B</td><td class="text-end pe-3">+48%</td></tr>
+          <tr class="text-muted"><td class="ps-3 ps-4">SG&amp;A</td><td class="text-end">$3.5B</td><td class="text-end">$2.7B</td><td class="text-end">$2.4B</td><td class="text-end pe-3">+32%</td></tr>
+          <tr class="fw-semibold"><td class="ps-3">Operating Income</td><td class="text-end">$81.5B</td><td class="text-end">$33.0B</td><td class="text-end">$5.6B</td><td class="text-end text-success pe-3">+147%</td></tr>
+          <tr class="text-muted"><td class="ps-3 ps-4">Tax Provision</td><td class="text-end">$11.1B</td><td class="text-end">$4.1B</td><td class="text-end">($0.2B)</td><td class="text-end pe-3">+175%</td></tr>
+          <tr class="fw-bold table-dark text-white"><td class="ps-3">Net Income</td><td class="text-end">$72.9B</td><td class="text-end">$29.8B</td><td class="text-end">$4.4B</td><td class="text-end text-success pe-3">+145%</td></tr>
+          <tr class="text-muted border-top"><td class="ps-3">Gross Margin</td><td class="text-end">71.1%</td><td class="text-end">72.7%</td><td class="text-end">56.9%</td><td class="text-end text-danger pe-3">−1.6pp</td></tr>
+          <tr class="text-muted"><td class="ps-3">Operating Margin</td><td class="text-end">62.4%</td><td class="text-end">54.1%</td><td class="text-end">20.6%</td><td class="text-end text-success pe-3">+8.3pp</td></tr>
+          <tr class="text-muted"><td class="ps-3">Net Margin</td><td class="text-end">55.9%</td><td class="text-end">48.8%</td><td class="text-end">16.2%</td><td class="text-end text-success pe-3">+7.1pp</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- About -->
+  <div class="card mb-4">
+    <div class="card-header">About NVIDIA</div>
+    <div class="card-body"><p class="mb-0" style="font-size:.9rem;line-height:1.7">NVIDIA Corporation designs and sells graphics, compute, and networking solutions worldwide. Its Data Center segment — the source of nearly all FY2025 revenue growth — serves AI training and inference workloads via H100/H200 GPUs and the NVLink interconnect fabric. Gaming, Professional Visualization, and Automotive make up the remainder. Founded 1993 · Santa Clara, CA · 42,000 employees.</p></div>
+  </div>
+
+  <!-- Demo metadata -->
+  <div class="card bg-light border-0 mb-4">
+    <div class="card-body py-2 px-3" style="font-size:.82rem">
+      <strong>Demo metadata</strong> ·
+      {{ with .Params.schemas }}Schemas: {{ range . }}<a href="{{ .url }}" target="_blank" class="me-2">{{ .label }}</a>{{ end }} · {{ end }}
+      Data: Yahoo Finance · yfinance 0.2.x ·
+      {{ .Date.Format "2006-01-02" }}
+    </div>
+  </div>
+
+  <p class="text-muted small">Not financial advice. Data sourced from Yahoo Finance for demonstration purposes.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+<script src="{{ "nvda_data.js" | relURL }}"></script>
+<script>
+// ── Price chart ───────────────────────────────────────────────────
+(function(){
+  const container=document.getElementById('price-chart-container');
+  const svg=d3.select('#price-chart');
+  const margin={top:12,right:16,bottom:32,left:58};
+  function draw(){
+    svg.selectAll('*').remove();
+    const W=container.clientWidth,H=280;
+    const w=W-margin.left-margin.right,h=H-margin.top-margin.bottom;
+    const g=svg.attr('viewBox',`0 0 ${W} ${H}`).append('g').attr('transform',`translate(${margin.left},${margin.top})`);
+    const parse=d3.timeParse('%Y-%m-%d');
+    const data=NVDA_PRICES.map(p=>({d:parse(p.d),c:p.c,h:p.h,l:p.l}));
+    const x=d3.scaleTime().domain(d3.extent(data,d=>d.d)).range([0,w]);
+    const y=d3.scaleLinear().domain([d3.min(data,d=>d.l)*.96,d3.max(data,d=>d.h)*1.01]).range([h,0]);
+    g.append('g').call(d3.axisLeft(y).ticks(5).tickSize(-w).tickFormat('')).select('.domain').remove();
+    g.selectAll('.tick line').attr('stroke','#f0f0f0');
+    const defs=svg.append('defs');
+    const grad=defs.append('linearGradient').attr('id','pg').attr('x1','0').attr('y1','0').attr('x2','0').attr('y2','1');
+    grad.append('stop').attr('offset','0%').attr('stop-color','#0d6efd').attr('stop-opacity',.25);
+    grad.append('stop').attr('offset','100%').attr('stop-color','#0d6efd').attr('stop-opacity',.02);
+    g.append('path').datum(data).attr('d',d3.area().x(d=>x(d.d)).y0(h).y1(d=>y(d.c)).curve(d3.curveMonotoneX)).attr('fill','url(#pg)');
+    function ma(arr,n){return arr.map((_,i)=>i<n-1?null:d3.mean(arr.slice(i-n+1,i+1),d=>d.c));}
+    const ma50=ma(data,50),ma200=ma(data,200);
+    const line=d3.line().defined(d=>d!==null).x((_,i)=>x(data[i].d)).y(d=>y(d)).curve(d3.curveMonotoneX);
+    g.append('path').datum(ma200).attr('d',line).attr('fill','none').attr('stroke','#ffc107').attr('stroke-width',1.5).attr('stroke-dasharray','4 2').attr('opacity',.8);
+    g.append('path').datum(ma50).attr('d',line).attr('fill','none').attr('stroke','#20c997').attr('stroke-width',1.5).attr('stroke-dasharray','4 2').attr('opacity',.8);
+    g.append('path').datum(data).attr('d',d3.line().x(d=>x(d.d)).y(d=>y(d.c)).curve(d3.curveMonotoneX)).attr('fill','none').attr('stroke','#0d6efd').attr('stroke-width',2);
+    const maxPt=data.reduce((a,b)=>b.h>a.h?b:a);
+    const minPt=data.reduce((a,b)=>b.l<a.l?b:a);
+    g.append('circle').attr('cx',x(maxPt.d)).attr('cy',y(maxPt.h)).attr('r',4).attr('fill','#dc3545').attr('opacity',.8);
+    g.append('text').attr('x',x(maxPt.d)+6).attr('y',y(maxPt.h)+4).attr('font-size',10).attr('fill','#dc3545').text(`$${maxPt.h}`);
+    g.append('circle').attr('cx',x(minPt.d)).attr('cy',y(minPt.l)).attr('r',4).attr('fill','#198754').attr('opacity',.8);
+    g.append('text').attr('x',x(minPt.d)+6).attr('y',y(minPt.l)-4).attr('font-size',10).attr('fill','#198754').text(`$${minPt.l}`);
+    g.append('g').attr('transform',`translate(0,${h})`).call(d3.axisBottom(x).ticks(6).tickFormat(d3.timeFormat('%b %y'))).selectAll('text').attr('font-size',10);
+    g.append('g').call(d3.axisLeft(y).ticks(5).tickFormat(d=>`$${d}`)).selectAll('text').attr('font-size',10);
+    const leg=g.append('g').attr('transform',`translate(${w-190},4)`);
+    [[0,'#0d6efd','Price'],[28,'#20c997','MA50'],[56,'#ffc107','MA200']].forEach(([ox,col,lbl])=>{
+      leg.append('line').attr('x1',ox).attr('x2',ox+16).attr('y1',6).attr('y2',6).attr('stroke',col).attr('stroke-width',2);
+      leg.append('text').attr('x',ox+20).attr('y',10).attr('font-size',10).attr('fill','#6c757d').text(lbl);
+    });
+    // Hover crosshair
+    const bisect=d3.bisector(d=>d.d).left;
+    const crosshair=g.append('line').attr('y1',0).attr('y2',h).attr('stroke','#6c757d').attr('stroke-width',1).attr('stroke-dasharray','3 3').style('display','none');
+    const hoverDot=g.append('circle').attr('r',4).attr('fill','#0d6efd').attr('stroke','#fff').attr('stroke-width',2).style('display','none');
+    const ttBox=g.append('g').style('display','none');
+    ttBox.append('rect').attr('rx',4).attr('fill','white').attr('stroke','#dee2e6').attr('stroke-width',1).style('filter','drop-shadow(0 1px 4px rgba(0,0,0,.12))');
+    const ttDate=ttBox.append('text').attr('font-size',11).attr('fill','#6c757d');
+    const ttPrice=ttBox.append('text').attr('font-size',13).attr('font-weight','bold').attr('fill','#0d6efd');
+    g.append('rect').attr('width',w).attr('height',h).attr('fill','none').attr('pointer-events','all')
+      .on('mousemove',function(event){
+        const [mx]=d3.pointer(event,this);
+        const date=x.invert(mx);
+        const i=bisect(data,date,1);
+        const d0=data[Math.max(0,i-1)],d1=data[Math.min(data.length-1,i)];
+        const pt=Math.abs(date-d0.d)<=Math.abs(date-d1.d)?d0:d1;
+        const cx=x(pt.d),cy=y(pt.c),pad=8,bw=116,bh=46;
+        let bx=cx+14;if(bx+bw>w)bx=cx-bw-14;
+        const by=Math.max(0,Math.min(cy-bh/2,h-bh));
+        crosshair.attr('x1',cx).attr('x2',cx).style('display',null);
+        hoverDot.attr('cx',cx).attr('cy',cy).style('display',null);
+        ttBox.style('display',null).attr('transform',`translate(${bx},${by})`);
+        ttBox.select('rect').attr('width',bw).attr('height',bh);
+        ttDate.attr('x',pad).attr('y',16).text(d3.timeFormat('%b %d, %Y')(pt.d));
+        ttPrice.attr('x',pad).attr('y',36).text(`$${pt.c.toFixed(2)}`);
+      })
+      .on('mouseleave',function(){crosshair.style('display','none');hoverDot.style('display','none');ttBox.style('display','none');});
+  }
+  draw();
+  window.addEventListener('resize',draw);
+})();
+
+// ── Sankey ───────────────────────────────────────────────────────
+const SANKEY_DATA={
+  '2025':{revenue:130497,cor:32639,gross:97858,rd:12914,sga:3491,opinc:81453,tax_other:8573,net:72880},
+  '2024':{revenue:60922,cor:16621,gross:44301,rd:8675,sga:2654,opinc:32972,tax_other:3212,net:29760},
+  '2023':{revenue:26974,cor:11618,gross:15356,rd:7339,sga:2440,opinc:5577,tax_other:1209,net:4368}
+};
+const COLORS={'Revenue':'#0d6efd','Gross Profit':'#6f42c1','Operating Income':'#0dcaf0','Net Income':'#198754','Cost of Revenue':'#dc3545','R&D':'#fd7e14','SG&A':'#ffc107','Tax & Other':'#6c757d'};
+
+function drawSankey(year){
+  const d=SANKEY_DATA[year];
+  const svgEl=document.getElementById('sankey-chart');
+  const svg=d3.select(svgEl);
+  svg.selectAll('*').remove();
+  const W=svgEl.parentElement.clientWidth-4,H=360;
+  const m={top:12,right:12,bottom:12,left:12};
+  svg.attr('viewBox',`0 0 ${W} ${H}`);
+  const g=svg.append('g').attr('transform',`translate(${m.left},${m.top})`);
+  const iW=W-m.left-m.right,iH=H-m.top-m.bottom;
+  const nodes=[{name:'Revenue'},{name:'Cost of Revenue'},{name:'Gross Profit'},{name:'R&D'},{name:'SG&A'},{name:'Operating Income'},{name:'Tax & Other'},{name:'Net Income'}];
+  const links=[{source:0,target:1,value:d.cor},{source:0,target:2,value:d.gross},{source:2,target:3,value:d.rd},{source:2,target:4,value:d.sga},{source:2,target:5,value:d.opinc},{source:5,target:6,value:d.tax_other},{source:5,target:7,value:d.net}];
+  const sankey=d3.sankey().nodeWidth(18).nodePadding(14).extent([[0,0],[iW,iH]]);
+  const graph=sankey({nodes:nodes.map(n=>({...n})),links:links.map(l=>({...l}))});
+  const fmt=v=>v>=1000?`$${(v/1000).toFixed(1)}B`:`$${v}M`;
+  g.append('g').attr('fill','none').selectAll('path').data(graph.links).join('path')
+    .attr('class','sankey-link').attr('d',d3.sankeyLinkHorizontal())
+    .attr('stroke',d=>COLORS[d.source.name]||'#aaa').attr('stroke-width',d=>Math.max(1,d.width))
+    .append('title').text(d=>`${d.source.name} → ${d.target.name}\n${fmt(d.value)}`);
+  const node=g.append('g').selectAll('g').data(graph.nodes).join('g');
+  node.append('rect').attr('x',d=>d.x0).attr('y',d=>d.y0).attr('height',d=>Math.max(1,d.y1-d.y0)).attr('width',d=>d.x1-d.x0).attr('fill',d=>COLORS[d.name]||'#888').attr('rx',3).append('title').text(d=>`${d.name}\n${fmt(d.value)}`);
+  node.append('text').attr('x',d=>d.x0<iW/2?d.x1+6:d.x0-6).attr('y',d=>(d.y0+d.y1)/2).attr('dy','0.35em').attr('text-anchor',d=>d.x0<iW/2?'start':'end').attr('font-size',13).attr('fill','#212529').text(d=>d.name);
+  node.append('text').attr('x',d=>d.x0<iW/2?d.x1+6:d.x0-6).attr('y',d=>(d.y0+d.y1)/2+15).attr('dy','0.35em').attr('text-anchor',d=>d.x0<iW/2?'start':'end').attr('font-size',11).attr('fill','#6c757d').text(d=>fmt(d.value));
+}
+drawSankey('2025');
+
+// ── Ownership donut ───────────────────────────────────────────────
+(function(){
+  const slices=[{label:'Institutions',value:70.2,color:'#0d6efd'},{label:'Insiders',value:4.0,color:'#6f42c1'},{label:'Other',value:25.8,color:'#dee2e6'}];
+  const cont=document.getElementById('ownership-donut');
+  if(!cont)return;
+  const W=cont.parentElement.clientWidth,H=110,R=40,r=22,cx=W/2,cy=H/2;
+  const svg=d3.select('#ownership-donut').attr('viewBox',`0 0 ${W} ${H}`);
+  const pie=d3.pie().sort(null).value(d=>d.value);
+  const arc=d3.arc().innerRadius(r).outerRadius(R);
+  const g=svg.append('g').attr('transform',`translate(${cx},${cy})`);
+  g.selectAll('path').data(pie(slices)).join('path').attr('d',arc).attr('fill',d=>d.data.color).attr('stroke','white').attr('stroke-width',1.5);
+  g.append('text').attr('text-anchor','middle').attr('dy','-0.15em').attr('font-size',13).attr('font-weight','bold').attr('fill','#0d6efd').text('70.2%');
+  g.append('text').attr('text-anchor','middle').attr('dy','1.1em').attr('font-size',9).attr('fill','#6c757d').text('Institutional');
+  const lx=cx+R+12,ly=cy-28;
+  slices.forEach((s,i)=>{
+    svg.append('rect').attr('x',lx).attr('y',ly+i*18).attr('width',10).attr('height',10).attr('fill',s.color).attr('rx',2);
+    svg.append('text').attr('x',lx+14).attr('y',ly+i*18+9).attr('font-size',11).attr('fill','#212529').text(`${s.label} ${s.value}%`);
+  });
+})();
+
+document.getElementById('sankey-year-tabs').addEventListener('click',function(e){
+  const tab=e.target.closest('.year-tab');
+  if(!tab)return;
+  document.querySelectorAll('.year-tab').forEach(t=>{t.classList.remove('active');t.classList.add('text-muted');});
+  tab.classList.add('active');tab.classList.remove('text-muted');
+  drawSankey(tab.dataset.year);
+});
+</script>
+
+{{ end }}
+{{ end }}

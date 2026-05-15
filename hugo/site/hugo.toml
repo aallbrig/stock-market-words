@@ -29,6 +29,10 @@ proApiBase = "http://localhost:3000"
 # Override at build time via HUGO_PARAMS_PROENABLED=true.
 proEnabled = true
 
+# Feature flag: /demos/ section. Enabled locally; never set in GitHub Actions so
+# production builds stay clean. Override via HUGO_PARAMS_DEMOSENABLED=true.
+demosEnabled = false
+
 # Google Analytics tracking ID (leave empty for local development)
 # Set via environment variable HUGO_PARAMS_GOOGLEANALYTICSID in production
 googleAnalyticsId = ""
