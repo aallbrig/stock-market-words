@@ -9,7 +9,11 @@
         <div class="card-body">
           <h5 class="card-title">Subscription</h5>
           <p class="mb-1 text-muted small">Signed in as</p>
-          <p class="fw-bold mb-3" id="pro-email">—</p>
+          <p class="fw-bold mb-2" id="pro-email">—</p>
+          <div class="mb-3" id="pro-sub-details" style="display:none">
+            <span class="badge me-2" id="pro-sub-status-badge"></span>
+            <span class="text-muted small" id="pro-sub-renews"></span>
+          </div>
           <button id="billing-portal-btn" class="btn btn-outline-primary">Manage billing →</button>
           <div id="billing-error" class="text-danger small mt-2" style="display:none"></div>
         </div>
@@ -23,7 +27,7 @@
             This action cannot be undone.
           </p>
           <p class="text-muted small">
-            <strong>PDPA notice:</strong> Your data is stored in Singapore (AWS ap-southeast-1).
+            <strong>Privacy notice:</strong> Your data is stored in AWS us-east-1 (N. Virginia).
             You have the right to request deletion at any time.
           </p>
           <button id="delete-account-btn" class="btn btn-danger">Delete my account and data</button>
@@ -54,67 +58,5 @@
 {{ end }}
 
 {{ define "page-scripts" }}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    try { ProAuth.requireLogin(); } catch (_) { return; }
-
-    var emailEl = document.getElementById('pro-email');
-    if (emailEl) emailEl.textContent = ProAuth.getEmail() || '—';
-
-    var apiBase = window.SMW_PRO_API_BASE || '';
-
-    var billingBtn = document.getElementById('billing-portal-btn');
-    if (billingBtn) {
-      billingBtn.addEventListener('click', function () {
-        billingBtn.disabled = true;
-        billingBtn.textContent = 'Loading…';
-        ProAuth.authFetch(apiBase + '/pro/subscription/portal', { method: 'POST' })
-          .then(function (res) { return res.json(); })
-          .then(function (data) {
-            if (data.url) { window.location.href = data.url; }
-            else { throw new Error('no url'); }
-          })
-          .catch(function () {
-            billingBtn.disabled = false;
-            billingBtn.textContent = 'Manage billing →';
-            var err = document.getElementById('billing-error');
-            if (err) { err.textContent = 'Unable to open billing portal. Please try again.'; err.style.display = ''; }
-          });
-      });
-    }
-
-    var deleteBtn = document.getElementById('delete-account-btn');
-    var modal = document.getElementById('delete-confirm-modal');
-    var confirmYes = document.getElementById('delete-confirm-yes');
-    var confirmNo = document.getElementById('delete-confirm-no');
-
-    if (deleteBtn && modal) {
-      deleteBtn.addEventListener('click', function () {
-        modal.style.display = 'flex';
-      });
-      confirmNo.addEventListener('click', function () {
-        modal.style.display = 'none';
-      });
-      confirmYes.addEventListener('click', function () {
-        confirmYes.disabled = true;
-        confirmYes.textContent = 'Deleting…';
-        ProAuth.authFetch(apiBase + '/pro/account', { method: 'DELETE' })
-          .then(function (res) {
-            if (res.status === 204) {
-              ProAuth.logout();
-            } else {
-              throw new Error('delete failed');
-            }
-          })
-          .catch(function () {
-            modal.style.display = 'none';
-            confirmYes.disabled = false;
-            confirmYes.textContent = 'Yes, delete everything';
-            var err = document.getElementById('delete-error');
-            if (err) { err.textContent = 'Unable to delete account. Please try again or contact support.'; err.style.display = ''; }
-          });
-      });
-    }
-  });
-</script>
+<script src="{{ .Site.BaseURL }}js/pro-account.js"></script>
 {{ end }}

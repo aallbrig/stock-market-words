@@ -27,7 +27,7 @@ defaultContentLanguageInSubdir = false
 proApiBase = "http://localhost:3000"
 # Feature flag: set true only at release to enable the /pro/* section.
 # Override at build time via HUGO_PARAMS_PROENABLED=true.
-proEnabled = false
+proEnabled = true
 
 # Google Analytics tracking ID (leave empty for local development)
 # Set via environment variable HUGO_PARAMS_GOOGLEANALYTICSID in production

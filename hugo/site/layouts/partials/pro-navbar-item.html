@@ -1,25 +1,51 @@
 {{/*
   pro-navbar-item.html
-  Renders a "Pro" nav item. Auth state is checked client-side via localStorage.
-  Shows "Dashboard" if logged in, "Go Pro" if not.
-  Wrapped in proEnabled flag — renders nothing when Pro is not released.
+  Auth state is checked client-side via localStorage (smw_pro_token).
+
+  Logged out:  "Go Pro"  (→ /pro/)  +  "Sign In"  (→ /pro/login/)
+  Logged in:   "Dashboard"  +  dropdown: Account / Sign Out
 */}}
 {{ if .Site.Params.proEnabled }}
 <li class="nav-item" id="pro-nav-item">
   <a class="nav-link" href="/pro/" id="pro-nav-link">Go Pro</a>
 </li>
+<li class="nav-item" id="pro-signin-item">
+  <a class="nav-link" href="/pro/login/" id="pro-signin-link">Sign In</a>
+</li>
+<li class="nav-item dropdown d-none" id="pro-account-item">
+  <a class="nav-link dropdown-toggle" href="#" id="pro-account-toggle" role="button"
+     data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="pro-account-toggle">
+    <li><a class="dropdown-item" href="/pro/dashboard/">Dashboard</a></li>
+    <li><a class="dropdown-item" href="/pro/account/">Account</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="#" id="pro-signout-link">Sign Out</a></li>
+  </ul>
+</li>
 <script>
 (function () {
   var token = localStorage.getItem('smw_pro_token');
-  if (token) {
-    try {
-      var payload = JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
-      if (payload && payload.exp && payload.exp * 1000 > Date.now()) {
-        var link = document.getElementById('pro-nav-link');
-        if (link) { link.textContent = 'Dashboard'; link.href = '/pro/dashboard/'; }
-      }
-    } catch (_) {}
-  }
+  if (!token) return;
+  try {
+    var payload = JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+    if (!payload || !payload.exp || payload.exp * 1000 <= Date.now()) return;
+
+    // Logged in: show dashboard link + account dropdown, hide Go Pro + Sign In
+    var proLink = document.getElementById('pro-nav-link');
+    if (proLink) { proLink.textContent = 'Dashboard'; proLink.href = '/pro/dashboard/'; }
+    document.getElementById('pro-signin-item').classList.add('d-none');
+    document.getElementById('pro-account-item').classList.remove('d-none');
+
+    var signOut = document.getElementById('pro-signout-link');
+    if (signOut) {
+      signOut.addEventListener('click', function (e) {
+        e.preventDefault();
+        localStorage.removeItem('smw_pro_token');
+        localStorage.removeItem('smw_pro_email');
+        window.location.href = '/pro/';
+      });
+    }
+  } catch (_) {}
 })();
 </script>
 {{ end }}

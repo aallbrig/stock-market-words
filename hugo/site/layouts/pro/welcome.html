@@ -16,9 +16,5 @@
 {{ end }}
 
 {{ define "page-scripts" }}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    ProAuth.handleCheckoutSuccess();
-  });
-</script>
+<script src="{{ .Site.BaseURL }}js/pro-welcome.js"></script>
 {{ end }}

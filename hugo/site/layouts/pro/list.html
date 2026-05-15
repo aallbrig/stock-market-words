@@ -145,12 +145,4 @@
 
 {{ define "page-scripts" }}
 <script src="{{ .Site.BaseURL }}js/pro-subscribe.js"></script>
-<script>
-  if (typeof ProAuth !== 'undefined' && ProAuth.isLoggedIn()) {
-    window.location.href = '/pro/dashboard/';
-  }
-  document.addEventListener('DOMContentLoaded', function () {
-    ProSubscribe.initSubscribeButton('subscribe-btn', 'subscribe-error');
-  });
-</script>
 {{ end }}

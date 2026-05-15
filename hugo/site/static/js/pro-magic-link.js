@@ -61,4 +61,10 @@
   }
 
   window.ProMagicLink = { initMagicLinkForm: initMagicLinkForm };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (document.getElementById('magic-link-form')) {
+      initMagicLinkForm('magic-link-form');
+    }
+  });
 })();

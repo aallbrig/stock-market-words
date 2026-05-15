@@ -42,4 +42,15 @@
   }
 
   window.ProSubscribe = { initSubscribeButton: initSubscribeButton };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var btn = document.getElementById('subscribe-btn');
+    if (!btn) return;
+    if (typeof ProAuth !== 'undefined' && ProAuth.isLoggedIn()) {
+      btn.textContent = 'Access your dashboard →';
+      btn.onclick = function () { window.location.href = '/pro/dashboard/'; };
+    } else {
+      initSubscribeButton('subscribe-btn', 'subscribe-error');
+    }
+  });
 })();

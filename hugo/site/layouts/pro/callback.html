@@ -16,9 +16,5 @@
 {{ end }}
 
 {{ define "page-scripts" }}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    ProAuth.handleMagicCallback();
-  });
-</script>
+<script src="{{ .Site.BaseURL }}js/pro-callback.js"></script>
 {{ end }}
