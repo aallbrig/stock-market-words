@@ -18,6 +18,7 @@ from .migrations import (
 )
 from .ftp_sync import sync_ftp
 from .extractors import extract_prices, extract_metadata
+from .download_strategies import get_strategy
 from .builders import build_assets
 from .hugo_generators import (
     generate_raw_ftp_data, 
@@ -737,37 +738,41 @@ def sync_ftp_cmd(ctx, clean):
 @cli.command('extract-prices')
 @click.option('--limit', type=int, default=None, help='Limit ticker processing for testing')
 @click.option('--clean', is_flag=True, help='Clean today\'s data before running')
+@click.option('--strategy', default='batch', type=click.Choice(['batch', 'pia-vpn']),
+              show_default=True, help='Download strategy: batch (default) or pia-vpn (adaptive + VPN cycling)')
 @click.pass_context
 @log_timing
-def extract_prices_cmd(ctx, limit, clean):
+def extract_prices_cmd(ctx, limit, clean, strategy):
     """Pass 1: Fetch price/volume data for all tickers."""
     ensure_initialized()
-    
+
     if clean:
         logger.info("")
         logger.info("🧹 Cleaning today's extract-prices data...")
         clean_today_data(step_name='extract-prices', dry_run=ctx.obj.dry_run)
         logger.info("")
-    
-    extract_prices(dry_run=ctx.obj.dry_run, limit=limit)
+
+    extract_prices(dry_run=ctx.obj.dry_run, limit=limit, strategy=get_strategy(strategy))
 
 
 @cli.command('extract-metadata')
 @click.option('--limit', type=int, default=None, help='Limit ticker processing for testing')
 @click.option('--clean', is_flag=True, help='Clean today\'s data before running')
+@click.option('--strategy', default='batch', type=click.Choice(['batch', 'pia-vpn']),
+              show_default=True, help='Download strategy: batch (default) or pia-vpn (adaptive + VPN cycling)')
 @click.pass_context
 @log_timing
-def extract_metadata_cmd(ctx, limit, clean):
+def extract_metadata_cmd(ctx, limit, clean, strategy):
     """Pass 2: Fetch detailed metrics for filtered tickers."""
     ensure_initialized()
-    
+
     if clean:
         logger.info("")
         logger.info("🧹 Cleaning today's extract-metadata data...")
         clean_today_data(step_name='extract-metadata', dry_run=ctx.obj.dry_run)
         logger.info("")
-    
-    extract_metadata(dry_run=ctx.obj.dry_run, limit=limit)
+
+    extract_metadata(dry_run=ctx.obj.dry_run, limit=limit, strategy=get_strategy(strategy))
 
 
 @cli.command()
@@ -847,8 +852,10 @@ def print_pipeline_summary():
 @click.option('--limit', type=int, default=None, help='Limit ticker processing for testing (e.g., --limit 10)')
 @click.option('--force', is_flag=True, help='Force re-run even if already completed today (does not reset state)')
 @click.option('--clean', is_flag=True, help='Clean today\'s data before running (resets pipeline state)')
+@click.option('--strategy', default='batch', type=click.Choice(['batch', 'pia-vpn']),
+              show_default=True, help='Download strategy for extract steps: batch (default) or pia-vpn (adaptive + VPN cycling)')
 @click.pass_context
-def run_all(ctx, limit, force, clean):
+def run_all(ctx, limit, force, clean, strategy):
     """Execute all pipeline steps in sequence."""
     pipeline_start_time = time.time()
     step_timings = {}
@@ -970,18 +977,18 @@ def run_all(ctx, limit, force, clean):
             logger.info("")
             logger.info("💹 Step 2: Extracting price/volume data (Pass 1)...")
             step_start = time.time()
-            extract_prices(dry_run=False, limit=limit, run_id=run_id)
+            extract_prices(dry_run=False, limit=limit, run_id=run_id, strategy=get_strategy(strategy))
             step_timings['extract-prices'] = time.time() - step_start
         else:
             logger.info("")
             logger.info("💹 Step 2: Extracting price/volume data (Pass 1)... ✓ Already completed")
-        
+
         # Extract metadata (skip if already done)
         if 'extract-metadata' not in state['completed_steps']:
             logger.info("")
             logger.info("📊 Step 3: Extracting detailed metrics (Pass 2)...")
             step_start = time.time()
-            extract_metadata(dry_run=False, limit=limit, run_id=run_id)
+            extract_metadata(dry_run=False, limit=limit, run_id=run_id, strategy=get_strategy(strategy))
             step_timings['extract-metadata'] = time.time() - step_start
         else:
             logger.info("")
