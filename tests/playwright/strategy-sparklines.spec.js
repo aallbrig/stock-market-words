@@ -16,7 +16,7 @@
  *  8. Tooltip API returns a date title and "<score>/100" body.
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.js';
 
 const NON_REIT = ['dividendDaddy', 'moonShot', 'fallingKnife', 'overHyped', 'instWhale'];
 const ALL = [...NON_REIT, 'reitRadar'];

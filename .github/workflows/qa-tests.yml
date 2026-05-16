@@ -65,9 +65,10 @@ jobs:
     - name: Run E2E tests against QA site
       run: npm run test:e2e:ci
       env:
-        TEST_URL: ${{ steps.pages_url.outputs.pages_url }}
+        TEST_URL: https://aallbrig.github.io
+        PLAYWRIGHT_BASE_PATH: /stock-market-words
         START_SERVER: 'false'
-      timeout-minutes: 10
+      timeout-minutes: 20
       
     - name: Upload test reports
       if: always()

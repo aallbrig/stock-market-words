@@ -12,7 +12,7 @@
  *  8. No console errors on zh-CN pages
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.js';
 
 // Key zh-CN pages that must exist (mirrors EN pages created with .zh-cn.md content)
 const ZH_PAGES = [

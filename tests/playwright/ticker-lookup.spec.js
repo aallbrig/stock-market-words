@@ -9,7 +9,7 @@
  * These tests run against the Hugo dev server (same as other specs).
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.js';
 
 test.describe('Ticker Lookup Enhancements', () => {
   test.beforeEach(async ({ page }) => {

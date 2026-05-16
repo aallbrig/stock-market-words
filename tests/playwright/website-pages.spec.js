@@ -5,7 +5,7 @@
  * Migrated from Puppeteer to Playwright
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.js';
 
 // All pages on the website
 const PAGES = [

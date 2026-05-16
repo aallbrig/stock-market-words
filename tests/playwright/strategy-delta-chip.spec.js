@@ -15,7 +15,7 @@
  *     flag-off contract.
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.js';
 
 test.describe('Strategy delta chip — ticker page', () => {
   test('AAPL: a chip renders next to each strategy score (5 chips)', async ({ page }) => {

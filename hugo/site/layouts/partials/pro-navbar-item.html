@@ -5,7 +5,7 @@
   Logged out:  "Go Pro"  (→ /pro/)  +  "Sign In"  (→ /pro/login/)
   Logged in:   "Dashboard"  +  dropdown: Account / Sign Out
 */}}
-{{ if .Site.Params.proEnabled }}
+{{ if and .Site.Params.proEnabled (eq .Site.Language.Lang "en") }}
 <li class="nav-item" id="pro-nav-item">
   <a class="nav-link" href="/pro/" id="pro-nav-link">Go Pro</a>
 </li>

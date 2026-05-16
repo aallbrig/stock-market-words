@@ -9,7 +9,7 @@
  * Depends on: ticker_lookup_enhancements spec (ticker-lookup.js, ticker-lookup.json)
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.js';
 
 const NAV_INPUT  = '#nav-ticker-lookup-input';
 const NAV_FORM   = '#nav-ticker-lookup-form';

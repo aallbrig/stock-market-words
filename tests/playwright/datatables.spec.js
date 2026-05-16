@@ -6,7 +6,7 @@
  * Migrated from Puppeteer to Playwright
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.js';
 
 const TIMEOUT = 30000;
 

@@ -9,7 +9,7 @@
  * Migrated from Puppeteer to Playwright
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.js';
 
 // CI uses 10 seconds, local dev uses 60 seconds
 const MAX_PROCESSING_TIME_MS = process.env.TIMEOUT_SECONDS 
