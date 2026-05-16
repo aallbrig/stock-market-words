@@ -7,7 +7,7 @@ tasks:
   dev:
     desc: Start local development environment
     cmds:
-      - task: hugo-server
+      - task: site-up
 
   hugo-server:
     desc: Start Hugo dev server on port 1313 (increments if busy)
@@ -20,6 +20,45 @@ tasks:
         done
         echo "Starting Hugo server on http://localhost:$PORT"
         HUGO_PARAMS_DEMOSENABLED=true hugo server --port $PORT
+
+  # ─── Site / Pro Integration ──────────────────────────────────────────────────
+
+  site-up:
+    desc: Start Hugo dev server (Pro-integrated, port 1313)
+    dir: hugo/site
+    env:
+      HUGO_PARAMS_PROENABLED: "true"
+    cmds:
+      - hugo server --bind 0.0.0.0 --port 1313
+
+  site-install:
+    desc: Install site npm dependencies
+    cmds:
+      - npm install
+
+  site-deploy:
+    desc: Dark deploy — builds static site with proEnabled=false
+    cmds:
+      - echo "Deploying main site with proEnabled=false (dark deploy)..."
+      - hugo --source hugo/site
+      - echo "Deploy complete. Pro UI is hidden. Run 'task site-release-pro' to launch."
+
+  site-release-pro:
+    desc: Release Pro to users — flips proEnabled=true and rebuilds Hugo site
+    cmds:
+      - echo "Releasing Pro features..."
+      - sed -i 's/proEnabled = false/proEnabled = true/' hugo/site/hugo.toml
+      - hugo --source hugo/site
+      - echo "Pro features released. Commit and push hugo/site/hugo.toml."
+
+  site-disable-pro:
+    desc: Reset proEnabled=false in hugo.toml (required before committing)
+    preconditions:
+      - sh: test -f hugo/site/hugo.toml
+        msg: "hugo.toml not found in hugo/site/"
+    cmds:
+      - sed -i 's/proEnabled = true/proEnabled = false/' hugo/site/hugo.toml
+      - echo "✅ proEnabled reset to false."
 
   # ─── Pipeline ───────────────────────────────────────────────────────────────
 
