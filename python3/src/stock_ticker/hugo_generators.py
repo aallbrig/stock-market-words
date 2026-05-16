@@ -905,6 +905,114 @@ def generate_ticker_lookup_json(dry_run=False):
     logger.info(f"✓ ticker-lookup.json: {len(tickers)} tickers → {static_path}")
 
 
+def generate_pro_scores_json(dry_run=False):
+    """
+    Generate hugo/site/static/data/pro-scores.json — strategy scores and price
+    change for every ticker that has a page, consumed by the Pro dashboard.
+
+    Keys are kept short for payload size:
+      s  = symbol
+      dd = dividend_daddy_score
+      ms = moon_shot_score
+      fk = falling_knife_score
+      oh = over_hyped_score
+      iw = inst_whale_score
+      rr = reit_radar_score
+      p  = latest price
+      pc = % price change vs prior trading day (null if unavailable)
+    """
+    if dry_run:
+        logger.info("DRY RUN: Would generate pro-scores.json")
+        return
+
+    logger.info("=== Generating pro-scores.json ===")
+    ensure_hugo_dirs()
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    # Latest date with both prices and scores
+    cursor.execute("""
+        SELECT MAX(dm.date)
+        FROM daily_metrics dm
+        WHERE dm.price IS NOT NULL
+          AND EXISTS (SELECT 1 FROM strategy_scores ss WHERE ss.date = dm.date)
+    """)
+    row = cursor.fetchone()
+    if not row or not row[0]:
+        logger.warning("No date with both daily_metrics and strategy_scores — skipping pro-scores.json")
+        conn.close()
+        return
+    latest_date = row[0]
+
+    # Prior trading day for % change
+    cursor.execute("""
+        SELECT MAX(date) FROM daily_metrics
+        WHERE date < ? AND price IS NOT NULL
+    """, (latest_date,))
+    row = cursor.fetchone()
+    prior_date = row[0] if row else None
+
+    logger.info(f"Latest date: {latest_date}, prior date: {prior_date}")
+
+    cursor.execute("""
+        SELECT
+            t.symbol,
+            ss.dividend_daddy_score,
+            ss.moon_shot_score,
+            ss.falling_knife_score,
+            ss.over_hyped_score,
+            ss.inst_whale_score,
+            ss.reit_radar_score,
+            dm.price,
+            dm_prev.price
+        FROM tickers t
+        INNER JOIN daily_metrics dm
+            ON t.symbol = dm.symbol AND dm.date = ?
+        INNER JOIN strategy_scores ss
+            ON t.symbol = ss.symbol AND ss.date = ?
+        LEFT JOIN daily_metrics dm_prev
+            ON t.symbol = dm_prev.symbol AND dm_prev.date = ?
+        WHERE (dm.price >= 5.0 OR dm.market_cap >= 1000000000 OR dm.volume >= 10000000)
+          AND dm.volume >= 100000
+        ORDER BY t.symbol
+    """, (latest_date, latest_date, prior_date or latest_date))
+    rows = cursor.fetchall()
+    conn.close()
+
+    def pct_change(curr, prev):
+        if curr is None or prev is None or prev == 0:
+            return None
+        return round((curr - prev) / prev * 100, 2)
+
+    tickers = []
+    for r in rows:
+        sym, dd, ms, fk, oh, iw, rr, price, prev_price = r
+        entry = {"s": sym, "dd": dd, "ms": ms, "fk": fk, "oh": oh, "iw": iw, "rr": rr}
+        if price is not None:
+            entry["p"] = round(price, 2)
+        entry["pc"] = pct_change(price, prev_price)
+        tickers.append(entry)
+
+    data = {
+        "_meta": {
+            "auto_generated": True,
+            "generated_by": "hugo_generators.py :: generate_pro_scores_json()",
+            "generated_at": datetime.now().isoformat(),
+            "data_date": latest_date,
+            "warning": "DO NOT EDIT - automatically generated",
+        },
+        "total": len(tickers),
+        "tickers": tickers,
+    }
+
+    out_path = HUGO_STATIC_DATA_DIR / "pro-scores.json"
+    with open(out_path, "w") as f:
+        json.dump(data, f, separators=(",", ":"))
+
+    logger.info(f"✓ pro-scores.json: {len(tickers)} tickers → {out_path}")
+
+
 def generate_all_hugo_content(dry_run=False):
     """Generate all Hugo site content."""
     if dry_run:
@@ -956,8 +1064,13 @@ def generate_all_hugo_content(dry_run=False):
     generate_ticker_lookup_json(dry_run=False)
     logger.info("")
 
+    # Generate pro-scores.json for Pro dashboard charts
+    logger.info("Step 7: Generating pro-scores.json for Pro dashboard...")
+    generate_pro_scores_json(dry_run=False)
+    logger.info("")
+
     # Count generated files
-    pages_generated = 9  # raw-ftp, filtered, 5 strategies, all_tickers, ticker-lookup
+    pages_generated = 10  # raw-ftp, filtered, 5 strategies, all_tickers, ticker-lookup, pro-scores
     
     # Record completion
     record_pipeline_step('generate-hugo', pages_generated, 'completed', dry_run=False)

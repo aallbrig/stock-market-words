@@ -27,7 +27,7 @@ defaultContentLanguageInSubdir = false
 proApiBase = "http://localhost:3000"
 # Feature flag: set true only at release to enable the /pro/* section.
 # Override at build time via HUGO_PARAMS_PROENABLED=true.
-proEnabled = true
+proEnabled = false
 
 # Feature flag: /demos/ section. Enabled locally; never set in GitHub Actions so
 # production builds stay clean. Override via HUGO_PARAMS_DEMOSENABLED=true.
