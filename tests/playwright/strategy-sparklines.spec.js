@@ -98,11 +98,12 @@ test.describe('Strategy sparklines — ticker page', () => {
   });
 
   test('all-null strategy is hidden', async ({ page }) => {
-    // The data-history attribute is HTML-entity-escaped, so we match &#34;.
+    // Hugo dev server emits &#34; entities; --minify (used in QA deploy) emits
+    // literal " characters. Match both so the replacement works in either env.
     await page.route('**/tickers/aapl/', async (route) => {
       const response = await route.fetch();
       let body = await response.text();
-      body = body.replace(/(&#34;moonShot&#34;:)\d+/g, '$1null');
+      body = body.replace(/((?:&#34;|")moonShot(?:&#34;|"):)\d+/g, '$1null');
       await route.fulfill({ response, body, headers: response.headers() });
     });
     await page.goto('/tickers/aapl/');
