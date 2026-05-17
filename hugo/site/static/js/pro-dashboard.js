@@ -195,7 +195,7 @@
       var tr = document.createElement('tr');
       var pcClass = sc.pc > 0 ? 'text-success' : sc.pc < 0 ? 'text-danger' : '';
       tr.innerHTML =
-        '<td class="ps-3"><a href="/stocks/' + encodeURIComponent(sym.toLowerCase()) + '/" target="_blank">' + sym + '</a></td>' +
+        '<td class="ps-3"><a href="/tickers/' + encodeURIComponent(sym.toLowerCase()) + '/" target="_blank">' + sym + '</a></td>' +
         '<td class="text-muted small">' + (state.lookup[sym] || '') + '</td>' +
         '<td class="text-end">' + fmtPrice(sc.p) + '</td>' +
         '<td class="text-end ' + pcClass + '">' + fmtPct(sc.pc) + '</td>' +
