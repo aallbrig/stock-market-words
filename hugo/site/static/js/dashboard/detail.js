@@ -131,8 +131,23 @@ export function initAddWidget() {
   dropdown.style.cssText = 'top:100%;left:0;z-index:1000;max-height:200px;overflow-y:auto;display:none;';
   wrapper.appendChild(dropdown);
 
+  let activeIdx = -1;
+
+  function items() { return dropdown.querySelectorAll('li'); }
+
+  function setActive(idx) {
+    items().forEach((li, i) => li.classList.toggle('active', i === idx));
+    activeIdx = idx;
+  }
+
+  function hideDropdown() {
+    dropdown.style.display = 'none';
+    activeIdx = -1;
+  }
+
   function showSuggestions(q) {
     dropdown.innerHTML = '';
+    activeIdx = -1;
     if (!q) { dropdown.style.display = 'none'; return; }
     const wl = activeWatchlist();
     const existing = wl ? (wl.tickers || []) : [];
@@ -142,14 +157,11 @@ export function initAddWidget() {
       const li = document.createElement('li');
       li.className = 'list-group-item list-group-item-action py-1 px-2 small';
       li.innerHTML = '<strong>' + row.s + '</strong> <span class="text-muted">' + row.n + '</span>';
-      li.addEventListener('mousedown', e => { e.preventDefault(); doAdd(row.s); });
+      li.addEventListener('mousedown', e => { e.preventDefault(); hideDropdown(); doAdd(row.s); });
       dropdown.appendChild(li);
     });
     dropdown.style.display = '';
   }
-
-  input.addEventListener('input', () => showSuggestions(input.value.trim().toUpperCase()));
-  input.addEventListener('blur', () => setTimeout(() => { dropdown.style.display = 'none'; }, 150));
 
   function doAddFromInput() {
     const sym = input.value.trim().toUpperCase();
@@ -158,11 +170,35 @@ export function initAddWidget() {
       if (errorEl) errorEl.textContent = 'Unknown ticker: ' + sym;
       return;
     }
+    hideDropdown();
     doAdd(sym);
   }
 
+  input.addEventListener('input', () => showSuggestions(input.value.trim().toUpperCase()));
+  input.addEventListener('blur', () => setTimeout(hideDropdown, 150));
+  input.addEventListener('keydown', e => {
+    const list = items();
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActive(Math.min(activeIdx + 1, list.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive(Math.max(activeIdx - 1, -1));
+    } else if (e.key === 'Escape') {
+      hideDropdown();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (activeIdx >= 0 && list[activeIdx]) {
+        const sym = list[activeIdx].querySelector('strong').textContent;
+        hideDropdown();
+        doAdd(sym);
+      } else {
+        doAddFromInput();
+      }
+    }
+  });
+
   addBtn.addEventListener('click', doAddFromInput);
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doAddFromInput(); } });
 }
 
 function doAdd(sym) {
