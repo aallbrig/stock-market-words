@@ -19,10 +19,27 @@
         </div>
         <div class="card-body px-4 pt-4">
 
+          {{/* Billing period toggle */}}
+          <div class="d-flex justify-content-center mb-4">
+            <div class="btn-group" role="group" aria-label="Billing period">
+              <input type="radio" class="btn-check" name="billing-period" id="billing-monthly" value="monthly" autocomplete="off">
+              <label class="btn btn-outline-secondary btn-sm px-3" for="billing-monthly">Monthly</label>
+              <input type="radio" class="btn-check" name="billing-period" id="billing-annual" value="annual" autocomplete="off" checked>
+              <label class="btn btn-outline-secondary btn-sm px-3" for="billing-annual">Annual <span class="badge bg-success ms-1">Save 17%</span></label>
+            </div>
+          </div>
+
           <div class="text-center mb-4">
             <p class="text-body-secondary mb-2">Everything you need to understand your portfolio</p>
-            <span class="display-6 fw-bold">$29.99</span>
-            <span class="text-body-secondary fs-5"> / month</span>
+            <div id="price-monthly" style="display:none">
+              <span class="display-6 fw-bold">$29.99</span>
+              <span class="text-body-secondary fs-5"> / month</span>
+            </div>
+            <div id="price-annual">
+              <span class="display-6 fw-bold">$299</span>
+              <span class="text-body-secondary fs-5"> / year</span>
+              <div class="text-body-secondary small mt-1">$24.92/mo &middot; save $60 vs monthly</div>
+            </div>
             <div class="mt-2">
               <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle px-3 py-2">
                 30-day money-back guarantee
@@ -52,7 +69,7 @@
           <button id="subscribe-btn" class="btn btn-primary btn-lg w-100 mb-2">Get Pro Access</button>
           <p id="subscribe-error" class="text-danger small mb-0" style="display:none"></p>
           <p class="text-center text-body-secondary small mt-3 mb-0">
-            Powered by Stripe &middot; Cancel anytime &middot; Billed monthly
+            Powered by Stripe &middot; Cancel anytime &middot; <span id="billing-label">Billed annually</span>
           </p>
         </div>
       </div>
@@ -62,77 +79,6 @@
   <p class="text-center text-body-secondary mb-5">
     Already subscribed? <a href="/pro/login/">Sign in &rarr;</a>
   </p>
-
-  {{/* ── FAQ ── */}}
-  <div class="row justify-content-center">
-    <div class="col-sm-10 col-md-8 col-lg-6">
-      <h3 class="fw-bold text-center mb-4">Common questions</h3>
-
-      <div class="accordion" id="proFaq">
-
-        <div class="accordion-item border-0 border-bottom">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed px-0 fw-semibold" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#faq1">
-              What does the money-back guarantee cover?
-            </button>
-          </h2>
-          <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#proFaq">
-            <div class="accordion-body px-0 text-body-secondary">
-              If you're not happy for any reason within 30 days of your first payment,
-              email us and we'll issue a full refund — no questions asked.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item border-0 border-bottom">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed px-0 fw-semibold" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#faq2">
-              Can I cancel anytime?
-            </button>
-          </h2>
-          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#proFaq">
-            <div class="accordion-body px-0 text-body-secondary">
-              Yes. Cancel from your account page and you won't be charged again.
-              You keep access until the end of your current billing period.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item border-0 border-bottom">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed px-0 fw-semibold" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#faq3">
-              Which exchanges and tickers are supported?
-            </button>
-          </h2>
-          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#proFaq">
-            <div class="accordion-body px-0 text-body-secondary">
-              Pro currently covers US-listed equities (NYSE, NASDAQ, AMEX) with
-              SEC filing data. Additional exchanges are on the roadmap.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item border-0">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed px-0 fw-semibold" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#faq4">
-              Is my payment information secure?
-            </button>
-          </h2>
-          <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#proFaq">
-            <div class="accordion-body px-0 text-body-secondary">
-              All payments are handled by Stripe. Your card number never touches
-              our servers — Stripe processes and stores it under PCI DSS compliance.
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
 
 </div>
 
