@@ -10,9 +10,11 @@
 
   <script>
     window.SMW_PRO_API_BASE = "{{ .Site.Params.proApiBase }}";
+    window.SMW_OTEL_ENDPOINT = "{{ .Site.Params.otelEndpoint }}";
     window.SITE_BASE_URL = window.SITE_BASE_URL || '{{ .Site.BaseURL }}';
     window.SITE_LANG    = window.SITE_LANG    || '{{ .Site.Language.Lang }}';
   </script>
+  <script src="{{ .Site.BaseURL }}js/pro-otel.js"></script>
   <script src="{{ .Site.BaseURL }}js/pro-auth.js"></script>
   {{ block "page-scripts" . }}{{ end }}
   {{/* Ticker lookup — loaded on all pages to power the nav bar widget */}}

@@ -7,6 +7,7 @@ import { openModal, bindModal } from './modal.js';
 function init(config) {
   ProAuth.requireLogin();
   configure(config);
+  if (window.ProOtel) window.ProOtel.funnel('dashboard_viewed');
   log('init', { apiBase: config.apiBase, scoresUrl: config.scoresUrl });
 
   const spinner = document.getElementById('wl-spinner');

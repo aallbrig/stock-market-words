@@ -44,6 +44,7 @@
     if (!btn) return;
 
     btn.addEventListener('click', function () {
+      if (window.ProOtel) window.ProOtel.funnel('cta_click', { source: 'subscribe' });
       var errorEl = errorId ? document.getElementById(errorId) : null;
       btn.disabled = true;
       btn.textContent = 'Loading…';
@@ -62,6 +63,7 @@
         })
         .then(function (data) {
           if (!data.url) throw new Error('no redirect URL');
+          if (window.ProOtel) window.ProOtel.funnel('checkout_redirect', { source: 'subscribe' });
           window.location.href = data.url;
         })
         .catch(function () {
@@ -79,6 +81,7 @@
 
     var btn = document.getElementById('subscribe-btn');
     if (!btn) return;
+    if (window.ProOtel) window.ProOtel.funnel('cta_impression', { source: 'subscribe' });
     if (typeof ProAuth !== 'undefined' && ProAuth.isLoggedIn()) {
       btn.textContent = 'Access your dashboard →';
       btn.onclick = function () { window.location.href = '/pro/dashboard/'; };

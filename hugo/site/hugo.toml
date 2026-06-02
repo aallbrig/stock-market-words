@@ -25,6 +25,10 @@ defaultContentLanguageInSubdir = false
 [params]
 # Pro subscription API base URL. Override at build time via HUGO_PARAMS_PROAPIBASE.
 proApiBase = "http://localhost:3000"
+# OpenTelemetry collector OTLP/HTTP endpoint for client-side conversion-funnel
+# telemetry. Empty in production until a collector is wired; local dev points at
+# the LGTM stack. Override at build time via HUGO_PARAMS_OTELENDPOINT.
+otelEndpoint = "http://localhost:4338"
 # Feature flag: set true only at release to enable the /pro/* section.
 # Override at build time via HUGO_PARAMS_PROENABLED=true.
 proEnabled = false
