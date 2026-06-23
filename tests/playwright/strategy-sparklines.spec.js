@@ -12,7 +12,7 @@
  *  5. Chart.js is loaded exactly once from the pinned jsDelivr CDN.
  *  6. Every visible sparkline has a non-zero canvas bitmap (i.e.
  *     Chart.js actually rendered it).
- *  7. A strategy whose 10-day values are all null is hidden.
+ *  7. A strategy whose parsed 10-day values are all null is hidden.
  *  8. Tooltip API returns a date title and "<score>/100" body.
  */
 
@@ -98,13 +98,29 @@ test.describe('Strategy sparklines — ticker page', () => {
   });
 
   test('all-null strategy is hidden', async ({ page }) => {
-    // Hugo dev server emits &#34; entities; --minify (used in QA deploy) emits
-    // literal " characters. Match both so the replacement works in either env.
-    await page.route('**/tickers/aapl/', async (route) => {
-      const response = await route.fetch();
-      let body = await response.text();
-      body = body.replace(/((?:&#34;|")moonShot(?:&#34;|"):)\d+/g, '$1null');
-      await route.fulfill({ response, body, headers: response.headers() });
+    // Patch JSON.parse before any page scripts run so that when sparklines.js
+    // parses the data-history array it sees all moonShot values as null.
+    // Using addInitScript avoids fragile HTTP-level interception which breaks
+    // across the GitHub Pages → custom domain redirect chain.
+    await page.addInitScript(() => {
+      const _orig = JSON.parse.bind(JSON);
+      JSON.parse = function (text, reviver) {
+        const val = _orig(text, reviver);
+        if (
+          Array.isArray(val) &&
+          val.length > 0 &&
+          val[0] !== null &&
+          typeof val[0] === 'object' &&
+          Object.prototype.hasOwnProperty.call(val[0], 'moonShot')
+        ) {
+          return val.map((row) =>
+            row !== null && typeof row === 'object'
+              ? Object.assign({}, row, { moonShot: null })
+              : row
+          );
+        }
+        return val;
+      };
     });
     await page.goto('/tickers/aapl/');
     await page.waitForFunction(() => typeof window.Chart !== 'undefined');
