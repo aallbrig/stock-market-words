@@ -3,14 +3,11 @@ Data extraction functions for price/volume and metadata.
 """
 from datetime import date
 
-import time
-import yfinance as yf
-from .config import PRICE_BATCH_SIZE, METADATA_BATCH_SIZE, YAHOO_API_HOST
+from .config import PRICE_BATCH_SIZE, METADATA_BATCH_SIZE
 from .utils import get_today
 from .database import get_connection, record_pipeline_step
 from .logging_setup import setup_logging
-from .retry import get_retry_tracker, get_request_metrics, BackoffLimitExceeded
-from .vpn_rotator import get_vpn_rotator
+from .retry import get_request_metrics
 from .download_strategies import DownloadStrategy, BatchDownloadStrategy, DownloadAborted
 from .market_calendar import capture_predates_close
 from .technicals import compute_technicals

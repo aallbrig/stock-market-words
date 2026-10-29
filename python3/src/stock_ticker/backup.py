@@ -153,12 +153,8 @@ def restore_backup(backup_file: str | Path, db_path="data/market_data.db") -> st
 
     prerestore_path = create_backup(db_path=db_path, backup_type=BACKUP_TYPE_PRERESTORE)
 
-    if backup_file.suffix == ".gz":
-        opener = lambda: gzip.open(backup_file, "rt", encoding="utf-8")
-    else:
-        opener = lambda: open(backup_file, "r", encoding="utf-8")
-
-    with opener() as f:
+    with (gzip.open(backup_file, "rt", encoding="utf-8") if backup_file.suffix == ".gz"
+          else open(backup_file, "r", encoding="utf-8")) as f:
         sql = f.read()
 
     db_path = Path(db_path)

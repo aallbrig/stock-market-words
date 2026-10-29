@@ -186,6 +186,14 @@ tasks:
           exit 1
         fi
 
+  # ─── CI ─────────────────────────────────────────────────────────────────────
+
+  ci:
+    desc: All quality gates that need no live services (Python lint + Python tests)
+    cmds:
+      - task: lint-py
+      - task: test-py
+
   # ─── Lint ───────────────────────────────────────────────────────────────────
 
   lint:
@@ -251,8 +259,10 @@ tasks:
       - task: test-e2e
 
   test-py:
-    desc: Run Python tests with pytest (from python3/)
+    desc: Run Python tests with pytest (from python3/); uses a scratch DB, never data/market_data.db
     dir: python3
+    env:
+      STOCK_TICKER_DB: "{{.ROOT_DIR}}/data/tmp/pytest.db"
     cmds:
       - venv/bin/python -m pytest
 
