@@ -12,7 +12,7 @@ on:
 jobs:
   qa-tests:
     name: Test deployed QA site
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # Playwright does not support chromium on ubuntu-26.04 yet
     # Only run if deployment was successful
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     
