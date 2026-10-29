@@ -166,6 +166,39 @@ python -m stock_ticker.cli run-all --clean  # Reset today's data before running
 - Only removes today's data, never previous days
 - See [docs/CLEAN_FLAG_GUIDE.md](./docs/CLEAN_FLAG_GUIDE.md) for details
 
+### Backfilling missed days
+
+`backfill` fills NYSE sessions that are missing from, or only partly present in, `daily_metrics`
+(for example after weeks without a run), then refreshes the price-derived data for the rows it wrote.
+
+```bash
+# What is missing, and how many Yahoo requests would it take? (writes nothing)
+task backfill -- --from 2026-01-02 --dry-run
+
+# Fill it. Re-running resumes an interrupted run and is otherwise a no-op.
+task backfill -- --from 2026-01-02 [--to 2026-10-28] [--strategy pia-vpn]
+```
+
+- **Gaps:** a session is flagged when it has no rows, fewer than 85% of the median of the 5 nearest
+  populated dates on each side, fewer than 75% of the ticker universe, or when its prices were
+  captured before that session's close (the daily run replaces such rows itself the same evening).
+  Rows stamped on weekends and holidays are reported and left alone.
+- **Requests:** one `yf.download` call per 100 tickers covers the whole date range (plus 320 days of
+  lookback for MA-200). yfinance sends one chart request per ticker inside that call, so a full run is
+  about one request per ticker, not one per ticker per day.
+- **Writes:** prices go through the same row builder as `extract_prices`, upserted on `(symbol, date)`.
+  Absent rows are inserted, existing rows and all fundamentals are left alone. Only sessions captured
+  before the close have their price columns replaced. `--refetch` replaces every session in the range.
+- **Resume:** progress is journaled in `backfill_runs` / `backfill_symbols` (migration 008, created on
+  first use). Throttled tickers back off through `retry.py` (or the `pia-vpn` strategy); if the budget
+  runs out the run stops and the same command picks up at the next ticker. `--restart` discards it.
+- **Derived data:** RSI-14, MA-50, MA-200, volatility and ATR are recomputed from the downloaded bars
+  for the rows written, and `strategy_scores` is re-ranked for replaced sessions that have fundamentals.
+  Fundamentals (market cap, beta, yield, ...) are point-in-time Yahoo snapshots that cannot be
+  recovered for a past date, so backfilled rows have none and get no scores. If a recent session
+  changed, run `ticker-cli build && ticker-cli generate-hugo`.
+- Set `STOCK_TICKER_DB=/path/to/copy.db` to point any command at a copy of the database.
+
 ### Developer quick commands
 ```bash
 # Preferred Development Command (Hugo website)

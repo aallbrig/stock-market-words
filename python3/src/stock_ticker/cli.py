@@ -4,6 +4,7 @@ Click-based CLI for the stock ticker application.
 import sys
 import click
 import time
+from datetime import date
 from functools import wraps
 
 from .logging_setup import setup_logging
@@ -29,6 +30,7 @@ from .hugo_generators import (
     generate_all_hugo_content
 )
 from .utils import get_today, check_ftp_server, check_yahoo_finance
+from .market_calendar import capture_predates_close
 from .retry import get_request_metrics
 from .translate import TranslateConfig, run_translate
 
@@ -848,6 +850,61 @@ def print_pipeline_summary():
     logger.info("=" * 70)
 
 
+@cli.command('backfill')
+@click.option('--from', 'from_date', required=True, type=click.DateTime(formats=['%Y-%m-%d']),
+              help='First date to check (YYYY-MM-DD)')
+@click.option('--to', 'to_date', type=click.DateTime(formats=['%Y-%m-%d']), default=None,
+              help='Last date to check (default: last completed NYSE session)')
+@click.option('--limit', type=int, default=None,
+              help='Only the first N tickers (testing; such runs are not remembered as complete)')
+@click.option('--strategy', default='batch', type=click.Choice(['batch', 'pia-vpn']),
+              show_default=True, help='Download strategy: batch (default) or pia-vpn (adaptive + VPN cycling)')
+@click.option('--dry-run', 'dry_run_flag', is_flag=True,
+              help='List missing/incomplete sessions and the estimated request count, then stop')
+@click.option('--refetch', is_flag=True,
+              help='Re-download and overwrite every session in the range, not only the gaps')
+@click.option('--restart', is_flag=True, help='Discard an interrupted run instead of resuming it')
+@click.option('--no-derived', is_flag=True,
+              help='Skip recomputing RSI/MA/volatility/ATR and strategy_scores for the written rows')
+@click.pass_context
+@log_timing
+def backfill_cmd(ctx, from_date, to_date, limit, strategy, dry_run_flag, refetch, restart, no_derived):
+    """Fill NYSE sessions missing from daily_metrics using one yfinance call per ticker batch."""
+    from .backfill import run_backfill, final_report
+
+    dry_run = ctx.obj.dry_run or dry_run_flag
+    if not dry_run:
+        ensure_initialized()
+    elif not DB_PATH.exists():
+        raise click.ClickException(f"Database not found: {DB_PATH}")
+    click.echo(f"Database: {DB_PATH}")
+
+    conn = get_connection()
+    try:
+        summary = run_backfill(
+            conn, from_date.date(), to_date.date() if to_date else None,
+            strategy=None if dry_run else get_strategy(strategy), limit=limit, dry_run=dry_run,
+            refetch=refetch, restart=restart, derived=not no_derived,
+        )
+        if dry_run or not summary['targets']:
+            return
+        still_short = final_report(conn, summary['targets'], limit=limit)
+        metrics = get_request_metrics()
+        click.echo(f"Rows written: {summary['rows_written']:,}")
+        click.echo(f"yf.download calls: {summary['download_calls']}; "
+                   f"chart requests: {metrics.get_counts().get('yahoo_finance', {}).get('history_chart_request', 0):,}")
+        if still_short:
+            click.echo(f"{len(still_short)} session(s) still below the completeness threshold "
+                       "(see SHORT above; tickers listed after, or delisted before, a session have no bars)")
+        touched = sorted(summary['targets'])
+        recent = [r[0] for r in conn.execute("SELECT DISTINCT date FROM strategy_scores ORDER BY date DESC LIMIT 10")]
+        if recent and touched[-1] >= recent[-1]:
+            click.echo("A recent session changed: run `ticker-cli build && ticker-cli generate-hugo` "
+                       "to refresh the site JSON and pages")
+    finally:
+        conn.close()
+
+
 @cli.command('run-all')
 @click.option('--limit', type=int, default=None, help='Limit ticker processing for testing (e.g., --limit 10)')
 @click.option('--force', is_flag=True, help='Force re-run even if already completed today (does not reset state)')
@@ -881,7 +938,21 @@ def run_all(ctx, limit, force, clean, strategy):
     today = get_today()
     from .database import get_pipeline_state
     state = get_pipeline_state(today)
-    
+
+    # Prices captured before the close are an intraday snapshot: everything
+    # derived from them has to be rebuilt once the session is over.
+    if ctx.obj.dry_run is False and DB_PATH.exists():
+        guard_conn = get_connection()
+        try:
+            preclose = capture_predates_close(guard_conn, date.fromisoformat(today))
+        finally:
+            guard_conn.close()
+        if preclose and state['status'] != 'idle':
+            logger.warning("⚠️  Today's prices were captured before the market close — refreshing them")
+            stale_steps = ('extract-prices', 'extract-metadata', 'build', 'generate-hugo')
+            state['completed_steps'] = [s for s in state['completed_steps'] if s not in stale_steps]
+            state['status'] = 'partial' if state['completed_steps'] else 'idle'
+
     logger.info(f"Pipeline state: {state['status'].upper()}")
     
     if state['status'] == 'in_progress':

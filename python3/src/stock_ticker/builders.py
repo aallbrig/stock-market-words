@@ -12,33 +12,7 @@ from .logging_setup import setup_logging
 logger = setup_logging()
 
 
-def build_assets(dry_run=False):
-    """Generate optimized trie.json and metadata.json."""
-    if dry_run:
-        logger.info("DRY RUN: Would build JSON assets")
-        conn = get_connection()
-        today = get_today()
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT COUNT(*) FROM daily_metrics 
-            WHERE date = ? AND (price >= 5.0 OR market_cap >= 1000000000 OR volume >= 10000000) AND volume >= 100000 AND market_cap IS NOT NULL
-        """, (today,))
-        ticker_count = cursor.fetchone()[0]
-        conn.close()
-        logger.info(f"DRY RUN: Would build from {ticker_count} tickers")
-        logger.info("DRY RUN: Would calculate 5 strategy scores via percentile ranking")
-        logger.info("DRY RUN: Would generate trie.json (autocomplete prefix tree)")
-        logger.info("DRY RUN: Would generate metadata.json (full ticker data + scores)")
-        logger.info(f"DRY RUN: Output directory: {API_DIR}")
-        return
-    
-    logger.info("=== Starting Build Phase ===")
-    
-    conn = get_connection()
-    today = get_today()
-    
-    # Load all tickers with complete data for today
-    query = """
+SCORING_QUERY = """
         SELECT 
             t.symbol, t.name, t.exchange, t.sector, t.industry, t.is_reit,
             dm.price, dm.volume, dm.market_cap, 
@@ -59,37 +33,15 @@ def build_assets(dry_run=False):
         AND dm.volume >= 100000
         AND dm.market_cap IS NOT NULL
     """
-    
-    df = pd.read_sql_query(query, conn, params=(today,))
-    
-    if df.empty:
-        # Check if assets already exist
-        trie_path = API_DIR / "trie.json"
-        metadata_path = API_DIR / "metadata.json"
-        
-        if trie_path.exists() and metadata_path.exists():
-            logger.info("✓ JSON assets already built for today.")
-            
-            # Get count from metadata.json
-            try:
-                with open(metadata_path, 'r') as f:
-                    metadata = json.load(f)
-                    ticker_count = len(metadata)
-                    logger.info(f"  • trie.json: {trie_path}")
-                    logger.info(f"  • metadata.json: {metadata_path} ({ticker_count:,} tickers)")
-            except Exception:
-                logger.info(f"  • Assets exist at {API_DIR}")
-        else:
-            logger.warning("No tickers found with complete data for today.")
-        
-        conn.close()
-        return
-    
-    logger.info(f"Building assets from {len(df)} tickers...")
-    
-    # Calculate strategy scores
-    logger.info("Calculating strategy scores...")
-    
+
+
+def load_scoring_frame(conn, day):
+    """Tickers with complete data on `day`: the universe strategy scores are ranked within."""
+    return pd.read_sql_query(SCORING_QUERY, conn, params=(day,))
+
+
+def calculate_strategy_scores(df):
+    """Add the raw and percentile-ranked strategy score columns to `df` in place."""
     # Dividend Daddy: High yield + low volatility
     df['dividend_daddy_raw'] = (
         (df['dividend_yield'].fillna(0) * 100) + 
@@ -157,15 +109,18 @@ def build_assets(dry_run=False):
         score_name = col.replace('_raw', '_score')
         df[score_name] = df[col].rank(pct=True) * 100
         df[score_name] = df[score_name].fillna(50).astype(int)
-    
-    # Save strategy scores to database
+    return df
+
+
+def save_strategy_scores(conn, df, day):
+    """Upsert one score row per ticker in `df` for `day` and commit."""
     cursor = conn.cursor()
     score_data = []
     
     for _, row in df.iterrows():
         reit_score = int(row['reit_radar_score']) if pd.notna(row.get('reit_radar_score')) else None
         score_data.append((
-            row['symbol'], today,
+            row['symbol'], day,
             int(row['dividend_daddy_score']),
             int(row['moon_shot_score']),
             int(row['falling_knife_score']),
@@ -182,7 +137,82 @@ def build_assets(dry_run=False):
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """, score_data)
     conn.commit()
+
+
+def recompute_strategy_scores(conn, day):
+    """
+    Re-rank `day`'s strategy scores from the rows now in daily_metrics, without
+    touching the JSON assets. Returns the number of tickers scored (0 when the
+    day has no ticker with market-cap data, which is the build's own universe rule).
+    """
+    df = load_scoring_frame(conn, day)
+    if df.empty:
+        return 0
+    calculate_strategy_scores(df)
+    save_strategy_scores(conn, df, day)
+    return len(df)
+
+
+def build_assets(dry_run=False):
+    """Generate optimized trie.json and metadata.json."""
+    if dry_run:
+        logger.info("DRY RUN: Would build JSON assets")
+        conn = get_connection()
+        today = get_today()
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT COUNT(*) FROM daily_metrics 
+            WHERE date = ? AND (price >= 5.0 OR market_cap >= 1000000000 OR volume >= 10000000) AND volume >= 100000 AND market_cap IS NOT NULL
+        """, (today,))
+        ticker_count = cursor.fetchone()[0]
+        conn.close()
+        logger.info(f"DRY RUN: Would build from {ticker_count} tickers")
+        logger.info("DRY RUN: Would calculate 5 strategy scores via percentile ranking")
+        logger.info("DRY RUN: Would generate trie.json (autocomplete prefix tree)")
+        logger.info("DRY RUN: Would generate metadata.json (full ticker data + scores)")
+        logger.info(f"DRY RUN: Output directory: {API_DIR}")
+        return
     
+    logger.info("=== Starting Build Phase ===")
+    
+    conn = get_connection()
+    today = get_today()
+    
+    # Load all tickers with complete data for today
+    df = load_scoring_frame(conn, today)
+    
+    if df.empty:
+        # Check if assets already exist
+        trie_path = API_DIR / "trie.json"
+        metadata_path = API_DIR / "metadata.json"
+        
+        if trie_path.exists() and metadata_path.exists():
+            logger.info("✓ JSON assets already built for today.")
+            
+            # Get count from metadata.json
+            try:
+                with open(metadata_path, 'r') as f:
+                    metadata = json.load(f)
+                    ticker_count = len(metadata)
+                    logger.info(f"  • trie.json: {trie_path}")
+                    logger.info(f"  • metadata.json: {metadata_path} ({ticker_count:,} tickers)")
+            except Exception:
+                logger.info(f"  • Assets exist at {API_DIR}")
+        else:
+            logger.warning("No tickers found with complete data for today.")
+        
+        conn.close()
+        return
+    
+    logger.info(f"Building assets from {len(df)} tickers...")
+    
+    # Calculate strategy scores
+    logger.info("Calculating strategy scores...")
+    calculate_strategy_scores(df)
+
+    # Save strategy scores to database
+    save_strategy_scores(conn, df, today)
+
     logger.info("✓ Strategy scores saved to database.")
     
     # Build trie.json (prefix tree for autocomplete)

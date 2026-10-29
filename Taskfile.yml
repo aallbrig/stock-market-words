@@ -67,6 +67,11 @@ tasks:
     cmds:
       - bash -c "source python3/venv/bin/activate && python -m stock_ticker.cli run-all; deactivate"
 
+  backfill:
+    desc: "Fill NYSE sessions missing from daily_metrics (task backfill -- --from 2026-01-02 [--dry-run])"
+    cmds:
+      - bash -c "source python3/venv/bin/activate && python -m stock_ticker.cli backfill {{.CLI_ARGS}}; deactivate"
+
   run-all-commit-push:
     desc: Run the full data pipeline then commit and push generated output
     cmds:
