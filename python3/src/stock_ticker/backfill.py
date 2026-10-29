@@ -35,7 +35,9 @@ logger = setup_logging()
 
 # A session is "incomplete" when it holds fewer price rows than GAP_RATIO times
 # the median of the BASELINE_NEIGHBORS nearest populated dates on each side
-# (healthy days in the local database sit at 0.92-1.05 of that median), or fewer
+# (measured on the 82 original local sessions: 90% fall within 0.973-1.022 of
+# that median and the thinnest is 0.847, so 85% is a judgement at the edge of
+# the observed range; --min-completeness moves it), or fewer
 # than UNIVERSE_FLOOR times the ticker universe. The floor catches stretches of
 # equally partial sessions, whose neighbours are no better than they are.
 GAP_RATIO = 0.85
