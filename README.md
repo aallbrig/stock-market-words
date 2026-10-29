@@ -182,6 +182,8 @@ task backfill -- --from 2026-01-02 [--to 2026-10-28] [--strategy pia-vpn]
 - **Gaps:** a session is flagged when it has no rows, fewer than 85% of the median of the 5 nearest
   populated dates on each side, fewer than 75% of the ticker universe, or when its prices were
   captured before that session's close (the daily run replaces such rows itself the same evening).
+  `--min-completeness 0.95` tightens the neighbour rule for a final sweep; sessions it flags are only
+  topped up with the absent rows.
   Rows stamped on weekends and holidays are reported and left alone.
 - **Requests:** one `yf.download` call per 100 tickers covers the whole date range (plus 320 days of
   lookback for MA-200). yfinance sends one chart request per ticker inside that call, so a full run is

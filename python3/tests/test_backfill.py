@@ -113,6 +113,27 @@ class TestGapDetection:
         assert [(p.day.isoformat(), p.reason, p.mode) for p in report.targets] == [
             ("2026-10-22", "preclose", "replace")]
 
+    def test_min_completeness_makes_the_neighbour_rule_stricter(self, market_db):
+        tickers = [f"T{i}" for i in range(20)]
+        seed_tickers(market_db, tickers)
+        seed_rows(market_db, tickers, ["2026-10-19", "2026-10-21"])
+        seed_rows(market_db, tickers[:18], ["2026-10-20"])  # 90% of its neighbours
+        args = (market_db, date(2026, 10, 20), date(2026, 10, 20))
+        assert backfill.analyze_gaps(*args, now=NOW).targets == []
+        strict = backfill.analyze_gaps(*args, now=NOW, gap_ratio=0.95)
+        assert [(p.reason, p.mode) for p in strict.targets] == [("incomplete", "fill")]
+
+    def test_cli_min_completeness_is_validated_and_applied(self, market_db, monkeypatch):
+        tickers = [f"T{i}" for i in range(20)]
+        seed_tickers(market_db, tickers)
+        seed_rows(market_db, tickers, ["2026-10-19", "2026-10-21"])
+        seed_rows(market_db, tickers[:18], ["2026-10-20"])
+        monkeypatch.setattr("stock_ticker.backfill.utc_now", lambda: NOW)
+        args = ["backfill", "--from", "2026-10-19", "--to", "2026-10-21", "--dry-run"]
+        assert "0 need work" in CliRunner().invoke(cli, args).output
+        assert "1 need work" in CliRunner().invoke(cli, [*args, "--min-completeness", "0.95"]).output
+        assert CliRunner().invoke(cli, [*args, "--min-completeness", "1.5"]).exit_code == 2
+
     def test_stretch_of_equally_partial_sessions_is_caught_by_the_universe_floor(self, market_db):
         tickers = [f"T{i}" for i in range(20)]
         seed_tickers(market_db, tickers)

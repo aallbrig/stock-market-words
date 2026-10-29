@@ -86,6 +86,7 @@ class GapReport:
     non_trading_rows: dict[date, int] = field(default_factory=dict)
     counts: dict[date, int] = field(default_factory=dict)
     baselines: dict[date, Optional[float]] = field(default_factory=dict)
+    gap_ratio: float = GAP_RATIO
 
     @property
     def target_modes(self) -> dict[str, str]:
@@ -139,16 +140,17 @@ def _baseline(day: date, counts: dict[date, int], universe: int) -> Optional[flo
     return float(universe) if universe else None
 
 
-def _is_short(rows: int, baseline: Optional[float], universe: int) -> bool:
+def _is_short(rows: int, baseline: Optional[float], universe: int, gap_ratio: float = GAP_RATIO) -> bool:
     return (
         rows == 0
-        or (baseline is not None and rows < GAP_RATIO * baseline)
+        or (baseline is not None and rows < gap_ratio * baseline)
         or rows < UNIVERSE_FLOOR * universe
     )
 
 
 def analyze_gaps(
-    conn: sqlite3.Connection, start: date, end: date, *, refetch: bool = False, now: Optional[datetime] = None
+    conn: sqlite3.Connection, start: date, end: date, *, refetch: bool = False, now: Optional[datetime] = None,
+    gap_ratio: float = GAP_RATIO,
 ) -> GapReport:
     """Classify every NYSE session in [start, end]; see module constants for the thresholds."""
     now = now or utc_now()
@@ -156,13 +158,13 @@ def analyze_gaps(
     counts = _price_row_counts(conn)
     universe = conn.execute("SELECT COUNT(*) FROM tickers WHERE is_etf = 0").fetchone()[0]
     settled = _settled_dates(conn)
-    report = GapReport(start=start, end=end, sessions=sessions, counts=counts)
+    report = GapReport(start=start, end=end, sessions=sessions, counts=counts, gap_ratio=gap_ratio)
 
     for day in sessions:
         rows = counts.get(day, 0)
         baseline = _baseline(day, counts, universe)
         report.baselines[day] = baseline
-        short = _is_short(rows, baseline, universe)
+        short = _is_short(rows, baseline, universe, gap_ratio)
         if rows == 0:
             reason, mode = "missing", FILL
         elif capture_predates_close(conn, day, now):
@@ -200,7 +202,7 @@ def estimate_requests(symbols: int, target_days: int) -> dict[str, int]:
 def print_gap_report(report: GapReport, echo: Callable[[str], None] = click.echo) -> None:
     echo(f"Range {report.start} .. {report.end}: {len(report.sessions)} NYSE sessions, "
          f"{len(report.targets)} need work")
-    echo(f"Incomplete threshold: rows < {GAP_RATIO:.0%} of the median of the "
+    echo(f"Incomplete threshold: rows < {report.gap_ratio:.0%} of the median of the "
          f"{BASELINE_NEIGHBORS} nearest populated dates on each side, or < {UNIVERSE_FLOOR:.0%} of the ticker universe")
     for plan in report.targets:
         base = f"{plan.baseline:,.0f}" if plan.baseline is not None else "n/a"
@@ -279,6 +281,7 @@ def run_backfill(
     restart: bool = False,
     derived: bool = True,
     now: Optional[datetime] = None,
+    gap_ratio: float = GAP_RATIO,
     echo: Callable[[str], None] = click.echo,
 ) -> dict:
     """Detect gaps and fill them. Returns a summary dict (also used by tests)."""
@@ -317,7 +320,7 @@ def run_backfill(
              f"{len(targets)} target sessions; --restart discards it")
         report = None
     else:
-        report = analyze_gaps(conn, start, end, refetch=refetch, now=now)
+        report = analyze_gaps(conn, start, end, refetch=refetch, now=now, gap_ratio=gap_ratio)
         print_gap_report(report, echo)
         targets = report.target_modes
 
@@ -428,7 +431,7 @@ def run_backfill(
 
 
 def final_report(conn: sqlite3.Connection, targets: dict[str, str], echo: Callable[[str], None] = click.echo,
-                 limit: Optional[int] = None) -> list:
+                 limit: Optional[int] = None, gap_ratio: float = GAP_RATIO) -> list:
     """
     Row counts for each target session after the run; returns the sessions still below threshold.
     A --limit run only fetched N tickers, so completeness is not judged.
@@ -446,7 +449,7 @@ def final_report(conn: sqlite3.Connection, targets: dict[str, str], echo: Callab
         if limit:
             echo(f"  {iso}  rows={rows:>6,}")
             continue
-        short = _is_short(rows, baseline, universe)
+        short = _is_short(rows, baseline, universe, gap_ratio)
         echo(f"  {iso}  rows={rows:>6,}  baseline={base:>6}  {'SHORT' if short else 'ok'}")
         if short:
             still_short.append((iso, rows, baseline))

@@ -866,9 +866,11 @@ def print_pipeline_summary():
 @click.option('--restart', is_flag=True, help='Discard an interrupted run instead of resuming it')
 @click.option('--no-derived', is_flag=True,
               help='Skip recomputing RSI/MA/volatility/ATR and strategy_scores for the written rows')
+@click.option('--min-completeness', 'gap_ratio', type=click.FloatRange(0.01, 1.0), default=0.85, show_default=True,
+              help='A session is incomplete below this fraction of its neighbours\' median row count')
 @click.pass_context
 @log_timing
-def backfill_cmd(ctx, from_date, to_date, limit, strategy, dry_run_flag, refetch, restart, no_derived):
+def backfill_cmd(ctx, from_date, to_date, limit, strategy, dry_run_flag, refetch, restart, no_derived, gap_ratio):
     """Fill NYSE sessions missing from daily_metrics using one yfinance call per ticker batch."""
     from .backfill import run_backfill, final_report
 
@@ -884,11 +886,11 @@ def backfill_cmd(ctx, from_date, to_date, limit, strategy, dry_run_flag, refetch
         summary = run_backfill(
             conn, from_date.date(), to_date.date() if to_date else None,
             strategy=None if dry_run else get_strategy(strategy), limit=limit, dry_run=dry_run,
-            refetch=refetch, restart=restart, derived=not no_derived,
+            refetch=refetch, restart=restart, derived=not no_derived, gap_ratio=gap_ratio,
         )
         if dry_run or not summary['targets']:
             return
-        still_short = final_report(conn, summary['targets'], limit=limit)
+        still_short = final_report(conn, summary['targets'], limit=limit, gap_ratio=gap_ratio)
         metrics = get_request_metrics()
         click.echo(f"Rows written: {summary['rows_written']:,}")
         click.echo(f"yf.download calls: {summary['download_calls']}; "
