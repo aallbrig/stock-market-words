@@ -3,6 +3,7 @@ import json
 from datetime import date, datetime, timezone
 from unittest import mock
 
+import click
 import pytest
 from click.testing import CliRunner
 from yfinance import shared as yf_shared
@@ -373,6 +374,19 @@ class TestThrottling:
         assert [c["symbols"] for c in yahoo.calls] == [["AAA", "BBB", "CCC"], ["CCC"]]
         assert sleeps == [0.4]  # the adaptive delay doubled once
         assert market_db.execute("SELECT COUNT(*) FROM daily_metrics").fetchone()[0] == 3
+
+    def test_transient_errors_are_retried_not_recorded_as_no_data(self, market_db, monkeypatch, strategy):
+        seed_tickers(market_db, SYMBOLS[:3])
+        FakeYahoo(monkeypatch, plan=lambda call, symbols: {"BBB": "ReadTimeout('timed out')"})
+        with pytest.raises(click.ClickException, match="BBB"):
+            run(market_db, strategy, start="2026-10-20", end="2026-10-20")
+        assert market_db.execute("SELECT status FROM backfill_runs").fetchone() == ("failed",)
+        assert [r[0] for r in market_db.execute("SELECT symbol FROM backfill_symbols ORDER BY symbol")] == ["AAA", "CCC"]
+        yahoo = FakeYahoo(monkeypatch)
+        run(market_db, strategy, start="2026-10-20", end="2026-10-20")
+        assert [c["symbols"] for c in yahoo.calls] == [["BBB"]]
+        assert market_db.execute("SELECT COUNT(*) FROM daily_metrics").fetchone()[0] == 3
+        assert market_db.execute("SELECT status FROM backfill_runs").fetchone() == ("completed",)
 
     def test_symbols_without_data_are_recorded_as_done(self, market_db, monkeypatch, strategy):
         seed_tickers(market_db, SYMBOLS[:2])

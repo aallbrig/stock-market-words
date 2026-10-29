@@ -364,6 +364,7 @@ def run_backfill(
     calls_before = metrics.get_counts().get("yahoo_finance", {}).get("history_download", 0)
     calls_prior = conn.execute("SELECT download_calls FROM backfill_runs WHERE run_id = ?", (run_id,)).fetchone()[0]
 
+    errored: list[str] = []
     try:
         batches = [todo[i:i + PRICE_BATCH_SIZE] for i in range(0, len(todo), PRICE_BATCH_SIZE)]
         for number, batch in enumerate(batches, 1):
@@ -372,7 +373,11 @@ def run_backfill(
             existing = _existing_keys(conn, batch, target_days)
             rows, per_symbol = [], []
             for symbol in batch:
-                symbol_rows = _rows_for_symbol(symbol, frames.get(symbol, pd.DataFrame()), targets, existing, derived)
+                frame = frames.get(symbol, pd.DataFrame())
+                if frame is None:  # failed for a reason other than "no data": leave it unjournaled to retry
+                    errored.append(symbol)
+                    continue
+                symbol_rows = _rows_for_symbol(symbol, frame, targets, existing, derived)
                 rows.extend(symbol_rows)
                 per_symbol.append((run_id, symbol, len(symbol_rows)))
             calls = metrics.get_counts().get("yahoo_finance", {}).get("history_download", 0) - calls_before
@@ -393,6 +398,11 @@ def run_backfill(
                     scored = recompute_strategy_scores(conn, iso)
                     if scored:
                         echo(f"Recomputed strategy_scores for {iso} ({scored:,} tickers)")
+        if errored:
+            raise click.ClickException(
+                f"{len(errored)} ticker(s) failed with errors other than 'no data' "
+                f"(e.g. {', '.join(errored[:5])}); re-run the same command to retry them"
+            )
         if not limit:
             # The replaced sessions now hold post-close data; stamp the step like extract_prices
             # would, or capture_predates_close keeps flagging them and every run refetches them.

@@ -25,6 +25,12 @@ def _is_rate_limit_text(text: str) -> bool:
     return '429' in msg or 'rate limit' in msg or 'too many requests' in msg
 
 
+def _is_no_data_text(text: str) -> bool:
+    """Yahoo's answer for a symbol it no longer serves (delisted, merged, never listed)."""
+    msg = text.lower()
+    return 'no price data' in msg or 'delisted' in msg or 'no data found' in msg
+
+
 def _is_rate_limit(exc: Exception) -> bool:
     return _is_rate_limit_text(str(exc))
 
@@ -91,7 +97,9 @@ class DownloadStrategy(abc.ABC):
         """
         Raw (unadjusted) daily bars for `symbols` over [start, end) in ONE
         yf.download call, as {symbol: DataFrame(Open/High/Low/Close/Volume)}.
-        A symbol with no data maps to an empty frame.
+        A symbol Yahoo has no data for maps to an empty frame. A symbol whose
+        request failed for any other reason (timeout, connection reset) maps to
+        None so the caller can tell "no data" from "try again later".
 
         yf.download() swallows per-ticker failures, including HTTP 429, into
         yfinance.shared._ERRORS and just omits the column. Throttled tickers are
@@ -118,8 +126,10 @@ class DownloadStrategy(abc.ABC):
                 metrics.record_request('yahoo_finance', 'history_chart_request')
             limited = [s for s in remaining if _is_rate_limit_text(errors.get(s.upper(), ''))]
             for symbol in remaining:
-                if symbol not in limited:
-                    frames[symbol] = _symbol_frame(data, symbol)
+                if symbol in limited:
+                    continue
+                error = errors.get(symbol.upper())
+                frames[symbol] = None if error and not _is_no_data_text(error) else _symbol_frame(data, symbol)
             remaining = limited
             if remaining:
                 logger.warning(f"Rate limit on {len(remaining)} of {len(symbols)} history symbols")
