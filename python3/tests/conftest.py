@@ -43,6 +43,14 @@ def initialized_db(temp_db: Path) -> Generator[Path, None, None]:
     conn = sqlite3.connect(temp_db)
     cursor = conn.cursor()
     cursor.executescript(schema_sql)
+    # The real database is schema.sql plus every migration (open_price, sector, ...)
+    cursor.execute("CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, "
+                   "description TEXT NOT NULL, applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, checksum TEXT)")
+    for migration in sorted((Path(__file__).parent.parent / "migrations").glob("*.sql")):
+        cursor.executescript(migration.read_text())
+        version, _, name = migration.stem.partition("_")
+        cursor.execute("INSERT INTO schema_migrations (version, description) VALUES (?, ?)",
+                       (int(version), name.replace("_", " ").title()))
     conn.commit()
     conn.close()
     
@@ -296,6 +304,16 @@ def market_db(tmp_path: Path, monkeypatch) -> Generator[sqlite3.Connection, None
         monkeypatch.setattr(f"{module}.DB_PATH", path)
     yield conn
     conn.close()
+
+
+@pytest.fixture
+def use_db(monkeypatch):
+    """Point the package at a given database file for the duration of one test."""
+    def _use(path):
+        for module in ("stock_ticker.database", "stock_ticker.cli"):
+            monkeypatch.setattr(f"{module}.DB_PATH", Path(path))
+        return Path(path)
+    return _use
 
 
 def fake_close(level, day):

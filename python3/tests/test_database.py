@@ -16,9 +16,10 @@ from stock_ticker.utils import get_today
 class TestDatabaseInitialization:
     """Tests for database initialization."""
     
-    def test_init_db_creates_tables(self, temp_db):
+    def test_init_db_creates_tables(self, use_db, temp_db):
         """Test that init_db creates all required tables."""
-        init_db(db_path=temp_db)
+        use_db(temp_db)
+        init_db()
         
         conn = sqlite3.connect(temp_db)
         cursor = conn.cursor()
@@ -44,11 +45,12 @@ class TestDatabaseInitialization:
         
         conn.close()
     
-    def test_ensure_initialized_creates_db_if_missing(self, temp_db):
+    def test_ensure_initialized_creates_db_if_missing(self, use_db, temp_db):
         """Test that ensure_initialized creates database if it doesn't exist."""
+        use_db(temp_db)
         assert not temp_db.exists()
         
-        ensure_initialized(db_path=temp_db)
+        ensure_initialized()
         
         assert temp_db.exists()
         
@@ -126,23 +128,27 @@ class TestDatabaseOperations:
 class TestPipelineState:
     """Tests for pipeline state management."""
     
-    def test_get_pipeline_state_empty_db(self, initialized_db):
+    def test_get_pipeline_state_empty_db(self, use_db, initialized_db):
         """Test pipeline state with empty database."""
-        state = get_pipeline_state(db_path=initialized_db)
+        use_db(initialized_db)
+        state = get_pipeline_state()
         
         assert state['status'] == 'idle'
         assert state['current_step'] is None
         assert len(state['completed_steps']) == 0
     
-    def test_recommend_next_step_empty_db(self, initialized_db):
+    def test_recommend_next_step_empty_db(self, use_db, initialized_db):
         """Test next step recommendation with empty database."""
-        step, reason = recommend_next_step(db_path=initialized_db)
+        use_db(initialized_db)
+        step, reason = recommend_next_step()
         
-        assert step == 'sync-ftp'
-        assert 'download' in reason.lower() or 'sync' in reason.lower()
+        # recommend_next_step starts at price extraction; it does not consider the ticker list
+        assert step == 'extract-prices'
+        assert 'price' in reason.lower()
     
-    def test_pipeline_step_tracking(self, initialized_db):
+    def test_pipeline_step_tracking(self, use_db, initialized_db):
         """Test that pipeline steps are tracked correctly."""
+        use_db(initialized_db)
         conn = sqlite3.connect(initialized_db)
         cursor = conn.cursor()
         today = get_today()
@@ -158,7 +164,7 @@ class TestPipelineState:
         conn.close()
         
         # Check pipeline state
-        state = get_pipeline_state(db_path=initialized_db)
+        state = get_pipeline_state()
         
         assert 'sync-ftp' in state['completed_steps']
 

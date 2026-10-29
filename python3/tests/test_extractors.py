@@ -13,21 +13,23 @@ from stock_ticker.utils import get_today
 class TestPriceExtraction:
     """Tests for price/volume extraction."""
     
-    def test_extract_prices_with_mock(self, populated_db, 
+    def test_extract_prices_with_mock(self, use_db, populated_db, 
                                       mock_yfinance_download, monkeypatch):
         """Test price extraction with mocked Yahoo Finance API."""
-        monkeypatch.setenv('DB_PATH', str(populated_db))
+        use_db(populated_db)
+        use_db(populated_db)
         
         # Extract prices
-        extract_prices(db_path=populated_db, batch_size=10)
+        extract_prices()
         
         # Verify mock was called
         assert mock_yfinance_download.called
     
-    def test_extract_prices_handles_missing_tickers(self, initialized_db, 
+    def test_extract_prices_handles_missing_tickers(self, use_db, initialized_db, 
                                                      mock_yfinance_download, 
                                                      monkeypatch):
         """Test that price extraction handles tickers with no data."""
+        use_db(initialized_db)
         import sqlite3
         
         # Add a ticker
@@ -40,17 +42,18 @@ class TestPriceExtraction:
         conn.commit()
         conn.close()
         
-        monkeypatch.setenv('DB_PATH', str(initialized_db))
+        use_db(initialized_db)
         
         # Mock download to return empty data
         mock_yfinance_download.return_value = pd.DataFrame()
         
         # Should handle gracefully
-        extract_prices(db_path=initialized_db, batch_size=10)
+        extract_prices()
     
-    def test_extract_prices_skips_etfs(self, initialized_db, 
+    def test_extract_prices_skips_etfs(self, use_db, initialized_db, 
                                        mock_yfinance_download, monkeypatch):
         """Test that price extraction skips ETFs."""
+        use_db(initialized_db)
         import sqlite3
         
         conn = sqlite3.connect(initialized_db)
@@ -70,10 +73,10 @@ class TestPriceExtraction:
         conn.commit()
         conn.close()
         
-        monkeypatch.setenv('DB_PATH', str(initialized_db))
+        use_db(initialized_db)
         
         # Extract prices
-        extract_prices(db_path=initialized_db, batch_size=10)
+        extract_prices()
         
         # Check that SPY was not processed
         conn = sqlite3.connect(initialized_db)
@@ -96,9 +99,13 @@ class TestPriceExtraction:
 class TestMetadataExtraction:
     """Tests for metadata extraction."""
     
-    def test_extract_metadata_with_mock(self, populated_db, mocker, monkeypatch):
+    def test_extract_metadata_with_mock(self, use_db, populated_db, mocker, monkeypatch):
         """Test metadata extraction with mocked Yahoo Finance."""
-        monkeypatch.setenv('DB_PATH', str(populated_db))
+        use_db(populated_db)
+        # extract_metadata only picks up rows that still lack metadata
+        import sqlite3
+        with sqlite3.connect(populated_db) as conn:
+            conn.execute("UPDATE daily_metrics SET market_cap = NULL")
         
         # Mock yfinance.Ticker
         mock_ticker_class = mocker.patch('yfinance.Ticker')
@@ -121,7 +128,7 @@ class TestMetadataExtraction:
         mock_ticker_class.return_value = mock_ticker_instance
         
         # Extract metadata
-        extract_metadata(db_path=populated_db, batch_size=10)
+        extract_metadata()
         
         # Verify mock was called
         assert mock_ticker_class.called
@@ -156,10 +163,11 @@ class TestMetadataExtraction:
             # RSI should be between 0 and 100
             assert 0 <= rsi <= 100
     
-    def test_extract_metadata_handles_missing_data(self, populated_db, 
+    def test_extract_metadata_handles_missing_data(self, use_db, populated_db, 
                                                     mocker, monkeypatch):
         """Test that metadata extraction handles missing/invalid data."""
-        monkeypatch.setenv('DB_PATH', str(populated_db))
+        use_db(populated_db)
+        use_db(populated_db)
         
         # Mock ticker with incomplete data
         mock_ticker_class = mocker.patch('yfinance.Ticker')
@@ -176,7 +184,7 @@ class TestMetadataExtraction:
         mock_ticker_class.return_value = mock_ticker_instance
         
         # Should handle gracefully without crashing
-        extract_metadata(db_path=populated_db, batch_size=10)
+        extract_metadata()
 
 
 @pytest.mark.unit
@@ -248,10 +256,11 @@ class TestDataValidation:
 class TestBatchProcessing:
     """Tests for batch processing logic."""
     
-    def test_extract_prices_processes_in_batches(self, initialized_db, 
+    def test_extract_prices_processes_in_batches(self, use_db, initialized_db, 
                                                   mock_yfinance_download,
                                                   monkeypatch):
         """Test that price extraction processes tickers in batches."""
+        use_db(initialized_db)
         import sqlite3
         
         # Add multiple tickers
@@ -267,10 +276,10 @@ class TestBatchProcessing:
         conn.commit()
         conn.close()
         
-        monkeypatch.setenv('DB_PATH', str(initialized_db))
+        monkeypatch.setattr('stock_ticker.extractors.PRICE_BATCH_SIZE', 50)
         
         # Extract with small batch size
-        extract_prices(db_path=initialized_db, batch_size=50)
+        extract_prices()
         
         # Should have been called multiple times (150 tickers / 50 batch = 3 calls)
         assert mock_yfinance_download.call_count >= 3

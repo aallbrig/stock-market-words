@@ -18,34 +18,41 @@ from tests.conftest import assert_valid_json_file, assert_json_structure
 class TestHugoDataGeneration:
     """Tests for Hugo data file generation."""
     
-    def test_generate_raw_ftp_data_creates_valid_json(self, populated_db, 
+    def test_generate_raw_ftp_data_creates_valid_json(self, use_db, populated_db, temp_dir,
                                                        temp_hugo_dir, monkeypatch):
-        """Test that raw FTP data generation creates valid JSON."""
-        monkeypatch.setenv('DB_PATH', str(populated_db))
-        
-        output_dir = temp_hugo_dir
-        generate_raw_ftp_data(db_path=populated_db, output_dir=output_dir)
-        
-        # Check for generated files
-        nasdaq_file = output_dir / "raw_nasdaq.json"
-        
-        if nasdaq_file.exists():
-            data = assert_valid_json_file(nasdaq_file)
-            assert isinstance(data, list)
-            
-            # Validate structure if data exists
-            if data:
-                first_item = data[0]
-                required_keys = ['symbol', 'name', 'exchange']
-                assert_json_structure(first_item, required_keys)
+        """Raw FTP listings are converted to JSON with metadata and one record per row."""
+        use_db(populated_db)
+        ftp_dir = temp_dir / "ftp"
+        ftp_dir.mkdir()
+        (ftp_dir / "nasdaqlisted.txt").write_text(
+            "Symbol|Security Name|Market Category|Test Issue|Financial Status|Round Lot Size|ETF|NextShares\n"
+            "AAPL|Apple Inc. - Common Stock|Q|N|N|100|N|N\n"
+            "File Creation Time: 1029202612:00||||||\n")
+        (ftp_dir / "otherlisted.txt").write_text(
+            "ACT Symbol|Security Name|Exchange|CQS Symbol|ETF|Round Lot Size|Test Issue|NASDAQ Symbol\n"
+            "IBM|International Business Machines|N|IBM|N|100|N|IBM\n"
+            "File Creation Time: 1029202612:00||||||\n")
+        monkeypatch.setattr('stock_ticker.hugo_generators.TMP_DIR', ftp_dir)
+        monkeypatch.setattr('stock_ticker.hugo_generators.HUGO_DATA_DIR', temp_hugo_dir)
+        monkeypatch.setattr('stock_ticker.hugo_generators.HUGO_STATIC_DATA_DIR', temp_hugo_dir)
+
+        generate_raw_ftp_data()
+
+        nasdaq = assert_valid_json_file(temp_hugo_dir / "raw_nasdaq.json")
+        assert_json_structure(nasdaq, ['_meta', 'source', 'total_rows', 'columns', 'data'])
+        assert [r['Symbol'] for r in nasdaq['data']] == ['AAPL']  # footer row dropped
+        other = assert_valid_json_file(temp_hugo_dir / "raw_otherlisted.json")
+        assert [r['ACT Symbol'] for r in other['data']] == ['IBM']
     
-    def test_generate_filtered_data_creates_valid_json(self, populated_db, 
+    def test_generate_filtered_data_creates_valid_json(self, use_db, populated_db, 
                                                         temp_hugo_dir, monkeypatch):
         """Test that filtered data generation creates valid JSON."""
-        monkeypatch.setenv('DB_PATH', str(populated_db))
+        use_db(populated_db)
         
         output_dir = temp_hugo_dir
-        generate_filtered_data(db_path=populated_db, output_dir=output_dir)
+        monkeypatch.setattr('stock_ticker.hugo_generators.HUGO_DATA_DIR', output_dir)
+        monkeypatch.setattr('stock_ticker.hugo_generators.HUGO_STATIC_DATA_DIR', output_dir)
+        generate_filtered_data()
         
         # Check for generated file
         filtered_file = output_dir / "filtered_tickers.json"
@@ -58,13 +65,15 @@ class TestHugoDataGeneration:
             if isinstance(data, dict):
                 assert 'tickers' in data or 'data' in data or len(data) > 0
     
-    def test_generate_strategy_filters_creates_valid_json(self, populated_db,
+    def test_generate_strategy_filters_creates_valid_json(self, use_db, populated_db,
                                                            temp_hugo_dir, monkeypatch):
         """Test that strategy filter generation creates valid JSON files."""
-        monkeypatch.setenv('DB_PATH', str(populated_db))
+        use_db(populated_db)
         
         output_dir = temp_hugo_dir
-        generate_strategy_filters(db_path=populated_db, output_dir=output_dir)
+        monkeypatch.setattr('stock_ticker.hugo_generators.HUGO_DATA_DIR', output_dir)
+        monkeypatch.setattr('stock_ticker.hugo_generators.HUGO_STATIC_DATA_DIR', output_dir)
+        generate_strategy_filters()
         
         # Check for strategy files
         strategies = [
@@ -135,7 +144,7 @@ class TestJSONValidation:
             f.write("{invalid json content")
         
         # Should raise an error
-        with pytest.raises(Exception):
+        with pytest.raises(pytest.fail.Exception):
             assert_valid_json_file(test_file)
     
     def test_json_with_all_ticker_fields(self, temp_dir):
@@ -204,17 +213,18 @@ class TestJSONValidation:
 class TestHugoPageGeneration:
     """Tests for Hugo markdown page generation."""
     
-    def test_generate_hugo_pages_creates_files(self, populated_db, 
+    def test_generate_hugo_pages_creates_files(self, use_db, populated_db, 
                                                 temp_dir, monkeypatch):
         """Test that Hugo page generation creates markdown files."""
-        monkeypatch.setenv('DB_PATH', str(populated_db))
+        use_db(populated_db)
         
         content_dir = temp_dir / "content"
         content_dir.mkdir(parents=True)
+        monkeypatch.setattr('stock_ticker.hugo_generators.HUGO_CONTENT_DIR', content_dir)
         
         # This may not be implemented yet, so handle gracefully
         try:
-            generate_hugo_pages(db_path=populated_db, output_dir=content_dir)
+            generate_hugo_pages()
             
             # Check if any .md files were created
             md_files = list(content_dir.glob("*.md"))
