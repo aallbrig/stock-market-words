@@ -1,13 +1,15 @@
 """
 Configuration and constants for the stock ticker CLI.
 """
+import os
 from pathlib import Path
 
 # Base paths
 BASE_DIR = Path(__file__).parent.parent.parent.parent
 PROJECT_ROOT = BASE_DIR  # Alias for compatibility
 PYTHON_DIR = Path(__file__).parent.parent.parent
-DB_PATH = BASE_DIR / "data" / "market_data.db"
+# STOCK_TICKER_DB points the CLI at another database file (e.g. a copy for dry runs)
+DB_PATH = Path(os.environ.get("STOCK_TICKER_DB") or BASE_DIR / "data" / "market_data.db")
 SCHEMA_PATH = PYTHON_DIR / "schema.sql"
 SQL_DIR = PYTHON_DIR / "sql"
 TMP_DIR = BASE_DIR / "data" / "tmp"

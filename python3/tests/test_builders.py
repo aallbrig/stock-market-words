@@ -11,16 +11,16 @@ from tests.conftest import assert_valid_json_file
 class TestAssetBuilding:
     """Tests for building JSON assets."""
     
-    def test_build_assets_with_sample_data(self, populated_db, temp_dir, monkeypatch):
+    def test_build_assets_with_sample_data(self, use_db, populated_db, temp_dir, monkeypatch):
         """Test asset building with populated database."""
         api_dir = temp_dir / "api"
         api_dir.mkdir(parents=True)
         
-        monkeypatch.setenv('DB_PATH', str(populated_db))
-        monkeypatch.setenv('API_DIR', str(api_dir))
+        use_db(populated_db)
+        monkeypatch.setattr('stock_ticker.builders.API_DIR', api_dir)
         
         # Build assets
-        build_assets(db_path=populated_db, output_dir=api_dir)
+        build_assets()
         
         # Check that files were created (if sufficient data)
         trie_path = api_dir / "trie.json"

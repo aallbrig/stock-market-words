@@ -43,6 +43,14 @@ def initialized_db(temp_db: Path) -> Generator[Path, None, None]:
     conn = sqlite3.connect(temp_db)
     cursor = conn.cursor()
     cursor.executescript(schema_sql)
+    # The real database is schema.sql plus every migration (open_price, sector, ...)
+    cursor.execute("CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, "
+                   "description TEXT NOT NULL, applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, checksum TEXT)")
+    for migration in sorted((Path(__file__).parent.parent / "migrations").glob("*.sql")):
+        cursor.executescript(migration.read_text())
+        version, _, name = migration.stem.partition("_")
+        cursor.execute("INSERT INTO schema_migrations (version, description) VALUES (?, ?)",
+                       (int(version), name.replace("_", " ").title()))
     conn.commit()
     conn.close()
     
@@ -273,3 +281,56 @@ def assert_json_structure(data: dict, required_keys: list[str]):
     """Assert that JSON data has required keys."""
     missing_keys = [key for key in required_keys if key not in data]
     assert not missing_keys, f"Missing required keys: {missing_keys}"
+
+
+# ── market-data fixtures (backfill / pre-close guard) ───────────────────────
+
+MIGRATIONS_DIR = Path(__file__).parent.parent / "migrations"
+
+
+@pytest.fixture
+def market_db(tmp_path: Path, monkeypatch) -> Generator[sqlite3.Connection, None, None]:
+    """
+    A scratch database with schema.sql plus every migration, wired in as the
+    CLI's DB_PATH. Never touches data/market_data.db.
+    """
+    path = tmp_path / "market.db"
+    conn = sqlite3.connect(path)
+    conn.executescript((Path(__file__).parent.parent / "schema.sql").read_text())
+    for migration in sorted(MIGRATIONS_DIR.glob("*.sql")):
+        conn.executescript(migration.read_text())
+    conn.commit()
+    for module in ("stock_ticker.database", "stock_ticker.cli"):
+        monkeypatch.setattr(f"{module}.DB_PATH", path)
+    yield conn
+    conn.close()
+
+
+@pytest.fixture
+def use_db(monkeypatch):
+    """Point the package at a given database file for the duration of one test."""
+    def _use(path):
+        for module in ("stock_ticker.database", "stock_ticker.cli"):
+            monkeypatch.setattr(f"{module}.DB_PATH", Path(path))
+        return Path(path)
+    return _use
+
+
+def fake_close(level, day):
+    """Close the fake feed reports for a symbol at base `level` on `day` (independent of the download window)."""
+    return level + 0.001 * (pd.Timestamp(day).date() - date(2025, 1, 1)).days
+
+
+def fake_bars(symbols, start, end, base=None):
+    """Frame shaped like yf.download(group_by='ticker', auto_adjust=False) over [start, end)."""
+    index = pd.bdate_range(start, pd.Timestamp(end) - pd.Timedelta(days=1))
+    columns = {}
+    for n, symbol in enumerate(symbols):
+        level = (base or {}).get(symbol, 100.0 + n)
+        close = pd.Series([fake_close(level, d) for d in index], index=index)
+        for field, series in {
+            "Open": close - 0.5, "High": close + 1.0, "Low": close - 1.0, "Close": close,
+            "Adj Close": close * 0.99, "Volume": pd.Series(1_000_000 + 10 * n, index=index),
+        }.items():
+            columns[(symbol, field)] = series
+    return pd.DataFrame(columns, index=index)

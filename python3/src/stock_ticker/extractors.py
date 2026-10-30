@@ -1,20 +1,47 @@
 """
 Data extraction functions for price/volume and metadata.
 """
-import math
-import time
-import yfinance as yf
-import numpy as np
-import pandas as pd
-from .config import PRICE_BATCH_SIZE, METADATA_BATCH_SIZE, YAHOO_API_HOST
+from datetime import date
+
+from .config import PRICE_BATCH_SIZE, METADATA_BATCH_SIZE
 from .utils import get_today
 from .database import get_connection, record_pipeline_step
 from .logging_setup import setup_logging
-from .retry import get_retry_tracker, get_request_metrics, BackoffLimitExceeded
-from .vpn_rotator import get_vpn_rotator
+from .retry import get_request_metrics
 from .download_strategies import DownloadStrategy, BatchDownloadStrategy, DownloadAborted
+from .market_calendar import capture_predates_close
+from .technicals import compute_technicals
 
 logger = setup_logging()
+
+PRICE_UPSERT_COLUMNS = ('price', 'volume', 'open_price', 'high_price', 'low_price', 'adj_close')
+
+
+def price_row_from_bar(symbol, day, bar):
+    """
+    One daily_metrics price row from a yfinance bar (a Series with Close/Volume/
+    Open/High/Low and optionally Adj Close). Shared by the daily run and the
+    backfill so both store identical data.
+
+    Returns (row, None), or (None, reason) when the bar has no usable Close.
+    """
+    def _float(col):
+        try:
+            return float(bar[col])
+        except Exception:
+            return None
+    close_price = _float('Close')
+    if close_price is None:
+        return None, "No Close price"
+    return (
+        symbol, day,
+        close_price,
+        int(bar['Volume']) if bar['Volume'] is not None else None,
+        _float('Open'),
+        _float('High'),
+        _float('Low'),
+        _float('Adj Close'),
+    ), None
 
 
 def extract_prices(dry_run=False, limit=None, run_id=None, strategy: DownloadStrategy = None):
@@ -49,20 +76,27 @@ def extract_prices(dry_run=False, limit=None, run_id=None, strategy: DownloadStr
     conn = get_connection()
     cursor = conn.cursor()
     today = get_today()
-    
+
+    # Must be read before record_pipeline_step below overwrites completed_at.
+    refresh_preclose = capture_predates_close(conn, date.fromisoformat(today))
+    if refresh_preclose:
+        logger.warning(
+            f"Today's prices were captured before the market close; refetching all tickers for {today}"
+        )
+
     # Record step start
     record_pipeline_step('extract-prices', 0, 'in_progress', dry_run=False)
     
-    # Get all valid tickers that need price data
+    # Get all valid tickers that need price data (all of them when refreshing a pre-close capture)
     cursor.execute("""
         SELECT symbol FROM tickers 
         WHERE is_etf = 0
-        AND symbol NOT IN (
+        AND (? OR symbol NOT IN (
             SELECT symbol FROM daily_metrics 
             WHERE date = ? AND price IS NOT NULL
-        )
+        ))
         ORDER BY symbol
-    """, (today,))
+    """, (refresh_preclose, today))
     
     pending_symbols = [row[0] for row in cursor.fetchall()]
     
@@ -117,23 +151,11 @@ def extract_prices(dry_run=False, limit=None, run_id=None, strategy: DownloadStr
                 try:
                     ticker_data = data if len(batch) == 1 else (data[symbol] if symbol in data else None)
                     if ticker_data is not None and not ticker_data.empty:
-                        row = ticker_data.iloc[-1]
-                        def _float(col):
-                            try: return float(row[col])
-                            except Exception: return None
-                        close_price = _float('Close')
-                        if close_price is None:
-                            failed_symbols[symbol] = "No Close price"
+                        price_row, reason = price_row_from_bar(symbol, today, ticker_data.iloc[-1])
+                        if price_row is None:
+                            failed_symbols[symbol] = reason
                             continue
-                        batch_data.append((
-                            symbol, today,
-                            close_price,
-                            int(row['Volume']) if row['Volume'] is not None else None,
-                            _float('Open'),
-                            _float('High'),
-                            _float('Low'),
-                            _float('Adj Close'),
-                        ))
+                        batch_data.append(price_row)
                         successful_symbols.append(symbol)
                     else:
                         failed_symbols[symbol] = "No price data returned"
@@ -373,35 +395,11 @@ def extract_metadata(dry_run=False, limit=None, run_id=None, strategy: DownloadS
                 full_time_employees = info.get('fullTimeEmployees')
 
                 # ── Computed from history ─────────────────────────────────────
-                ma_200 = hist['Close'].tail(200).mean() if not hist.empty and len(hist) >= 200 else None
-                ma_50 = hist['Close'].tail(50).mean() if not hist.empty and len(hist) >= 50 else None
-
-                rsi_14 = None
-                if not hist.empty and len(hist) >= 14:
-                    delta = hist['Close'].diff()
-                    gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
-                    loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-                    rs = gain / loss
-                    last_rs = rs.iloc[-1]
-                    rsi_14 = float(100 - (100 / (1 + last_rs))) if not pd.isna(last_rs) else None
-
-                hist_volatility = None
-                if not hist.empty and len(hist) >= 21:
-                    closes = hist['Close'].values.astype(float)
-                    log_ret = np.log(closes[1:] / closes[:-1])
-                    if len(log_ret) >= 20:
-                        vol = float(np.std(log_ret[-20:], ddof=1) * math.sqrt(252) * 100)
-                        hist_volatility = vol if not math.isnan(vol) else None
-
-                atr_14 = None
-                if not hist.empty and len(hist) >= 15:
-                    h = pd.Series(hist['High'].values)
-                    l = pd.Series(hist['Low'].values)
-                    c = pd.Series(hist['Close'].values)
-                    prev_c = c.shift(1)
-                    tr = pd.concat([h - l, (h - prev_c).abs(), (l - prev_c).abs()], axis=1).max(axis=1)
-                    last_atr = tr.rolling(14).mean().iloc[-1]
-                    atr_14 = float(last_atr) if not pd.isna(last_atr) else None
+                technicals = compute_technicals(hist)
+                ma_200, ma_50 = technicals['ma_200'], technicals['ma_50']
+                rsi_14 = technicals['rsi_14']
+                hist_volatility = technicals['hist_volatility']
+                atr_14 = technicals['atr_14']
 
                 if sector or industry or business_summary or country or full_time_employees:
                     is_reit = 1 if (industry or '').startswith('REIT') else 0

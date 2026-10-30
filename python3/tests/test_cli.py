@@ -13,41 +13,42 @@ from tests.conftest import assert_valid_json_file, assert_json_structure
 class TestCLIStatus:
     """Tests for the 'status' command."""
     
-    def test_status_command_runs(self, initialized_db, monkeypatch):
+    def test_status_command_runs(self, use_db, caplog, initialized_db, monkeypatch):
         """Test that status command runs without error."""
-        monkeypatch.setenv('DB_PATH', str(initialized_db))
+        use_db(initialized_db)
         
         runner = CliRunner()
         result = runner.invoke(cli, ['status'])
         
-        assert result.exit_code == 0
-        assert 'SYSTEM STATUS' in result.output
-        assert 'DEPENDENCIES' in result.output
+        # status exits 1 when the pipeline still needs to run (2-6 are real errors)
+        assert result.exit_code in (0, 1)
+        assert 'SYSTEM STATUS' in (result.output + caplog.text)
+        assert 'DEPENDENCIES' in (result.output + caplog.text)
     
-    def test_status_shows_database_ready(self, initialized_db, monkeypatch):
+    def test_status_shows_database_ready(self, use_db, caplog, initialized_db, monkeypatch):
         """Test that status shows database is ready."""
-        monkeypatch.setenv('DB_PATH', str(initialized_db))
+        use_db(initialized_db)
         
         runner = CliRunner()
         result = runner.invoke(cli, ['status'])
         
-        assert 'Database: Ready' in result.output or 'Database: ✓' in result.output
+        assert 'Database: Ready' in (result.output + caplog.text) or 'Database: ✓' in (result.output + caplog.text)
 
 
 @pytest.mark.cli
 class TestCLIInit:
     """Tests for the 'init' command."""
     
-    def test_init_creates_database(self, temp_db, monkeypatch):
+    def test_init_creates_database(self, use_db, caplog, temp_db, monkeypatch):
         """Test that init creates a database with schema."""
-        monkeypatch.setenv('DB_PATH', str(temp_db))
+        use_db(temp_db)
         
         runner = CliRunner()
         result = runner.invoke(cli, ['init'])
         
         assert result.exit_code == 0
         assert temp_db.exists()
-        assert 'initialized' in result.output.lower()
+        assert 'initialized' in (result.output + caplog.text).lower()
 
 
 @pytest.mark.cli
@@ -55,17 +56,17 @@ class TestCLIInit:
 class TestCLISyncFTP:
     """Tests for the 'sync-ftp' command."""
     
-    def test_sync_ftp_with_mock(self, initialized_db, temp_dir, 
+    def test_sync_ftp_with_mock(self, use_db, caplog, initialized_db, temp_dir, 
                                  mock_ftp_server, monkeypatch):
         """Test FTP sync with mocked FTP server."""
-        monkeypatch.setenv('DB_PATH', str(initialized_db))
-        monkeypatch.setenv('TMP_DIR', str(temp_dir))
+        use_db(initialized_db)
+        monkeypatch.setattr('stock_ticker.ftp_sync.TMP_DIR', temp_dir)
         
         runner = CliRunner()
         result = runner.invoke(cli, ['sync-ftp'])
         
         assert result.exit_code == 0
-        assert 'sync' in result.output.lower()
+        assert 'sync' in (result.output + caplog.text).lower()
 
 
 @pytest.mark.cli
@@ -73,10 +74,10 @@ class TestCLISyncFTP:
 class TestCLIExtractPrices:
     """Tests for the 'extract-prices' command."""
     
-    def test_extract_prices_with_mock(self, populated_db, 
+    def test_extract_prices_with_mock(self, use_db, caplog, populated_db, 
                                       mock_yfinance_download, monkeypatch):
         """Test price extraction with mocked Yahoo Finance."""
-        monkeypatch.setenv('DB_PATH', str(populated_db))
+        use_db(populated_db)
         
         runner = CliRunner()
         result = runner.invoke(cli, ['extract-prices'])
@@ -89,13 +90,13 @@ class TestCLIExtractPrices:
 class TestCLIBuild:
     """Tests for the 'build' command."""
     
-    def test_build_generates_json_files(self, populated_db, temp_dir, monkeypatch):
+    def test_build_generates_json_files(self, use_db, caplog, populated_db, temp_dir, monkeypatch):
         """Test that build command generates valid JSON files."""
         api_dir = temp_dir / "api"
         api_dir.mkdir(parents=True)
         
-        monkeypatch.setenv('DB_PATH', str(populated_db))
-        monkeypatch.setenv('API_DIR', str(api_dir))
+        use_db(populated_db)
+        monkeypatch.setattr('stock_ticker.builders.API_DIR', api_dir)
         
         runner = CliRunner()
         result = runner.invoke(cli, ['build'])
@@ -127,28 +128,28 @@ class TestCLIBuild:
 class TestCLIRunAll:
     """Tests for the 'run-all' command."""
     
-    def test_run_all_dry_run(self, temp_db, monkeypatch):
+    def test_run_all_dry_run(self, use_db, caplog, temp_db, monkeypatch):
         """Test run-all in dry-run mode."""
-        monkeypatch.setenv('DB_PATH', str(temp_db))
+        use_db(temp_db)
         
         runner = CliRunner()
         result = runner.invoke(cli, ['--dry-run', 'run-all'])
         
         assert result.exit_code == 0
-        assert 'DRY RUN' in result.output
+        assert 'DRY RUN' in (result.output + caplog.text)
 
 
 @pytest.mark.cli
 class TestCLIReset:
     """Tests for the 'reset' command."""
     
-    def test_reset_with_force_flag(self, populated_db, monkeypatch):
+    def test_reset_with_force_flag(self, use_db, caplog, populated_db, monkeypatch):
         """Test reset command with --force flag."""
-        monkeypatch.setenv('DB_PATH', str(populated_db))
+        use_db(populated_db)
         
         runner = CliRunner()
         # Use --force and provide 'yes' confirmation
         result = runner.invoke(cli, ['reset', '--force'], input='yes\n')
         
         # Should complete (may have warnings)
-        assert 'reset' in result.output.lower() or 'delet' in result.output.lower()
+        assert 'reset' in (result.output + caplog.text).lower() or 'delet' in (result.output + caplog.text).lower()

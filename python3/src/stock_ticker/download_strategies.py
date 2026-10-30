@@ -11,17 +11,43 @@ import time
 from typing import Optional
 import yfinance as yf
 import pandas as pd
+from yfinance import shared as yf_shared
 
 from .logging_setup import setup_logging
-from .retry import RetryTracker, BackoffLimitExceeded, get_retry_tracker
+from .retry import RetryTracker, BackoffLimitExceeded, get_retry_tracker, get_request_metrics
 from .vpn_rotator import PiaVpnRotator, get_vpn_rotator
 
 logger = setup_logging()
 
 
-def _is_rate_limit(exc: Exception) -> bool:
-    msg = str(exc).lower()
+def _is_rate_limit_text(text: str) -> bool:
+    msg = text.lower()
     return '429' in msg or 'rate limit' in msg or 'too many requests' in msg
+
+
+def _is_no_data_text(text: str) -> bool:
+    """Yahoo's answer for a symbol it no longer serves (delisted, merged, never listed)."""
+    msg = text.lower()
+    return 'no price data' in msg or 'delisted' in msg or 'no data found' in msg
+
+
+def _is_rate_limit(exc: Exception) -> bool:
+    return _is_rate_limit_text(str(exc))
+
+
+def _symbol_frame(data: Optional[pd.DataFrame], symbol: str) -> pd.DataFrame:
+    """One ticker's bars out of a yf.download(group_by='ticker') frame; empty when absent."""
+    if data is None or data.empty:
+        return pd.DataFrame()
+    if isinstance(data.columns, pd.MultiIndex):
+        if symbol not in data.columns.get_level_values(0):
+            return pd.DataFrame()
+        frame = data[symbol]
+    else:
+        frame = data
+    if 'Close' not in frame.columns:
+        return pd.DataFrame()
+    return frame.dropna(subset=['Close'])
 
 
 class DownloadAborted(Exception):
@@ -59,6 +85,58 @@ class DownloadStrategy(abc.ABC):
     @abc.abstractmethod
     def inter_batch_pause(self):
         """Called between batches for polite pacing."""
+
+    def _on_history_rate_limited(self, symbol_count: int):
+        """Back off (sleep, rotate VPN) after a throttled history download; raise DownloadAborted to give up."""
+        raise NotImplementedError
+
+    def _on_history_ok(self):
+        raise NotImplementedError
+
+    def fetch_price_history(self, symbols: list, start: str, end: str) -> dict:
+        """
+        Raw (unadjusted) daily bars for `symbols` over [start, end) in ONE
+        yf.download call, as {symbol: DataFrame(Open/High/Low/Close/Volume)}.
+        A symbol Yahoo has no data for maps to an empty frame. A symbol whose
+        request failed for any other reason (timeout, connection reset) maps to
+        None so the caller can tell "no data" from "try again later".
+
+        yf.download() swallows per-ticker failures, including HTTP 429, into
+        yfinance.shared._ERRORS and just omits the column. Throttled tickers are
+        picked out of that dict, the strategy's own backoff is applied, and only
+        those tickers are requested again.
+        """
+        metrics = get_request_metrics()
+        frames = {}
+        remaining = list(symbols)
+        while remaining:
+            try:
+                data = yf.download(
+                    ' '.join(remaining), start=start, end=end, auto_adjust=False,
+                    group_by='ticker', progress=False, threads=True
+                )
+                errors = dict(yf_shared._ERRORS)
+            except Exception as e:
+                if not _is_rate_limit(e):
+                    raise
+                data, errors = None, {s.upper(): repr(e) for s in remaining}
+            # yfinance issues one chart request per ticker inside a download() call
+            metrics.record_request('yahoo_finance', 'history_download')
+            for _ in remaining:
+                metrics.record_request('yahoo_finance', 'history_chart_request')
+            limited = [s for s in remaining if _is_rate_limit_text(errors.get(s.upper(), ''))]
+            for symbol in remaining:
+                if symbol in limited:
+                    continue
+                error = errors.get(symbol.upper())
+                frames[symbol] = None if error and not _is_no_data_text(error) else _symbol_frame(data, symbol)
+            remaining = limited
+            if remaining:
+                logger.warning(f"Rate limit on {len(remaining)} of {len(symbols)} history symbols")
+                self._on_history_rate_limited(len(remaining))
+            else:
+                self._on_history_ok()
+        return frames
 
 
 class BatchDownloadStrategy(DownloadStrategy):
@@ -121,6 +199,16 @@ class BatchDownloadStrategy(DownloadStrategy):
 
     def inter_batch_pause(self):
         time.sleep(self._INTER_BATCH_SLEEP)
+
+    def _on_history_rate_limited(self, symbol_count: int):
+        topic = 'yahoo_finance_history'
+        try:
+            self._retry.record_failure(topic)
+        except BackoffLimitExceeded:
+            self._try_vpn_or_abort(topic)
+
+    def _on_history_ok(self):
+        self._retry.record_success('yahoo_finance_history')
 
     def _try_vpn_or_abort(self, topic: str):
         if self._vpn.should_rotate():
@@ -246,6 +334,12 @@ class PiaVpnDownloadStrategy(DownloadStrategy):
 
     def inter_batch_pause(self):
         time.sleep(self._current_delay)
+
+    def _on_history_rate_limited(self, symbol_count: int):
+        self._on_rate_limit(f"history ({symbol_count} symbols)")
+
+    def _on_history_ok(self):
+        self._on_success()
 
 
 def get_strategy(name: str) -> DownloadStrategy:

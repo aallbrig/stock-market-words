@@ -65,6 +65,7 @@ implemented in `python3/src/stock_ticker/cli.py`).
 | `ticker-cli hugo pages` | Generate the two CLI-managed markdown pages | `hugo/site/content/raw-ftp-data.md`, `filtered-data.md` |
 | `ticker-cli hugo all` | All `hugo *` subcommands in sequence | (everything above) |
 | `ticker-cli run-all [--limit N] [--force] [--clean]` | Full pipeline: sync-ftp → extract-prices → extract-metadata → build → hugo all | (everything) |
+| `ticker-cli backfill --from D [--to D] [--limit N] [--strategy S] [--refetch] [--restart] [--dry-run]` | Fill NYSE sessions missing from, or only partly present in, `daily_metrics` (one `yf.download` per 100 tickers for the whole range); recompute price-derived columns for the rows written | `daily_metrics`, `strategy_scores`, `backfill_runs`, `backfill_symbols` |
 | `ticker-cli reset [--force]` | Delete today's `daily_metrics`, `strategy_scores`, `pipeline_steps` rows | DB |
 
 ## Pipeline state and resumability
@@ -75,6 +76,22 @@ table tracks per-day completion of each step (`sync-ftp`, `extract-prices`,
 halfway, re-running `run-all` skips finished steps unless `--force` is set.
 `pipeline_runs` retains per-run timing and failure history; per-ticker
 fetches are logged in `ticker_sync_history`.
+
+If today's `extract-prices` step last wrote before the NYSE close (16:00 ET,
+earlier on half days) and the close has since passed, the stored prices are an
+intraday snapshot. `run-all` then re-runs `extract-prices`, `extract-metadata`,
+`build` and `generate-hugo` (keeping `sync-ftp`), and `extract-prices` refetches
+every ticker. `backfill` applies the same test to past sessions.
+
+`ticker-cli backfill` keeps its own journal (`backfill_runs`, `backfill_symbols`,
+migration 008) so that its progress never changes what `run-all` believes about
+a day. Derived data after a backfill, in dependency order: prices →
+RSI/MA/volatility/ATR (recomputed from the downloaded bars) → `strategy_scores`
+(re-ranked only for sessions whose prices were replaced and that already have
+fundamentals) → JSON assets and Hugo content (only the latest session and the
+10-session score history feed the site, so rerun `build` and `generate-hugo` only
+when one of those changed). Fundamentals are point-in-time Yahoo snapshots and are
+never backfilled.
 
 ## Filtering rules (in `ftp_sync.py`)
 

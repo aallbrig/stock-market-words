@@ -77,6 +77,12 @@ and `tickers`. Lets you ask "why did AAPL fail to refresh on April 3?" by
 joining on `(run_id, symbol)`. Indexes: `idx_ticker_sync_run`,
 `idx_ticker_sync_symbol`.
 
+**`backfill_runs`** / **`backfill_symbols`** — progress journal for
+`ticker-cli backfill` only (migration 008). A run freezes its target sessions
+(`target_dates`, JSON) when it starts; `backfill_symbols` records each ticker as
+it is written, so an interrupted run resumes at the next ticker. Nothing in
+`run-all` reads them. Runs made with `--limit` are never treated as complete.
+
 ---
 
 ## Data lifecycle

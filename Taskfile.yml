@@ -67,6 +67,11 @@ tasks:
     cmds:
       - bash -c "source python3/venv/bin/activate && python -m stock_ticker.cli run-all; deactivate"
 
+  backfill:
+    desc: "Fill NYSE sessions missing from daily_metrics (task backfill -- --from 2026-01-02 [--dry-run])"
+    cmds:
+      - bash -c "source python3/venv/bin/activate && python -m stock_ticker.cli backfill {{.CLI_ARGS}}; deactivate"
+
   run-all-commit-push:
     desc: Run the full data pipeline then commit and push generated output
     cmds:
@@ -181,6 +186,14 @@ tasks:
           exit 1
         fi
 
+  # ─── CI ─────────────────────────────────────────────────────────────────────
+
+  ci:
+    desc: All quality gates that need no live services (Python lint + Python tests)
+    cmds:
+      - task: lint-py
+      - task: test-py
+
   # ─── Lint ───────────────────────────────────────────────────────────────────
 
   lint:
@@ -246,8 +259,10 @@ tasks:
       - task: test-e2e
 
   test-py:
-    desc: Run Python tests with pytest (from python3/)
+    desc: Run Python tests with pytest (from python3/); uses a scratch DB, never data/market_data.db
     dir: python3
+    env:
+      STOCK_TICKER_DB: "{{.ROOT_DIR}}/data/tmp/pytest.db"
     cmds:
       - venv/bin/python -m pytest
 
