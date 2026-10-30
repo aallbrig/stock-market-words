@@ -12972,6 +12972,14 @@
       "exchange": "NASDAQ",
       "is_etf": false,
       "first_seen": "2026-01-17",
+      "price_data": null
+    },
+    {
+      "symbol": "CRAQ",
+      "name": "Cal Redwood Acquisition Corp. - Class A Ordinary Shares",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
       "price_data": {
         "date": "2026-10-29",
         "price": 10.09000015258789,
@@ -23613,6 +23621,23 @@
       }
     },
     {
+      "symbol": "GYRE",
+      "name": "Gyre Therapeutics, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
+      "price_data": {
+        "date": "2026-10-29",
+        "price": 6.409999847412109,
+        "volume": 185320,
+        "market_cap": 679676416.0,
+        "dividend_yield": 0.0,
+        "beta": 4.738,
+        "rsi_14": 40.42553284001233,
+        "ma_200": 7.003650012016297
+      }
+    },
+    {
       "symbol": "GYRO",
       "name": "Gyrodyne , LLC - Common Stock",
       "exchange": "NASDAQ",
@@ -24171,6 +24196,23 @@
         "beta": 1.274,
         "rsi_14": 72.26462931434462,
         "ma_200": 27.780150051116944
+      }
+    },
+    {
+      "symbol": "HFWA",
+      "name": "Heritage Financial Corporation - Common Stock",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
+      "price_data": {
+        "date": "2026-10-29",
+        "price": 28.90999984741211,
+        "volume": 333431,
+        "market_cap": 1173077504.0,
+        "dividend_yield": 3.49,
+        "beta": 0.497,
+        "rsi_14": 72.26462931434462,
+        "ma_200": 27.524834537506102
       }
     },
     {
@@ -25578,6 +25620,14 @@
         "rsi_14": 50.0,
         "ma_200": null
       }
+    },
+    {
+      "symbol": "IACQ",
+      "name": "Irenic Acquisition Corp. - Class A Ordinary Shares",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-06-19",
+      "price_data": null
     },
     {
       "symbol": "IAM",
@@ -28229,6 +28279,14 @@
     {
       "symbol": "JBSS",
       "name": "John B. Sanfilippo & Son, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
+      "price_data": null
+    },
+    {
+      "symbol": "JCAP",
+      "name": "Jefferson Capital, Inc. - Common Stock",
       "exchange": "NASDAQ",
       "is_etf": false,
       "first_seen": "2026-01-03",
@@ -31260,6 +31318,14 @@
         "rsi_14": 36.48648343876911,
         "ma_200": 7.483300008773804
       }
+    },
+    {
+      "symbol": "LNSR",
+      "name": "LENSAR, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
+      "price_data": null
     },
     {
       "symbol": "LNT",
@@ -40976,6 +41042,14 @@
       "exchange": "NASDAQ",
       "is_etf": false,
       "first_seen": "2026-01-03",
+      "price_data": null
+    },
+    {
+      "symbol": "PFSA",
+      "name": "Profusa, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-09-19",
       "price_data": {
         "date": "2026-10-29",
         "price": 71.45999908447266,
@@ -42515,6 +42589,31 @@
         "rsi_14": 36.98630808083695,
         "ma_200": 1.6929500025510789
       }
+    },
+    {
+      "symbol": "PRPO",
+      "name": "Precipio, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
+      "price_data": {
+        "date": "2026-10-29",
+        "price": 19.350000381469727,
+        "volume": 10964,
+        "market_cap": null,
+        "dividend_yield": null,
+        "beta": null,
+        "rsi_14": null,
+        "ma_200": null
+      }
+    },
+    {
+      "symbol": "PRQR",
+      "name": "ProQR Therapeutics N.V. - Ordinary Shares",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
+      "price_data": null
     },
     {
       "symbol": "PRSO",
@@ -57392,6 +57491,14 @@
       "exchange": "NASDAQ",
       "is_etf": false,
       "first_seen": "2026-01-03",
+      "price_data": null
+    },
+    {
+      "symbol": "XCUR",
+      "name": "Exicure, Inc. - Common Stock",
+      "exchange": "NASDAQ",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
       "price_data": {
         "date": "2026-10-29",
         "price": 3.4600000381469727,
@@ -63173,7 +63280,7 @@
         "price": 11.100000381469727,
         "volume": 152800,
         "market_cap": null,
-        "dividend_yield": null,
+        "dividend_yield": 8.31,
         "beta": null,
         "rsi_14": 48.33337836785361,
         "ma_200": 11.30634997844696
@@ -68481,7 +68588,7 @@
         "price": 13.600000381469727,
         "volume": 124800,
         "market_cap": null,
-        "dividend_yield": null,
+        "dividend_yield": 9.71,
         "beta": null,
         "rsi_14": 58.40002075200063,
         "ma_200": 14.317500038146973
@@ -70832,7 +70939,7 @@
         "price": 15.819999694824219,
         "volume": 137900,
         "market_cap": null,
-        "dividend_yield": null,
+        "dividend_yield": 5.23,
         "beta": null,
         "rsi_14": 73.60004211432208,
         "ma_200": 16.971449995040892
@@ -85288,6 +85395,14 @@
       "exchange": "NYSE",
       "is_etf": false,
       "first_seen": "2026-01-03",
+      "price_data": null
+    },
+    {
+      "symbol": "PCF",
+      "name": "High Income Securities Fund Common Stock",
+      "exchange": "NYSE",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
       "price_data": {
         "date": "2026-10-29",
         "price": 32.459999084472656,
@@ -88764,6 +88879,14 @@
     {
       "symbol": "RWTO",
       "name": "Redwood Trust, Inc. 9.00% Senior Notes Due 2029",
+      "exchange": "NYSE",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
+      "price_data": null
+    },
+    {
+      "symbol": "RWTP",
+      "name": "Redwood Trust, Inc. 9.125% Senior Notes Due 2030",
       "exchange": "NYSE",
       "is_etf": false,
       "first_seen": "2026-01-03",
@@ -93656,6 +93779,14 @@
       }
     },
     {
+      "symbol": "TYG",
+      "name": "Tortoise Energy Infrastructure Corporation Common Stock",
+      "exchange": "NYSE",
+      "is_etf": false,
+      "first_seen": "2026-01-03",
+      "price_data": null
+    },
+    {
       "symbol": "TYL",
       "name": "Tyler Technologies, Inc. Common Stock",
       "exchange": "NYSE",
@@ -96859,7 +96990,7 @@
         "price": 39.59000015258789,
         "volume": 191500,
         "market_cap": null,
-        "dividend_yield": null,
+        "dividend_yield": 0.0,
         "beta": null,
         "rsi_14": 32.644639172495104,
         "ma_200": 44.329649982452395
